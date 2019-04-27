@@ -1,6 +1,55 @@
-Instructions on setting up a Raspberry Pi Zero WH with a WaveShare ePaper 7.5 Inch HAT. 
+Instructions on setting up a Raspberry Pi Zero WH with a Waveshare ePaper 7.5 Inch HAT. 
+
+## Shopping list
+
+[Waveshare 7.5 inch epaper display HAT 640x384](https://www.amazon.co.uk/gp/product/B075R4QY3L/)  
+[Raspberry Pi Zero WH (presoldered header)](https://www.amazon.co.uk/gp/product/B07BHMRTTY/)  
+[microSDHC card](https://www.amazon.co.uk/gp/product/B073K14CVB)
+
+## Setup the PI
+
+Use [Etcher](https://etcher.io) to write the SD card with the [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/) image, no need for desktop.
+
+After the image has been written,
+
+### Enable SSH 
+
+Create a file called `ssh` in the boot partition of the card.
+
+    sudo touch /media/mendhak/boot/ssh
+
+### Enable WiFi
+
+Create a file called `wpa_supplicant.conf` in the boot partition 
+
+    sudo nano /media/mendhak/boot/wpa_supplicant.conf
+
+with these contents    
 
 
+    update_config=1
+    country=GB
+
+    network={
+        ssid="yourwifi"
+        psk="wifipasswd"
+        key_mgmt=WPA-PSK
+    }
+
+
+### Start the Pi
+
+Connect the Pi to power, let it boot up.  In your router devices page, a new connected device should appear.  If all goes correctly then the pi should be available with its FQDN even.
+
+    ssh pi@raspberrypi.lan
+
+Login with the default password of raspberry and change it using `passwd`
+
+### Connect the display
+
+Put the HAT on top of the Pi's GPIO pins.  
+
+Connect the ribbon from the epaper display to the extension.  To do this you will need to lift the black latch at the back of the connector, insert the ribbon slowly, then push the latch down. 
 
 
 ## Setup dependencies

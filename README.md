@@ -85,9 +85,18 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 
 
-## Sample and Demo codebase
+## Waveshare documentation and sample code
 
-The [demo repo is here](https://github.com/mendhak/waveshare-epaper-sample).  Clone it. Assuming all dependencies are installed, these demos should work.  
+Waveshare have a [user manual](https://www.waveshare.com/w/upload/7/74/7.5inch-e-paper-hat-user-manual-en.pdf) which you can get to from [their Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT)
+
+
+The [Waveshare demo repo is here](https://github.com/waveshare/e-Paper).  Assuming all dependencies are installed, these demos should work.  
+
+    git clone https://github.com/waveshare/e-Paper waveshare-epaper-sample
+    cd waveshare-epaper-sample
+
+
+
 
 
 ### Run the BCM2835 demo

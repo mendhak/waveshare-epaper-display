@@ -1,5 +1,8 @@
 Instructions on setting up a Raspberry Pi Zero WH with a WaveShare ePaper 7.5 Inch HAT. 
 
+
+
+
 ## Setup dependencies
 
     supo apt install git ttf-wqy-zenhei ttf-wqy-microhei
@@ -28,14 +31,14 @@ Instructions on setting up a Raspberry Pi Zero WH with a WaveShare ePaper 7.5 In
 
     sudo apt-get install python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev
     sudo pip3 install spidev RPi.GPIO Pillow
+    # Pillow took multiple attempts to install as it's always missing dependencies
 
 
 
 
+## Sample and Demo codebase
 
-## Try the demo
-
-    The [demo repo is here](https://github.com/mendhak/waveshare-epaper-sample).  Clone it. 
+The [demo repo is here](https://github.com/mendhak/waveshare-epaper-sample).  Clone it. Assuming all dependencies are installed, these demos should work.  
 
 
 ### Run the BCM2835 demo

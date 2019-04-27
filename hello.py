@@ -12,51 +12,7 @@ try:
     print("Clear")
     epd.Clear(0xFF)
     
-    # print("Drawing")
-    # # Drawing on the Horizontal image
-    # Himage = Image.new('1', (epd7in5.EPD_WIDTH, epd7in5.EPD_HEIGHT), 255)  # 255: clear the frame    
-    # draw = ImageDraw.Draw(Himage)
-    # font24 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 24)
-    # draw.text((10, 0), 'hello world', font = font24, fill = 0)
-    # draw.text((10, 20), '7.5inch e-Paper', font = font24, fill = 0)
-    # draw.text((150, 0), u'微雪电子', font = font24, fill = 0)    
-    # draw.line((20, 50, 70, 100), fill = 0)
-    # draw.line((70, 50, 20, 100), fill = 0)
-    # draw.rectangle((20, 50, 70, 100), outline = 0)
-    # draw.line((165, 50, 165, 100), fill = 0)
-    # draw.line((140, 75, 190, 75), fill = 0)
-    # draw.arc((140, 50, 190, 100), 0, 360, fill = 0)
-    # draw.rectangle((80, 50, 130, 100), fill = 0)
-    # draw.chord((200, 50, 250, 100), 0, 360, fill = 0)
-    # epd.display(epd.getbuffer(Himage))
-    # time.sleep(2)
-    
-    # # Drawing on the Vertical image
-    # Limage = Image.new('1', (epd7in5.EPD_HEIGHT, epd7in5.EPD_WIDTH), 255)  # 255: clear the frame
-    # draw = ImageDraw.Draw(Limage)
-    # font18 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 18)
-    # draw.text((2, 0), 'hello world', font = font18, fill = 0)
-    # draw.text((2, 20), '7.5inch epd', font = font18, fill = 0)
-    # draw.text((20, 50), u'微雪电子', font = font18, fill = 0)
-    # draw.line((10, 90, 60, 140), fill = 0)
-    # draw.line((60, 90, 10, 140), fill = 0)
-    # draw.rectangle((10, 90, 60, 140), outline = 0)
-    # draw.line((95, 90, 95, 140), fill = 0)
-    # draw.line((70, 115, 120, 115), fill = 0)
-    # draw.arc((70, 90, 120, 140), 0, 360, fill = 0)
-    # draw.rectangle((10, 150, 60, 200), fill = 0)
-    # draw.chord((70, 150, 120, 200), 0, 360, fill = 0)
-    # epd.display(epd.getbuffer(Limage))
-    # time.sleep(2)
-    
-    # print("read bmp file")
-    # start=time.time()
-    # Himage = Image.open('wiki.jpg')
-    # epd.display(epd.getbuffer(Himage))
-    # end=time.time()
-    # print("That took " + str(end - start))
-    # time.sleep(2)
-    
+     
     print("read bmp file on window")
     start=time.time()
     Himage2 = Image.new('1', (epd7in5.EPD_WIDTH, epd7in5.EPD_HEIGHT), 255)  # 255: clear the frame

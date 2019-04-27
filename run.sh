@@ -8,4 +8,12 @@ inkscape  screen-output-weather.svg --without-gui -e screen-output.png -w640 -h3
 # Convert to a black and white, 1 bit bitmap
 convert -colors 2 +dither -type Bilevel -monochrome screen-output.png screen-output.bmp
 
-sudo display/display screen-output.bmp
+
+SHOULD_REFRESH=0
+current_minute=`date +"%M"`
+
+if [ $(( $current_minute % 5 )) -eq 0 ] ; then
+   SHOULD_REFRESH=1
+fi
+
+sudo display/display screen-output.bmp $SHOULD_REFRESH

@@ -18,16 +18,32 @@ void  Handler(int signo)
 
 int main(int argc, char * argv [])
 {
-    if(argc != 2){
-        printf("Pass in the path to the image.\n\n");
-        printf("Example: ./display /path/myimage.bmp \n\n");
+    if(argc != 3){
+        printf("Pass in the path to the image and refresh bit (1=refresh, 0=nothing).\n\n");
+        printf("Example: ./display /path/myimage.bmp 1\n\n");
         return 1;
     }
 
+ 
+    // First arg - the path to the bitmap to display
     char *filename = argv[1];
-    printf(filename);
+
+    // All this logic is to figure out if the 2nd arg is a number
+    int refresh = 0;
+    int errno = 0;
+    char *p;   
+    long conv = strtol(argv[2], &p, 10);
+    
+    if (errno != 0 || *p != '\0' || conv > 2) {
+        refresh = 0;
+    } else {
+        // No error
+        refresh = conv;    
+        printf("%d\n", refresh);
+    }
+
     printf("\r\n");
-    printf("7.5inch e-Paper demo\r\n");
+
     DEV_ModuleInit();
 
     // Exception handling:ctrl + c
@@ -37,9 +53,12 @@ int main(int argc, char * argv [])
         printf("e-Paper init failed\r\n");
     }
     
-    printf("clear...\r\n");
-    EPD_Clear();
-    DEV_Delay_ms(500);
+    if(refresh == 1){
+        printf("clear...\r\n");
+        EPD_Clear();
+        DEV_Delay_ms(500);
+    }
+    
 
     //Create a new image cache
     UBYTE *BlackImage;

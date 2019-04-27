@@ -18,6 +18,7 @@ import os.path
 import time
 import sys
 import os
+import html
 
 darksky_apikey=os.getenv("DARKSKY_APIKEY","")
 
@@ -78,7 +79,7 @@ high_one = round(weatherData['daily']['data'][0]['temperatureMax'])
 low_one = round(weatherData['daily']['data'][0]['temperatureMin'])
 day_one = time.strftime('%A', time.localtime(weatherData['daily']['data'][0]['time']))
 
-latest_alert = weatherData['alerts'][0]['title']
+latest_alert = html.escape(weatherData['alerts'][0]['title'])
 
 print(icon_one , high_one, low_one, day_one)
 
@@ -88,14 +89,6 @@ output = output.replace('ICON_ONE',icon_dict[icon_one])
 output = output.replace('HIGH_ONE',str(high_one))
 output = output.replace('LOW_ONE',str(low_one)+"°C")
 output = output.replace('DAY_ONE',day_one)
-
-output = output.replace('ICON_TWO',"")
-output = output.replace('HIGH_TWO',"")
-output = output.replace('LOW_TWO',"")
-
-output = output.replace('ICON_THREE',"")
-output = output.replace('HIGH_THREE',"")
-output = output.replace('LOW_THREE',"")
 
 output = output.replace('TIME_NOW',datetime.datetime.now().strftime("%H:%M"))
 

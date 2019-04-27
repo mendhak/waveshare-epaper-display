@@ -1,4 +1,3 @@
-
 . env.sh
 sudo -E python3 weather-get.py
 

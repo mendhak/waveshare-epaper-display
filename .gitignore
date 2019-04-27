@@ -3,3 +3,4 @@ __pycache__
 *.pyc
 screen-output*
 env.sh
+*.log

@@ -81,9 +81,11 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo apt-get install 
     
 
-## Start the script
+## Run the script
 
-Run `./run.sh` which should query OpenWeatherMap and create a png, then display the png on screen. 
+Modify the `env.sh` file and put your DarkSky API key in there. 
+    
+Run `./run.sh` which should query DarkSky and create a png, then display the png on screen. 
 
 
 

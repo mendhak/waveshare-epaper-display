@@ -150,10 +150,10 @@
   
   <text
      id="text3141"
-     x="430"
+     x="0"
      y="55"
-     font-size="35px"
-     style="font-size:35px;line-height:0%;font-family:'DejaVu Sans';text-anchor:middle">ALERT_MESSAGE</text>
+     font-size="30px"
+     style="font-weight:bolder;font-size:30px;line-height:0%;font-family:'Nimbus Mono L';text-anchor:beginning">ALERT_MESSAGE</text>
   <text
      id="text3155"
      x="165"

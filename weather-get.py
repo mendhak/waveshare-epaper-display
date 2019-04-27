@@ -19,37 +19,35 @@ import time
 import sys
 import os
 
+darksky_apikey=os.getenv("DARKSKY_APIKEY","")
+
+if darksky_apikey=="":
+    print("DARKSKY_APIKEY is missing")
+    sys.exit(1)
+
+town_latlong='51.3656,-0.1963'
 
 template = 'screen-template.svg'
 
-#Map OpenWeatherMap icons to local icons
+
+#Map DarkSky icons to local icons
 #Reference: https://openweathermap.org/weather-conditions
 
 icon_dict={
-    '01d':'skc',
-    '01n':'skc',
-    '02d':'sct',
-    '02n':'sct',
-    '03d':'sct',
-    '03n':'sct',
-    '04d':'bkn',
-    '04n':'bkn',
-    '09d':'ra',
-    '09n':'ra',
-    '10d':'ra',
-    '11d':'tsra',
-    '11n':'tsra',
-    '13d':'sn',
-    '13n':'sn',
-    '50d':'fg',
-    '50n':'fg'
+    'clear-day':'skc',
+    'clear-night':'skc',
+    'rain':'ra',
+    'snow':'sn',
+    'sleet':'mix',
+    'wind':'wind',
+    'fog':'fg',
+    'cloudy':'ovc',
+    'partly-cloudy-day':'sct',
+    'partly-cloudy-night':'sct',
+    'hail':'rasn',
+    'thunderstorm':'tsra',
+    'tornado':'nsurtsra'
 }
-
-
-
-#
-# Download and parse weather data - location 2636503 = Sutton, Surrey
-#
 
 weather_json=''
 stale=True
@@ -64,10 +62,10 @@ if(os.path.isfile(os.getcwd() + "/apiresponse.json")):
 if(stale):
     try:
         print("Old file, attempting re-download")
-        url='https://samples.openweathermap.org/data/2.5/forecast?id=524901&appid=b6907d289e10d714a6e88b30761fae22'
+        url='https://api.darksky.net/forecast/' + darksky_apikey + '/' + town_latlong + '?units=si&exclude=minutely,hourly'
         weather_json = requests.get(url).text
         with open(os.getcwd() + "/apiresponse.json", "w") as text_file:
-            text_file.write(json.dumps(weather_json))
+            text_file.write(weather_json)
     except:
         print("Failed to get new API response, will use older response")
         with open(os.getcwd() + "/apiresponse.json", 'r') as content_file:
@@ -75,10 +73,12 @@ if(stale):
 
 weatherData = json.loads(weather_json)
 
-icon_one = weatherData['list'][0]['weather'][0]['icon']
-high_one = round(weatherData['list'][0]['main']['temp_max'] - 273.15, 2)
-low_one = round(weatherData['list'][0]['main']['temp_min'] - 273.15, 2)
-day_one = time.strftime('%A', time.localtime(weatherData['list'][0]['dt']))
+icon_one = weatherData['daily']['data'][0]['icon']
+high_one = round(weatherData['daily']['data'][0]['temperatureMax'])
+low_one = round(weatherData['daily']['data'][0]['temperatureMin'])
+day_one = time.strftime('%A', time.localtime(weatherData['daily']['data'][0]['time']))
+
+latest_alert = weatherData['alerts'][0]['title']
 
 print(icon_one , high_one, low_one, day_one)
 
@@ -99,10 +99,7 @@ output = output.replace('LOW_THREE',"")
 
 output = output.replace('TIME_NOW',datetime.datetime.now().strftime("%H:%M"))
 
-dtnow=datetime.datetime.now().strftime("%d-%b %H:%M")
-output = output.replace('DATE_VALPLACE',str(dtnow))
-readableDate = datetime.datetime.now().strftime("%A %B %d")
-output = output.replace('TODAY_DATE', str(readableDate))
+output = output.replace('WEATHER_ALERT', latest_alert)
 
 codecs.open('screen-output-weather.svg', 'w', encoding='utf-8').write(output)
 

@@ -153,7 +153,7 @@
      x="430"
      y="55"
      font-size="35px"
-     style="font-size:35px;line-height:0%;font-family:'DejaVu Sans';text-anchor:middle">TODAY_DATE</text>
+     style="font-size:35px;line-height:0%;font-family:'DejaVu Sans';text-anchor:middle">WEATHER_ALERT</text>
   <text
      id="text3155"
      x="165"
@@ -162,7 +162,7 @@
      style="font-size:32px;line-height:0%;font-family:'DejaVu Sans';text-anchor:middle">DAY_ONE</text>
   <text
      id="text3159"
-     x="307.06351"
+     x="257.06351"
      y="423.18518"
      font-size="38px"
      style="font-size:38px;line-height:0%;font-family:'DejaVu Sans';text-anchor:end">HIGH_ONE/LOW_ONE</text>

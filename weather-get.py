@@ -1,14 +1,5 @@
 #!/usr/bin/python
 
-# Kindle Weather Display
-# Matthew Petroff (http://www.mpetroff.net/)
-# September 2012
-#
-# Owen Bullock - UK Weather - MetOffice - Aug 2013
-# Apr 2014 - amended for Wind option
-# Mendhak Apr 2017 - redone for WeatherUnderground API
-# Mendhak Apr 2019 - redone for OpenWeatherMap
-
 import json
 import requests
 from xml.dom import minidom
@@ -40,7 +31,7 @@ icon_dict={
     'rain':'ra',
     'snow':'sn',
     'sleet':'mix',
-    'wind':'wind',
+    'wind':'wind2',
     'fog':'fg',
     'cloudy':'ovc',
     'partly-cloudy-day':'sct',
@@ -57,7 +48,7 @@ if(os.path.isfile(os.getcwd() + "/apiresponse.json")):
     #Read the contents anyway
     with open(os.getcwd() + "/apiresponse.json", 'r') as content_file:
         weather_json = content_file.read()
-    stale=time.time() - os.path.getmtime(os.getcwd() + "/apiresponse.json") > (12*60*60)
+    stale=time.time() - os.path.getmtime(os.getcwd() + "/apiresponse.json") > (1*60*60)
 
 #If old file or file doesn't exist, time to download it
 if(stale):

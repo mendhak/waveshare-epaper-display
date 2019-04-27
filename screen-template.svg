@@ -153,7 +153,7 @@
      x="430"
      y="55"
      font-size="35px"
-     style="font-size:35px;line-height:0%;font-family:'DejaVu Sans';text-anchor:middle">WEATHER_ALERT</text>
+     style="font-size:35px;line-height:0%;font-family:'DejaVu Sans';text-anchor:middle">ALERT_MESSAGE</text>
   <text
      id="text3155"
      x="165"

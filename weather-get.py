@@ -78,8 +78,10 @@ icon_one = weatherData['daily']['data'][0]['icon']
 high_one = round(weatherData['daily']['data'][0]['temperatureMax'])
 low_one = round(weatherData['daily']['data'][0]['temperatureMin'])
 day_one = time.strftime('%A', time.localtime(weatherData['daily']['data'][0]['time']))
+latest_alert=""
 
-latest_alert = html.escape(weatherData['alerts'][0]['title'])
+if 'alerts' in weatherData:
+    latest_alert = html.escape(weatherData['alerts'][0]['title'])
 
 print(icon_one , high_one, low_one, day_one)
 
@@ -92,7 +94,8 @@ output = output.replace('DAY_ONE',day_one)
 
 output = output.replace('TIME_NOW',datetime.datetime.now().strftime("%H:%M"))
 
-output = output.replace('WEATHER_ALERT', latest_alert)
+if latest_alert:
+    output = output.replace('ALERT_MESSAGE', latest_alert)
 
 codecs.open('screen-output-weather.svg', 'w', encoding='utf-8').write(output)
 

@@ -1,5 +1,6 @@
 . env.sh
 sudo -E python3 weather-get.py
+exit 1
 
 unset DISPLAY
 DISPLAY=''

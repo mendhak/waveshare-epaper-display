@@ -81,11 +81,26 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo apt-get install 
     
 
-## Run the script
+
+## Using this application
+
+### Clone it
+
+git clone this repository
+
+### Build the displayer
+
+    cd epaper-display
+    cd display
+    make
+
+### DarkSky API key
 
 Modify the `env.sh` file and put your DarkSky API key in there. 
     
-Run `./run.sh` which should query DarkSky and create a png, then display the png on screen. 
+### Run it
+
+Run `./run.sh` which should query DarkSky and create a png, convert to bmp, then display the bmp on screen. 
 
 
 

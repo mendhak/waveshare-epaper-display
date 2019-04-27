@@ -4,3 +4,4 @@ __pycache__
 screen-output*
 env.sh
 *.log
+.vscode

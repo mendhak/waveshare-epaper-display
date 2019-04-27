@@ -54,9 +54,9 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ## Setup dependencies
 
-    supo apt install git ttf-wqy-zenhei ttf-wqy-microhei
-    #Enable SPI
-    sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt
+    supo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape
+    sudo pip3 install spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
+    sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 
 ### Get the BCM2835 driver
@@ -78,9 +78,12 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ### Get the Python3 libraries
 
-    sudo apt-get install python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev
-    sudo pip3 install spidev RPi.GPIO Pillow
-    # Pillow took multiple attempts to install as it's always missing dependencies
+    sudo apt-get install 
+    
+
+## Start the script
+
+Run `./run.sh` which should query OpenWeatherMap and create a png, then display the png on screen. 
 
 
 

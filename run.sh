@@ -12,7 +12,7 @@ convert -colors 2 +dither -type Bilevel -monochrome screen-output.png screen-out
 SHOULD_REFRESH=0
 current_minute=`date +"%M"`
 
-if [ $(( $current_minute % 5 )) -eq 0 ] ; then
+if [ $current_minute -eq 0 ] ; then
    SHOULD_REFRESH=1
 fi
 

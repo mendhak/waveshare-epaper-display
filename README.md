@@ -98,10 +98,40 @@ git clone this repository
 ### DarkSky API key
 
 Modify the `env.sh` file and put your DarkSky API key in there. 
-    
+
+    export DARKSKY_APIKEY=xxxxxx
+
+
+### PiHole info
+
+Modify the `env.sh` and add the domain of the PiHole in there, eg `pi.hole` or `192.168.0.111`
+
+    export PIHOLE_ADDR=192.168.0.111
+
+
+### Google Calendar token
+
+The Oauth process needs to complete once manually in order to allow the Python code to then continuously query Google Calendar for information. 
+Go to the [Python Quickstart](https://developers.google.com/calendar/quickstart/python) page and enable Google Calendar API.  When presented, download or copy the `credentials.json` file and add it to this directory. 
+
+Next, SSH to the Raspberry Pi and run
+
+    python3 screen-calendar-get.py
+
+The script will prompt you to visit a URL in your browser and then wait.  Copy the URL, open it in a browser and you will go through the login process.  When the OAuth workflow tries to redirect back (and fails), copy the URL it was trying to go to (eg: http://localhost:8080/...) and in another SSH session with the Raspberry Pi, 
+
+    curl "http://localhost:8080/..." 
+
+On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.  The Python script should now be able to run in the future without prompting required.  
+
+
+
 ### Run it
 
-Run `./run.sh` which should query DarkSky and create a png, convert to bmp, then display the bmp on screen. 
+Run `./run.sh` which should query DarkSky, PiHole, Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
+
+Using a 1-bit, low grade BMP is what allows the screen to refresh relatively quickly. Calling the BCM code to do it takes about 6 seconds. 
+Rendering a high quality PNG or JPG and rendering to screen with Python takes about 35 seconds.  
 
 
 

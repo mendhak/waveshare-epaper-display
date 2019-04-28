@@ -54,8 +54,9 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ## Setup dependencies
 
-    supo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape
+    supo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet
     sudo pip3 install spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
+    sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 

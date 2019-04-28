@@ -5,3 +5,7 @@ screen-output*
 env.sh
 *.log
 .vscode
+*.pickle
+credentials*
+env.sh
+apiresponse.json

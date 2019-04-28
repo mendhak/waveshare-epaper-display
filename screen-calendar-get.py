@@ -35,11 +35,25 @@ if not creds or not creds.valid:
 service = build('calendar', 'v3', credentials=creds)
 
 
-# Call the Calendar API
-now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-events_result = service.events().list(calendarId='primary', timeMin=now,
-                                    maxResults=10, singleEvents=True,
-                                    orderBy='startTime').execute()
+events_result = None
+stale = True
+
+if(os.path.isfile(os.getcwd() + "/calendar.pickle")):
+    print("Found cached calendar response")
+    with open('calendar.pickle','rb') as cal:
+        events_result = pickle.load(cal)
+    stale=time.time() - os.path.getmtime(os.getcwd() + "/calendar.pickle") > (1*60*60)
+
+if stale:
+    print("Pickle is stale, calling the Calendar API")
+    # Call the Calendar API
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        maxResults=10, singleEvents=True,
+                                        orderBy='startTime').execute()
+    with open('calendar.pickle', 'wb') as cal:
+        pickle.dump(events_result, cal)
+
 events = events_result.get('items', [])
 
 if not events:

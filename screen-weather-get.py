@@ -27,7 +27,7 @@ template = 'screen-template.svg'
 
 icon_dict={
     'clear-day':'skc',
-    'clear-night':'skc',
+    'clear-night':'clearnight',
     'rain':'ra',
     'snow':'sn',
     'sleet':'mix',
@@ -35,7 +35,7 @@ icon_dict={
     'fog':'fg',
     'cloudy':'ovc',
     'partly-cloudy-day':'sct',
-    'partly-cloudy-night':'sct',
+    'partly-cloudy-night':'partlycloudynight',
     'hail':'rasn',
     'thunderstorm':'tsra',
     'tornado':'nsurtsra'
@@ -65,7 +65,8 @@ if(stale):
 
 weatherData = json.loads(weather_json)
 
-icon_one = weatherData['daily']['data'][0]['icon']
+#icon_one = weatherData['daily']['data'][0]['icon']
+icon_one = weatherData['currently']['icon']
 high_one = round(weatherData['daily']['data'][0]['temperatureMax'])
 low_one = round(weatherData['daily']['data'][0]['temperatureMin'])
 day_one = time.strftime('%a %b %d', time.localtime(weatherData['daily']['data'][0]['time']))

@@ -1,3 +1,4 @@
+
 . env.sh
 figlet Weather info
 sudo -E python3 screen-weather-get.py

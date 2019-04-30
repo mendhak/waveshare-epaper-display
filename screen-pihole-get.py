@@ -11,14 +11,21 @@ import sys
 import os
 import html
 
+template = 'screen-output-weather.svg'
 pihole_address=os.getenv("PIHOLE_ADDR","")
 
 if pihole_address=="":
     print("PIHOLE_ADDR is missing")
     sys.exit(1)
 
+if sys.argv[1] == "hide":
+    print("Hiding pihole data")
+    output = codecs.open(template , 'r', encoding='utf-8').read()
+    output = output.replace('PIHOLE_DISPLAY_VALUE', "none")
+    codecs.open('screen-output-weather.svg', 'w', encoding='utf-8').write(output)
+    sys.exit(0)
 
-template = 'screen-output-weather.svg'
+
 
 
 url= "http://" + pihole_address + "/admin/api.php" 

@@ -7,11 +7,13 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import codecs
+import os
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 template = 'screen-output-weather.svg'
 
+google_calendar_id=os.getenv("GOOGLE_CALENDAR_ID","primary")
 
 creds = None
 # The file token.pickle stores the user's access and refresh tokens, and is
@@ -48,7 +50,7 @@ if stale:
     print("Pickle is stale, calling the Calendar API")
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+    events_result = service.events().list(calendarId=google_calendar_id, timeMin=now,
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     with open('calendar.pickle', 'wb') as cal:

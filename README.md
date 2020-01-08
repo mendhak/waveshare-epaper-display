@@ -82,7 +82,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ### Get the Python3 libraries
 
-    sudo apt-get install 
+    sudo apt-get install python3
     
 
 
@@ -94,7 +94,7 @@ git clone this repository
 
 ### Build the displayer
 
-    cd epaper-display
+    cd waveshare-epaper-display
     cd display
     make
 

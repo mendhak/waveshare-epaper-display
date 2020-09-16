@@ -5,19 +5,8 @@ sudo -E python3 screen-weather-get.py
 
 current_hour=`date +"%H"`
 
-if (( $current_hour >= 7 )) && (( $current_hour <= 9 )); then
-    figlet Pihole info
-    sudo -E python3 screen-pihole-get.py hide
-    
-    figlet Train summary
-    sudo -E python3 screen-traintimes-get.py show
-else
-    figlet Pihole info
-    sudo -E python3 screen-pihole-get.py show
-    
-    figlet Train summary
-    sudo -E python3 screen-traintimes-get.py hide
-fi
+figlet Pihole info
+sudo -E python3 screen-pihole-get.py show
 
 
 figlet Calendar info

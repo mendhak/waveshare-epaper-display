@@ -11,35 +11,49 @@ import sys
 import os
 import html
 
-darksky_apikey=os.getenv("DARKSKY_APIKEY","")
 
-if darksky_apikey=="":
-    print("DARKSKY_APIKEY is missing")
+climacell_apikey=os.getenv("CLIMACELL_APIKEY","")
+
+if climacell_apikey=="":
+    print("CLIMACELL_APIKEY is missing")
     sys.exit(1)
 
-town_latlong='51.3656,-0.1963'
+town_lat='51.3656'
+town_long='-0.1963'
 
 template = 'screen-template.svg'
 
 
-#Map DarkSky icons to local icons
-#Reference: https://openweathermap.org/weather-conditions
+#Map Climacell icons to local icons
+#Reference: https://developer.climacell.co/v3/reference#data-layers-core
+
 
 icon_dict={
-    'clear-day':'skc',
-    'clear-night':'clearnight',
-    'rain':'ra',
-    'snow':'sn',
-    'sleet':'mix',
-    'wind':'wind2',
-    'fog':'fg',
-    'cloudy':'ovc',
-    'partly-cloudy-day':'sct',
-    'partly-cloudy-night':'partlycloudynight',
-    'hail':'rasn',
-    'thunderstorm':'tsra',
-    'tornado':'nsurtsra'
+    'freezing_rain_heavy':'freezing_rain', 
+    'freezing_rain':'freezing_rain', 
+    'freezing_rain_light': 'freezing_rain' ,
+    'freezing_drizzle': 'freezing_rain',
+    'ice_pellets_heavy': 'ice_pellets',
+    'ice_pellets': 'ice_pellets',
+    'ice_pellets_light': 'rain_icepellets_mix',
+    'snow_heavy': 'snow',
+    'snow': 'snow',
+    'snow_light': 'rain_snow_mix',
+    'flurries': 'blizzard',
+    'tstorm': 'thundershower_rain',
+    'rain_heavy': 'rain_day',
+    'rain': 'rain_day',
+    'rain_light': 'rain_day',
+    'drizzle': 'rain_day',
+    'fog_light': 'scattered_clouds_fog',
+    'fog': 'foggy',
+    'cloudy': 'few_clouds',
+    'mostly_cloudy':'mostly_cloudy',
+    'partly_cloudy': 'few_clouds',
+    'mostly_clear': 'clear_sky_day', 
+    'clear': 'clear_sky_day'
 }
+
 
 weather_json=''
 stale=True
@@ -54,7 +68,7 @@ if(os.path.isfile(os.getcwd() + "/apiresponse.json")):
 if(stale):
     try:
         print("Old file, attempting re-download")
-        url='https://api.darksky.net/forecast/' + darksky_apikey + '/' + town_latlong + '?units=si&exclude=minutely,hourly'
+        url = "https://api.climacell.co/v3/weather/forecast/daily?lat={}&lon={}&unit_system=si&start_time=now&fields=temp%2Cweather_code&apikey={}".format(town_lat, town_long, climacell_apikey)
         weather_json = requests.get(url).text
         with open(os.getcwd() + "/apiresponse.json", "w") as text_file:
             text_file.write(weather_json)
@@ -63,17 +77,18 @@ if(stale):
         with open(os.getcwd() + "/apiresponse.json", 'r') as content_file:
             weather_json = content_file.read()
 
-weatherData = json.loads(weather_json)
+weather_data = json.loads(weather_json)
+
 
 #icon_one = weatherData['daily']['data'][0]['icon']
-icon_one = weatherData['currently']['icon']
-high_one = round(weatherData['daily']['data'][0]['temperatureMax'])
-low_one = round(weatherData['daily']['data'][0]['temperatureMin'])
-day_one = time.strftime('%a %b %d', time.localtime(weatherData['daily']['data'][0]['time']))
+icon_one = weather_data[0]['weather_code']['value']
+high_one = round(weather_data[0]['temp'][1]['max']['value'])
+low_one = round(weather_data[0]['temp'][0]['min']['value'])
+day_one = datetime.datetime.now().strftime('%a %b %d')
 latest_alert=""
 
-if 'alerts' in weatherData:
-    latest_alert = html.escape(weatherData['alerts'][0]['title'])
+# if 'alerts' in weatherData:
+#     latest_alert = html.escape(weatherData['alerts'][0]['title'])
 
 print(icon_one , high_one, low_one, day_one)
 

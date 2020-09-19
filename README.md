@@ -57,7 +57,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ## Setup dependencies
 
-    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet
+    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi
     sudo pip3 install astral spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
     sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
@@ -76,9 +76,11 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ### Get the WiringPi library
 
-    sudo git clone git://git.drogon.net/wiringPi
-    cd wiringPi
-    sudo ./build
+    //TODO: Remove this section, wiringpi is included in Raspbian repos
+
+   ~~sudo git clone git://git.drogon.net/wiringPi~~
+   ~~ cd wiringPi~~
+   ~~ sudo ./build~~
 
 ### Get the Python3 libraries
 
@@ -98,11 +100,11 @@ git clone this repository
     cd display
     make
 
-### DarkSky API key
+### Climacell API key
 
-Modify the `env.sh` file and put your DarkSky API key in there. 
+Modify the `env.sh` file and put your Climacell API key in there. 
 
-    export DARKSKY_APIKEY=xxxxxx
+    export CLIMACELL_APIKEY=xxxxxx
 
 
 ### PiHole info

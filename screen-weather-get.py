@@ -10,6 +10,9 @@ import time
 import sys
 import os
 import html
+import pytz
+from astral import LocationInfo
+from astral.sun import sun
 
 
 climacell_apikey=os.getenv("CLIMACELL_APIKEY","")
@@ -18,8 +21,8 @@ if climacell_apikey=="":
     print("CLIMACELL_APIKEY is missing")
     sys.exit(1)
 
-town_lat='51.3656'
-town_long='-0.1963'
+town_lat=51.3656
+town_long=-0.1963
 
 template = 'screen-template.svg'
 
@@ -55,6 +58,20 @@ icon_dict={
 }
 
 
+dt = datetime.datetime.now(pytz.utc)
+city = LocationInfo(town_lat,town_long)
+s = sun(city.observer, date=dt)
+if dt > s["sunset"] or dt < s["sunrise"]:
+    icon_dict["clear"]="clearnight"
+    icon_dict["partly_cloudy"]="partlycloudynight"
+    icon_dict["cloudy"]="partlycloudynight"
+    icon_dict["rain"]="rain_night"
+    icon_dict["rain_light"]="rain_night"
+    icon_dict["rain_heavy"]="rain_night"
+    icon_dict["drizzle"]="rain_night"
+
+
+
 weather_json=''
 stale=True
 
@@ -86,6 +103,8 @@ high_one = round(weather_data[0]['temp'][1]['max']['value'])
 low_one = round(weather_data[0]['temp'][0]['min']['value'])
 day_one = datetime.datetime.now().strftime('%a %b %d')
 latest_alert=""
+
+
 
 # if 'alerts' in weatherData:
 #     latest_alert = html.escape(weatherData['alerts'][0]['title'])

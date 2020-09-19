@@ -74,13 +74,6 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo make install
 
 
-### Get the WiringPi library
-
-    //TODO: Remove this section, wiringpi is included in Raspbian repos
-
-   ~~sudo git clone git://git.drogon.net/wiringPi~~
-   ~~ cd wiringPi~~
-   ~~ sudo ./build~~
 
 ### Get the Python3 libraries
 
@@ -133,7 +126,7 @@ On the first screen you should see the auth flow complete, and a new `token.pick
 
 ### Run it
 
-Run `./run.sh` which should query DarkSky, PiHole, Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
+Run `./run.sh` which should query Climacell, PiHole, Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
 
 Using a 1-bit, low grade BMP is what allows the screen to refresh relatively quickly. Calling the BCM code to do it takes about 6 seconds. 
 Rendering a high quality PNG or JPG and rendering to screen with Python takes about 35 seconds.  

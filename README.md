@@ -80,12 +80,18 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo apt-get install python3
     
 
+### Get the e-Paper libraries
+
+In the `/home/pi` directory, git clone the sample repo from waveshare, which contains the libraries needed to write to the screen. 
+
+    git clone https://github.com/waveshare/e-Paper.git
+
 
 ## Using this application
 
 ### Clone it
 
-git clone this repository
+git clone this repository in the `/home/pi` directory.
 
 ### Build the displayer
 

@@ -86,12 +86,17 @@ In the `/home/pi` directory, git clone the sample repo from waveshare, which con
 
     git clone https://github.com/waveshare/e-Paper.git
 
+This should create a `/home/pi/e-Paper` directory.  
 
 ## Using this application
 
 ### Clone it
 
 git clone this repository in the `/home/pi` directory.
+
+    git clone https://github.com/mendhak/waveshare-epaper-display.git
+    
+This should create a `/home/pi/waveshare-epaper-display` directory. 
 
 ### Build the displayer
 

@@ -23,9 +23,5 @@ convert -colors 2 +dither -type Bilevel -monochrome screen-output.png screen-out
 SHOULD_REFRESH=0
 current_minute=`date +"%M"`
 
-if [ $current_minute -eq 0 ] ; then
-   SHOULD_REFRESH=1
-fi
-
 figlet Display
-sudo display/display screen-output.bmp $SHOULD_REFRESH
+sudo python3 display.py screen-output.bmp 

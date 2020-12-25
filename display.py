@@ -27,7 +27,9 @@ try:
     epd = epd7in5.EPD()
     logging.info("init and Clear")
     epd.init()
-    if datetime.datetime.now().minute==0:
+    
+    #Full screen refresh at 2 AM
+    if datetime.datetime.now().minute==0 and datetime.datetime.now().hour==2:
         epd.Clear()
 
     logging.info("3.read bmp file")

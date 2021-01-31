@@ -11,9 +11,11 @@ if os.path.exists(libdir):
 
 import logging
 
-##If you have a Waveshare v2 screen, try changing this to 
-#from waveshare_epd import epd7in5_V2 as epd7in5
-from waveshare_epd import epd7in5 as epd7in5
+if os.getenv("WAVESHARE_EPD75_VERSION",1):
+    from waveshare_epd import epd7in5 as epd7in5
+else:
+    from waveshare_epd import epd7in5_V2 as epd7in5
+
 
 import time, datetime
 from PIL import Image

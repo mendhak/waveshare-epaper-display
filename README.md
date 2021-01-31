@@ -106,6 +106,19 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
     cd display
     make
 
+### Waveshare resolution
+
+Modify the `env.sh` file and put the resolution (width and height) of your Waveshare 7.5" e-Paper Module
+
+    export WAVESHARE_WIDTH=xxx
+    export WAVESHARE_HEIGHT=xxx
+
+### As needed, update `display.py` to use the correct drive for your model of Waveshare 7.5" e-Paper Module
+
+    ##If you have a Waveshare v2 screen, try changing this to
+    #from waveshare_epd import epd7in5_V2 as epd7in5
+    from waveshare_epd import epd7in5 as epd7in5```
+
 ### Climacell API key
 
 Modify the `env.sh` file and put your Climacell API key in there. 

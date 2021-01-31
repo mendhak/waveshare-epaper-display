@@ -1,3 +1,5 @@
 export CLIMACELL_APIKEY=xxxxxxxxxxxxxx
 export PIHOLE_ADDR=192.168.0.111
 export GOOGLE_CALENDAR_ID=primary
+export WAVESHARE_WIDTH=800
+export WAVESHARE_HEIGHT=480

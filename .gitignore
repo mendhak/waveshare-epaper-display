@@ -8,4 +8,4 @@ env.sh
 *.pickle
 credentials*
 env.sh
-apiresponse.json
+*.json

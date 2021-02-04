@@ -44,10 +44,9 @@ def get_icon_by_weathercode(weathercode, is_daytime):
     	1101: 'few_clouds' if is_daytime else 'partlycloudynight',
     	1100: 'clear_sky_day' if is_daytime else 'clearnight',
     	1000: 'clear_sky_day' if is_daytime else 'clearnight',
-        # @todo - opportunity to replace with a wind icon
-    	3000: 'clear_sky_day' if is_daytime else 'clearnight',
-    	3001: 'clear_sky_day' if is_daytime else 'clearnight',
-    	3002: 'clear_sky_day' if is_daytime else 'clearnight',
+    	3000: 'wind',
+    	3001: 'wind',
+    	3002: 'wind',
 	}
 
     icon = icon_dict[weathercode]

@@ -119,6 +119,13 @@ Modify the `env.sh` file and put your Climacell API key in there.
 
     export CLIMACELL_APIKEY=xxxxxx
 
+### Location information for Weather
+
+Modify the `env.sh` file and update with the latitude and longitude of your location. As needed, change the temperature format (CELSIUS or FARENHEIT).
+
+    export WEATHER_FORMAT=CELSIUS
+    export WEATHER_LATITUDE=51.3656
+    export WEATHER_LONGITUDE=0.1963
 
 ### PiHole info
 

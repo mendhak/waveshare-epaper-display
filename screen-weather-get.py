@@ -14,40 +14,43 @@ import logging
 from astral import LocationInfo
 from astral.sun import sun
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 # Map Climacell icons to local icons
 # Reference: https://docs.climacell.co/reference/data-layers-core
 def get_icon_by_weathercode(weathercode, is_daytime):
 
+
     icon_dict = {
-        6201: 'freezing_rain',
-    	6001: 'freezing_rain',
-    	6200: 'freezing_rain' ,
-    	6000: 'freezing_rain',
-    	7101: 'ice_pellets',
-    	7000: 'ice_pellets',
-	7102: 'rain_icepellets_mix',
-    	5101: 'snow',
-    	5000: 'snow',
-    	5100: 'rain_snow_mix',
-    	5001: 'blizzard',
-    	8000: 'thundershower_rain',
-    	4201: 'rain_day' if is_daytime else 'rain_night',
-    	4001: 'rain_day' if is_daytime else 'rain_night',
-    	4200: 'rain_day' if is_daytime else 'rain_night',
-    	4000: 'rain_day' if is_daytime else 'rain_night',
-    	2100: 'scattered_clouds_fog',
-    	2000: 'foggy',
-    	1001: 'few_clouds' if is_daytime else 'partlycloudynight',
-    	1102: 'mostly_cloudy',
-    	1101: 'few_clouds' if is_daytime else 'partlycloudynight',
-    	1100: 'clear_sky_day' if is_daytime else 'clearnight',
-    	1000: 'clear_sky_day' if is_daytime else 'clearnight',
-    	3000: 'wind',
-    	3001: 'wind',
-    	3002: 'wind',
-	}
+           0: 'unknown',
+        1000: 'clear_sky_day' if is_daytime else 'clearnight',
+        1001: 'climacell_cloudy' if is_daytime else 'overcast',
+        1100: 'few_clouds' if is_daytime else 'partlycloudynight',
+        1101: 'scattered_clouds' if is_daytime else 'partlycloudynight',
+        1102: 'mostly_cloudy' if is_daytime else 'overcast',
+        2000: 'climacell_fog',
+        2100: 'climacell_fog_light',
+        3000: 'wind',
+        3001: 'wind',
+        3002: 'wind',
+        4000: 'climacell_drizzle' if is_daytime else 'rain_night',
+        4001: 'climacell_rain' if is_daytime else 'rain_night',
+        4200: 'climacell_rain_light' if is_daytime else 'rain_night',
+        4201: 'climacell_rain_heavy' if is_daytime else 'rain_night',
+        5000: 'snow',
+        5001: 'climacell_flurries',
+        5100: 'climacell_snow_light',
+        5101: 'snow',
+        6000: 'climacell_freezing_drizzle',
+        6001: 'climacell_freezing_rain',
+        6200: 'climacell_freezing_rain_light' ,
+        6201: 'climacell_freezing_rain_heavy',
+        7000: 'climacell_ice_pellets',
+        7101: 'climacell_ice_pellets_heavy',
+        7102: 'climacell_ice_pellets_light',
+        8000: 'thundershower_rain',
+        }
+
 
     icon = icon_dict[weathercode]
     logging.debug(

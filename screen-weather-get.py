@@ -14,7 +14,7 @@ import logging
 from astral import LocationInfo
 from astral.sun import sun
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # Map Climacell icons to local icons
 # Reference: https://docs.climacell.co/reference/data-layers-core
@@ -55,6 +55,48 @@ def get_icon_by_weathercode(weathercode, is_daytime):
          .format(weathercode, is_daytime, icon))
 
     return icon
+
+def get_description_by_weathercode(weathercode):
+
+    description_dict = {
+        0: "Unknown",
+        1000: "Clear",
+        1001: "Cloudy",
+        1100: "Mostly Clear",
+        1101: "Partly Cloudy",
+        1102: "Mostly Cloudy",
+        2000: "Fog",
+        2100: "Light Fog",
+        3000: "Light Wind",
+        3001: "Wind",
+        3002: "Strong Wind",
+        4000: "Drizzle",
+        4001: "Rain",
+        4200: "Light Rain",
+        4201: "Heavy Rain",
+        5000: "Snow",
+        5001: "Flurries",
+        5100: "Light Snow",
+        5101: "Heavy Snow",
+        6000: "Freezing Drizzle",
+        6001: "Freezing Rain",
+        6200: "Light Freezing Rain",
+        6201: "Heavy Freezing Rain",
+        7000: "Ice Pellets",
+        7101: "Heavy Ice Pellets",
+        7102: "Light Ice Pellets",
+        8000: "Thunderstorm"
+    }
+
+    description=description_dict[weathercode]
+
+    logging.debug(
+         "get_description_by_weathercode({}) - {}"
+         .format(weathercode, description))
+
+    return description
+
+
 
 # Is it daytime? 
 def is_daytime(location_lat, location_long):
@@ -167,7 +209,7 @@ def main():
     # TTL for refetching of JSON
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
 
-    logging.info("Gathering weather") 
+    logging.info("Gathering weather")
 
     weather = get_weather(climacell_apikey, location_latlong, weather_timelines_filename, ttl)
 
@@ -179,6 +221,7 @@ def main():
         'LOW_ONE': str(round(weather['temperatureMin']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMin'] * 1.8) + 32)+"°F", 
         'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMax'] * 1.8) + 32)+"°F", 
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
+        'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%d %b %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),

@@ -163,7 +163,7 @@
        style="font-weight:bold;font-size:100px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">TIME_NOW</text>
   <!-- </g> -->
   <g
-     transform="scale(1.2) translate(75 215)"
+     transform="scale(1.2) translate(75 185)"
      id="g3127">
     <use
        xlink:href="#ICON_ONE"
@@ -186,7 +186,7 @@
   <text
      id="text3159"
      x="155"
-     y="420"
+     y="390"
      font-size="38px"
      style="font-size:38px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">HIGH_ONE/LOW_ONE</text>
   <path

@@ -1,16 +1,22 @@
 
 . env.sh
-figlet Weather info
+
+function log {
+    echo "---------------------------------------"
+    echo ${1^^}
+    echo "---------------------------------------"
+}
+
+log "Get Weather info"
 sudo -E python3 screen-weather-get.py
 
 current_hour=`date +"%H"`
 
 
-figlet Calendar info
+log "Get Calendar info"
 sudo -E python3 screen-calendar-get.py
 
-figlet Export
-# Inkscape can't export to BMP, so let's export to PNG first.
+log "Export to PNG"
 
 if [ $WAVESHARE_EPD75_VERSION = 1 ]; then
     WAVESHARE_WIDTH=640
@@ -29,5 +35,5 @@ inkscape screen-output-weather.svg --without-gui -e screen-output.png -w$WAVESHA
 SHOULD_REFRESH=0
 current_minute=`date +"%M"`
 
-figlet Display
+log "Display on epaper"
 sudo python3 display.py screen-output.png

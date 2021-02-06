@@ -175,26 +175,14 @@ Waveshare have a [user manual](https://www.waveshare.com/w/upload/7/74/7.5inch-e
 
 The [Waveshare demo repo is here](https://github.com/waveshare/e-Paper).  Assuming all dependencies are installed, these demos should work.  
 
-    git clone https://github.com/waveshare/e-Paper waveshare-epaper-sample
-    cd waveshare-epaper-sample
+    git clone https://github.com/waveshare/e-Paper
+    cd e-Paper
 
 
+This is the best place to start for troubleshooting - try to make sure the examples given in their repo works for you. 
 
-### Run the BCM2835 demo
+[Readme for the C demo](https://github.com/waveshare/e-Paper/blob/master/RaspberryPi_JetsonNano/c/readme_EN.txt)
 
-
-    cd ~/waveshare-epaper-sample/7.5inch_e-paper_code/RaspberryPi/bcm2835/
-    make
-    sudo ./epd
+[Readme for the Python demo](https://github.com/waveshare/e-Paper/blob/master/RaspberryPi_JetsonNano/python/readme_jetson_EN.txt)
 
 
-### Run the WiringPI demo
-
-    cd ~/waveshare-epaper-sample/7.5inch_e-paper_code/RaspberryPi/wiringpi/
-    make
-    sudo ./epd
-
-### Run the Python3 demo
-
-    cd ~/waveshare-epaper-sample/7.5inch_e-paper_code/RaspberryPi/python3/
-    sudo python3 main.py

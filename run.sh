@@ -5,9 +5,6 @@ sudo -E python3 screen-weather-get.py
 
 current_hour=`date +"%H"`
 
-figlet Pihole info
-sudo -E python3 screen-pihole-get.py show
-
 
 figlet Calendar info
 sudo -E python3 screen-calendar-get.py

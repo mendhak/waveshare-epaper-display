@@ -242,7 +242,7 @@
    </text>
 
 
-  <text id="textday"  x="600" y="75"  style="text-anchor:middle;font-size:40px;line-height:0%;font-family:'Nimbus Sans L';">Wednesday</text>
+  <text id="textday"  x="600" y="75"  style="text-anchor:middle;font-size:40px;line-height:0%;font-family:'Nimbus Sans L';">DAY_NAME</text>
 
   <text id="textdate" x="600" y="130" style="text-anchor:middle;font-size:35px;line-height:0%;font-family:'Nimbus Sans L';">DAY_ONE</text>
 

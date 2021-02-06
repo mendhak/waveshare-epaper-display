@@ -111,9 +111,9 @@
     </text>
 
 
-    <text id="textday" x="600" y="75" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:'Nimbus Sans L';">DAY_NAME</text>
+    <text id="textday" x="600" y="75" style="text-anchor:middle;font-weight:600;font-size:47px;line-height:0%;font-family:'Nimbus Sans L';">DAY_NAME</text>
 
-    <text id="textdate" x="600" y="130" style="text-anchor:middle;font-size:35px;line-height:0%;font-family:'Nimbus Sans L';">DAY_ONE</text>
+    <text id="textdate" x="600" y="130" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:'Nimbus Sans L';">DAY_ONE</text>
 
     <text id="texttime" x="30" y="125" font-size="100px" style="font-weight:bold;font-size:100px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">TIME_NOW</text>
 

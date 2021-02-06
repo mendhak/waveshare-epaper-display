@@ -152,16 +152,7 @@
 	</g>
    
   </defs>
-  <!-- <g
-     transform="matrix(1.7166581,0,0,1.4427701,62.786598,36.074275)"
-     id="g3123"> -->
-    <text
-       id="text3145"
-       x="30"
-       y="125"
-       font-size="100px"
-       style="font-weight:bold;font-size:100px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">TIME_NOW</text>
-  <!-- </g> -->
+
   <g
      transform="scale(1.2) translate(75 185)"
      id="g3127">
@@ -177,12 +168,6 @@
      y="55"
      font-size="30px"
      style="font-weight:bolder;font-size:30px;line-height:0%;font-family:'Nimbus Mono L';text-anchor:beginning">ALERT_MESSAGE</text>
-  <text
-     id="text3155"
-     x="285"
-     y="170"
-     font-size="37px"
-     style="font-size:37px;font-weight:bold;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">DAY_ONE</text>
   <text
      id="text3159"
      x="155"
@@ -256,6 +241,12 @@
      <tspan style="font-weight:bold;" x="330" dy="25">CAL_DESC_FOUR</tspan>
    </text>
 
+
+  <text id="textday"  x="600" y="75"  style="text-anchor:middle;font-size:40px;line-height:0%;font-family:'Nimbus Sans L';">Wednesday</text>
+
+  <text id="textdate" x="600" y="130" style="text-anchor:middle;font-size:35px;line-height:0%;font-family:'Nimbus Sans L';">DAY_ONE</text>
+
+  <text id="text3145" x="30" y="125" font-size="100px" style="font-weight:bold;font-size:100px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">TIME_NOW</text>
 
 </svg>
 

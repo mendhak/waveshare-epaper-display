@@ -180,7 +180,7 @@ def main():
         'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMax'] * 1.8) + 32)+"°F", 
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
-        'DAY_ONE': datetime.datetime.now().strftime("%x"),
+        'DAY_ONE': datetime.datetime.now().strftime("%d %b %Y"),
         'ALERT_MESSAGE': "" # unused
     }
 

@@ -153,12 +153,8 @@
    
   </defs>
 
-  <g
-     transform="scale(1.2) translate(75 185)"
-     id="g3127">
-    <use
-       xlink:href="#ICON_ONE"
-       id="use3129" />
+  <g transform="scale(1.2) translate(75 165)" id="g3127">
+    <use xlink:href="#ICON_ONE" id="use3129" />
   </g>
   
   
@@ -171,7 +167,7 @@
   <text
      id="text3159"
      x="155"
-     y="390"
+     y="350"
      font-size="38px"
      style="font-size:38px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">HIGH_ONE/LOW_ONE</text>
   <path

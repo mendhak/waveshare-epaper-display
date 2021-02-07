@@ -8,7 +8,6 @@ import os.path
 import time
 import sys
 import os
-import html
 import pytz
 import logging
 from astral import LocationInfo

@@ -1,5 +1,5 @@
 Instructions on setting up a Raspberry Pi Zero WH with a Waveshare ePaper 7.5 Inch HAT. 
-The screen will display date, time, weather icon with high and low, Google Calendar entries, and PiHole blocked stats.
+The screen will display date, time, weather icon with high and low, Google Calendar entries.
 
 ![example](display.jpg)
 
@@ -115,9 +115,11 @@ Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Modu
 
 ### Climacell API key
 
-Modify the `env.sh` file and put your Climacell API key in there. 
+Modify the `env.sh` file and put your [Climacell API key](https://www.climacell.co/weather-api/) in there.  
 
     export CLIMACELL_APIKEY=xxxxxx
+
+Climacell API is used for the weather forecast as well as several weather icons.
 
 ### Location information for Weather
 
@@ -126,12 +128,6 @@ Modify the `env.sh` file and update with the latitude and longitude of your loca
     export WEATHER_FORMAT=CELSIUS
     export WEATHER_LATITUDE=51.3656
     export WEATHER_LONGITUDE=0.1963
-
-### PiHole info
-
-Modify the `env.sh` and add the domain of the PiHole in there, eg `pi.hole` or `192.168.0.111`
-
-    export PIHOLE_ADDR=192.168.0.111
 
 
 ### Google Calendar token
@@ -153,11 +149,22 @@ On the first screen you should see the auth flow complete, and a new `token.pick
 
 ### Run it
 
-Run `./run.sh` which should query Climacell, PiHole, Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
+Run `./run.sh` which should query Climacell and Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
 
 Using a 1-bit, low grade BMP is what allows the screen to refresh relatively quickly. Calling the BCM code to do it takes about 6 seconds. 
 Rendering a high quality PNG or JPG and rendering to screen with Python takes about 35 seconds.  
 
+### Automate it
+
+Once you've proven that the run works, and an image is sent to your epaper display, you can automate it by setting up a cronjob.  
+
+    crontab -e
+
+Add this entry so it runs every minute:
+
+    * * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > ./run.log 2>&1
+
+This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
 
 
 
@@ -168,28 +175,14 @@ Waveshare have a [user manual](https://www.waveshare.com/w/upload/7/74/7.5inch-e
 
 The [Waveshare demo repo is here](https://github.com/waveshare/e-Paper).  Assuming all dependencies are installed, these demos should work.  
 
-    git clone https://github.com/waveshare/e-Paper waveshare-epaper-sample
-    cd waveshare-epaper-sample
+    git clone https://github.com/waveshare/e-Paper
+    cd e-Paper
 
 
+This is the best place to start for troubleshooting - try to make sure the examples given in their repo works for you. 
+
+[Readme for the C demo](https://github.com/waveshare/e-Paper/blob/master/RaspberryPi_JetsonNano/c/readme_EN.txt)
+
+[Readme for the Python demo](https://github.com/waveshare/e-Paper/blob/master/RaspberryPi_JetsonNano/python/readme_jetson_EN.txt)
 
 
-
-### Run the BCM2835 demo
-
-
-    cd ~/waveshare-epaper-sample/7.5inch_e-paper_code/RaspberryPi/bcm2835/
-    make
-    sudo ./epd
-
-
-### Run the WiringPI demo
-
-    cd ~/waveshare-epaper-sample/7.5inch_e-paper_code/RaspberryPi/wiringpi/
-    make
-    sudo ./epd
-
-### Run the Python3 demo
-
-    cd ~/waveshare-epaper-sample/7.5inch_e-paper_code/RaspberryPi/python3/
-    sudo python3 main.py

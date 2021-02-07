@@ -61,26 +61,45 @@ events = events_result.get('items', [])
 if not events:
     print('No upcoming events found.')
 
+
+def get_event_day(event):
+    start = event['start'].get('dateTime', event['start'].get('date'))
+    is_all_day_event = len(start)<11
+    if is_all_day_event:
+        day = time.strftime("%a %b %d", time.strptime(start, "%Y-%m-%d"))
+    else:
+        day = time.strftime("%a %b %d, %H:%M", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
+    return day
+
+
 event_one = events[0]
-start = event_one['start'].get('dateTime', event_one['start'].get('date'))
-start = start[:10]
-day_one = time.strftime("%a %b %d",time.strptime(start,"%Y-%m-%d"))
+day_one = get_event_day(event_one)
 desc_one = event_one['summary']
 print(day_one, desc_one)
 
 event_two = events[1]
-start = event_two['start'].get('dateTime', event_two['start'].get('date'))
-start = start[:10]
-day_two = time.strftime("%a %b %d",time.strptime(start,"%Y-%m-%d"))
+day_two = get_event_day(event_two)
 desc_two = event_two['summary']
 print(day_two, desc_two)
 
+event_three = events[2]
+day_three = get_event_day(event_three)
+desc_three = event_three['summary']
+print(day_three, desc_three)
 
+event_four = events[3]
+day_four = get_event_day(event_four)
+desc_four = event_four['summary']
+print(day_four, desc_four)
 
 output = codecs.open(template , 'r', encoding='utf-8').read()
 output = output.replace('CAL_ONE',day_one)
 output = output.replace('CAL_DESC_ONE',desc_one)
 output = output.replace('CAL_TWO',day_two)
 output = output.replace('CAL_DESC_TWO',desc_two)
+output = output.replace('CAL_THREE',day_three)
+output = output.replace('CAL_DESC_THREE',desc_three)
+output = output.replace('CAL_FOUR',day_four)
+output = output.replace('CAL_DESC_FOUR',desc_four)
 
 codecs.open('screen-output-weather.svg', 'w', encoding='utf-8').write(output)

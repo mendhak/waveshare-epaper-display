@@ -20,34 +20,37 @@ logging.basicConfig(level=logging.INFO)
 # Reference: https://docs.climacell.co/reference/data-layers-core
 def get_icon_by_weathercode(weathercode, is_daytime):
 
+
     icon_dict = {
-        6201: 'freezing_rain',
-    	6001: 'freezing_rain',
-    	6200: 'freezing_rain' ,
-    	6000: 'freezing_rain',
-    	7101: 'ice_pellets',
-    	7000: 'ice_pellets',
-	7102: 'rain_icepellets_mix',
-    	5101: 'snow',
-    	5000: 'snow',
-    	5100: 'rain_snow_mix',
-    	5001: 'blizzard',
-    	8000: 'thundershower_rain',
-    	4201: 'rain_day' if is_daytime else 'rain_night',
-    	4001: 'rain_day' if is_daytime else 'rain_night',
-    	4200: 'rain_day' if is_daytime else 'rain_night',
-    	4000: 'rain_day' if is_daytime else 'rain_night',
-    	2100: 'scattered_clouds_fog',
-    	2000: 'foggy',
-    	1001: 'few_clouds' if is_daytime else 'partlycloudynight',
-    	1102: 'mostly_cloudy',
-    	1101: 'few_clouds' if is_daytime else 'partlycloudynight',
-    	1100: 'clear_sky_day' if is_daytime else 'clearnight',
-    	1000: 'clear_sky_day' if is_daytime else 'clearnight',
-    	3000: 'wind',
-    	3001: 'wind',
-    	3002: 'wind',
-	}
+           0: 'unknown',
+        1000: 'clear_sky_day' if is_daytime else 'clearnight',
+        1001: 'climacell_cloudy' if is_daytime else 'overcast',
+        1100: 'few_clouds' if is_daytime else 'partlycloudynight',
+        1101: 'scattered_clouds' if is_daytime else 'partlycloudynight',
+        1102: 'mostly_cloudy' if is_daytime else 'overcast',
+        2000: 'climacell_fog',
+        2100: 'climacell_fog_light',
+        3000: 'wind',
+        3001: 'wind',
+        3002: 'wind',
+        4000: 'climacell_drizzle' if is_daytime else 'rain_night',
+        4001: 'climacell_rain' if is_daytime else 'rain_night',
+        4200: 'climacell_rain_light' if is_daytime else 'rain_night',
+        4201: 'climacell_rain_heavy' if is_daytime else 'rain_night',
+        5000: 'snow',
+        5001: 'climacell_flurries',
+        5100: 'climacell_snow_light',
+        5101: 'snow',
+        6000: 'climacell_freezing_drizzle',
+        6001: 'climacell_freezing_rain',
+        6200: 'climacell_freezing_rain_light' ,
+        6201: 'climacell_freezing_rain_heavy',
+        7000: 'climacell_ice_pellets',
+        7101: 'climacell_ice_pellets_heavy',
+        7102: 'climacell_ice_pellets_light',
+        8000: 'thundershower_rain',
+        }
+
 
     icon = icon_dict[weathercode]
     logging.debug(
@@ -55,6 +58,48 @@ def get_icon_by_weathercode(weathercode, is_daytime):
          .format(weathercode, is_daytime, icon))
 
     return icon
+
+def get_description_by_weathercode(weathercode):
+
+    description_dict = {
+        0: "Unknown",
+        1000: "Clear",
+        1001: "Cloudy",
+        1100: "Mostly Clear",
+        1101: "Partly Cloudy",
+        1102: "Mostly Cloudy",
+        2000: "Fog",
+        2100: "Light Fog",
+        3000: "Light Wind",
+        3001: "Wind",
+        3002: "Strong Wind",
+        4000: "Drizzle",
+        4001: "Rain",
+        4200: "Light Rain",
+        4201: "Heavy Rain",
+        5000: "Snow",
+        5001: "Flurries",
+        5100: "Light Snow",
+        5101: "Heavy Snow",
+        6000: "Freezing Drizzle",
+        6001: "Freezing Rain",
+        6200: "Light Freezing Rain",
+        6201: "Heavy Freezing Rain",
+        7000: "Ice Pellets",
+        7101: "Heavy Ice Pellets",
+        7102: "Light Ice Pellets",
+        8000: "Thunderstorm"
+    }
+
+    description=description_dict[weathercode]
+
+    logging.debug(
+         "get_description_by_weathercode({}) - {}"
+         .format(weathercode, description))
+
+    return description
+
+
 
 # Is it daytime? 
 def is_daytime(location_lat, location_long):
@@ -167,7 +212,7 @@ def main():
     # TTL for refetching of JSON
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
 
-    logging.info("Gathering weather") 
+    logging.info("Gathering weather")
 
     weather = get_weather(climacell_apikey, location_latlong, weather_timelines_filename, ttl)
 
@@ -179,8 +224,10 @@ def main():
         'LOW_ONE': str(round(weather['temperatureMin']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMin'] * 1.8) + 32)+"°F", 
         'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMax'] * 1.8) + 32)+"°F", 
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
+        'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
-        'DAY_ONE': datetime.datetime.now().strftime("%x"),
+        'DAY_ONE': datetime.datetime.now().strftime("%d %b %Y"),
+        'DAY_NAME': datetime.datetime.now().strftime("%A"),
         'ALERT_MESSAGE': "" # unused
     }
 

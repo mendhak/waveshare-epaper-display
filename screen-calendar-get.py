@@ -1,5 +1,6 @@
 from __future__ import print_function
 import datetime
+import html
 import time
 import pickle
 import os.path
@@ -74,22 +75,22 @@ def get_event_day(event):
 
 event_one = events[0]
 day_one = get_event_day(event_one)
-desc_one = event_one['summary']
+desc_one = html.escape(event_one['summary'])
 print(day_one, desc_one)
 
 event_two = events[1]
 day_two = get_event_day(event_two)
-desc_two = event_two['summary']
+desc_two = html.escape(event_two['summary'])
 print(day_two, desc_two)
 
 event_three = events[2]
 day_three = get_event_day(event_three)
-desc_three = event_three['summary']
+desc_three = html.escape(event_three['summary'])
 print(day_three, desc_three)
 
 event_four = events[3]
 day_four = get_event_day(event_four)
-desc_four = event_four['summary']
+desc_four = html.escape(event_four['summary'])
 print(day_four, desc_four)
 
 output = codecs.open(template , 'r', encoding='utf-8').read()

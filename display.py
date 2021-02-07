@@ -2,8 +2,6 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
-#picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
-#libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
 libdir = "/home/pi/e-Paper/RaspberryPi_JetsonNano/python/lib"
 if os.path.exists(libdir):
     print("Found")
@@ -11,11 +9,10 @@ if os.path.exists(libdir):
 
 import logging
 
-if os.getenv("WAVESHARE_EPD75_VERSION",1):
+if (os.getenv("WAVESHARE_EPD75_VERSION", "1") == "1"):
     from waveshare_epd import epd7in5 as epd7in5
 else:
     from waveshare_epd import epd7in5_V2 as epd7in5
-
 
 import time, datetime
 from PIL import Image
@@ -35,7 +32,6 @@ try:
         epd.Clear()
 
     logging.info("3.read bmp file")
-    #Himage = Image.open("/home/pi/waveshare-epaper-display/screen-output.bmp")
     Himage = Image.open(sys.argv[1])
     epd.display(epd.getbuffer(Himage))
     epd.sleep()

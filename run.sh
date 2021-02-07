@@ -8,13 +8,13 @@ function log {
 }
 
 log "Get Weather info"
-sudo -E python3 screen-weather-get.py
+python3 screen-weather-get.py
 
 current_hour=`date +"%H"`
 
 
 log "Get Calendar info"
-sudo -E python3 screen-calendar-get.py
+python3 screen-calendar-get.py
 
 log "Export to PNG"
 
@@ -36,4 +36,4 @@ SHOULD_REFRESH=0
 current_minute=`date +"%M"`
 
 log "Display on epaper"
-sudo python3 display.py screen-output.png
+python3 display.py screen-output.png

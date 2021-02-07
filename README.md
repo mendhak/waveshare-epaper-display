@@ -57,7 +57,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ## Setup dependencies
 
-    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi
+    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3 python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi
     sudo pip3 install astral spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
     sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
@@ -73,12 +73,6 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo make check
     sudo make install
 
-
-
-### Get the Python3 libraries
-
-    sudo apt-get install python3
-    
 
 ### Get the e-Paper libraries
 
@@ -99,12 +93,6 @@ git clone this repository in the `/home/pi` directory.
     git clone https://github.com/mendhak/waveshare-epaper-display.git
     
 This should create a `/home/pi/waveshare-epaper-display` directory. 
-
-### Build the displayer
-
-    cd waveshare-epaper-display
-    cd display
-    make
 
 ### Waveshare version
 
@@ -165,7 +153,6 @@ Add this entry so it runs every minute:
     * * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > ./run.log 2>&1
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
-
 
 
 ## Waveshare documentation and sample code

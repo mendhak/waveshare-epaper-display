@@ -67,9 +67,9 @@ def get_event_day(event):
     start = event['start'].get('dateTime', event['start'].get('date'))
     is_all_day_event = len(start)<11
     if is_all_day_event:
-        day = time.strftime("%a %b %d", time.strptime(start, "%Y-%m-%d"))
+        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
     else:
-        day = time.strftime("%a %b %d, %H:%M", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
+        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
     return day
 
 

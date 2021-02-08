@@ -7,5 +7,4 @@ env.sh
 .vscode
 *.pickle
 credentials*
-env.sh
 *.json

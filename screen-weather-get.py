@@ -122,12 +122,11 @@ def is_daytime(location_lat, location_long):
 
 # Get weather from Climacell
 # Reference: https://docs.climacell.co/reference/retrieve-timelines-basic
-def get_weather(climacell_apikey, location_latlong, filename, ttl):
+def get_weather(climacell_apikey, location_latlong, units, filename, ttl):
 
     url = ("https://data.climacell.co/v4/timelines"
-        + "?location={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
-        .format(location_latlong, climacell_apikey))
-
+        + "?location={}&units={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
+        .format(location_latlong, units, climacell_apikey))
     try:
         response_data = get_response_data(url, os.getcwd() + "/" + filename, ttl)
         weather = response_data['timelines'][0]['intervals'][0]['values']
@@ -195,6 +194,11 @@ def main():
 
     weather_format=os.getenv("WEATHER_FORMAT", "CELSIUS")
 
+    if (weather_format == "CELSIUS"):
+        units = "metric"
+    else:
+        units = "imperial"
+
     template_svg_filename = 'screen-template.svg'
     output_svg_filename = 'screen-output-weather.svg'
 
@@ -213,15 +217,15 @@ def main():
 
     logging.info("Gathering weather")
 
-    weather = get_weather(climacell_apikey, location_latlong, weather_timelines_filename, ttl)
+    weather = get_weather(climacell_apikey, location_latlong, units, weather_timelines_filename, ttl)
 
     if (weather == False):
         logging.error("Unable to fetch weather payload. SVG will not be updated.")
         return
 
     output_dict = {
-        'LOW_ONE': str(round(weather['temperatureMin']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMin'] * 1.8) + 32)+"°F", 
-        'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMax'] * 1.8) + 32)+"°F", 
+        'LOW_ONE': str(round(weather['temperatureMin']))+"°C" if units == "metric" else str(round(weather['temperatureMin']))+"°F", 
+        'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if units == "metric" else str(round(weather['temperatureMax']))+"°F", 
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
         'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import sys
 import os
-libdir = "/home/pi/e-Paper/RaspberryPi_JetsonNano/python/lib"
+libdir = "./lib/e-Paper/RaspberryPi_JetsonNano/python/lib"
 if os.path.exists(libdir):
     sys.path.append(libdir)
 

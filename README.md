@@ -73,16 +73,6 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo make check
     sudo make install
 
-
-### Get the e-Paper libraries
-
-In the `/home/pi` directory, git clone the sample repo from waveshare, which contains the libraries needed to write to the screen. 
-
-    cd /home/pi
-    git clone https://github.com/waveshare/e-Paper.git
-
-This should create a `/home/pi/e-Paper` directory.  
-
 ## Using this application
 
 ### Clone it

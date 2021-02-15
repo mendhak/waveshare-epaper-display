@@ -1,106 +1,124 @@
-from __future__ import print_function
 import datetime
 import html
 import time
 import pickle
 import os.path
-from googleapiclient.discovery import build
+import os
+import logging
+
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import codecs
-import os
+from googleapiclient.discovery import build
 
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-template = 'screen-output-weather.svg'
+from utility import is_stale, update_svg
+
+logging.basicConfig(level=logging.INFO)
+
+# note: increasing this will require updates to the SVG template to accommodate more events
+max_event_results = 4
 
 google_calendar_id=os.getenv("GOOGLE_CALENDAR_ID","primary")
+ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
-creds = None
-# The file token.pickle stores the user's access and refresh tokens, and is
-# created automatically when the authorization flow completes for the first
-# time.
-if os.path.exists('token.pickle'):
-    with open('token.pickle', 'rb') as token:
-        creds = pickle.load(token)
-# If there are no (valid) credentials available, let the user log in.
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
+def get_credentials():
+
+    google_token_pickle = 'token.pickle'
+    google_credentials_json = 'credentials.json'
+    google_api_scopes = ['https://www.googleapis.com/auth/calendar.readonly']
+
+
+    credentials = None
+    # The file token.pickle stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists(google_token_pickle):
+        with open(google_token_pickle, 'rb') as token:
+            credentials = pickle.load(token)
+
+    # If there are no (valid) credentials available, let the user log in.
+    if not credentials or not credentials.valid:
+        if credentials and credentials.expired and credentials.refresh_token:
+            credentials.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                google_credentials_json, google_api_scopes)
+            credentials = flow.run_local_server()
+        # Save the credentials for the next run
+        with open(google_token_pickle, 'wb') as token:
+            pickle.dump(credentials, token)
+
+    return credentials
+
+
+def get_events(max_event_results):
+
+    google_calendar_pickle = 'calendar.pickle'
+
+    service = build('calendar', 'v3', credentials=get_credentials(), cache_discovery=False)
+
+    events_result = None
+  
+    if is_stale(os.getcwd() + "/" + google_calendar_pickle, ttl):
+        logging.debug("Pickle is stale, calling the Calendar API")
+
+        # Call the Calendar API
+        events_result = service.events().list(
+            calendarId=google_calendar_id, 
+            timeMin=datetime.datetime.utcnow().isoformat() + 'Z',
+            maxResults=max_event_results,
+            singleEvents=True,
+            orderBy='startTime').execute()
+
+        with open(google_calendar_pickle, 'wb') as cal:
+            pickle.dump(events_result, cal)
+
     else:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            'credentials.json', SCOPES)
-        creds = flow.run_local_server()
-    # Save the credentials for the next run
-    with open('token.pickle', 'wb') as token:
-        pickle.dump(creds, token)
+        logging.debug("Pickle is fresh, no need to call the Calendar API")
+        with open(google_calendar_pickle,'rb') as cal:
+            events_result = pickle.load(cal)
 
-service = build('calendar', 'v3', credentials=creds)
+    events = events_result.get('items', [])
 
+    if not events:
+        logging.info("No upcoming events found.")
 
-events_result = None
-stale = True
-
-if(os.path.isfile(os.getcwd() + "/calendar.pickle")):
-    print("Found cached calendar response")
-    with open('calendar.pickle','rb') as cal:
-        events_result = pickle.load(cal)
-    stale=time.time() - os.path.getmtime(os.getcwd() + "/calendar.pickle") > (1*60*60)
-
-if stale:
-    print("Pickle is stale, calling the Calendar API")
-    # Call the Calendar API
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    events_result = service.events().list(calendarId=google_calendar_id, timeMin=now,
-                                        maxResults=10, singleEvents=True,
-                                        orderBy='startTime').execute()
-    with open('calendar.pickle', 'wb') as cal:
-        pickle.dump(events_result, cal)
-
-events = events_result.get('items', [])
-
-if not events:
-    print('No upcoming events found.')
+    return events
 
 
-def get_event_day(event):
-    start = event['start'].get('dateTime', event['start'].get('date'))
-    is_all_day_event = len(start)<11
-    if is_all_day_event:
-        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
-    else:
+def get_output_dict_by_events(events, event_slot_count):
+    formatted_events={}
+    for event_i in range(event_slot_count):
+        event_label_id = str(event_i + 1)
+        if (events[event_i-1]):
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(events[event_i]['start'])
+            formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['summary']
+        else:
+            formatted_events['CAL_DATETIME_' + event_label_id] = ""
+            formatted_events['CAL_DESC_' + event_label_id] = ""
+    return formatted_events
+
+
+def get_datetime_formatted(event_start):
+    if(event_start.get('dateTime')):
+        start = event_start.get('dateTime')
         day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
+    else:
+        start = event_start.get('date')
+        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
     return day
 
+def main():
+    
+    output_svg_filename = 'screen-output-weather.svg'
 
-event_one = events[0]
-day_one = get_event_day(event_one)
-desc_one = html.escape(event_one['summary'])
-print(day_one, desc_one)
+    events = get_events(max_event_results)
+    output_dict = get_output_dict_by_events(events, max_event_results)
+    
+    logging.debug("main() - {}".format(output_dict))
 
-event_two = events[1]
-day_two = get_event_day(event_two)
-desc_two = html.escape(event_two['summary'])
-print(day_two, desc_two)
+    logging.info("Updating SVG")
+    update_svg(output_svg_filename, output_svg_filename, output_dict)
 
-event_three = events[2]
-day_three = get_event_day(event_three)
-desc_three = html.escape(event_three['summary'])
-print(day_three, desc_three)
 
-event_four = events[3]
-day_four = get_event_day(event_four)
-desc_four = html.escape(event_four['summary'])
-print(day_four, desc_four)
-
-output = codecs.open(template , 'r', encoding='utf-8').read()
-output = output.replace('CAL_ONE',day_one)
-output = output.replace('CAL_DESC_ONE',desc_one)
-output = output.replace('CAL_TWO',day_two)
-output = output.replace('CAL_DESC_TWO',desc_two)
-output = output.replace('CAL_THREE',day_three)
-output = output.replace('CAL_DESC_THREE',desc_three)
-output = output.replace('CAL_FOUR',day_four)
-output = output.replace('CAL_DESC_FOUR',desc_four)
-
-codecs.open('screen-output-weather.svg', 'w', encoding='utf-8').write(output)
+if __name__ == "__main__":
+    main()

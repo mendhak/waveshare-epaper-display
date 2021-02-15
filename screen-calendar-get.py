@@ -26,7 +26,6 @@ def get_credentials():
     google_credentials_json = 'credentials.json'
     google_api_scopes = ['https://www.googleapis.com/auth/calendar.readonly']
 
-
     credentials = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -87,9 +86,10 @@ def get_events(max_event_results):
 
 def get_output_dict_by_events(events, event_slot_count):
     formatted_events={}
+    event_count = len(events)
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
-        if (events[event_i-1]):
+        if (event_i <= event_count - 1):
             formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(events[event_i]['start'])
             formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['summary']
         else:

@@ -103,7 +103,7 @@ Climacell API is used for the weather forecast as well as several weather icons.
 
 ### Location information for Weather
 
-Modify the `env.sh` file and update with the latitude and longitude of your location. As needed, change the temperature format (CELSIUS or FARENHEIT).
+Modify the `env.sh` file and update with the latitude and longitude of your location. As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
     export WEATHER_FORMAT=CELSIUS
     export WEATHER_LATITUDE=51.3656

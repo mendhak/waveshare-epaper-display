@@ -198,9 +198,11 @@ def main():
         logging.error("Unable to fetch weather payload. SVG will not be updated.")
         return
 
+    degrees = "°C" if units == "metric" else "°F"
+
     output_dict = {
-        'LOW_ONE': str(round(weather['temperatureMin']))+"°C" if units == "metric" else str(round(weather['temperatureMin']))+"°F", 
-        'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if units == "metric" else str(round(weather['temperatureMax']))+"°F", 
+        'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
+        'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
         'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),

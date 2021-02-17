@@ -73,16 +73,6 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
     sudo make check
     sudo make install
 
-
-### Get the e-Paper libraries
-
-In the `/home/pi` directory, git clone the sample repo from waveshare, which contains the libraries needed to write to the screen. 
-
-    cd /home/pi
-    git clone https://github.com/waveshare/e-Paper.git
-
-This should create a `/home/pi/e-Paper` directory.  
-
 ## Using this application
 
 ### Clone it
@@ -90,11 +80,13 @@ This should create a `/home/pi/e-Paper` directory.
 git clone this repository in the `/home/pi` directory.
 
     cd /home/pi
-    git clone https://github.com/mendhak/waveshare-epaper-display.git
+    git clone --recursive https://github.com/mendhak/waveshare-epaper-display.git
     
 This should create a `/home/pi/waveshare-epaper-display` directory. 
 
 ### Waveshare version
+
+Copy `env.sh.sample` (example environment variables) to `env.sh` 
 
 Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Module  (newer ones are version 2)
 
@@ -111,7 +103,7 @@ Climacell API is used for the weather forecast as well as several weather icons.
 
 ### Location information for Weather
 
-Modify the `env.sh` file and update with the latitude and longitude of your location. As needed, change the temperature format (CELSIUS or FARENHEIT).
+Modify the `env.sh` file and update with the latitude and longitude of your location. As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
     export WEATHER_FORMAT=CELSIUS
     export WEATHER_LATITUDE=51.3656

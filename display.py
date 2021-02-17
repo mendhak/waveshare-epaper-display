@@ -1,46 +1,44 @@
 #!/usr/bin/python3
-# -*- coding:utf-8 -*-
 import sys
 import os
-libdir = "/home/pi/e-Paper/RaspberryPi_JetsonNano/python/lib"
+libdir = "./lib/e-Paper/RaspberryPi_JetsonNano/python/lib"
 if os.path.exists(libdir):
-    print("Found")
     sys.path.append(libdir)
 
 import logging
+import datetime
+from PIL import Image
+
+logging.basicConfig(level=logging.INFO)
 
 if (os.getenv("WAVESHARE_EPD75_VERSION", "2") == "1"):
     from waveshare_epd import epd7in5 as epd7in5
 else:
     from waveshare_epd import epd7in5_V2 as epd7in5
 
-import time, datetime
-from PIL import Image
-import traceback
-
-logging.basicConfig(level=logging.DEBUG)
-
 try:
-    logging.info("epd7in5 Demo")
-
     epd = epd7in5.EPD()
-    logging.info("init and Clear")
+    logging.debug("Initialize screen")
     epd.init()
-    
+
     #Full screen refresh at 2 AM
     if datetime.datetime.now().minute==0 and datetime.datetime.now().hour==2:
+        logging.debug("Clear screen")
         epd.Clear()
 
-    logging.info("3.read bmp file")
-    Himage = Image.open(sys.argv[1])
+    filename = sys.argv[1]
+
+    logging.debug("Read image file: " + filename)
+    Himage = Image.open(filename)
+    logging.info("Display image file on screen")
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
     epd.Dev_exit()
 
 except IOError as e:
-    logging.info(e)
+    logging.exception(e)
 
 except KeyboardInterrupt:
-    logging.info("ctrl + c:")
+    logging.debug("Keyboard Interrupt - Exit")
     epd7in5.epdconfig.module_exit()
     exit()

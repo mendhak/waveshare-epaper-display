@@ -13,6 +13,8 @@ import logging
 from astral import LocationInfo
 from astral.sun import sun
 
+from utility import is_stale, update_svg
+
 logging.basicConfig(level=logging.INFO)
 
 # Map Climacell icons to local icons
@@ -122,12 +124,11 @@ def is_daytime(location_lat, location_long):
 
 # Get weather from Climacell
 # Reference: https://docs.climacell.co/reference/retrieve-timelines-basic
-def get_weather(climacell_apikey, location_latlong, filename, ttl):
+def get_weather(climacell_apikey, location_latlong, units, filename, ttl):
 
     url = ("https://data.climacell.co/v4/timelines"
-        + "?location={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
-        .format(location_latlong, climacell_apikey))
-
+        + "?location={}&units={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
+        .format(location_latlong, units, climacell_apikey))
     try:
         response_data = get_response_data(url, os.getcwd() + "/" + filename, ttl)
         weather = response_data['timelines'][0]['intervals'][0]['values']
@@ -156,33 +157,6 @@ def get_response_data(url, filepath, ttl):
             return json.loads(file.read())['data']
     return response_json
 
-# Is the response file older than the TTL?
-def is_stale(filepath, ttl): 
-
-    verdict = True
-    if (os.path.isfile(filepath)):
-        verdict = time.time() - os.path.getmtime(filepath) > ttl
-
-    logging.debug(
-        "is_stale({}) - {}"
-        .format(filepath, str(verdict)))
-
-    return verdict
-
-# utilize a template svg as a base for output of values
-def update_svg(template_svg_filename, output_svg_filename, output_dict):
-    #replace tags with values in SVG
-    output = codecs.open(template_svg_filename, 'r', encoding='utf-8').read()
-
-    for output_key in output_dict:
-        logging.debug("output_weather() - {} -> {}".format(output_key, output_dict[output_key]))
-        output = output.replace(output_key, output_dict[output_key])
-
-    logging.debug("update_svg() - Write to SVG {}".format(output_svg_filename))
-
-    codecs.open(output_svg_filename, 'w', encoding='utf-8').write(output)
-
-
 def main():
 
     # gather relevant environment configs
@@ -194,6 +168,11 @@ def main():
         sys.exit(1)
 
     weather_format=os.getenv("WEATHER_FORMAT", "CELSIUS")
+
+    if (weather_format == "CELSIUS"):
+        units = "metric"
+    else:
+        units = "imperial"
 
     template_svg_filename = 'screen-template.svg'
     output_svg_filename = 'screen-output-weather.svg'
@@ -213,15 +192,17 @@ def main():
 
     logging.info("Gathering weather")
 
-    weather = get_weather(climacell_apikey, location_latlong, weather_timelines_filename, ttl)
+    weather = get_weather(climacell_apikey, location_latlong, units, weather_timelines_filename, ttl)
 
     if (weather == False):
         logging.error("Unable to fetch weather payload. SVG will not be updated.")
         return
 
+    degrees = "°C" if units == "metric" else "°F"
+
     output_dict = {
-        'LOW_ONE': str(round(weather['temperatureMin']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMin'] * 1.8) + 32)+"°F", 
-        'HIGH_ONE': str(round(weather['temperatureMax']))+"°C" if weather_format == "CELSIUS" else str(round(weather['temperatureMax'] * 1.8) + 32)+"°F", 
+        'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
+        'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
         'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),

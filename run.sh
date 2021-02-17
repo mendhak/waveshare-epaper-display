@@ -10,9 +10,6 @@ function log {
 log "Get Weather info"
 python3 screen-weather-get.py
 
-current_hour=`date +"%H"`
-
-
 log "Get Calendar info"
 python3 screen-calendar-get.py
 
@@ -27,13 +24,6 @@ else
 fi
 
 inkscape screen-output-weather.svg --without-gui -e screen-output.png -w$WAVESHARE_WIDTH -h$WAVESHARE_HEIGHT --export-dpi=300
-
-# Convert to a black and white, 1 bit bitmap
-#convert -colors 2 +dither -type Bilevel -monochrome screen-output.png screen-output.bmp
-
-
-SHOULD_REFRESH=0
-current_minute=`date +"%M"`
 
 log "Display on epaper"
 python3 display.py screen-output.png

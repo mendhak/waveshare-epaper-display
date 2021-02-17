@@ -20,7 +20,7 @@ try:
     epd = epd7in5.EPD()
     logging.debug("Initialize screen")
     epd.init()
-    
+
     #Full screen refresh at 2 AM
     if datetime.datetime.now().minute==0 and datetime.datetime.now().hour==2:
         logging.debug("Clear screen")
@@ -30,7 +30,7 @@ try:
 
     logging.debug("Read image file: " + filename)
     Himage = Image.open(filename)
-    logging.debug("Display image file on screen")
+    logging.info("Display image file on screen")
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
     epd.Dev_exit()

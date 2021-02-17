@@ -56,7 +56,7 @@ def get_events(max_event_results):
     service = build('calendar', 'v3', credentials=get_credentials(), cache_discovery=False)
 
     events_result = None
-  
+
     if is_stale(os.getcwd() + "/" + google_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Calendar API")
 
@@ -108,12 +108,12 @@ def get_datetime_formatted(event_start):
     return day
 
 def main():
-    
+
     output_svg_filename = 'screen-output-weather.svg'
 
     events = get_events(max_event_results)
     output_dict = get_output_dict_by_events(events, max_event_results)
-    
+
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")

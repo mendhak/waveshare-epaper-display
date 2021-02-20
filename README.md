@@ -110,7 +110,7 @@ Once you've proven that the run works, and an image is sent to your epaper displ
 
 Add this entry so it runs every minute:
 
-    * * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > ./run.log 2>&1
+    * * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > run.log 2>&1
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
 

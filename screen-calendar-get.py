@@ -99,13 +99,22 @@ def get_output_dict_by_events(events, event_slot_count):
 
 
 def get_datetime_formatted(event_start):
-    if(event_start.get('dateTime')):
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
+    start = event['start'].get('dateTime', event['start'].get('date'))
+    if 'T' in start:
+        t = time.strptime(start,"%Y-%m-%dT%H:%M:%SZ")
     else:
-        start = event_start.get('date')
-        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
+        t = time.strptime(start,"%Y-%m-%d")
+
+    now = time.gmtime(time.time())
+    tomorrow = time.gmtime(time.time() + (24*60*60))
+    if time.strftime("%d", t) == time.strftime("%d", now):
+        day = time.strftime("%H:%M", t)
+    elif time.strftime("%d", t) == time.strftime("%d", tomorrow):
+        day = time.strftime("Tomorrow %H:%M", t)
+    else:
+        day = time.strftime("%A %H:%M", t)
     return day
+
 
 def main():
 

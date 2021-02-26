@@ -2,6 +2,8 @@
 
 cd /home/jm/epaper/waveshare-epaper-display
 
+(
+set -x
 . env.sh
 
 function log {
@@ -10,14 +12,22 @@ function log {
     echo "---------------------------------------"
 }
 
+# crash out if any of these fail
+
 log "Get Weather info"
-python3 screen-weather-get.py
+timeout $TIMEOUT python3 screen-weather-get.py || \
+    timeout $TIMEOUT python3 screen-weather-get.py || \
+    timeout $TIMEOUT python3 screen-weather-get.py || exit 1
 
 log "Get HomeAssistant info"
-python3 screen-hass-get.py
+timeout $TIMEOUT python3 screen-homeassistant-get.py || \
+    timeout $TIMEOUT python3 screen-homeassistant-get.py || \
+    timeout $TIMEOUT python3 screen-homeassistant-get.py || exit 1
 
 log "Get Calendar info"
-python3 screen-calendar-get.py
+timeout $TIMEOUT python3 screen-calendar-get.py || \
+    timeout $TIMEOUT python3 screen-calendar-get.py || \
+    timeout $TIMEOUT python3 screen-calendar-get.py || exit 1
 
 log "Export to PNG"
 
@@ -29,7 +39,7 @@ else
     WAVESHARE_HEIGHT=480
 fi
 
-inkscape screen-output-weather.svg --without-gui -e screen-output.png -w$WAVESHARE_WIDTH -h$WAVESHARE_HEIGHT --export-dpi=300
+inkscape screen-output-calendar.svg --without-gui -e screen-output.png -w$WAVESHARE_WIDTH -h$WAVESHARE_HEIGHT --export-dpi=300
 
 log "Separate black/red channels"
 convert screen-output.png -channel R -separate only_black.png
@@ -46,3 +56,5 @@ convert -colors 2 +dither -type Bilevel -monochrome only_black.png only_black.bm
 
 log "Display on epaper"
 python3 display.py only_black.bmp only_red.bmp
+
+) 2>&1 | tee -a LOG

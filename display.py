@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 if (os.getenv("WAVESHARE_EPD75_VERSION", "2") == "1"):
     from waveshare_epd import epd7in5 as epd7in5
 else:
-    from waveshare_epd import epd7in5_V2 as epd7in5
+    from waveshare_epd import epd7in5b_V2 as epd7in5
 
 try:
     epd = epd7in5.EPD()

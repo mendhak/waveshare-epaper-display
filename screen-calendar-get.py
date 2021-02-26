@@ -99,7 +99,7 @@ def get_output_dict_by_events(events, event_slot_count):
 
 
 def get_datetime_formatted(event_start):
-    start = event['start'].get('dateTime', event['start'].get('date'))
+    start = event_start.get('dateTime', event_start.get('date'))
     if 'T' in start:
         t = time.strptime(start,"%Y-%m-%dT%H:%M:%SZ")
     else:
@@ -118,7 +118,8 @@ def get_datetime_formatted(event_start):
 
 def main():
 
-    output_svg_filename = 'screen-output-weather.svg'
+    input_svg_filename = 'screen-output-homeassistant.svg'
+    output_svg_filename = 'screen-output-calendar.svg'
 
     events = get_events(max_event_results)
     output_dict = get_output_dict_by_events(events, max_event_results)
@@ -126,7 +127,7 @@ def main():
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
-    update_svg(output_svg_filename, output_svg_filename, output_dict)
+    update_svg(input_svg_filename, output_svg_filename, output_dict)
 
 
 if __name__ == "__main__":

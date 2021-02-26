@@ -47,7 +47,7 @@
      id="namedview3201"
      showgrid="true"
      inkscape:zoom="0.93338095"
-     inkscape:cx="636.89253"
+     inkscape:cx="451.54484"
      inkscape:cy="210.54946"
      inkscape:window-x="0"
      inkscape:window-y="36"
@@ -203,7 +203,7 @@
      style="font-weight:bold;font-size:37px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">DAY_ONE</text>
   <text
      id="text3159"
-     x="663.55096"
+     x="671.55096"
      y="151.895"
      font-size="38px"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:38px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle">HIGH_ONE/LOW_ONE</text>
@@ -360,17 +360,19 @@
      x="773.64655"
      y="451.16748"
      font-size="38px"
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:38px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end">
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:38px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr;text-anchor:end;">
     <tspan
        sodipodi:role="line"
-       id="tspan116"
-       x="773.64655"
-       y="451.16748">HASS_CAR_RANGE_2 km</tspan>
+       id="tspan83">Leaf: HASS_CAR_RANGE_2 km</tspan>
   </text>
   <text
      id="text3159-3-6"
      x="773.12445"
      y="379.36859"
      font-size="38px"
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:38px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end">HASS_CAR_RANGE_1 km</text>
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:38px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr;text-anchor:end;">
+    <tspan
+       sodipodi:role="line"
+       id="tspan81">Merc: HASS_CAR_RANGE_1 km</tspan>
+  </text>
 </svg>

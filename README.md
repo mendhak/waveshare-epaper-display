@@ -150,8 +150,7 @@ Pick whichever sensors you plan to use (in my case the battery levels of the two
 
 Run `./run.sh` which should query Climacell, HomeAssistant and Google Calendar.  It will then create a png, convert to a pair of 1-bit bmps for black/white and black/red layers, then display the bmp on screen. 
 
-Using 1-bit, low grade BMPs is what allows the screen to refresh relatively quickly. Calling the BCM code to do it takes about 6 seconds. 
-Rendering a high quality PNG or JPG and rendering to screen with Python takes about 35 seconds.  
+Unfortunately, the red/black/white 7.5 inch display has a very slow refresh time, about 30 seconds, and doesn't support any kind of partial refresh at the moment.
 
 ### Automate it
 
@@ -163,7 +162,8 @@ Add this entry so it runs every hour:
 
     0 * * * * bash /home/pi/waveshare-epaper-display/run.sh
 
-This will cause the script to run every hour, and write the output as well as errors to a file called LOG.
+This will cause the script to run every hour, and write the output as well as errors to a file called LOG.  You can potentially
+run this more frequently, but note that every refresh involves 30 seconds of screen flashing, which is quite intrusive.
 
 
 ## Waveshare documentation and sample code

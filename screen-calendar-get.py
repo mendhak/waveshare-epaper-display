@@ -99,17 +99,27 @@ def get_output_dict_by_events(events, event_slot_count):
 
 
 def get_datetime_formatted(event_start):
-    if(event_start.get('dateTime')):
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
+    start = event_start.get('dateTime', event_start.get('date'))
+    if 'T' in start:
+        t = time.strptime(start,"%Y-%m-%dT%H:%M:%SZ")
     else:
-        start = event_start.get('date')
-        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
+        t = time.strptime(start,"%Y-%m-%d")
+
+    now = time.gmtime(time.time())
+    tomorrow = time.gmtime(time.time() + (24*60*60))
+    if time.strftime("%d", t) == time.strftime("%d", now):
+        day = time.strftime("%H:%M", t)
+    elif time.strftime("%d", t) == time.strftime("%d", tomorrow):
+        day = time.strftime("Tomorrow %H:%M", t)
+    else:
+        day = time.strftime("%A %H:%M", t)
     return day
+
 
 def main():
 
-    output_svg_filename = 'screen-output-weather.svg'
+    input_svg_filename = 'screen-output-homeassistant.svg'
+    output_svg_filename = 'screen-output-calendar.svg'
 
     events = get_events(max_event_results)
     output_dict = get_output_dict_by_events(events, max_event_results)
@@ -117,7 +127,7 @@ def main():
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
-    update_svg(output_svg_filename, output_svg_filename, output_dict)
+    update_svg(input_svg_filename, output_svg_filename, output_dict)
 
 
 if __name__ == "__main__":

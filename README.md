@@ -5,11 +5,13 @@ The screen will display date, time, weather icon with high and low, Google Calen
 
 ## Shopping list
 
-[Waveshare 7.5 inch epaper display HAT 640x384](https://www.amazon.co.uk/gp/product/B075R4QY3L/)  
+[Waveshare 7.5 inch epaper display HAT 800x480, Red/Black/White](https://www.waveshare.com/product/displays/e-paper/epaper-1/7.5inch-e-paper-hat-b.htm)
 [Raspberry Pi Zero WH (presoldered header)](https://www.amazon.co.uk/gp/product/B07BHMRTTY/)  
 [microSDHC card](https://www.amazon.co.uk/gp/product/B073K14CVB)
 
 ## Setup the PI
+
+(jm: these instructions are verbatim from [mendhak's original](https://github.com/mendhak/waveshare-epaper-display); I used a Raspberry Pi 4 with a little more CPU power.)
 
 Use [Etcher](https://etcher.io) to write the SD card with the [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/) image, no need for desktop.
 
@@ -57,7 +59,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ## Setup dependencies
 
-    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3 python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi
+    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3 python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi netpbm
     sudo pip3 install astral spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
     sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
@@ -80,7 +82,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 git clone this repository in the `/home/pi` directory.
 
     cd /home/pi
-    git clone --recursive https://github.com/mendhak/waveshare-epaper-display.git
+    git clone --recursive https://github.com/jmason/waveshare-epaper-display.git
     
 This should create a `/home/pi/waveshare-epaper-display` directory. 
 
@@ -126,13 +128,29 @@ The script will prompt you to visit a URL in your browser and then wait.  Copy t
 On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.  The Python script should now be able to run in the future without prompting required.  
 
 
+### HomeAssistant settings
+
+Modify the `env.sh` file and update with the URL of your local HomeAssistant installation:
+
+    export HASS_URL='http://your.local.homeassistant.url:8123/'
+
+Create a long-lived access token in the HomeAssistant UI for this script to use to access it; see https://developers.home-assistant.io/docs/auth_api/#long-lived-access-token for details.  Paste the value here:
+
+    export HASS_BEARER_TOKEN=xxxxxxxx
+
+Pick whichever sensors you plan to use (in my case the battery levels of the two household electric cars), and the template strings which their values will be inserted into in the InkScape SVG template:
+
+    export HASS_SENSORS='{
+        "sensor.car1_range_electric":"HCR_1",
+        "sensor.car2_range":"HCR_2"
+    }'
+
 
 ### Run it
 
-Run `./run.sh` which should query Climacell and Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
+Run `./run.sh` which should query Climacell, HomeAssistant and Google Calendar.  It will then create a png, convert to a pair of 1-bit bmps for black/white and black/red layers, then display the bmp on screen. 
 
-Using a 1-bit, low grade BMP is what allows the screen to refresh relatively quickly. Calling the BCM code to do it takes about 6 seconds. 
-Rendering a high quality PNG or JPG and rendering to screen with Python takes about 35 seconds.  
+Unfortunately, the red/black/white 7.5 inch display has a very slow refresh time, about 30 seconds, and doesn't support any kind of partial refresh at the moment.
 
 ### Automate it
 
@@ -140,11 +158,12 @@ Once you've proven that the run works, and an image is sent to your epaper displ
 
     crontab -e
 
-Add this entry so it runs every minute:
+Add this entry so it runs every hour:
 
-    * * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > ./run.log 2>&1
+    0 * * * * bash /home/pi/waveshare-epaper-display/run.sh
 
-This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
+This will cause the script to run every hour, and write the output as well as errors to a file called LOG.  You can potentially
+run this more frequently, but note that every refresh involves 30 seconds of screen flashing, which is quite intrusive.
 
 
 ## Waveshare documentation and sample code

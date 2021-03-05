@@ -10,7 +10,7 @@ customisations:
 * Use my preferred screen template
 * Always refresh the screen fully on (hourly) updates, to accomodate the 3-colour screen's limitations
 
-![example](display.png)
+![example](display.jpg)
 
 ## Shopping list
 

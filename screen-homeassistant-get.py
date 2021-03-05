@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 import codecs
+import os
 import requests
 import json
 
@@ -9,7 +10,7 @@ template = 'screen-output-weather.svg'
 
 authorization_token = os.getenv("HASS_BEARER_TOKEN","")
 hass_url = os.getenv("HASS_URL", "http://localhost:8123/")
-sensors = json.load(os.getenv("HASS_SENSORS", "{}"))
+sensors = json.loads(os.getenv("HASS_SENSORS", "{}"))
 
 auth_headers = {
     'Authorization': 'Bearer ' + authorization_token,

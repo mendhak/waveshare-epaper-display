@@ -201,11 +201,12 @@ def main():
     degrees = "°C" if units == "metric" else "°F"
 
     output_dict = {
-        'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
-        'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
+        'LOW': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
+        'HIGH': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
         'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
+        'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
         'ALERT_MESSAGE': "" # unused

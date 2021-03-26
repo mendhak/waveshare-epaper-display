@@ -100,8 +100,9 @@ def get_output_dict_by_events(events, event_slot_count):
 
 def get_datetime_formatted(event_start):
     start = event_start.get('dateTime', event_start.get('date'))
+    start = start.replace('Z', '+00:00')
     if 'T' in start:
-        t = time.strptime(start,"%Y-%m-%dT%H:%M:%SZ")
+        t = datetime.datetime.fromisoformat(start).timetuple()
     else:
         t = time.strptime(start,"%Y-%m-%d")
 

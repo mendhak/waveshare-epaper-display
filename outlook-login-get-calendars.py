@@ -9,7 +9,7 @@ import os
 
 
 logging.basicConfig(level=logging.INFO)
-#logging.getLogger("msal").setLevel(logging.INFO)  # Optionally disable MSAL DEBUG logs
+logging.getLogger("msal").setLevel(logging.INFO)  # Optionally disable MSAL DEBUG logs
 
 mscache = msal.SerializableTokenCache()
 if os.path.exists("outlooktoken.bin"):

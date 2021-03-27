@@ -1,7 +1,7 @@
 import sys
 import json
 import logging
-
+import datetime
 import requests
 import msal
 import atexit
@@ -9,7 +9,7 @@ import os
 
 
 logging.basicConfig(level=logging.INFO)
-# logging.getLogger("msal").setLevel(logging.INFO)  # Optionally disable MSAL DEBUG logs
+#logging.getLogger("msal").setLevel(logging.INFO)  # Optionally disable MSAL DEBUG logs
 
 mscache = msal.SerializableTokenCache()
 if os.path.exists("outlooktoken.bin"):
@@ -45,7 +45,7 @@ if not result:
     result = app.acquire_token_by_device_flow(flow)  
 
 
-endpoint_calendar_view="https://graph.microsoft.com/v1.0/me/calendars/{0}/calendarview?startdatetime=2021-03-27T00:00:00.000Z&enddatetime=2022-03-27T00:00:00.000Z&$orderby=start/dateTime&$top=5"
+endpoint_calendar_view="https://graph.microsoft.com/v1.0/me/calendars/{0}/calendarview?startdatetime={1}&enddatetime={2}&$orderby=start/dateTime&$top=5"
 endpoint_calendar_list="https://graph.microsoft.com/v1.0/me/calendars"
 
 if "access_token" in result:
@@ -54,13 +54,17 @@ if "access_token" in result:
 
     calendars_data = requests.get(endpoint_calendar_list, headers=headers).json()
 
-    print("Here are the found Calendar names and IDs.  Copy the ID of the Calendar you want into env.sh")
+    print("Here are the available Calendar names and IDs.  Copy the ID of the Calendar you want into env.sh")
     for cal in calendars_data["value"]:
         print("============================================")
         print("Name               : ", cal["name"])
         print("ID                 : ", cal["id"])
-        print("Any upcoming events:")
-        events_data = requests.get(endpoint_calendar_view.format(cal["id"]), headers=headers).json()
+        print("Any upcoming events: ")
+        now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone().isoformat()
+        logging.debug(now_iso)
+        logging.debug(oneyearlater_iso)
+        events_data = requests.get(endpoint_calendar_view.format(cal["id"], requests.utils.quote(now_iso), requests.utils.quote(oneyearlater_iso)), headers=headers).json()
         for event in events_data["value"]:
             print("     ", event["subject"], ": ", event["start"]["dateTime"])
         print("============================================")
@@ -68,6 +72,6 @@ if "access_token" in result:
 
 
 else:
-    print(result.get("error"))
-    print(result.get("error_description"))
-    print(result.get("correlation_id"))
+    logging.error(result.get("error"))
+    logging.error(result.get("error_description"))
+    logging.error(result.get("correlation_id"))

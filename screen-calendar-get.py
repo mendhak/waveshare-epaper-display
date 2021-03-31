@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 
 from utility import is_stale, update_svg
 
-logging.basicConfig(level=logging.INFO)
+logging.root.setLevel(logging.INFO)
 
 # note: increasing this will require updates to the SVG template to accommodate more events
 max_event_results = 4
@@ -20,7 +20,7 @@ max_event_results = 4
 google_calendar_id=os.getenv("GOOGLE_CALENDAR_ID","primary")
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
-def get_credentials():
+def get_google_credentials():
 
     google_token_pickle = 'token.pickle'
     google_credentials_json = 'credentials.json'
@@ -49,11 +49,11 @@ def get_credentials():
     return credentials
 
 
-def get_events(max_event_results):
+def get_google_events(max_event_results):
 
     google_calendar_pickle = 'calendar.pickle'
 
-    service = build('calendar', 'v3', credentials=get_credentials(), cache_discovery=False)
+    service = build('calendar', 'v3', credentials=get_google_credentials(), cache_discovery=False)
 
     events_result = None
 
@@ -111,8 +111,8 @@ def main():
 
     output_svg_filename = 'screen-output-weather.svg'
 
-    events = get_events(max_event_results)
-    output_dict = get_output_dict_by_events(events, max_event_results)
+    google_events = get_google_events(max_event_results)
+    output_dict = get_output_dict_by_events(google_events, max_event_results)
 
     logging.debug("main() - {}".format(output_dict))
 

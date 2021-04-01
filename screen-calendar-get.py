@@ -1,15 +1,15 @@
 import datetime
+from datetime import timezone
 import html
 import time
 import pickle
 import os.path
 import os
 import logging
-
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-
+from outlook_util import get_access_token, get_outlook_calendar_events
 from utility import is_stale, update_svg
 
 logging.root.setLevel(logging.INFO)
@@ -25,11 +25,12 @@ ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
 def get_outlook_events(max_event_results):
-    from outlook_login import get_access_token, get_outlook_calendar_events
+
     now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
     oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone().isoformat()
     access_token = get_access_token()
     events_data = get_outlook_calendar_events(outlook_calendar_id, now_iso, oneyearlater_iso, access_token )
+    logging.debug(events_data)
     return events_data
 
 
@@ -51,12 +52,20 @@ def get_outlook_datetime_formatted(event):
     event_start = event["start"]
     if event['isAllDay']==True:
         start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%dT%H:%M:%S.0000000"))
+        day = time.strftime("%a %b %-d", outlook_utc_to_local_time(start))
     else:
         start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start,"%Y-%m-%dT%H:%M:%S.0000000"))
+        day = time.strftime("%a %b %-d, %-I:%M %p", outlook_utc_to_local_time(start))
 
     return day
+
+def outlook_utc_to_local_time(utc):
+    # Outlook Calendar View returns a specific datetime format (it's valid ISO but Python doesn't pick it up)
+    # Outlook Calendar View 'start' is always in UTC.  According to the docs.  In Apr 2021.
+    utcdate = datetime.datetime.strptime(utc, "%Y-%m-%dT%H:%M:%S.0000000")
+    return utcdate.replace(tzinfo=timezone.utc).astimezone(tz=None).timetuple()
+    
+
     
 def get_google_credentials():
 
@@ -150,11 +159,12 @@ def main():
     output_svg_filename = 'screen-output-weather.svg'
 
     if outlook_calendar_id:
+        logging.info("Fetching Outlook Calendar Events")
         outlook_events = get_outlook_events(max_event_results)
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
-        logging.debug(output_dict)
         
     else:
+        logging.info("Fetching Google Calendar Events")
         google_events = get_google_events(max_event_results)
         output_dict = get_output_dict_from_google_events(google_events, max_event_results)
 

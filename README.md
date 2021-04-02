@@ -27,7 +27,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
     sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3 python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi
     sudo pip3 install astral spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
-    sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+    sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib msal
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 
@@ -93,6 +93,19 @@ The script will prompt you to visit a URL in your browser and then wait.  Copy t
 
 On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.  The Python script should now be able to run in the future without prompting required.  
 
+### Outlook Calendar
+
+You can use Outlook Calendar instead of Google Calendar.  The setup is very simple, just run this script which will give instructions on how to login:
+
+    python3 outlook_util.py
+
+Login with the Microsoft account you want to get the calendar from, and accept the consent screen.    
+After a moment, the script will then display a set of Calendar IDs and some sample events from those Calendars.   
+Copy the ID of the calendar you want, and add it to env.sh like so: 
+
+    export OUTLOOK_CALENDAR_ID=AQMkAxyz...
+
+Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored.  
 
 
 ### Run it

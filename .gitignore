@@ -8,3 +8,4 @@ env.sh
 *.pickle
 credentials*
 *.json
+*.bin

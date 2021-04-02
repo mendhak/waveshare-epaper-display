@@ -6,6 +6,8 @@ import requests
 import msal
 import atexit
 import os
+import time
+from datetime import timezone
 
 
 logging.basicConfig(level=logging.INFO)
@@ -62,6 +64,24 @@ def get_outlook_calendar_events(calendar_id, from_date, to_date, access_token):
     events_data = requests.get(endpoint_calendar_view.format(calendar_id, requests.utils.quote(from_date), requests.utils.quote(to_date)), headers=headers).json()
     return events_data
 
+def outlook_utc_to_local_time(utc):
+    # Outlook Calendar View returns a specific datetime format (it's valid ISO but Python doesn't pick it up)
+    # Outlook Calendar View 'start' is always in UTC.  According to the docs.  In Apr 2021.
+    utcdate = datetime.datetime.strptime(utc, "%Y-%m-%dT%H:%M:%S.0000000")
+    return utcdate.replace(tzinfo=timezone.utc).astimezone(tz=None).timetuple()
+    
+
+
+def get_outlook_datetime_formatted(event):
+    event_start = event["start"]
+    if event['isAllDay']==True:
+        start = event_start.get('dateTime')
+        day = time.strftime("%a %b %-d", outlook_utc_to_local_time(start))
+    else:
+        start = event_start.get('dateTime')
+        day = time.strftime("%a %b %-d, %-I:%M %p", outlook_utc_to_local_time(start))
+
+    return day
 
 
 def main():

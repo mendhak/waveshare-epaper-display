@@ -8,7 +8,7 @@ import logging
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from outlook_util import get_access_token, get_outlook_calendar_events, get_outlook_datetime_formatted
+import outlook_util
 from utility import is_stale, update_svg
 
 logging.root.setLevel(logging.INFO)
@@ -24,11 +24,10 @@ ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
 def get_outlook_events(max_event_results):
-
     now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
     oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone().isoformat()
-    access_token = get_access_token()
-    events_data = get_outlook_calendar_events(outlook_calendar_id, now_iso, oneyearlater_iso, access_token )
+    access_token = outlook_util.get_access_token()
+    events_data = outlook_util.get_outlook_calendar_events(outlook_calendar_id, now_iso, oneyearlater_iso, access_token )
     logging.debug(events_data)
     return events_data
 
@@ -40,7 +39,7 @@ def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if (event_i <= event_count - 1):
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_outlook_datetime_formatted(events[event_i])
+            formatted_events['CAL_DATETIME_' + event_label_id] = outlook_util.get_outlook_datetime_formatted(events[event_i])
             formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['subject']
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""

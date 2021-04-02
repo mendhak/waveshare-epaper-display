@@ -24,11 +24,24 @@ ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
 def get_outlook_events(max_event_results):
-    now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
-    oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone().isoformat()
-    access_token = outlook_util.get_access_token()
-    events_data = outlook_util.get_outlook_calendar_events(outlook_calendar_id, now_iso, oneyearlater_iso, access_token )
-    logging.debug(events_data)
+
+    outlook_calendar_pickle = 'outlookcalendar.pickle'
+
+    if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
+        logging.debug("Pickle is stale, calling the Outlook Calendar API")
+        now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone().isoformat()
+        access_token = outlook_util.get_access_token()
+        events_data = outlook_util.get_outlook_calendar_events(outlook_calendar_id, now_iso, oneyearlater_iso, access_token )
+        logging.debug(events_data)
+        
+        with open(outlook_calendar_pickle, 'wb') as cal:
+            pickle.dump(events_data, cal)
+    else:
+        logging.debug("Pickle is fresh, no need to call the Calendar API")
+        with open(outlook_calendar_pickle,'rb') as cal:
+             events_data = pickle.load(cal)
+
     return events_data
 
 

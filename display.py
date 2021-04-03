@@ -9,7 +9,9 @@ import logging
 import datetime
 from PIL import Image
 
-logging.basicConfig(level=logging.INFO)
+from utility import configure_logging
+
+configure_logging()
 
 if (os.getenv("WAVESHARE_EPD75_VERSION", "2") == "1"):
     from waveshare_epd import epd7in5 as epd7in5

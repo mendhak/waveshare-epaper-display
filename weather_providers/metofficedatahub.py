@@ -2,8 +2,9 @@ import logging
 import requests
 import os
 import json
+import datetime
 
-from utility import get_response_data
+from utility import get_response_data, is_daytime
 
 def get_icon_from_metoffice_weathercode(weathercode):
     
@@ -96,7 +97,7 @@ def get_description_from_metoffice_weathercode(weathercode):
 # https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/173
 def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, location_long):
 
-    url = ("https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/three-hourly?excludeParameterMetadata=false&includeLocationName=false&latitude={}&longitude={}"
+    url = ("https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/daily?excludeParameterMetadata=false&includeLocationName=false&latitude={}&longitude={}"
         .format(location_lat, location_long))
     
     headers = { 
@@ -104,21 +105,28 @@ def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, locati
         "X-IBM-Client-Secret": "L6bU1aB8tB4rI2eI5iN2qY1fB1lF1bC3wC6mA4fJ8xF7oF5oV5",
         "accept": "application/json"
     }
-
     try:
         response_data = get_response_data(url, headers=headers)
-        logging.debug(response_data["features"][0]["properties"]["timeSeries"][0])
-        weather_data = response_data["features"][0]["properties"]["timeSeries"][0]
+        logging.debug(response_data)
+
+        datahub_time = datetime.datetime.now().strftime("%Y-%m-%dT00:00Z") # midnight of the current day
+
+        for day_forecast in response_data["features"][0]["properties"]["timeSeries"]:
+            if day_forecast["time"] == datahub_time:
+                weather_data = day_forecast
+        
         logging.debug("get_weather() - {}".format(weather_data))
     except Exception as error:
         logging.error(error)
         weather = None
 
+    daytime = is_daytime(location_lat, location_long)
+    weather_code = weather_data["daySignificantWeatherCode"] if daytime else weather_data["nightSignificantWeatherCode"]
     # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }
     weather = {}
-    weather["temperatureMin"] = weather_data["minScreenAirTemp"]
-    weather["temperatureMax"] = weather_data["maxScreenAirTemp"]
-    weather["icon"] = get_icon_from_metoffice_weathercode(weather_data["significantWeatherCode"])
-    weather["description"] = get_description_from_metoffice_weathercode(weather_data["significantWeatherCode"])
+    weather["temperatureMin"] = weather_data["nightMinScreenTemperature"]
+    weather["temperatureMax"] = weather_data["dayMaxScreenTemperature"]
+    weather["icon"] = get_icon_from_metoffice_weathercode(weather_code) 
+    weather["description"] = get_description_from_metoffice_weathercode(weather_code)
     logging.debug(weather)
     return weather

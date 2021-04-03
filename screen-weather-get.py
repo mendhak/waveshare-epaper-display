@@ -187,9 +187,8 @@ def main():
     # TTL for refetching of JSON
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
 
-    logging.info("Gathering weather")
-
     if climacell_apikey:
+        logging.info("Gathering weather from Climacell")
         # json response files
         weather_timelines_filename = 'climacell-timelines-response.json'
         # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }

@@ -49,17 +49,18 @@ def main():
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
     cache_weather_file = "weather-cache.json"
 
-    if openweathermap_apikey:
-        logging.info("Getting weather from OpenWeatherMap")
-        weather = openweathermap.get_weather(openweathermap_apikey, location_lat, location_long, units)
-        logging.debug(weather)
-    elif climacell_apikey:
-        logging.info("Getting weather from Climacell")
+    weather = get_cached_weather(cache_weather_file, ttl)
 
-        weather = get_cached_weather(cache_weather_file, ttl)
-        if not weather:
+    if not weather:
+        if openweathermap_apikey:
+            logging.info("Getting weather from OpenWeatherMap")
+            weather = openweathermap.get_weather(openweathermap_apikey, location_lat, location_long, units)
+            logging.debug(weather)
+        elif climacell_apikey:
+            logging.info("Getting weather from Climacell")
             weather = climacell.get_weather(climacell_apikey, location_lat, location_long, units)
-            cache_weather_data(cache_weather_file, weather)
+
+        cache_weather_data(cache_weather_file, weather)
 
     logging.info("weather - {}".format(weather))
 

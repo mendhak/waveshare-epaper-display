@@ -54,7 +54,7 @@ def main():
         if not weather:
             weather = climacell.get_weather(climacell_apikey, location_lat, location_long, units)
             cache_weather_data(cache_weather_file, weather)
-
+        logging.info("weather - {}".format(weather))
 
     if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")

@@ -106,7 +106,7 @@ def get_weather(climacell_apikey, location_lat, location_long, units):
     try:
         response_data = get_response_data(url)
         weather_data = response_data["data"]['timelines'][0]['intervals'][0]['values']
-        logging.info("get_weather() - {}".format(weather_data))
+        logging.debug("get_weather() - {}".format(weather_data))
     except Exception as error:
         logging.error(error)
         weather = None

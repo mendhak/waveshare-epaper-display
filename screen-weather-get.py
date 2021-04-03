@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Map Climacell icons to local icons
 # Reference: https://docs.climacell.co/reference/data-layers-core
-def get_icon_by_weathercode(weathercode, is_daytime):
+def get_icon_from_climacell_weathercode(weathercode, is_daytime):
 
 
     icon_dict = {
@@ -60,7 +60,7 @@ def get_icon_by_weathercode(weathercode, is_daytime):
 
     return icon
 
-def get_description_by_weathercode(weathercode):
+def get_description_from_climacell_weathercode(weathercode):
 
     description_dict = {
         0: "Unknown",
@@ -124,19 +124,29 @@ def is_daytime(location_lat, location_long):
 
 # Get weather from Climacell
 # Reference: https://docs.climacell.co/reference/retrieve-timelines-basic
-def get_weather(climacell_apikey, location_latlong, units, filename, ttl):
+def get_climacell_weather(climacell_apikey, location_lat, location_long, units, filename, ttl):
+
+    location_latlong = (
+        "{0:.2f},{1:.2f}"
+        .format(float(location_lat), float(location_long)))
 
     url = ("https://data.climacell.co/v4/timelines"
         + "?location={}&units={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
         .format(location_latlong, units, climacell_apikey))
     try:
         response_data = get_response_data(url, os.getcwd() + "/" + filename, ttl)
-        weather = response_data['timelines'][0]['intervals'][0]['values']
-        logging.debug("get_weather() - {}".format(weather))
+        weather_data = response_data['timelines'][0]['intervals'][0]['values']
+        logging.info("get_weather() - {}".format(weather_data))
     except Exception as error:
         logging.error(error)
-        weather = False
+        weather = None
 
+    weather = {}
+    weather["temperatureMin"] = weather_data["temperatureMin"]
+    weather["temperatureMax"] = weather_data["temperatureMax"]
+    weather["icon"] = get_icon_from_climacell_weathercode(weather_data['weatherCode'], is_daytime(location_lat, location_long))
+    weather["description"] = get_description_from_climacell_weathercode(weather_data['weatherCode'])
+    logging.debug(weather)
     return weather
 
 def get_response_data(url, filepath, ttl):
@@ -160,41 +170,32 @@ def get_response_data(url, filepath, ttl):
 def main():
 
     # gather relevant environment configs
-
-    climacell_apikey=os.getenv("CLIMACELL_APIKEY","")
-
-    if climacell_apikey=="":
+    climacell_apikey=os.getenv("CLIMACELL_APIKEY")
+    if not climacell_apikey:
         logging.error("CLIMACELL_APIKEY is missing")
         sys.exit(1)
 
     weather_format=os.getenv("WEATHER_FORMAT", "CELSIUS")
-
     if (weather_format == "CELSIUS"):
         units = "metric"
     else:
         units = "imperial"
 
-    template_svg_filename = 'screen-template.svg'
-    output_svg_filename = 'screen-output-weather.svg'
-
-    # json response files
-    weather_timelines_filename = 'climacell-timelines-response.json'
-
     location_lat = os.getenv("WEATHER_LATITUDE","51.3656") 
     location_long = os.getenv("WEATHER_LONGITUDE","-0.1963") 
-
-    location_latlong = (
-        "{0:.2f},{1:.2f}"
-        .format(float(location_lat), float(location_long)))
 
     # TTL for refetching of JSON
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
 
     logging.info("Gathering weather")
 
-    weather = get_weather(climacell_apikey, location_latlong, units, weather_timelines_filename, ttl)
+    if climacell_apikey:
+        # json response files
+        weather_timelines_filename = 'climacell-timelines-response.json'
+        # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }
+        weather = get_climacell_weather(climacell_apikey, location_lat, location_long, units, weather_timelines_filename, ttl)
 
-    if (weather == False):
+    if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")
         return
 
@@ -203,8 +204,8 @@ def main():
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
-        'ICON_ONE': get_icon_by_weathercode(weather['weatherCode'], is_daytime(location_lat, location_long)),
-        'WEATHER_DESC': get_description_by_weathercode(weather['weatherCode']),
+        'ICON_ONE': weather["icon"],
+        'WEATHER_DESC': weather["description"],
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
@@ -214,6 +215,8 @@ def main():
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
+    template_svg_filename = 'screen-template.svg'
+    output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
 
 

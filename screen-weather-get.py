@@ -3,11 +3,28 @@
 import datetime
 import sys
 import os
+import json
 import logging
 from weather_providers import climacell
 from utility import is_stale, update_svg
 
 logging.basicConfig(level=logging.INFO)
+
+def get_cached_weather(filename, ttl):
+    if is_stale(filename, ttl):
+        logging.info("Weather cache is stale.")
+        return None
+
+    logging.info("Found in cache")
+    with open(filename, 'r') as file:
+        return json.loads(file.read())
+    
+
+def cache_weather_data(filename, weather_data):
+    if weather_data:
+        with open(filename, 'w') as text_file:
+            json.dump(weather_data, text_file)
+
 
 def main():
 
@@ -23,16 +40,21 @@ def main():
     else:
         units = "imperial"
 
-    location_lat = os.getenv("WEATHER_LATITUDE","51.3656") 
-    location_long = os.getenv("WEATHER_LONGITUDE","-0.1963") 
+    location_lat = os.getenv("WEATHER_LATITUDE","51.3656")
+    location_long = os.getenv("WEATHER_LONGITUDE","-0.1963")
 
     # TTL for refetching of JSON
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
+    cache_weather_file = "weather-cache.json"
 
     if climacell_apikey:
         logging.info("Gathering weather from Climacell")
-        weather_timelines_filename = 'climacell-timelines-response.json'
-        weather = climacell.get_weather(climacell_apikey, location_lat, location_long, units, weather_timelines_filename, ttl)
+
+        weather = get_cached_weather(cache_weather_file, ttl)
+        if not weather:
+            weather = climacell.get_weather(climacell_apikey, location_lat, location_long, units)
+
+    cache_weather_data(cache_weather_file, weather)
 
     if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")

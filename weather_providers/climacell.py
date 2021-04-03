@@ -94,7 +94,7 @@ def get_description_from_climacell_weathercode(weathercode):
 
 # Get weather from Climacell
 # Reference: https://docs.climacell.co/reference/retrieve-timelines-basic
-def get_weather(climacell_apikey, location_lat, location_long, units, filename, ttl):
+def get_weather(climacell_apikey, location_lat, location_long, units):
 
     location_latlong = (
         "{0:.2f},{1:.2f}"
@@ -104,7 +104,7 @@ def get_weather(climacell_apikey, location_lat, location_long, units, filename, 
         + "?location={}&units={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
         .format(location_latlong, units, climacell_apikey))
     try:
-        response_data = get_response_data(url, os.getcwd() + "/" + filename, ttl)
+        response_data = get_response_data(url)
         weather_data = response_data["data"]['timelines'][0]['intervals'][0]['values']
         logging.info("get_weather() - {}".format(weather_data))
     except Exception as error:

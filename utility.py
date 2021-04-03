@@ -41,22 +41,17 @@ def is_stale(filepath, ttl):
 
 
 # Make HTTP Request or get response from cached file
-def get_response_data(url, filepath, ttl):
+def get_response_data(url):
 
     response_json = False
 
-    if (is_stale(filepath, ttl)):
-        try:
-            response_data = requests.get(url).text
-            response_json = json.loads(response_data)
-            with open(filepath, 'w') as text_file:
-                text_file.write(response_data)
-        except Exception as error:
-            logging.error(error)
-            raise
-    else:
-        with open(filepath, 'r') as file:
-            return json.loads(file.read())
+    try:
+        response_data = requests.get(url).text
+        response_json = json.loads(response_data)
+    except Exception as error:
+        logging.error(error)
+        raise
+
     return response_json
 
 

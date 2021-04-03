@@ -5,7 +5,7 @@ import sys
 import os
 import json
 import logging
-from weather_providers import climacell, openweathermap
+from weather_providers import climacell, openweathermap, metofficedatahub
 from utility import is_stale, update_svg, configure_logging
 
 configure_logging()
@@ -31,9 +31,11 @@ def main():
     # gather relevant environment configs
     climacell_apikey=os.getenv("CLIMACELL_APIKEY")
     openweathermap_apikey=os.getenv("OPENWEATHERMAP_APIKEY")
+    metoffice_clientid=os.getenv("METOFFICEDATAHUB_CLIENT_ID")
+    metoffice_clientsecret=os.getenv("METOFFICEDATAHUB_CLIENT_SECRET")
     
-    if not climacell_apikey and not openweathermap_apikey:
-        logging.error("API Key for weather is missing (Climacell, OpenWeatherMap)")
+    if not climacell_apikey and not openweathermap_apikey and not metoffice_clientid :
+        logging.error("API Key for weather is missing (Climacell, OpenWeatherMap, MetOffice...)")
         sys.exit(1)
 
     weather_format=os.getenv("WEATHER_FORMAT", "CELSIUS")
@@ -52,7 +54,11 @@ def main():
     weather = get_cached_weather(cache_weather_file, ttl)
 
     if not weather:
-        if openweathermap_apikey:
+        if metoffice_clientid:
+            logging.info("Getting weather from Met Office Weather Datahub")
+            weather = metofficedatahub.get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, location_long)
+            logging.debug(weather)
+        elif openweathermap_apikey:
             logging.info("Getting weather from OpenWeatherMap")
             weather = openweathermap.get_weather(openweathermap_apikey, location_lat, location_long, units)
             logging.debug(weather)

@@ -52,12 +52,12 @@ def is_stale(filepath, ttl):
 
 
 # Make HTTP Request or get response from cached file
-def get_response_data(url):
+def get_response_data(url, headers={}):
 
     response_json = False
 
     try:
-        response_data = requests.get(url).text
+        response_data = requests.get(url, headers=headers).text
         response_json = json.loads(response_data)
     except Exception as error:
         logging.error(error)

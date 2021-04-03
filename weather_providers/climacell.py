@@ -5,7 +5,6 @@ import json
 
 
 from utility import get_response_data, is_stale, is_daytime
-logging.basicConfig(level=logging.INFO)
 
 
 

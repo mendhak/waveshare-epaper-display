@@ -9,9 +9,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import outlook_util
-from utility import is_stale, update_svg
+from utility import is_stale, update_svg, configure_logging
 
-logging.root.setLevel(logging.INFO)
+configure_logging()
 
 # note: increasing this will require updates to the SVG template to accommodate more events
 max_event_results = 4

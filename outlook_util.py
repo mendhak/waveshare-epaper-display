@@ -8,10 +8,9 @@ import atexit
 import os
 import time
 from datetime import timezone
+from utility import configure_logging
 
-
-logging.basicConfig(level=logging.INFO)
-logging.getLogger("msal").setLevel(logging.INFO)  # Optionally disable MSAL DEBUG logs
+configure_logging()
 
 def get_access_token():
     mscache = msal.SerializableTokenCache()

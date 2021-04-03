@@ -9,7 +9,18 @@ from astral.sun import sun
 import datetime
 import pytz
 
-logging.basicConfig(level=logging.INFO)
+
+def configure_logging():
+    log_level = os.getenv("LOG_LEVEL", "INFO")
+    log_format = "%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
+    log_dateformat = "%Y-%m-%d:%H:%M:%S"
+    logging.basicConfig(level=log_level, format=log_format, datefmt=log_dateformat)
+    logger = logging.getLogger()
+    logger.setLevel(level=log_level)
+    formatter = logging.Formatter(fmt=log_format, datefmt=log_dateformat )
+    handler = logger.handlers[0]
+    handler.setFormatter(formatter)
+    
 
 # utilize a template svg as a base for output of values
 def update_svg(template_svg_filename, output_svg_filename, output_dict):
@@ -69,7 +80,7 @@ def is_daytime(location_lat, location_long):
         verdict = True
 
     logging.debug(
-        "is_daytime({}{}) - {}"
+        "is_daytime({}, {}) - {}"
         .format(str(location_lat), str(location_long), str(verdict)))
 
     return verdict

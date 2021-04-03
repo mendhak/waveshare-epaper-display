@@ -6,9 +6,9 @@ import os
 import json
 import logging
 from weather_providers import climacell
-from utility import is_stale, update_svg
+from utility import is_stale, update_svg, configure_logging
 
-logging.basicConfig(level=logging.INFO)
+configure_logging()
 
 def get_cached_weather(filename, ttl):
     if is_stale(filename, ttl):
@@ -79,7 +79,6 @@ def main():
     template_svg_filename = 'screen-template.svg'
     output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
-
 
 if __name__ == "__main__":
     main()

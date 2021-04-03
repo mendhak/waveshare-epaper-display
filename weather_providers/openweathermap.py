@@ -3,7 +3,7 @@ import requests
 import os
 import json
 
-from utility import get_response_data, is_stale, is_daytime
+from utility import get_response_data, is_daytime
 
 
 # Map OpenWeatherMap icons to local icons
@@ -42,7 +42,7 @@ def get_icon_from_openweathermap_weathercode(weathercode, is_daytime):
             531 : "climacell_rain" if is_daytime else "rain_night",
             600 : "climacell_snow_light",
             601 : "snow",
-            602 : "climacell_snow_heavy",
+            602 : "snow",
             611 : "rain_snow_mix",
             612 : "rain_snow_mix",
             613 : "rain_snow_mix",

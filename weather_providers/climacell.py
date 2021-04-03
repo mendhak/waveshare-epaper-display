@@ -4,7 +4,7 @@ import os
 import json
 
 
-from utility import get_response_data, is_stale, is_daytime
+from utility import get_response_data, is_daytime
 
 
 

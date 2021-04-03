@@ -30,11 +30,10 @@ def main():
 
     # gather relevant environment configs
     climacell_apikey=os.getenv("CLIMACELL_APIKEY")
-    # Don't worry, this is temporary
-    openweathermap_apikey=os.getenv("OPENWEATHERMAP_APIKEY","9f3eab3dcf9a0d02e31adfc36ba307b7")
+    openweathermap_apikey=os.getenv("OPENWEATHERMAP_APIKEY")
     
-    if not climacell_apikey:
-        logging.error("CLIMACELL_APIKEY is missing")
+    if not climacell_apikey and not openweathermap_apikey:
+        logging.error("API Key for weather is missing (Climacell, OpenWeatherMap)")
         sys.exit(1)
 
     weather_format=os.getenv("WEATHER_FORMAT", "CELSIUS")
@@ -51,17 +50,18 @@ def main():
     cache_weather_file = "weather-cache.json"
 
     if openweathermap_apikey:
-        logging.info("Gathering weather from OpenWeatherMap")
+        logging.info("Getting weather from OpenWeatherMap")
         weather = openweathermap.get_weather(openweathermap_apikey, location_lat, location_long, units)
         logging.debug(weather)
     elif climacell_apikey:
-        logging.info("Gathering weather from Climacell")
+        logging.info("Getting weather from Climacell")
 
         weather = get_cached_weather(cache_weather_file, ttl)
         if not weather:
             weather = climacell.get_weather(climacell_apikey, location_lat, location_long, units)
             cache_weather_data(cache_weather_file, weather)
-        logging.info("weather - {}".format(weather))
+
+    logging.info("weather - {}".format(weather))
 
     if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")

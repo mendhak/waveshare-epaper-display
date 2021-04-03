@@ -59,7 +59,7 @@ def get_icon_from_openweathermap_weathercode(weathercode, is_daytime):
             751 : "", # sand
             761 : "", #dust
             762 : "", #ash
-            771 : "", #squall
+            771 : "wind", #squall
             781 : "", #volcanic ash
             800 : "clear_sky_day" if is_daytime else "clearnight",
             801 : "few_clouds" if is_daytime else "partlycloudynight",

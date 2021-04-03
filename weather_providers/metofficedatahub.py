@@ -101,8 +101,8 @@ def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, locati
         .format(location_lat, location_long))
     
     headers = { 
-        "X-IBM-Client-Id": "e4051555-dbc9-4606-9c77-072c698abd43",
-        "X-IBM-Client-Secret": "L6bU1aB8tB4rI2eI5iN2qY1fB1lF1bC3wC6mA4fJ8xF7oF5oV5",
+        "X-IBM-Client-Id": metoffice_clientid,
+        "X-IBM-Client-Secret": metoffice_clientsecret,
         "accept": "application/json"
     }
     try:

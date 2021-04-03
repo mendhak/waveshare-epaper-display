@@ -5,7 +5,7 @@ import sys
 import os
 import json
 import logging
-from weather_providers import climacell
+from weather_providers import climacell, openweathermap
 from utility import is_stale, update_svg, configure_logging
 
 configure_logging()
@@ -30,6 +30,8 @@ def main():
 
     # gather relevant environment configs
     climacell_apikey=os.getenv("CLIMACELL_APIKEY")
+    openweathermap_apikey=os.getenv("OPENWEATHERMAP_APIKEY","9f3eab3dcf9a0d02e31adfc36ba307b7")
+    
     if not climacell_apikey:
         logging.error("CLIMACELL_APIKEY is missing")
         sys.exit(1)
@@ -47,7 +49,11 @@ def main():
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
     cache_weather_file = "weather-cache.json"
 
-    if climacell_apikey:
+    if openweathermap_apikey:
+        logging.info("Gathering weather from OpenWeatherMap")
+        weather = openweathermap.get_weather(openweathermap_apikey, location_lat, location_long, units)
+        logging.debug(weather)
+    elif climacell_apikey:
         logging.info("Gathering weather from Climacell")
 
         weather = get_cached_weather(cache_weather_file, ttl)

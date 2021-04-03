@@ -6,7 +6,7 @@ import datetime
 
 from utility import get_response_data, is_daytime
 
-def get_icon_from_metoffice_weathercode(weathercode):
+def get_icon_from_metoffice_weathercode(weathercode, is_daytime):
     
     icon_dict = {
             0: "clearnight", #Clear night
@@ -16,7 +16,7 @@ def get_icon_from_metoffice_weathercode(weathercode):
             4: "", #Not used
             5: "climacell_fog", #Mist
             6: "climacell_fog", #Fog
-            7: "mostly_cloudy", #Cloudy
+            7: "mostly_cloudy" if is_daytime else "overcast", #Cloudy
             8: "overcast", #Overcast
             9: "rain_night", #Light rain shower (night)
             10: "climacell_rain_light", #	Light rain shower (day)
@@ -126,7 +126,7 @@ def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, locati
     weather = {}
     weather["temperatureMin"] = weather_data["nightMinScreenTemperature"]
     weather["temperatureMax"] = weather_data["dayMaxScreenTemperature"]
-    weather["icon"] = get_icon_from_metoffice_weathercode(weather_code) 
+    weather["icon"] = get_icon_from_metoffice_weathercode(weather_code, daytime) 
     weather["description"] = get_description_from_metoffice_weathercode(weather_code)
     logging.debug(weather)
     return weather

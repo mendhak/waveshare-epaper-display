@@ -30,6 +30,7 @@ def main():
 
     # gather relevant environment configs
     climacell_apikey=os.getenv("CLIMACELL_APIKEY")
+    # Don't worry, this is temporary
     openweathermap_apikey=os.getenv("OPENWEATHERMAP_APIKEY","9f3eab3dcf9a0d02e31adfc36ba307b7")
     
     if not climacell_apikey:

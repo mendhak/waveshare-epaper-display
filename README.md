@@ -75,9 +75,9 @@ Modify the `env.sh` file and put your Climacell API key in there.
 
 You will need to create an account [on the Met Office Weather DataHub](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/) site.  
 Then, you'll have to [register an application](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/application) - just call it Raspberry Pi or Home Project.  
-You'll be shown a Client Secret, and a Client ID.  Copy both of these somewhere, you'll need it. 
+You'll be shown a Client Secret, and a Client ID.  Copy both of these somewhere, you'll need it later.  
 
-After registering an application, you then need to "subscribe" to an API.  Go to the [API Usage Plans](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/product), pick "Global spot data bundle", then choose the Basic (free) plan and when prompted, pick that application you previously registered.  
+After registering an application, you then need to "subscribe" to an API.  Go to the [API Usage Plans](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/product), pick "Global spot data bundle" which includes the "Global daily spot data" API. Choose the Basic (free) plan and when prompted, pick that application you previously registered.  
 
 Now add the Met Office Client ID and Secret to the env.sh file. 
 

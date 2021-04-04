@@ -54,13 +54,13 @@ def get_icon_from_openweathermap_weathercode(weathercode, is_daytime):
             701 : "climacell_fog",
             711 : "fire_smoke",
             721 : "climacell_fog",
-            731 : "", # sand/dust whirls
+            731 : "dust_ash_sand", # sand/dust whirls
             741 : "climacell_fog",
-            751 : "", # sand
-            761 : "", #dust
-            762 : "", #ash
+            751 : "dust_ash_sand", # sand
+            761 : "dust_ash_sand", #dust
+            762 : "dust_ash_sand", #ash
             771 : "wind", #squall
-            781 : "", #volcanic ash
+            781 : "volcano", #volcanic ash
             800 : "clear_sky_day" if is_daytime else "clearnight",
             801 : "few_clouds" if is_daytime else "partlycloudynight",
             802 : "scattered_clouds" if is_daytime else "partlycloudynight",

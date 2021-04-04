@@ -14,7 +14,7 @@ def get_icon_from_metoffice_weathercode(weathercode, is_daytime):
             2: "partlycloudynight", #Partly cloudy (night)
             3: "scattered_clouds", #Partly cloudy (day)
             4: "", #Not used
-            5: "climacell_fog", #Mist
+            5: "haze", #Mist
             6: "climacell_fog", #Fog
             7: "mostly_cloudy" if is_daytime else "overcast", #Cloudy
             8: "overcast", #Overcast

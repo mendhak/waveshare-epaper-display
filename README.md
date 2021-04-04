@@ -62,7 +62,7 @@ Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Modu
 
 ## Pick a Weather provider
 
-You can pick between ClimaCell, Met Office, and OpenWeatherMap to provide temperature and weather forecasts.  
+You can pick between ClimaCell, Met Office, OpenWeatherMap, and AccuWeather to provide temperature and weather forecasts.  
 
 ### Climacell (tomorrow.io)
 
@@ -92,6 +92,22 @@ Register on the [OpenWeathermap](https://openweathermap.org) website, and go to 
 Add it to the env.sh file.  
 
     export OPENWEATHERMAP_APIKEY=xxxxxx
+
+### AccuWeather
+
+Register on the [AccuWeather](https://developer.accuweather.com/) site.  
+Next, [register a new application](https://developer.accuweather.com/user/me/apps).  
+I just named it Personal, marked it as Limited Trial, Internal App, Business to Consumer. 
+Once you do this you'll get an API Key, save it. 
+
+You'll also need an AccuWeather Location Key.  
+Do a normal [AccuWeather search](https://www.accuweather.com/) for your location.  
+The last number in the URL is the Location Key.  In the example of [London](https://www.accuweather.com/en/gb/london/ec4a-2/weather-forecast/328328), it's `328328`. 
+
+Add the API Key and Location Key to the `env.sh`. 
+
+    export ACCUWEATHER_APIKEY=xxxxxx
+    export ACCUWEATHER_LOCATIONKEY=328328
 
 
 ### Location information for Weather

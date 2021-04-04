@@ -7,6 +7,7 @@ import json
 import logging
 from weather_providers import climacell, openweathermap, metofficedatahub, accuweather
 from utility import is_stale, update_svg, configure_logging
+import textwrap
 
 configure_logging()
 
@@ -25,6 +26,14 @@ def cache_weather_data(filename, weather_data):
         with open(filename, 'w') as text_file:
             json.dump(weather_data, text_file)
 
+def format_weather_description(weather_description):
+     if len(weather_description) < 20:
+         return { 1: weather_description, 2: '' }
+
+     splits = textwrap.fill(weather_description, 20, break_long_words=False, max_lines=2, placeholder='...').split('\n')
+     weather_dict = { 1: splits[0] }
+     weather_dict[2] = splits[1] if len(splits) > 1 else ''
+     return weather_dict
 
 def main():
 
@@ -82,11 +91,14 @@ def main():
 
     degrees = "°C" if units == "metric" else "°F"
 
+    weather_desc = format_weather_description(weather["description"])
+
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': weather["icon"],
-        'WEATHER_DESC': weather["description"],
+        'WEATHER_DESC_1': weather_desc[1],
+        'WEATHER_DESC_2': weather_desc[2],
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),

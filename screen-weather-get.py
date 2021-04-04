@@ -5,7 +5,7 @@ import sys
 import os
 import json
 import logging
-from weather_providers import climacell, openweathermap, metofficedatahub, accuweather
+from weather_providers import climacell, openweathermap, metofficedatahub, accuweather, metno
 from utility import is_stale, update_svg, configure_logging
 import textwrap
 
@@ -48,14 +48,16 @@ def main():
     metoffice_clientsecret = os.getenv("METOFFICEDATAHUB_CLIENT_SECRET")
     accuweather_apikey = os.getenv("ACCUWEATHER_APIKEY")
     accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
+    metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
 
     if (
         not climacell_apikey
         and not openweathermap_apikey
         and not metoffice_clientid
         and not accuweather_apikey
+        and not metno_self_id
     ):
-        logging.error("API Key for weather is missing (Climacell, OpenWeatherMap, MetOffice, AccuWeather...)")
+        logging.error("API Key for weather is missing (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no...)")
         sys.exit(1)
 
     weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
@@ -74,7 +76,12 @@ def main():
     weather = get_cached_weather(cache_weather_file, ttl)
 
     if not weather:
-        if accuweather_apikey:
+        if metno_self_id:
+            logging.info("Getting weather from Met.no")
+            weather = metno.get_weather(metno_self_id, location_lat, location_long, units)
+            logging.debug(weather)
+
+        elif accuweather_apikey:
             logging.info("Getting weather from Accuweather")
             weather = accuweather.get_weather(
                                                 accuweather_apikey, location_lat,

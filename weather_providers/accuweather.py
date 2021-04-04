@@ -32,7 +32,7 @@ def get_icon_from_accuweather_weathercode(weathercode, is_daytime):
                     24: "climacell_freezing_rain",
                     25: "climacell_freezing_rain",
                     26: "climacell_freezing_rain",
-                    29: "rain_snow_mix",
+                    29: "sleet",
                     30: "very_hot",
                     31: "cold",
                     32: "wind",

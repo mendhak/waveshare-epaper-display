@@ -76,11 +76,13 @@ def get_weather(accuweather_apikey, location_lat, location_long, location_key, u
         logging.error(error)
         weather = None
 
+    daytime = is_daytime(location_lat, location_long)
+    accuweather_icon = weather_data["DailyForecasts"][0]["Day"]["Icon"] if daytime else weather_data["DailyForecasts"][0]["Night"]["Icon"]
     # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }
     weather = {}
     weather["temperatureMin"] = weather_data["DailyForecasts"][0]["Temperature"]["Minimum"]["Value"]
     weather["temperatureMax"] = weather_data["DailyForecasts"][0]["Temperature"]["Maximum"]["Value"]
-    weather["icon"] = str(weather_data["DailyForecasts"][0]["Day"]["Icon"]) if is_daytime(location_lat, location_long) else str(weather_data["DailyForecasts"][0]["Night"]["Icon"])
+    weather["icon"] = get_icon_from_accuweather_weathercode(accuweather_icon, daytime)
     weather["description"] = weather_data["DailyForecasts"][0]["Day"]["ShortPhrase"] if is_daytime(location_lat, location_long) else weather_data["DailyForecasts"][0]["Night"]["ShortPhrase"]
     logging.debug(weather)
     return weather

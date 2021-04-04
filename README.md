@@ -166,7 +166,7 @@ If the scripts don't work at all, try going through the Waveshare sample code li
 
 You may want to further troubleshoot if you're seeing or not seeing something expected.  
 If you've set up the cron job as shown above, a `run.log` file will appear which contains some info and errors.  
-If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG` in the `env.sh` and the run.log will contain even more information.  
+If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG` in the `env.sh` and the `run.log` will contain even more information.  
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.   
 If you want to force a weather update, you can delete the `weather-cache.json`.   

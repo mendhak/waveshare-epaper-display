@@ -81,7 +81,7 @@ def get_icon_from_accuweather_weathercode(weathercode, is_daytime):
 # https://developer.accuweather.com/accuweather-forecast-api/apis/get/forecasts/v1/daily/1day/%7BlocationKey%7D
 def get_weather(accuweather_apikey, location_lat, location_long, location_key, units):
 
-    url = ("http://dataservice.accuweather.com/forecasts/v1/daily/1day/{}?apikey={}&metric={}"
+    url = ("http://dataservice.accuweather.com/forecasts/v1/daily/1day/{}?apikey={}&details=true&metric={}"
         .format(location_key, accuweather_apikey, "true" if units=="metric" else "false"))
     try:
         response_data = get_response_data(url)
@@ -96,6 +96,6 @@ def get_weather(accuweather_apikey, location_lat, location_long, location_key, u
     weather["temperatureMin"] = weather_data["DailyForecasts"][0]["Temperature"]["Minimum"]["Value"]
     weather["temperatureMax"] = weather_data["DailyForecasts"][0]["Temperature"]["Maximum"]["Value"]
     weather["icon"] = str(weather_data["DailyForecasts"][0]["Day"]["Icon"]) if is_daytime(location_lat, location_long) else str(weather_data["DailyForecasts"][0]["Night"]["Icon"])
-    weather["description"] = weather_data["Headline"]["Text"]
+    weather["description"] = weather_data["DailyForecasts"][0]["Day"]["ShortPhrase"] if is_daytime(location_lat, location_long) else weather_data["DailyForecasts"][0]["Night"]["ShortPhrase"]
     logging.debug(weather)
     return weather

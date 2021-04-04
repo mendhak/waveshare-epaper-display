@@ -41,7 +41,7 @@ def get_outlook_events(max_event_results):
         with open(outlook_calendar_pickle, 'wb') as cal:
             pickle.dump(events_data, cal)
     else:
-        logging.debug("Pickle is fresh, no need to call the Calendar API")
+        logging.info("Found in cache")
         with open(outlook_calendar_pickle, 'rb') as cal:
             events_data = pickle.load(cal)
 
@@ -115,7 +115,7 @@ def get_google_events(max_event_results):
             pickle.dump(events_result, cal)
 
     else:
-        logging.debug("Pickle is fresh, no need to call the Calendar API")
+        logging.info("Found in cache")
         with open(google_calendar_pickle, 'rb') as cal:
             events_result = pickle.load(cal)
 

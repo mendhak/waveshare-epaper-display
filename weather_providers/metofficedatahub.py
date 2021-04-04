@@ -4,7 +4,7 @@ import os
 import json
 import datetime
 
-from utility import get_response_data, is_daytime
+from utility import get_response_data, is_daytime, c_to_f
 
 def get_icon_from_metoffice_weathercode(weathercode, is_daytime):
     
@@ -95,7 +95,7 @@ def get_description_from_metoffice_weathercode(weathercode):
 
 # Get weather from MetOffice Weather DataHub
 # https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/173
-def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, location_long):
+def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, location_long, units):
 
     url = ("https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/daily?excludeParameterMetadata=false&includeLocationName=false&latitude={}&longitude={}"
         .format(location_lat, location_long))
@@ -124,8 +124,8 @@ def get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, locati
     weather_code = weather_data["daySignificantWeatherCode"] if daytime else weather_data["nightSignificantWeatherCode"]
     # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }
     weather = {}
-    weather["temperatureMin"] = weather_data["nightMinScreenTemperature"]
-    weather["temperatureMax"] = weather_data["dayMaxScreenTemperature"]
+    weather["temperatureMin"] = weather_data["nightMinScreenTemperature"] if units == "metric" else c_to_f(weather_data["nightMinScreenTemperature"])
+    weather["temperatureMax"] = weather_data["dayMaxScreenTemperature"] if units == "metric" else c_to_f(weather_data["dayMaxScreenTemperature"])
     weather["icon"] = get_icon_from_metoffice_weathercode(weather_code, daytime) 
     weather["description"] = get_description_from_metoffice_weathercode(weather_code)
     logging.debug(weather)

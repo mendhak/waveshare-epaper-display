@@ -56,7 +56,7 @@ def main():
     if not weather:
         if metoffice_clientid:
             logging.info("Getting weather from Met Office Weather Datahub")
-            weather = metofficedatahub.get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, location_long)
+            weather = metofficedatahub.get_weather(metoffice_clientid, metoffice_clientsecret, location_lat, location_long, units)
             logging.debug(weather)
         elif openweathermap_apikey:
             logging.info("Getting weather from OpenWeatherMap")

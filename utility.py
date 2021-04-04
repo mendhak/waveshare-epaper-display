@@ -84,3 +84,7 @@ def is_daytime(location_lat, location_long):
         .format(str(location_lat), str(location_long), str(verdict)))
 
     return verdict
+
+# Convert C to F
+def c_to_f(celsius):
+    return (float(celsius)*9/5) + 32

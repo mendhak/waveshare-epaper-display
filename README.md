@@ -160,6 +160,20 @@ Add this entry so it runs every minute:
 This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
 
 
+## Troubleshooting
+
+If the scripts don't work at all, try going through the Waveshare sample code linked below - if you can get those working, this script should work for you too. 
+
+You may want to further troubleshoot if you're seeing or not seeing something expected.  
+If you've set up the cron job as shown above, a `run.log` file will appear which contains some info and errors.  
+If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG` in the `env.sh` and the run.log will contain even more information.  
+
+The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.  
+If you want to force a weather update, you can delete the `weather-cache.json`.  
+If you want to force a calendar update, you can delete the `calendar.pickle` or `outlookcalendar.pickle`. 
+If you want to force a re-login to Google or Outlook, delete the `token.pickle` or `outlooktoken.bin`.  
+
+
 ## Waveshare documentation and sample code
 
 Waveshare have a [user manual](https://www.waveshare.com/w/upload/7/74/7.5inch-e-paper-hat-user-manual-en.pdf) which you can get to from [their Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT)

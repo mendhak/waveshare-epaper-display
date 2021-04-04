@@ -1,5 +1,4 @@
 import datetime
-import html
 import time
 import pickle
 import os.path
@@ -16,11 +15,10 @@ configure_logging()
 # note: increasing this will require updates to the SVG template to accommodate more events
 max_event_results = 4
 
-google_calendar_id=os.getenv("GOOGLE_CALENDAR_ID","primary")
-outlook_calendar_id=os.getenv("OUTLOOK_CALENDAR_ID", None)
+google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
+outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
-
 
 
 def get_outlook_events(max_event_results):
@@ -30,24 +28,29 @@ def get_outlook_events(max_event_results):
     if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Outlook Calendar API")
         now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
-        oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone().isoformat()
+        oneyearlater_iso = (datetime.datetime.now().astimezone()
+                            + datetime.timedelta(days=365)).astimezone().isoformat()
         access_token = outlook_util.get_access_token()
-        events_data = outlook_util.get_outlook_calendar_events(outlook_calendar_id, now_iso, oneyearlater_iso, access_token )
+        events_data = outlook_util.get_outlook_calendar_events(
+                                                                outlook_calendar_id,
+                                                                now_iso,
+                                                                oneyearlater_iso,
+                                                                access_token)
         logging.debug(events_data)
-        
+
         with open(outlook_calendar_pickle, 'wb') as cal:
             pickle.dump(events_data, cal)
     else:
         logging.debug("Pickle is fresh, no need to call the Calendar API")
-        with open(outlook_calendar_pickle,'rb') as cal:
-             events_data = pickle.load(cal)
+        with open(outlook_calendar_pickle, 'rb') as cal:
+            events_data = pickle.load(cal)
 
     return events_data
 
 
 def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
     events = outlook_events["value"]
-    formatted_events={}
+    formatted_events = {}
     event_count = len(events)
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
@@ -60,7 +63,6 @@ def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
     return formatted_events
 
 
-    
 def get_google_credentials():
 
     google_token_pickle = 'token.pickle'
@@ -103,7 +105,7 @@ def get_google_events(max_event_results):
 
         # Call the Calendar API
         events_result = service.events().list(
-            calendarId=google_calendar_id, 
+            calendarId=google_calendar_id,
             timeMin=datetime.datetime.utcnow().isoformat() + 'Z',
             maxResults=max_event_results,
             singleEvents=True,
@@ -114,7 +116,7 @@ def get_google_events(max_event_results):
 
     else:
         logging.debug("Pickle is fresh, no need to call the Calendar API")
-        with open(google_calendar_pickle,'rb') as cal:
+        with open(google_calendar_pickle, 'rb') as cal:
             events_result = pickle.load(cal)
 
     events = events_result.get('items', [])
@@ -126,7 +128,7 @@ def get_google_events(max_event_results):
 
 
 def get_output_dict_from_google_events(events, event_slot_count):
-    formatted_events={}
+    formatted_events = {}
     event_count = len(events)
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
@@ -142,11 +144,12 @@ def get_output_dict_from_google_events(events, event_slot_count):
 def get_google_datetime_formatted(event_start):
     if(event_start.get('dateTime')):
         start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start,"%Y-%m-%dT%H:%M:%S%z"))
+        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start, "%Y-%m-%dT%H:%M:%S%z"))
     else:
         start = event_start.get('date')
         day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
     return day
+
 
 def main():
 
@@ -156,7 +159,7 @@ def main():
         logging.info("Fetching Outlook Calendar Events")
         outlook_events = get_outlook_events(max_event_results)
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
-        
+
     else:
         logging.info("Fetching Google Calendar Events")
         google_events = get_google_events(max_event_results)

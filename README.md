@@ -62,14 +62,14 @@ Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Modu
 
 ## Pick a Weather provider
 
-You can pick between ClimaCell, Met Office, OpenWeatherMap, and AccuWeather to provide temperature and weather forecasts.  
+You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no and Climacell to provide temperature and weather forecasts.  
 
-### Climacell (tomorrow.io)
+### OpenWeatherMap
 
-Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.   
-Modify the `env.sh` file and put your Climacell API key in there.  
+Register on the [OpenWeathermap](https://openweathermap.org) website, and go to the [API Keys page](https://home.openweathermap.org/api_keys), that's the key you'll need. 
+Add it to the env.sh file.  
 
-    export CLIMACELL_APIKEY=xxxxxx
+    export OPENWEATHERMAP_APIKEY=xxxxxx
 
 ### Met Office (UK)
 
@@ -85,13 +85,6 @@ Now add the Met Office Client ID and Secret to the env.sh file.
 
     export METOFFICEDATAHUB_CLIENT_ID=xxxxxx-xxxxxx-....
     export METOFFICEDATAHUB_CLIENT_SECRET=xxxxxx
-
-### OpenWeatherMap
-
-Register on the [OpenWeathermap](https://openweathermap.org) website, and go to the [API Keys page](https://home.openweathermap.org/api_keys), that's the key you'll need. 
-Add it to the env.sh file.  
-
-    export OPENWEATHERMAP_APIKEY=xxxxxx
 
 ### AccuWeather
 
@@ -109,6 +102,20 @@ Add the API Key and Location Key to the `env.sh`.
     export ACCUWEATHER_APIKEY=xxxxxx
     export ACCUWEATHER_LOCATIONKEY=328328
 
+### Met.no
+
+Met.no's [Terms of Service](https://api.met.no/doc/TermsOfService) requires you to identify yourself.  The purpose is to ensure they can contact you in case you overload or abuse their servers.  For this reason, you just need to set your email address in `env.sh` like so:
+
+    export METNO_SELF_IDENTIFICATION=you@example.com
+
+Note that the Met.no API provides 6 hours of forecast, rather than a full day.  
+
+### Climacell (tomorrow.io)
+
+Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.   
+Modify the `env.sh` file and put your Climacell API key in there.  
+
+    export CLIMACELL_APIKEY=xxxxxx
 
 ### Location information for Weather
 
@@ -160,7 +167,7 @@ Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored
 
 ## Run it
 
-Run `./run.sh` which should query Climacell and Google Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
+Run `./run.sh` which should query the weather provider and Google/Outlook Calendar.  It will then create a png, convert to a 1-bit black and white bmp, then display the bmp on screen. 
 
 Using a 1-bit, low grade BMP is what allows the screen to refresh relatively quickly. Calling the BCM code to do it takes about 6 seconds. 
 Rendering a high quality PNG or JPG and rendering to screen with Python takes about 35 seconds.  

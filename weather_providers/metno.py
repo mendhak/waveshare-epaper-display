@@ -115,6 +115,8 @@ def get_description_from_metno_weathercode(weathercode):
 
 # Get weather from Met.no API
 # https://api.met.no/weatherapi/locationforecast/2.0/documentation#!/data/get_complete
+# Met.no API only provides min/max temperatures and codes in 6 hour slots.
+# It would take more complex logic to walk through the forecast and get the weather code, min and max for the day.
 def get_weather(metno_self_id, location_lat, location_long, units):
 
     url = ("https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat={}&lon={}"

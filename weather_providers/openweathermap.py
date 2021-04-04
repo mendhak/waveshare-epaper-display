@@ -61,8 +61,8 @@ def get_icon_from_openweathermap_weathercode(weathercode, is_daytime):
                     800: "clear_sky_day" if is_daytime else "clearnight",
                     801: "few_clouds" if is_daytime else "partlycloudynight",
                     802: "scattered_clouds" if is_daytime else "partlycloudynight",
-                    803: "mostly_cloudy" if is_daytime else "overcast",
-                    804: "mostly_cloudy" if is_daytime else "overcast",
+                    803: "mostly_cloudy" if is_daytime else "mostly_cloudy_night",
+                    804: "mostly_cloudy" if is_daytime else "mostly_cloudy_night",
                 }
 
     icon = icon_dict[weathercode]

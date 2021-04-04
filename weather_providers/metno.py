@@ -9,7 +9,7 @@ def get_icon_from_metno_weathercode(weathercode, is_daytime):
 
     icon_dict = {
                     "clearsky": "clear_sky_day" if is_daytime else "clearnight",
-                    "cloudy": "mostly_cloudy" if is_daytime else "overcast",
+                    "cloudy": "mostly_cloudy" if is_daytime else "mostly_cloudy_night",
                     "fair": "scattered_clouds" if is_daytime else "partlycloudynight",
                     "fog": "climacell_fog",
                     "heavyrain": "climacell_rain_heavy" if is_daytime else "rain_night_heavy",

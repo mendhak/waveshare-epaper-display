@@ -4,6 +4,8 @@ import datetime
 from utility import get_response_data, is_daytime, c_to_f
 
 
+# Map MetOffice icons to local icons
+# Reference: https://www.metoffice.gov.uk/services/data/datapoint/code-definitions
 def get_icon_from_metoffice_weathercode(weathercode, is_daytime):
 
     icon_dict = {
@@ -14,7 +16,7 @@ def get_icon_from_metoffice_weathercode(weathercode, is_daytime):
                     4: "",  # Not used
                     5: "haze",  # Mist
                     6: "climacell_fog",  # Fog
-                    7: "mostly_cloudy" if is_daytime else "overcast",  # Cloudy
+                    7: "mostly_cloudy" if is_daytime else "mostly_cloudy_night",  # Cloudy
                     8: "overcast",  # Overcast
                     9: "rain_night_light",  # Light rain shower (night)
                     10: "climacell_rain_light",  # Light rain shower (day)

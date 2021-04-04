@@ -16,11 +16,11 @@ def get_icon_from_metoffice_weathercode(weathercode, is_daytime):
                     6: "climacell_fog",  # Fog
                     7: "mostly_cloudy" if is_daytime else "overcast",  # Cloudy
                     8: "overcast",  # Overcast
-                    9: "rain_night",  # Light rain shower (night)
+                    9: "rain_night_light",  # Light rain shower (night)
                     10: "climacell_rain_light",  # Light rain shower (day)
                     11: "climacell_drizzle",  # Drizzle
                     12: "climacell_rain_light",  # Light rain
-                    13: "rain_night",  # Heavy rain shower (night)
+                    13: "rain_night_heavy",  # Heavy rain shower (night)
                     14: "climacell_rain_heavy",  # Heavy rain shower (day)
                     15: "climacell_rain_heavy",  # Heavy rain
                     16: "climacell_freezing_rain_light",  # Sleet shower (night)

@@ -3,29 +3,12 @@
 import datetime
 import sys
 import os
-import json
 import logging
-from weather_providers import climacell, openweathermap, metofficedatahub, accuweather, metno
-from utility import is_stale, update_svg, configure_logging
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather
+from utility import update_svg, configure_logging
 import textwrap
 
 configure_logging()
-
-
-def get_cached_weather(filename, ttl):
-    if is_stale(filename, ttl):
-        logging.info("Weather cache is stale.")
-        return None
-
-    logging.info("Found in cache")
-    with open(filename, 'r') as file:
-        return json.loads(file.read())
-
-
-def cache_weather_data(filename, weather_data):
-    if weather_data:
-        with open(filename, 'w') as text_file:
-            json.dump(weather_data, text_file)
 
 
 def format_weather_description(weather_description):
@@ -50,6 +33,11 @@ def main():
     accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
     metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
 
+    location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
+    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
+
+    weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
+
     if (
         not climacell_apikey
         and not openweathermap_apikey
@@ -57,68 +45,45 @@ def main():
         and not accuweather_apikey
         and not metno_self_id
     ):
-        logging.error("API Key for weather is missing (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no...)")
+        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no...)")
         sys.exit(1)
 
-    weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
     if (weather_format == "CELSIUS"):
         units = "metric"
     else:
         units = "imperial"
 
-    location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
-    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
+    if metno_self_id:
+        logging.info("Getting weather from Met.no")
+        weather_provider = metno.MetNo(metno_self_id, location_lat, location_long, units)
 
-    # TTL for refetching of JSON
-    ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
-    cache_weather_file = "weather-cache.json"
+    elif accuweather_apikey:
+        logging.info("Getting weather from Accuweather")
+        weather_provider = accuweather.AccuWeather(accuweather_apikey, location_lat,
+                                                   location_long,
+                                                   accuweather_locationkey,
+                                                   units)
 
-    weather = get_cached_weather(cache_weather_file, ttl)
+    elif metoffice_clientid:
+        logging.info("Getting weather from Met Office Weather Datahub")
+        weather_provider = metofficedatahub.MetOffice(metoffice_clientid,
+                                                      metoffice_clientsecret,
+                                                      location_lat,
+                                                      location_long,
+                                                      units)
 
-    if not weather:
-        if metno_self_id:
-            logging.info("Getting weather from Met.no")
-            weather = metno.get_weather(metno_self_id, location_lat, location_long, units)
-            logging.debug(weather)
+    elif openweathermap_apikey:
+        logging.info("Getting weather from OpenWeatherMap")
+        weather_provider = openweathermap.OpenWeatherMap(openweathermap_apikey,
+                                                         location_lat,
+                                                         location_long,
+                                                         units)
 
-        elif accuweather_apikey:
-            logging.info("Getting weather from Accuweather")
-            weather = accuweather.get_weather(
-                                                accuweather_apikey, location_lat,
-                                                location_long,
-                                                accuweather_locationkey,
-                                                units)
-            logging.debug(weather)
+    elif climacell_apikey:
+        logging.info("Getting weather from Climacell")
+        weather_provider = climacell.Climacell(climacell_apikey, location_lat, location_long, units)
 
-        elif metoffice_clientid:
-            logging.info("Getting weather from Met Office Weather Datahub")
-            weather = metofficedatahub.get_weather(
-                                                    metoffice_clientid,
-                                                    metoffice_clientsecret,
-                                                    location_lat,
-                                                    location_long,
-                                                    units)
-            logging.debug(weather)
-
-        elif openweathermap_apikey:
-            logging.info("Getting weather from OpenWeatherMap")
-            weather = openweathermap.get_weather(
-                                                openweathermap_apikey,
-                                                location_lat,
-                                                location_long,
-                                                units)
-            logging.debug(weather)
-
-        elif climacell_apikey:
-            logging.info("Getting weather from Climacell")
-            weather = climacell.get_weather(
-                                            climacell_apikey,
-                                            location_lat,
-                                            location_long,
-                                            units)
-
-        cache_weather_data(cache_weather_file, weather)
-
+    weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))
 
     if not weather:

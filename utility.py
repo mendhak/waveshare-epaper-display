@@ -2,12 +2,6 @@ import codecs
 import logging
 import os
 import time
-import requests
-import json
-from astral import LocationInfo
-from astral.sun import sun
-import datetime
-import pytz
 
 
 def configure_logging():
@@ -64,48 +58,4 @@ def is_stale(filepath, ttl):
     return verdict
 
 
-def get_response_data(url, headers={}):
-    """
-    Perform an HTTP GET for a `url` with optional `headers`.
-    Returns the response as JSON
-    """
 
-    response_json = False
-
-    try:
-        response_data = requests.get(url, headers=headers).text
-        response_json = json.loads(response_data)
-    except Exception as error:
-        logging.error(error)
-        raise
-
-    return response_json
-
-
-def is_daytime(location_lat, location_long):
-    """
-    Return whether it's daytime for a given lat/long.
-    """
-
-    # adjust icon for sunrise and sunset
-    dt = datetime.datetime.now(pytz.utc)
-    city = LocationInfo(location_lat, location_long)
-    s = sun(city.observer, date=dt)
-    verdict = False
-    if dt > s['sunset'] or dt < s['sunrise']:
-        verdict = False
-    else:
-        verdict = True
-
-    logging.debug(
-        "is_daytime({}, {}) - {}"
-        .format(str(location_lat), str(location_long), str(verdict)))
-
-    return verdict
-
-
-def c_to_f(celsius):
-    """
-    Return the Fahrenheit value from a given Celsius
-    """
-    return (float(celsius)*9/5) + 32

@@ -13,7 +13,6 @@ import pytz
 class BaseWeatherProvider(ABC):
 
     ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
-    cache_weather_file = "weather-cache.json"
 
     @abstractmethod
     def get_weather(self):
@@ -51,22 +50,22 @@ class BaseWeatherProvider(ABC):
 
         return verdict
 
-    def get_response_data(self, url, headers={}):
+    def get_response_data(self, url, headers={}, cache_file_name="weather-cache.json"):
         """
         Perform an HTTP GET for a `url` with optional `headers`.
-        Caches the response in weather-cache.json for WEATHER_TTL seconds.
+        Caches the response in `cache_file_name` for WEATHER_TTL seconds.
         Returns the response as JSON
         """
         response_json = False
 
-        if (is_stale(self.cache_weather_file, self.ttl)):
+        if (is_stale(cache_file_name, self.ttl)):
             logging.info("Cache file is stale. Fetching from source.")
             try:
                 response = requests.get(url, headers=headers)
                 response.raise_for_status()
                 response_data = response.text
                 response_json = json.loads(response_data)
-                with open(self.cache_weather_file, 'w') as text_file:
+                with open(cache_file_name, 'w') as text_file:
                     json.dump(response_json, text_file, indent=4)
             except Exception as error:
                 logging.error(error)
@@ -75,6 +74,6 @@ class BaseWeatherProvider(ABC):
                 raise
         else:
             logging.info("Found in cache.")
-            with open(self.cache_weather_file, 'r') as file:
+            with open(cache_file_name, 'r') as file:
                 return json.loads(file.read())
         return response_json

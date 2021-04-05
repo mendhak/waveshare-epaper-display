@@ -63,7 +63,7 @@ class OpenWeatherMap(BaseWeatherProvider):
                         761: "dust_ash_sand",  # dust
                         762: "volcano",  # volcanic ash
                         771: "wind",    # squalls
-                        781: "tornado",    # tornado
+                        781: "tornado_hurricane",    # tornado
                         800: "clear_sky_day" if is_daytime else "clearnight",  # clear sky
                         801: "few_clouds" if is_daytime else "partlycloudynight",  # few clouds: 11-25%
                         802: "scattered_clouds" if is_daytime else "partlycloudynight",  # scattered clouds: 25-50%

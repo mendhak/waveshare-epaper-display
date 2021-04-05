@@ -1,5 +1,5 @@
 Instructions on setting up a Raspberry Pi Zero WH with a Waveshare ePaper 7.5 Inch HAT. 
-The screen will display date, time, weather icon with high and low, Google Calendar entries.
+The screen will display date, time, weather icon with high and low, and calendar entries.
 
 ![example](display.png)
 
@@ -63,6 +63,7 @@ Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Modu
 ## Pick a Weather provider
 
 You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no and Climacell to provide temperature and weather forecasts.  
+You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `weather-cache.json` if you switch weather providers. 
 
 ### OpenWeatherMap
 
@@ -73,15 +74,15 @@ Add it to the env.sh file.
 
 ### Met Office (UK)
 
-You will need to create an account [on the Met Office Weather DataHub](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/) site.  
-Then, you'll have to [register an application](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/application) - just call it Raspberry Pi or Home Project.  
+Create an account [on the Met Office Weather DataHub](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/) site.  
+Next, [register an application](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/application) - just call it Raspberry Pi or Home Project.  
 You'll be shown a Client Secret, and a Client ID.  Copy both of these somewhere, you'll need it later.  
 
-After registering an application, you then need to "subscribe" to an API.   
-Go to the [API Usage Plans](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/product), pick "Global spot data bundle" which includes the "Global daily spot data" API. 
+After registering an application, you then "subscribe" to an API by going to the [API Usage Plans](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/product).  
+Pick "Global spot data bundle" which includes the "Global daily spot data" API. 
 Choose the Basic (free) plan and when prompted, pick that application you previously registered.  
 
-Now add the Met Office Client ID and Secret to the env.sh file. 
+Finally, add the Met Office Client ID and Secret to the env.sh file. 
 
     export METOFFICEDATAHUB_CLIENT_ID=xxxxxx-xxxxxx-....
     export METOFFICEDATAHUB_CLIENT_SECRET=xxxxxx

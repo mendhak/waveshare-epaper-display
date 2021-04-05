@@ -32,9 +32,9 @@ class MetOffice(BaseWeatherProvider):
                         13: "rain_night_heavy",  # Heavy rain shower (night)
                         14: "climacell_rain_heavy",  # Heavy rain shower (day)
                         15: "climacell_rain_heavy",  # Heavy rain
-                        16: "climacell_freezing_rain_light",  # Sleet shower (night)
-                        17: "climacell_freezing_rain_light",  # Sleet shower (day)
-                        18: "climacell_freezing_rain_light",  # Sleet
+                        16: "sleet",  # Sleet shower (night)
+                        17: "sleet",  # Sleet shower (day)
+                        18: "sleet",  # Sleet
                         19: "climacell_ice_pellets",  # Hail shower (night)
                         20: "climacell_ice_pellets",  # Hail shower (day)
                         21: "climacell_ice_pellets_heavy",  # Hail

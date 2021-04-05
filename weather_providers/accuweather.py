@@ -37,7 +37,7 @@ class AccuWeather(BaseWeatherProvider):
                         22: "snow",  # DayNight - Snow
                         23: "snow",  # Day - Mostly Cloudy w/ Snow
                         24: "climacell_freezing_rain",  # DayNight - Ice
-                        25: "climacell_freezing_rain",  # DayNight - Sleet
+                        25: "sleet",  # DayNight - Sleet
                         26: "climacell_freezing_rain",  # DayNight - Freezing Rain
                         29: "sleet",  # DayNight - Rain and Snow
                         30: "very_hot",  # DayNight - Hot

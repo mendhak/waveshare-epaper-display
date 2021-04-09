@@ -208,7 +208,7 @@ Once you've proven that the run works, and an image is sent to your epaper displ
 
 Add this entry so it runs every hour:
 
-    0 * * * * bash /home/pi/waveshare-epaper-display/run.sh
+    0 * * * * cd /home/pi/waveshare-epaper-display; bash run.sh
 
 This will cause the script to run every hour, and write the output as well as errors to a file called LOG.  You can potentially
 run this more frequently, but note that every refresh involves 30 seconds of screen flashing, which is quite intrusive.

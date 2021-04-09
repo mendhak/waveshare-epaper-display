@@ -1,26 +1,69 @@
 import datetime
-import html
 import time
 import pickle
 import os.path
 import os
 import logging
-
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
+import outlook_util
+from utility import is_stale, update_svg, configure_logging
 
-from utility import is_stale, update_svg
-
-logging.basicConfig(level=logging.INFO)
+configure_logging()
 
 # note: increasing this will require updates to the SVG template to accommodate more events
 max_event_results = 4
 
-google_calendar_id=os.getenv("GOOGLE_CALENDAR_ID","primary")
+google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
+outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
+
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
-def get_credentials():
+
+def get_outlook_events(max_event_results):
+
+    outlook_calendar_pickle = 'outlookcalendar.pickle'
+
+    if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
+        logging.debug("Pickle is stale, calling the Outlook Calendar API")
+        now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        oneyearlater_iso = (datetime.datetime.now().astimezone()
+                            + datetime.timedelta(days=365)).astimezone().isoformat()
+        access_token = outlook_util.get_access_token()
+        events_data = outlook_util.get_outlook_calendar_events(
+                                                                outlook_calendar_id,
+                                                                now_iso,
+                                                                oneyearlater_iso,
+                                                                access_token)
+        logging.debug(events_data)
+
+        with open(outlook_calendar_pickle, 'wb') as cal:
+            pickle.dump(events_data, cal)
+    else:
+        logging.info("Found in cache")
+        with open(outlook_calendar_pickle, 'rb') as cal:
+            events_data = pickle.load(cal)
+
+    return events_data
+
+
+def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
+    events = outlook_events["value"]
+    formatted_events = {}
+    event_count = len(events)
+    for event_i in range(event_slot_count):
+        event_label_id = str(event_i + 1)
+        if (event_i <= event_count - 1):
+            formatted_events['CAL_DATETIME_' + event_label_id] = outlook_util.get_outlook_datetime_formatted(events[event_i])
+            formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['subject']
+        else:
+            formatted_events['CAL_DATETIME_' + event_label_id] = ""
+            formatted_events['CAL_DESC_' + event_label_id] = ""
+    return formatted_events
+
+
+def get_google_credentials():
 
     google_token_pickle = 'token.pickle'
     google_credentials_json = 'credentials.json'
@@ -49,11 +92,11 @@ def get_credentials():
     return credentials
 
 
-def get_events(max_event_results):
+def get_google_events(max_event_results):
 
     google_calendar_pickle = 'calendar.pickle'
 
-    service = build('calendar', 'v3', credentials=get_credentials(), cache_discovery=False)
+    service = build('calendar', 'v3', credentials=get_google_credentials(), cache_discovery=False)
 
     events_result = None
 
@@ -62,7 +105,7 @@ def get_events(max_event_results):
 
         # Call the Calendar API
         events_result = service.events().list(
-            calendarId=google_calendar_id, 
+            calendarId=google_calendar_id,
             timeMin=datetime.datetime.utcnow().isoformat() + 'Z',
             maxResults=max_event_results,
             singleEvents=True,
@@ -72,8 +115,8 @@ def get_events(max_event_results):
             pickle.dump(events_result, cal)
 
     else:
-        logging.debug("Pickle is fresh, no need to call the Calendar API")
-        with open(google_calendar_pickle,'rb') as cal:
+        logging.info("Found in cache")
+        with open(google_calendar_pickle, 'rb') as cal:
             events_result = pickle.load(cal)
 
     events = events_result.get('items', [])
@@ -84,13 +127,13 @@ def get_events(max_event_results):
     return events
 
 
-def get_output_dict_by_events(events, event_slot_count):
-    formatted_events={}
+def get_output_dict_from_google_events(events, event_slot_count):
+    formatted_events = {}
     event_count = len(events)
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if (event_i <= event_count - 1):
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(events[event_i]['start'])
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_google_datetime_formatted(events[event_i]['start'])
             formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['summary']
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
@@ -98,7 +141,7 @@ def get_output_dict_by_events(events, event_slot_count):
     return formatted_events
 
 
-def get_datetime_formatted(event_start):
+def get_google_datetime_formatted(event_start):
     start = event_start.get('dateTime', event_start.get('date'))
     start = start.replace('Z', '+00:00')
     if 'T' in start:
@@ -122,10 +165,17 @@ def main():
     input_svg_filename = 'screen-output-homeassistant.svg'
     output_svg_filename = 'screen-output-calendar.svg'
 
-    events = get_events(max_event_results)
-    output_dict = get_output_dict_by_events(events, max_event_results)
+    if outlook_calendar_id:
+        logging.info("Fetching Outlook Calendar Events")
+        outlook_events = get_outlook_events(max_event_results)
+        output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
 
-    logging.debug("main() - {}".format(output_dict))
+    else:
+        logging.info("Fetching Google Calendar Events")
+        google_events = get_google_events(max_event_results)
+        output_dict = get_output_dict_from_google_events(google_events, max_event_results)
+
+    logging.info("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
     update_svg(input_svg_filename, output_svg_filename, output_dict)

@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 import sys
 import os
+import logging
+import datetime
+from PIL import Image
+from utility import configure_logging
+
 libdir = "./lib/e-Paper/RaspberryPi_JetsonNano/python/lib"
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-import logging
-import datetime
-from PIL import Image
-
-logging.basicConfig(level=logging.INFO)
+configure_logging()
 
 if (os.getenv("WAVESHARE_EPD75_VERSION", "2") == "1"):
     from waveshare_epd import epd7in5 as epd7in5
@@ -25,7 +26,7 @@ try:
     epd.Clear()
 
     #Full screen refresh at 2 AM
-    # if datetime.datetime.now().minute==0 and datetime.datetime.now().hour==2:
+    # if datetime.datetime.now().minute == 0 and datetime.datetime.now().hour == 2:
         # logging.debug("Clear screen")
         # epd.Clear()
 

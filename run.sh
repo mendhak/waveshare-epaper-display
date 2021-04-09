@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /home/jm/epaper/waveshare-epaper-display
-
 (
 set -x
 . env.sh

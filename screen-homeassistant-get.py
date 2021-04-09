@@ -5,6 +5,7 @@ import codecs
 import os
 import requests
 import json
+import logging
 
 template = 'screen-output-weather.svg'
 
@@ -19,11 +20,13 @@ auth_headers = {
 
 charge_icon = "\N{high voltage sign}"
 
+logging.basicConfig(level=logging.DEBUG)
+
 def scrape_sensors(output):
   for sensor in sensors:
     r = requests.get(hass_url + 'api/states/' + sensor,
 	    headers=auth_headers)
-    print(r.text)
+    logging.debug("JSON response: " + r.text)
   
     j = json.loads(r.text)
     if "binary_sensor" in sensor:
@@ -32,7 +35,7 @@ def scrape_sensors(output):
       val = parse_sensor(j)
   
     output = output.replace(sensors[sensor], val)
-    print(sensor + ": " + val)
+    logging.info(sensor + ": " + val)
   return output
 
 def parse_binary_sensor(j):
@@ -61,6 +64,7 @@ def parse_sensor(j):
 
 
 output = codecs.open(template , 'r', encoding='utf-8').read()
-output = scrape_sensors(output)
+if authorization_token != "":
+  output = scrape_sensors(output)
 codecs.open('screen-output-homeassistant.svg', 'w', encoding='utf-8').write(output)
 

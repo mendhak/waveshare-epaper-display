@@ -3,6 +3,26 @@ The screen will display date, time, weather icon with high and low, and calendar
 
 ![example](display.png)
 
+
+- [Shopping list](#shopping-list)
+- [Setup the PI](#setup-the-pi)
+- [Setup dependencies](#setup-dependencies)
+- [Using this application](#using-this-application)
+- [Pick a Weather provider](#pick-a-weather-provider)
+  - [OpenWeatherMap](#openweathermap)
+  - [Met Office (UK)](#met-office-uk)
+  - [AccuWeather](#accuweather)
+  - [Met.no](#metno)
+  - [Climacell (tomorrow.io)](#climacell-tomorrowio)
+  - [Location information for Weather](#location-information-for-weather)
+- [Pick a Calendar provider](#pick-a-calendar-provider)
+  - [Google Calendar setup](#google-calendar-setup)
+  - [Outlook Calendar](#outlook-calendar)
+- [Run it](#run-it)
+- [Troubleshooting](#troubleshooting)
+- [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
+
+
 ## Shopping list
 
 [Waveshare 7.5 inch epaper display HAT 640x384](https://www.amazon.co.uk/gp/product/B075R4QY3L/)  

@@ -54,8 +54,8 @@ class VisualCrossing(BaseWeatherProvider):
 
         # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }
         weather = {}
-        weather["temperatureMin"] = weather_data["tempmax"]
-        weather["temperatureMax"] = weather_data["tempmin"]
+        weather["temperatureMin"] = weather_data["tempmin"]
+        weather["temperatureMax"] = weather_data["tempmax"]
         weather["icon"] = self.get_icon_from_visualcrossing_weathercode(weather_data["icon"], daytime)
         weather["description"] = weather_data["description"]
         logging.debug(weather)

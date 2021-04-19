@@ -2,6 +2,8 @@ import codecs
 import logging
 import os
 import time
+import contextlib
+from http.client import HTTPConnection # py3
 
 
 def configure_logging():
@@ -16,6 +18,14 @@ def configure_logging():
     logging.basicConfig(level=log_level, format=log_format, datefmt=log_dateformat)
     logger = logging.getLogger()
     logger.setLevel(level=log_level)
+
+    # Adds debug logging to python requests
+    # https://stackoverflow.com/a/24588289/974369
+    HTTPConnection.debuglevel = 1
+    requests_log = logging.getLogger("requests.packages.urllib3")
+    requests_log.setLevel(logging.DEBUG)
+    requests_log.propagate = True
+
     formatter = logging.Formatter(fmt=log_format, datefmt=log_dateformat)
     handler = logger.handlers[0]
     handler.setFormatter(formatter)

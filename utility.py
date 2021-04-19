@@ -21,9 +21,9 @@ def configure_logging():
 
     # Adds debug logging to python requests
     # https://stackoverflow.com/a/24588289/974369
-    HTTPConnection.debuglevel = 1
+    HTTPConnection.debuglevel = 1 if log_level == "DEBUG" else 0
     requests_log = logging.getLogger("requests.packages.urllib3")
-    requests_log.setLevel(logging.DEBUG)
+    requests_log.setLevel(level=log_level)
     requests_log.propagate = True
 
     formatter = logging.Formatter(fmt=log_format, datefmt=log_dateformat)

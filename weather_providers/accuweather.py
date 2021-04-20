@@ -25,7 +25,7 @@ class AccuWeather(BaseWeatherProvider):
                         8: "overcast",  # DayNight - Dreary (Overcast)
                         11: "climacell_fog",  # DayNight - Fog
                         12: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # DayNight - Showers
-                        13: 'climacell_rain_heavy' if is_daytime else 'rain_night_heavy',  # Day - Mostly Cloudy w/ Showers
+                        13: 'climacell_rain_light' if is_daytime else 'climacell_rain_light',  # Day - Mostly Cloudy w/ Showers
                         14: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # Day - Partly Sunny w/ Showers
                         15: "thundershower_rain",  # DayNight - T-Storms
                         16: "scattered_thundershowers",  # Day - Mostly Cloudy w/ T-Storms

@@ -4,7 +4,7 @@ import datetime
 import sys
 import os
 import logging
-from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing
 from utility import update_svg, configure_logging
 import textwrap
 
@@ -32,6 +32,7 @@ def main():
     accuweather_apikey = os.getenv("ACCUWEATHER_APIKEY")
     accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
     metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
+    visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
 
     location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
     location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
@@ -44,8 +45,9 @@ def main():
         and not metoffice_clientid
         and not accuweather_apikey
         and not metno_self_id
+        and not visualcrossing_apikey
     ):
-        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no...)")
+        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no, VisualCrossing...)")
         sys.exit(1)
 
     if (weather_format == "CELSIUS"):
@@ -53,7 +55,11 @@ def main():
     else:
         units = "imperial"
 
-    if metno_self_id:
+    if visualcrossing_apikey:
+        logging.info("Getting weather from Visual Crossing")
+        weather_provider = visualcrossing.VisualCrossing(visualcrossing_apikey, location_lat, location_long, units)
+
+    elif metno_self_id:
         logging.info("Getting weather from Met.no")
         weather_provider = metno.MetNo(metno_self_id, location_lat, location_long, units)
 

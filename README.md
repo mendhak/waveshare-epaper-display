@@ -12,6 +12,26 @@ customisations:
 
 ![example](display.jpg)
 
+
+- [Shopping list](#shopping-list)
+- [Setup the PI](#setup-the-pi)
+- [Setup dependencies](#setup-dependencies)
+- [Using this application](#using-this-application)
+- [Pick a Weather provider](#pick-a-weather-provider)
+  - [OpenWeatherMap](#openweathermap)
+  - [Met Office (UK)](#met-office-uk)
+  - [AccuWeather](#accuweather)
+  - [Met.no](#metno)
+  - [Climacell (tomorrow.io)](#climacell-tomorrowio)
+  - [Location information for Weather](#location-information-for-weather)
+- [Pick a Calendar provider](#pick-a-calendar-provider)
+  - [Google Calendar setup](#google-calendar-setup)
+  - [Outlook Calendar](#outlook-calendar)
+- [Run it](#run-it)
+- [Troubleshooting](#troubleshooting)
+- [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
+
+
 ## Shopping list
 
 [Waveshare 7.5 inch epaper display HAT 800x480, Red/Black/White](https://www.waveshare.com/product/displays/e-paper/epaper-1/7.5inch-e-paper-hat-b.htm)
@@ -145,7 +165,15 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
 You can use Google Calendar or Outlook Calendar to display events.  
 
-### Google Calendar token
+### Google Calendar setup
+
+The script will by default get its info from your primary Google Calendar.  If you need to pick a specific calendar you will need its ID.  To get its ID, open up [Google Calendar](https://calendar.google.com) and go to the settings for your preferred calendar.  Under the 'Integrate Calendar' section you will see a Calendar ID which looks like `xyz12345@group.calendar.google.com`.  Set that value in `env.sh`
+
+```bash
+export GOOGLE_CALENDAR_ID=xyz12345@group.calendar.google.com
+```
+
+#### Google Calendar token
 
 The Oauth process needs to complete once manually in order to allow the Python code to then continuously query Google Calendar for information. 
 Go to the [Python Quickstart](https://developers.google.com/calendar/quickstart/python) page and enable Google Calendar API.  When presented, download or copy the `credentials.json` file and add it to this directory. 

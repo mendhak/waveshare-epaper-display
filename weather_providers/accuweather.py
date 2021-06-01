@@ -25,8 +25,8 @@ class AccuWeather(BaseWeatherProvider):
                         8: "overcast",  # DayNight - Dreary (Overcast)
                         11: "climacell_fog",  # DayNight - Fog
                         12: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # DayNight - Showers
-                        13: 'climacell_rain_heavy' if is_daytime else 'rain_night_heavy',  # Day - Mostly Cloudy w/ Showers
-                        14: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # Day - Partly Sunny w/ Showers
+                        13: 'day_partly_cloudy_rain' if is_daytime else 'night_partly_cloudy_rain',  # Day - Mostly Cloudy w/ Showers
+                        14: 'day_partly_cloudy_rain' if is_daytime else 'night_partly_cloudy_rain',  # Day - Partly Sunny w/ Showers
                         15: "thundershower_rain",  # DayNight - T-Storms
                         16: "scattered_thundershowers",  # Day - Mostly Cloudy w/ T-Storms
                         17: "scattered_thundershowers",  # Day - Partly Sunny w/ T-Storms
@@ -49,8 +49,8 @@ class AccuWeather(BaseWeatherProvider):
                         36: "scattered_clouds" if is_daytime else "partlycloudynight",  # Night - Intermittent Clouds
                         37: "haze",  # Night - Hazy Moonlight
                         38: "mostly_cloudy" if is_daytime else "mostly_cloudy_night",  # Night - Mostly Cloudy
-                        39: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # Night - Partly Cloudy w/ Showers
-                        40: 'climacell_rain_heavy' if is_daytime else 'rain_night_heavy',  # Night - Mostly Cloudy w/ Showers
+                        39: 'day_partly_cloudy_rain' if is_daytime else 'night_partly_cloudy_rain',  # Night - Partly Cloudy w/ Showers
+                        40: 'day_partly_cloudy_rain' if is_daytime else 'night_partly_cloudy_rain',  # Night - Mostly Cloudy w/ Showers
                         41: "thundershower_rain",  # Night - Partly Cloudy w/ T-Storms
                         42: "thundershower_rain",  # Night - Mostly Cloudy w/ T-Storms
                         43: "climacell_flurries",  # Night - Mostly Cloudy w/ Flurries

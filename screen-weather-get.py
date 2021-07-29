@@ -103,8 +103,13 @@ def main():
 
     weather_desc = format_weather_description(weather["description"])
 
-    alert_provider = metofficerssfeed.MetOfficeRssFeed()
-    alert_message = alert_provider.get_alert()
+    alert_message = ""
+    alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
+    if(alert_metoffice_feed_url):
+        alert_provider = metofficerssfeed.MetOfficeRssFeed(os.getenv("ALERT_METOFFICE_FEED_URL"))
+        alert_message = alert_provider.get_alert()
+        logging.info(alert_message)
+    alert_message = html.escape(alert_message)
 
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
@@ -115,7 +120,7 @@ def main():
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
-        'ALERT_MESSAGE': html.escape(alert_message)
+        'ALERT_MESSAGE': alert_message
     }
 
     logging.debug("main() - {}".format(output_dict))

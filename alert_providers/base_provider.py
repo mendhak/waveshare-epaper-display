@@ -14,8 +14,8 @@ class BaseAlertProvider(ABC):
     def get_alert(self):
         """
         Implement this method.
-        Return a dictionary in this format:
-        { "message": "Yello warning of wind..." }
+        Return a string containing the alert message
+        "Yellow warning of wind..."
         """
         pass
     

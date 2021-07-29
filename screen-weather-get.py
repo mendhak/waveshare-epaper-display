@@ -4,9 +4,12 @@ import datetime
 import sys
 import os
 import logging
+from utility import is_stale
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing
+from alert_providers import metofficerssfeed
 from utility import update_svg, configure_logging
 import textwrap
+import html
 
 configure_logging()
 
@@ -100,6 +103,9 @@ def main():
 
     weather_desc = format_weather_description(weather["description"])
 
+    alert_provider = metofficerssfeed.MetOfficeRssFeed()
+    alert_message = alert_provider.get_alert()
+
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
@@ -109,7 +115,7 @@ def main():
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
-        'ALERT_MESSAGE': ""  # unused, see: https://github.com/mendhak/waveshare-epaper-display/issues/13
+        'ALERT_MESSAGE': html.escape(alert_message)
     }
 
     logging.debug("main() - {}".format(output_dict))

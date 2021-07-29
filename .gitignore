@@ -4,9 +4,9 @@ __pycache__
 screen-output*
 env.sh
 *.log
-.vscode
 *.pickle
 credentials*
 *.json
 *.bin
 test.svg
+*.xml

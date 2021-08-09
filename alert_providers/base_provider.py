@@ -20,7 +20,7 @@ class BaseAlertProvider(ABC):
         pass
     
 
-    def get_response_xml(self, url, headers={}, cache_file_name="weather-cache.json"):
+    def get_response_xml(self, url, headers={}, cache_file_name="severe-alert-cache.xml"):
 
         logging.info(url)
 

@@ -105,7 +105,7 @@ def main():
 
     alert_message = ""
     alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
-    if(alert_metoffice_feed_url):
+    if alert_metoffice_feed_url:
         alert_provider = metofficerssfeed.MetOfficeRssFeed(os.getenv("ALERT_METOFFICE_FEED_URL"))
         alert_message = alert_provider.get_alert()
         logging.info(alert_message)

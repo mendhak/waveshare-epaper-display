@@ -77,14 +77,19 @@ def outlook_utc_to_local_time(utc):
 
 
 def get_outlook_datetime_formatted(event):
-    event_start = event["start"]
+    start_date = datetime.datetime.strptime(event["start"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")
+    end_date = datetime.datetime.strptime(event["end"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")
+    
     if event['isAllDay'] == True:
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d", outlook_utc_to_local_time(start))
+        day = start_date.strftime("%a %b %-d")
     else:
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", outlook_utc_to_local_time(start))
-
+        if(start_date.date() == end_date.date()):
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+        day = "{} - {}".format(start_formatted, end_formatted)
     return day
 
 

@@ -133,7 +133,7 @@ def get_output_dict_from_google_events(events, event_slot_count):
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if (event_i <= event_count - 1):
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_google_datetime_formatted(events[event_i]['start'])
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_google_datetime_formatted(events[event_i]['start'], events[event_i]['end'])
             formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['summary']
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
@@ -141,10 +141,17 @@ def get_output_dict_from_google_events(events, event_slot_count):
     return formatted_events
 
 
-def get_google_datetime_formatted(event_start):
+def get_google_datetime_formatted(event_start, event_end):
     if(event_start.get('dateTime')):
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", time.strptime(start, "%Y-%m-%dT%H:%M:%S%z"))
+        start_date = datetime.datetime.strptime(event_start.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
+        end_date = datetime.datetime.strptime(event_end.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
+        if(start_date.date() == end_date.date()):
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+        day = "{} - {}".format(start_formatted, end_formatted)
     else:
         start = event_start.get('date')
         day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))

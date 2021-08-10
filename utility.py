@@ -4,7 +4,9 @@ import os
 import time
 import contextlib
 from http.client import HTTPConnection # py3
-
+import requests
+import json
+import xml.etree.ElementTree as ET
 
 def configure_logging():
     """
@@ -67,5 +69,60 @@ def is_stale(filepath, ttl):
 
     return verdict
 
+def get_json_from_url(url, headers, cache_file_name, ttl):
+    """
+    Perform an HTTP GET for a `url` with optional `headers`.
+    Caches the response in `cache_file_name` for `ttl` seconds.
+    Returns the response as JSON
+    """
+    response_json = False
+
+    if (is_stale(cache_file_name, ttl)):
+        logging.info("Cache file is stale. Fetching from source.")
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            response_data = response.text
+            response_json = json.loads(response_data)
+            with open(cache_file_name, 'w') as text_file:
+                json.dump(response_json, text_file, indent=4)
+        except Exception as error:
+            logging.error(error)
+            logging.error(response.text)
+            logging.error(response.headers)
+            raise
+    else:
+        logging.info("Found in cache.")
+        with open(cache_file_name, 'r') as file:
+            return json.loads(file.read())
+    return response_json
 
 
+def get_xml_from_url(url, headers, cache_file_name, ttl):
+    """
+    Perform an HTTP GET for a `url` with optional `headers`.
+    Caches the response in `cache_file_name` for `ttl` seconds.
+    Returns the response as an XML ElementTree object
+    """
+    logging.info(url)
+
+    if (is_stale(cache_file_name, ttl)):
+        logging.info("Cache file is stale. Fetching from source.")
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            response_data = response.text
+
+            with open(cache_file_name, 'w') as text_file:
+                text_file.write(response_data)
+        except Exception as error:
+            logging.error(error)
+            logging.error(response.text)
+            logging.error(response.headers)
+            raise
+    else:
+        logging.info("Found in cache.")
+        with open(cache_file_name, 'r') as file:
+            response_data = file.read()
+    response_xml = ET.fromstring(response_data)
+    return response_xml

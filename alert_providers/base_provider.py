@@ -1,9 +1,6 @@
 import os
 from abc import ABC, abstractmethod
-from utility import is_stale
-import logging
-import json
-import requests
+from utility import get_xml_from_url, get_json_from_url
 
 
 class BaseAlertProvider(ABC):
@@ -19,30 +16,21 @@ class BaseAlertProvider(ABC):
         """
         pass
     
+    def get_response_json(self, url, headers={}):
+        """
+        Perform an HTTP GET for a `url` with optional `headers`.
+        Caches the response in `cache_file_name` for ALERT_TTL seconds.
+        Returns the response as JSON
+        """
+        return get_json_from_url(url, headers, "severe-alert-cache.json", self.ttl)
 
-    def get_response_xml(self, url, headers={}, cache_file_name="severe-alert-cache.xml"):
-
-        logging.info(url)
-
-        if (is_stale(cache_file_name, 300)):
-            logging.info("Cache file is stale. Fetching from source.")
-            try:
-                response = requests.get(url, headers=headers)
-                response.raise_for_status()
-                response_data = response.text
-
-                with open(cache_file_name, 'w') as text_file:
-                    text_file.write(response_data)
-            except Exception as error:
-                logging.error(error)
-                logging.error(response.text)
-                logging.error(response.headers)
-                raise
-        else:
-            logging.info("Found in cache.")
-            with open(cache_file_name, 'r') as file:
-                return file.read()
-        return response_data
+    def get_response_xml(self, url, headers={}):
+        """
+        Perform an HTTP GET for a `url` with optional `headers`.
+        Caches the response in `cache_file_name` for ALERT_TTL seconds.
+        Returns the response as an XML ElementTree
+        """        
+        return get_xml_from_url(url, headers, "severe-alert-cache.xml", self.ttl)
 
 
     

@@ -84,7 +84,7 @@ class OpenWeatherMap(BaseWeatherProvider):
 
         url = ("https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&exclude=current,minutely,hourly&units={}&appid={}"
                .format(self.location_lat, self.location_long, self.units, self.openweathermap_apikey))
-        response_data = self.get_response_data(url)
+        response_data = self.get_response_json(url)
         logging.debug(response_data)
         weather_data = response_data["daily"][0]
         logging.debug("get_weather() - {}".format(weather_data))

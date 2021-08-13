@@ -1,3 +1,7 @@
+## 2021-08-13
+
+* Calendar entries will include all events from today, even if they are past.   
+
 ## 2021-08-10
 
 * Calendar entries will now show the start and end times
@@ -12,7 +16,6 @@
 * Implemented mechanism for Weather provider
 * Added VisualCrossing, AccuWeather, Met.No, MetOffice, OpenWeatherMap, ClimaCell weather providers
 
-
 ## 2021-04-03
 
 * Switch to Met Office daily forecast instead of 3-hourly
@@ -23,4 +26,7 @@
 
 ## Before all that
 
-* Basic weather, time and event dashboard
+* Basic weather, time and event dashboard.  
+* There were a few weather providers hardcoded
+* There was PiHole stats but I removed it
+* There was TFL train times but I removed it

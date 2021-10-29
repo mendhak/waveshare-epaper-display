@@ -1,3 +1,7 @@
+## 2021-10-29
+
+* Bug fix - Outlook calendar entries will now show in local time, instead of UTC. 
+
 ## 2021-08-13
 
 * Calendar entries will include all events from today, even if they are past.   

@@ -1,9 +1,9 @@
 ## 2021-12-29
 
-* Updated instructions for Raspberry Pi OS Bullseye
-* Removed some dependencies that aren't needed anymore!
-* Replace Inkscape with CairoSVG
-* Updated Google Calendar instructions
+* Updated instructions for Raspberry Pi OS Bullseye.  Many dependencies stopped working, fixed it now. 
+* Removed some dependencies that aren't needed anymore! BCM not needed.  WiringPi is deprecated.  LibJpeg doesn't look needed.  
+* Replace Inkscape with CairoSVG. Inkscape broke some commandline args, and CairoSVG seems better suited for commandline anyway. 
+* Updated Google Calendar instructions, it's simpler for now, until Google break their URLs again. 
 
 ## 2021-10-29
 

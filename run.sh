@@ -23,7 +23,7 @@ else
     WAVESHARE_HEIGHT=480
 fi
 
-inkscape screen-output-weather.svg --without-gui -e screen-output.png -w$WAVESHARE_WIDTH -h$WAVESHARE_HEIGHT --export-dpi=300
+cairosvg -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
 
 log "Display on epaper"
 python3 display.py screen-output.png

@@ -1,3 +1,10 @@
+## 2021-12-29
+
+* Updated instructions for Raspberry Pi OS Bullseye
+* Removed some dependencies that aren't needed anymore!
+* Replace Inkscape with CairoSVG
+* Updated Google Calendar instructions
+
 ## 2021-10-29
 
 * Bug fix - Outlook calendar entries will now show in local time, instead of UTC. 

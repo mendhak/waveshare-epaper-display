@@ -46,22 +46,10 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 ## Setup dependencies
 
     sudo apt update && sudo apt upgrade  
-    sudo apt install git fonts-wqy-zenhei fonts-wqy-microhei python3 python3-pip inkscape figlet pigpio python3-pigpio  
-    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow  
-    sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib msal
+    sudo apt install git python3 python3-pip cairosvg pigpio python3-pigpio  
+    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow google-api-python-client google-auth-httplib2 google-auth-oauthlib msal
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
-
-### Get the BCM2835 driver
-
-    cd ~
-    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.58.tar.gz
-    sudo tar zxvf bcm2835-1.58.tar.gz
-    cd bcm2835-1.58/
-    sudo ./configure
-    sudo make
-    sudo make check
-    sudo make install
 
 ## Using this application
 

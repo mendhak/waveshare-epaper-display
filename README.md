@@ -45,14 +45,16 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 ## Setup dependencies
 
-    sudo apt install git ttf-wqy-zenhei ttf-wqy-microhei python3 python3-pip python-imaging libopenjp2-7-dev libjpeg8-dev inkscape figlet wiringpi
-    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow  # Pillow took multiple attempts to install as it's always missing dependencies
+    sudo apt update && sudo apt upgrade  
+    sudo apt install git fonts-wqy-zenhei fonts-wqy-microhei python3 python3-pip inkscape figlet pigpio python3-pigpio  
+    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow  
     sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib msal
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 
 ### Get the BCM2835 driver
 
+    cd ~
     wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.58.tar.gz
     sudo tar zxvf bcm2835-1.58.tar.gz
     cd bcm2835-1.58/
@@ -67,7 +69,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
 git clone this repository in the `/home/pi` directory.
 
-    cd /home/pi
+    cd ~
     git clone --recursive https://github.com/mendhak/waveshare-epaper-display.git
     
 This should create a `/home/pi/waveshare-epaper-display` directory. 
@@ -165,9 +167,12 @@ export GOOGLE_CALENDAR_ID=xyz12345@group.calendar.google.com
 #### Google Calendar token
 
 The Oauth process needs to complete once manually in order to allow the Python code to then continuously query Google Calendar for information. 
-Go to the [Python Quickstart](https://developers.google.com/calendar/quickstart/python) page and enable Google Calendar API.  When presented, download or copy the `credentials.json` file and add it to this directory. 
 
-Next, SSH to the Raspberry Pi and run
+Go to the [Google Cloud Platform library page](https://console.cloud.google.com/apis/library), search for and enable the [Calendar API](https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview).  
+
+Next, head over to the [API Dashboard Credentials page](https://console.cloud.google.com/apis/credentials), and create new credentials of type "OAuth Client ID".  For application type, choose "Desktop app" and give it a name such as "Epaper Display".  When presented, download or copy the `credentials.json` file and add it to this directory. 
+
+You can now kick off the authentication process. On the Raspberry Pi, run: 
 
     python3 screen-calendar-get.py
 

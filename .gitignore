@@ -10,3 +10,4 @@ credentials*
 *.bin
 test.svg
 *.xml
+venv

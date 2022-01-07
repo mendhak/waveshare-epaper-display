@@ -47,7 +47,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
     sudo apt update && sudo apt upgrade  
     sudo apt install git python3 python3-pip cairosvg pigpio python3-pigpio  
-    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow google-api-python-client google-auth-httplib2 google-auth-oauthlib msal
+    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow google-api-python-client google-auth-httplib2 google-auth-oauthlib msal cryptography==36.0.0
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 

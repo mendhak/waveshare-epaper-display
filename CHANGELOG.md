@@ -1,3 +1,8 @@
+## 2022-01-07
+
+* Add cryptography==36.0.0 to setup. It's used by msal, but version 36.0.1 from piwheels produces [illegal instruction](https://github.com/piwheels/packages/issues/273)
+* Add gsfonts to setup.  It contains Nimbus fonts required by the SVG.  
+
 ## 2021-12-29
 
 * Updated instructions for Raspberry Pi OS Bullseye.  Many dependencies stopped working, fixed it now. 

@@ -1,4 +1,4 @@
 [submodule "lib/e-Paper"]
         path = lib/e-Paper
-        url = git://github.com/waveshare/e-Paper.git
+        url = https://github.com/waveshare/e-Paper.git
         ignore = dirty

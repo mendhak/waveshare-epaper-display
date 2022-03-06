@@ -6,7 +6,7 @@ import os
 import logging
 from utility import is_stale
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing
-from alert_providers import metofficerssfeed
+from alert_providers import metofficerssfeed, weathergovalerts
 from utility import update_svg, configure_logging
 import textwrap
 import html
@@ -88,10 +88,16 @@ def get_weather(location_lat, location_long, units):
 def format_alert_description(alert_message):
     return html.escape(alert_message)
 
-def get_alert_message():
+def get_alert_message(location_lat, location_long):
     alert_message = ""
     alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
-    if alert_metoffice_feed_url:
+    alert_weathergov_self_id = os.getenv("ALERT_WEATHERGOV_SELF_IDENTIFICATION")
+
+    if alert_weathergov_self_id:
+        alert_provider = weathergovalerts.WeatherGovAlerts(location_lat, location_long, alert_weathergov_self_id)
+        alert_message = alert_provider.get_alert()
+
+    elif alert_metoffice_feed_url:
         alert_provider = metofficerssfeed.MetOfficeRssFeed(os.getenv("ALERT_METOFFICE_FEED_URL"))
         alert_message = alert_provider.get_alert()
     logging.info("alert - {}".format(alert_message))
@@ -119,7 +125,7 @@ def main():
 
     weather_desc = format_weather_description(weather["description"])
 
-    alert_message = get_alert_message()
+    alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
     
 

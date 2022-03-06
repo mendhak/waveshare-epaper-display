@@ -251,7 +251,7 @@ If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG`
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.   
 If you want to force a weather update, you can delete the `cache_weather.json`.   
-If you want to force a calendar update, you can delete the `calendar.pickle` or `outlookcalendar.pickle`.   
+If you want to force a calendar update, you can delete the `cache_calendar.pickle` or `cache_outlookcalendar.pickle`.   
 If you want to force a re-login to Google or Outlook, delete the `token.pickle` or `outlooktoken.bin`.  
 
 

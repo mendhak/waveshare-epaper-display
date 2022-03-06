@@ -171,6 +171,8 @@ Set its value in the `env.sh` as shown:
 
 This provider will use the same latitude and longitude as specified for the weather provider.  
 
+Warning: May not be reliable. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
+
 
 ## Pick a Calendar provider
 

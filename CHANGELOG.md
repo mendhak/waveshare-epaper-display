@@ -1,7 +1,7 @@
 ## 2022-03-06
 * Add weather.gov as a weather and alert provider
 * Add VisualCrossing instructions to the README
-* Rename the weather and alert anc calendar cache files to use a `cache_` prefix.  A little consistency. 
+* Rename the weather and alert and calendar cache files to use a `cache_` prefix.  A little consistency. 
 
 ## 2022-01-07
 

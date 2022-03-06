@@ -144,6 +144,8 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
 ## Pick a severe weather warning provider
 
+This is an optional step.  By doing nothing you simply won't see severe weather warnings.  
+
 ### Met Office (UK)
 
 Go to the [Met Office RSS Feeds page](https://www.metoffice.gov.uk/weather/guides/rss) and copy the URL of the RSS feed based on your region.  

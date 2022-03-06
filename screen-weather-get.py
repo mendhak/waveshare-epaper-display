@@ -94,10 +94,12 @@ def get_alert_message(location_lat, location_long):
     alert_weathergov_self_id = os.getenv("ALERT_WEATHERGOV_SELF_IDENTIFICATION")
 
     if alert_weathergov_self_id:
+        logging.info("Getting weather alert from Weather.gov API")
         alert_provider = weathergovalerts.WeatherGovAlerts(location_lat, location_long, alert_weathergov_self_id)
         alert_message = alert_provider.get_alert()
 
     elif alert_metoffice_feed_url:
+        logging.info("Getting weather alert from Met Office RSS Feed")
         alert_provider = metofficerssfeed.MetOfficeRssFeed(os.getenv("ALERT_METOFFICE_FEED_URL"))
         alert_message = alert_provider.get_alert()
     logging.info("alert - {}".format(alert_message))

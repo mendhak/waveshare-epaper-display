@@ -10,7 +10,7 @@ class WeatherGovAlerts(BaseAlertProvider):
 
 
     def get_alert(self):
-        severe = self.get_response_json("https://api.weather.gov/alerts?point=41.7456,-120.0892", 
+        severe = self.get_response_json("https://api.weather.gov/alerts?point={},{}".format(self.location_lat, self.location_long), 
                                         headers={'User-Agent':'({0})'.format(self.weathergov_self_id)})
         logging.debug("get_alert - {}".format(severe))
         if 'features' in severe:

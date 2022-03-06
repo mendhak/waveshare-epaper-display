@@ -154,6 +154,7 @@ Set its value in the `env.sh` as `ALERT_METOFFICE_FEED_URL`. For example, London
 ### Weather.gov (US)
 
 Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
+Set its value in the `env.sh` as shown: 
 
     export ALERT_WEATHERGOV_SELF_IDENTIFICATION=you@example.com
 

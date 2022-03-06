@@ -174,6 +174,13 @@ This provider will use the same latitude and longitude as specified for the weat
 
 Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
 
+### VisualCrossing
+
+Register on VisualCrossing. Under Account Details, you should be able to generate an API key. Once you have that, simply add it to `env.sh` as shown: 
+
+    export VISUALCROSSING_APIKEY=XXXXXXXXXXXXXXXXXXXXXX
+
+
 
 ## Pick a Calendar provider
 

@@ -146,7 +146,7 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
 ### Met Office (UK)
 
-Go to the [Met Office RSS Feeds page](https://www.metoffice.gov.uk/weather/guides/rss) and pick the RSS feed based on your region.  
+Go to the [Met Office RSS Feeds page](https://www.metoffice.gov.uk/weather/guides/rss) and copy the URL of the RSS feed based on your region.  
 Set its value in the `env.sh` as shown below. For example, London would be:
 
     export ALERT_METOFFICE_FEED_URL=https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se

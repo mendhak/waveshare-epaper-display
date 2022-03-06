@@ -1,3 +1,6 @@
+## 2022-03-06
+* Add weather.gov as a forecast and alert provider
+
 ## 2022-01-07
 
 * Add cryptography==36.0.0 to setup. It's used by msal, but version 36.0.1 from piwheels produces [illegal instruction](https://github.com/piwheels/packages/issues/273)

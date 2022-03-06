@@ -139,6 +139,23 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
     export WEATHER_LONGITUDE=0.1963
     export WEATHER_FORMAT=CELSIUS
 
+## Pick a severe weather warning provider
+
+### Met Office (UK)
+
+Go to the [Met Office RSS Feeds page](https://www.metoffice.gov.uk/weather/guides/rss) and pick the RSS feed based on your region.  
+Set its value in the `env.sh` as `ALERT_METOFFICE_FEED_URL`. For example, London would be:
+
+    export ALERT_METOFFICE_FEED_URL=https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se
+
+### Weather.gov (US)
+
+Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
+
+    export ALERT_WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+
+This provider will use the same latitude and longitude as specified for the weather provider.  
+
 
 ## Pick a Calendar provider
 

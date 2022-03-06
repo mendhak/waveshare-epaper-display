@@ -16,6 +16,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Met.no](#metno)
   - [Weather.gov (US)](#weathergov-us)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
+  - [VisualCrossing](#visualcrossing)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
   - [Met Office (UK)](#met-office-uk-1)
   - [Weather.gov (US)](#weathergov-us-1)
@@ -136,13 +137,6 @@ Met.no's [Terms of Service](https://api.met.no/doc/TermsOfService) requires you 
 
 Note that the Met.no API provides 6 hours of forecast, rather than a full day.  
 
-### Climacell (tomorrow.io)
-
-Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.   
-Modify the `env.sh` file and put your Climacell API key in there.  
-
-    export CLIMACELL_APIKEY=xxxxxx
-
 ### Weather.gov (US)
 
 Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
@@ -151,6 +145,21 @@ Set its value in the `env.sh` as shown:
     export WEATHERGOV_SELF_IDENTIFICATION=you@example.com
 
 Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
+
+### Climacell (tomorrow.io)
+
+Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.   
+Modify the `env.sh` file and put your Climacell API key in there.  
+
+    export CLIMACELL_APIKEY=xxxxxx
+
+### VisualCrossing
+
+Register on [VisualCrossing](https://www.visualcrossing.com/). Under Account Details, you should be able to generate an API key. Once you have that, simply add it to `env.sh` as shown: 
+
+    export VISUALCROSSING_APIKEY=XXXXXXXXXXXXXXXXXXXXXX
+
+
 
 ## Pick a severe weather warning provider
 
@@ -173,12 +182,6 @@ Set its value in the `env.sh` as shown:
 This provider will use the same latitude and longitude as specified for the weather provider.  
 
 Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
-
-### VisualCrossing
-
-Register on VisualCrossing. Under Account Details, you should be able to generate an API key. Once you have that, simply add it to `env.sh` as shown: 
-
-    export VISUALCROSSING_APIKEY=XXXXXXXXXXXXXXXXXXXXXX
 
 
 

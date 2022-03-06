@@ -21,6 +21,12 @@ class BaseWeatherProvider(ABC):
         """
         pass
 
+    def f_to_c(self, fahrenheit):
+        """
+        Return the Celsius value from a given Fahrenheit
+        """
+        return float((fahrenheit - 32) * 5/9)
+
     def c_to_f(self, celsius):
         """
         Return the Fahrenheit value from a given Celsius

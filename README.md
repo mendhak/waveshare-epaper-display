@@ -88,7 +88,7 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 ## Pick a Weather provider
 
 You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, and Climacell to provide temperature and weather forecasts.  
-You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `weather-cache.json` if you switch weather providers. 
+You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `cache_weather.json` if you switch weather providers. 
 
 ### OpenWeatherMap
 
@@ -248,7 +248,7 @@ If you've set up the cron job as shown above, a `run.log` file will appear which
 If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG` in the `env.sh` and the `run.log` will contain even more information.  
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.   
-If you want to force a weather update, you can delete the `weather-cache.json`.   
+If you want to force a weather update, you can delete the `cache_weather.json`.   
 If you want to force a calendar update, you can delete the `calendar.pickle` or `outlookcalendar.pickle`.   
 If you want to force a re-login to Google or Outlook, delete the `token.pickle` or `outlooktoken.bin`.  
 

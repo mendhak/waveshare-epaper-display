@@ -8,16 +8,17 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Setup the PI](#setup-the-pi)
 - [Setup dependencies](#setup-dependencies)
 - [Using this application](#using-this-application)
+- [Set your location](#set-your-location)
 - [Pick a Weather provider](#pick-a-weather-provider)
   - [OpenWeatherMap](#openweathermap)
   - [Met Office (UK)](#met-office-uk)
   - [AccuWeather](#accuweather)
   - [Met.no](#metno)
+  - [Weather.gov (US)](#weathergov-us)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
-  - [Location information for Weather](#location-information-for-weather)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
   - [Met Office (UK)](#met-office-uk-1)
-  - [Weather.gov](#weathergov-us)
+  - [Weather.gov (US)](#weathergov-us-1)
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
@@ -73,9 +74,20 @@ Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Modu
 
     export WAVESHARE_EPD75_VERSION=2
 
+## Set your location
+
+Whichever weather provider you use, you'll need to provide the location and units to display in.  
+
+Modify the `env.sh` file and update with the latitude and longitude of your location.  
+As needed, change the temperature format (CELSIUS or FAHRENHEIT).  
+
+    export WEATHER_LATITUDE=51.3656
+    export WEATHER_LONGITUDE=0.1963
+    export WEATHER_FORMAT=CELSIUS
+
 ## Pick a Weather provider
 
-You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no and Climacell to provide temperature and weather forecasts.  
+You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, and Climacell to provide temperature and weather forecasts.  
 You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `weather-cache.json` if you switch weather providers. 
 
 ### OpenWeatherMap
@@ -131,16 +143,13 @@ Modify the `env.sh` file and put your Climacell API key in there.
 
     export CLIMACELL_APIKEY=xxxxxx
 
-### Location information for Weather
+### Weather.gov (US)
 
-Whichever weather provider you've picked, you'll need to provide the location and units to display in.  
+Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
+Set its value in the `env.sh` as shown:
 
-Modify the `env.sh` file and update with the latitude and longitude of your location.  
-As needed, change the temperature format (CELSIUS or FAHRENHEIT).  
+    export WEATHERGOV_SELF_IDENTIFICATION=you@example.com
 
-    export WEATHER_LATITUDE=51.3656
-    export WEATHER_LONGITUDE=0.1963
-    export WEATHER_FORMAT=CELSIUS
 
 ## Pick a severe weather warning provider
 

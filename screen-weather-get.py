@@ -44,6 +44,7 @@ def get_weather(location_lat, location_long, units):
         and not accuweather_apikey
         and not metno_self_id
         and not visualcrossing_apikey
+        and not weathergov_self_id
     ):
         logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no, VisualCrossing...)")
         sys.exit(1)

@@ -78,20 +78,19 @@ class WeatherGov(BaseWeatherProvider):
 
         daytime = self.is_daytime(self.location_lat, self.location_long)
 
-        # Weather.gov doesn't provide a min max temperature.  It uses the today and tonight temperature as min max instead.  
-        for forecast in weather_data["properties"]["periods"]:
-            if forecast["name"]=="Today":
-                day_forecast = forecast
-            if forecast["name"]=="Tonight":
-                night_forecast = forecast
+        # Weather.gov doesn't provide a min max temperature.  It uses the current and upcoming temperatures as min max instead.  
+        current_forecast = weather_data["properties"]["periods"][0]
+        upcoming_forecast = weather_data["properties"]["periods"][1]
+        min_temp = min(current_forecast["temperature"], upcoming_forecast["temperature"])
+        max_temp = max(current_forecast["temperature"], upcoming_forecast["temperature"])
 
         # {'number': 2, 'name': 'Tonight', 'startTime': '2022-03-06T18:00:00-06:00', 'endTime': '2022-03-07T06:00:00-06:00', 'isDaytime': False, 'temperature': 20, 'temperatureUnit': 'F', 'temperatureTrend': None, 'windSpeed': '10 to 15 mph', 'windDirection': 'N', 'icon': 'https://api.weather.gov/icons/land/night/snow,30/snow,20?size=medium', 'shortForecast': 'Chance Rain And Snow', 'detailedForecast': 'A chance of rain and snow before 3am. Mostly cloudy, with a low around 20. North wind 10 to 15 mph, with gusts as high as 25 mph. Chance of precipitation is 30%.'}
-        current_forecast = day_forecast if daytime else night_forecast
+        # current_forecast = day_forecast if daytime else night_forecast
 
         weather = {}
         weather["description"] = current_forecast["shortForecast"]
-        weather["temperatureMin"] = night_forecast["temperature"] if self.units != "metric" else self.f_to_c(night_forecast["temperature"])
-        weather["temperatureMax"] = day_forecast["temperature"] if self.units != "metric" else self.f_to_c(day_forecast["temperature"])
+        weather["temperatureMin"] = min_temp if self.units != "metric" else self.f_to_c(min_temp)
+        weather["temperatureMax"] = max_temp if self.units != "metric" else self.f_to_c(max_temp)
         weather["icon"] = self.get_icon_from_weathergov_icon_urls(current_forecast["icon"], daytime)
         logging.debug(weather)
         return weather

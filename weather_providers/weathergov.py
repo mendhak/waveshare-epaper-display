@@ -60,7 +60,7 @@ class WeatherGov(BaseWeatherProvider):
     def get_forecast_url(self, lat, long):
         logging.info("Using lat long to figure out the Weather.gov forecast URL")
         lookup_url = "https://api.weather.gov/points/{},{}".format(lat, long)
-        lookup_data = get_json_from_url(lookup_url, {}, "cache_weather_gov_lookup.json", 3600)
+        lookup_data = get_json_from_url(lookup_url, {'User-Agent':'({0})'.format(self.weathergov_self_id)}, "cache_weather_gov_lookup.json", 3600)
         logging.debug(lookup_data)
         return lookup_data["properties"]["forecast"]
 
@@ -72,7 +72,7 @@ class WeatherGov(BaseWeatherProvider):
         # https://api.weather.gov/gridpoints/TOP/31,80/forecast"
         logging.info(forecast_url)
 
-        response_data = self.get_response_json(forecast_url)
+        response_data = self.get_response_json(forecast_url, {'User-Agent':'({0})'.format(self.weathergov_self_id)})
         weather_data = response_data
         logging.debug("get_weather() - {}".format(weather_data))
 

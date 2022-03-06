@@ -1,5 +1,5 @@
 ## 2022-03-06
-* Add weather.gov as a forecast and alert provider
+* Add weather.gov as a weather and alert provider
 
 ## 2022-01-07
 

@@ -87,7 +87,7 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
 ## Pick a Weather provider
 
-You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, and Climacell to provide temperature and weather forecasts.  
+You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.  
 You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `cache_weather.json` if you switch weather providers. 
 
 ### OpenWeatherMap

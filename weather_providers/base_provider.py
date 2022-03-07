@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from utility import is_stale
 import logging
 import json
+import xml.etree.ElementTree as ET
 import requests
 from astral import LocationInfo
 from astral.sun import sun
@@ -50,13 +51,13 @@ class BaseWeatherProvider(ABC):
 
         return verdict
 
-    def get_response_data(self, url, headers={}, cache_file_name="weather-cache.json"):
+    def get_response_data(self, url, headers={}, cache_file_name="weather-cache.json", format="json"):
         """
         Perform an HTTP GET for a `url` with optional `headers`.
         Caches the response in `cache_file_name` for WEATHER_TTL seconds.
         Returns the response as JSON
         """
-        response_json = False
+        response_parsed = False
 
         if (is_stale(cache_file_name, self.ttl)):
             logging.info("Cache file is stale. Fetching from source.")
@@ -64,9 +65,14 @@ class BaseWeatherProvider(ABC):
                 response = requests.get(url, headers=headers)
                 response.raise_for_status()
                 response_data = response.text
-                response_json = json.loads(response_data)
-                with open(cache_file_name, 'w') as text_file:
-                    json.dump(response_json, text_file, indent=4)
+                if format == "json":
+                    response_parsed = json.loads(response_data)
+                    with open(cache_file_name, 'w') as text_file:
+                        json.dump(response_parsed, text_file, indent=4)
+                else:
+                    response_parsed = ET.fromstring(response_data)
+                    with open(cache_file_name, 'w') as text_file:
+                        text_file.write(response_data)
             except Exception as error:
                 logging.error(error)
                 logging.error(response.text)
@@ -75,5 +81,9 @@ class BaseWeatherProvider(ABC):
         else:
             logging.info("Found in cache.")
             with open(cache_file_name, 'r') as file:
-                return json.loads(file.read())
-        return response_json
+                if format == "json":
+                    return json.loads(file.read())
+                else:
+                    return ET.fromstring(file.read())
+        return response_parsed
+

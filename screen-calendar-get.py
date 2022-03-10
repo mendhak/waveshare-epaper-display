@@ -160,6 +160,7 @@ def get_google_datetime_formatted(event_start, event_end):
             start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
             end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
         day = "{} - {}".format(start_formatted, end_formatted)
+        return day
 # >>>>>>> b65f50709d1d65d0b9314a040767e148b49942ef
     else:
         t = time.strptime(start,"%Y-%m-%d")

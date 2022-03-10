@@ -1,5 +1,13 @@
 __pycache__
 *.__pycache__
+mask.pbm
+mask_invert.pbm
+only_black.bmp
+only_black.png
+only_black.pnm
+only_red.bmp
+only_red.png
+only_red.pnm
 *.pyc
 screen-output*
 env.sh

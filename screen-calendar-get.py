@@ -142,37 +142,35 @@ def get_output_dict_from_google_events(events, event_slot_count):
     return formatted_events
 
 
-# <<<<<<< HEAD
-# def get_google_datetime_formatted(event_start):
-    # start = event_start.get('dateTime', event_start.get('date'))
-    # start = start.replace('Z', '+00:00')
-    # if 'T' in start:
-        # t = datetime.datetime.fromisoformat(start).timetuple()
-# =======
+def format_date(t):
+    t = t.timetuple()
+    now = time.gmtime(time.time())
+    tomorrow = time.gmtime(time.time() + (24*60*60))
+    next_week = time.gmtime(time.time() + (7*24*60*60))
+    if time.strftime("%d", t) == time.strftime("%d", now):
+        return time.strftime("%-I:%M %p", t)
+    elif time.strftime("%d", t) == time.strftime("%d", tomorrow):
+        return time.strftime("Tomorrow %-I:%M %p", t)
+    elif t < next_week:
+        return time.strftime("%A %-I:%M %p", t)
+    else:
+        return time.strftime("%a %b %-d %-I:%M %p", t)
+
+
 def get_google_datetime_formatted(event_start, event_end):
     if(event_start.get('dateTime')):
         start_date = datetime.datetime.strptime(event_start.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         end_date = datetime.datetime.strptime(event_end.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         if(start_date.date() == end_date.date()):
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = format_date(start_date)
             end_formatted = end_date.strftime("%-I:%M %p")
         else:
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
-            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = format_date(start_date)
+            end_formatted = format_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
-        return day
-# >>>>>>> b65f50709d1d65d0b9314a040767e148b49942ef
     else:
-        t = time.strptime(start,"%Y-%m-%d")
-
-    now = time.gmtime(time.time())
-    tomorrow = time.gmtime(time.time() + (24*60*60))
-    if time.strftime("%d", t) == time.strftime("%d", now):
-        day = time.strftime("%H:%M", t)
-    elif time.strftime("%d", t) == time.strftime("%d", tomorrow):
-        day = time.strftime("Tomorrow %H:%M", t)
-    else:
-        day = time.strftime("%A %H:%M", t)
+        start = event_start.get('date')
+        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
     return day
 
 

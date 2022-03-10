@@ -37,7 +37,8 @@ else
     WAVESHARE_HEIGHT=480
 fi
 
-inkscape screen-output-calendar.svg --without-gui -e screen-output.png -w$WAVESHARE_WIDTH -h$WAVESHARE_HEIGHT --export-dpi=300
+# inkscape screen-output-calendar.svg --without-gui -e screen-output.png -w$WAVESHARE_WIDTH -h$WAVESHARE_HEIGHT --export-dpi=300
+cairosvg -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-calendar.svg
 
 log "Separate black/red channels"
 convert screen-output.png -channel R -separate only_black.png
@@ -55,4 +56,4 @@ convert -colors 2 +dither -type Bilevel -monochrome only_black.png only_black.bm
 log "Display on epaper"
 python3 display.py only_black.bmp only_red.bmp
 
-) 2>&1 | tee -a LOG
+) 2>&1 | tee -a run.log

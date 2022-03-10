@@ -128,7 +128,7 @@ class MetNo(BaseWeatherProvider):
 
         headers = {"User-Agent": self.metno_self_id}
 
-        response_data = self.get_response_data(url, headers=headers)
+        response_data = self.get_response_json(url, headers=headers)
         logging.debug(response_data)
         weather_data = response_data["properties"]["timeseries"][0]["data"]
         logging.debug("get_weather() - {}".format(weather_data))

@@ -9,6 +9,7 @@ import os
 import time
 from datetime import timezone
 from utility import configure_logging
+from dateutil import tz
 
 configure_logging()
 
@@ -69,22 +70,25 @@ def get_outlook_calendar_events(calendar_id, from_date, to_date, access_token):
     return events_data
 
 
-def outlook_utc_to_local_time(utc):
-    # Outlook Calendar View returns a specific datetime format (it's valid ISO but Python doesn't pick it up)
-    # Outlook Calendar View 'start' is always in UTC.  According to the docs.  In Apr 2021.
-    utcdate = datetime.datetime.strptime(utc, "%Y-%m-%dT%H:%M:%S.0000000")
-    return utcdate.replace(tzinfo=timezone.utc).astimezone(tz=None).timetuple()
-
-
 def get_outlook_datetime_formatted(event):
-    event_start = event["start"]
+    start_date = datetime.datetime.strptime(event["start"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")
+    end_date = datetime.datetime.strptime(event["end"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")
+    
     if event['isAllDay'] == True:
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d", outlook_utc_to_local_time(start))
+        day = start_date.strftime("%a %b %-d")
     else:
-        start = event_start.get('dateTime')
-        day = time.strftime("%a %b %-d, %-I:%M %p", outlook_utc_to_local_time(start))
-
+        # Convert start/end to local time
+        start_date = start_date.replace(tzinfo=tz.tzutc())
+        start_date = start_date.astimezone(tz.tzlocal())
+        end_date = end_date.replace(tzinfo=tz.tzutc())
+        end_date = end_date.astimezone(tz.tzlocal())
+        if(start_date.date() == end_date.date()):
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+        day = "{} - {}".format(start_formatted, end_formatted)
     return day
 
 
@@ -114,7 +118,7 @@ def main():
             events_data = get_outlook_calendar_events(cal["id"], now_iso, oneyearlater_iso, access_token)
 
             for event in events_data["value"]:
-                print("     ", event["subject"], ": ", event["start"]["dateTime"])
+                print("     ", event["subject"], ": ", get_outlook_datetime_formatted(event))
             print("============================================")
 
 

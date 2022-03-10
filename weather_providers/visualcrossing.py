@@ -40,7 +40,7 @@ class VisualCrossing(BaseWeatherProvider):
         url = ("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{},{}?unitGroup={}&key={}&include=fcst,alerts"
                .format(self.location_lat, self.location_long, "us" if self.units != "metric" else "metric", self.visualcrossing_apikey))
 
-        response_data = self.get_response_data(url)
+        response_data = self.get_response_json(url)
 
         current_day = datetime.datetime.now().strftime("%Y-%m-%d")
 

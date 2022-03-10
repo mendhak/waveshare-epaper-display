@@ -111,7 +111,7 @@ class MetOffice(BaseWeatherProvider):
             "accept": "application/json"
         }
 
-        response_data = self.get_response_data(url, headers=headers)
+        response_data = self.get_response_json(url, headers=headers)
         logging.debug(response_data)
 
         datahub_time = datetime.datetime.now().strftime("%Y-%m-%dT00:00Z")  # midnight of the current day

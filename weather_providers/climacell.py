@@ -102,7 +102,7 @@ class Climacell(BaseWeatherProvider):
                + "?location={}&units={}&fields=temperatureMin&fields=temperatureMax&fields=weatherCode&timesteps=1d&apikey={}"
                .format(location_latlong, self.units, self.climacell_apikey))
 
-        response_data = self.get_response_data(url)
+        response_data = self.get_response_json(url)
         weather_data = response_data["data"]['timelines'][0]['intervals'][0]['values']
         logging.debug("get_weather() - {}".format(weather_data))
 

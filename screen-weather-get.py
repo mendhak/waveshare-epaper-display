@@ -4,9 +4,12 @@ import datetime
 import sys
 import os
 import logging
+from utility import is_stale
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing
+from alert_providers import metofficerssfeed
 from utility import update_svg, configure_logging
 import textwrap
+import html
 
 configure_logging()
 
@@ -21,8 +24,7 @@ def format_weather_description(weather_description):
     weather_dict[2] = splits[1] if len(splits) > 1 else ''
     return weather_dict
 
-
-def main():
+def get_weather(location_lat, location_long, units):
 
     # gather relevant environment configs
     climacell_apikey = os.getenv("CLIMACELL_APIKEY")
@@ -34,11 +36,6 @@ def main():
     metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
     visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
 
-    location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
-    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
-
-    weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
-
     if (
         not climacell_apikey
         and not openweathermap_apikey
@@ -49,11 +46,6 @@ def main():
     ):
         logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no, VisualCrossing...)")
         sys.exit(1)
-
-    if (weather_format == "CELSIUS"):
-        units = "metric"
-    else:
-        units = "imperial"
 
     if visualcrossing_apikey:
         logging.info("Getting weather from Visual Crossing")
@@ -91,14 +83,45 @@ def main():
 
     weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))
+    return weather
+
+def format_alert_description(alert_message):
+    return html.escape(alert_message)
+
+def get_alert_message():
+    alert_message = ""
+    alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
+    if alert_metoffice_feed_url:
+        alert_provider = metofficerssfeed.MetOfficeRssFeed(os.getenv("ALERT_METOFFICE_FEED_URL"))
+        alert_message = alert_provider.get_alert()
+    logging.info("alert - {}".format(alert_message))
+    return alert_message
+
+
+def main():
+
+    location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
+    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
+    weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
+
+    if (weather_format == "CELSIUS"):
+        units = "metric"
+        degrees = "°C"
+    else:
+        units = "imperial"
+        degrees = "°F"
+
+    weather = get_weather(location_lat, location_long, units)
 
     if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")
         return
 
-    degrees = "°C" if units == "metric" else "°F"
-
     weather_desc = format_weather_description(weather["description"])
+
+    alert_message = get_alert_message()
+    alert_message = format_alert_description(alert_message)
+    
 
     output_dict = {
         'LOW': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
@@ -110,7 +133,7 @@ def main():
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
-        'ALERT_MESSAGE': ""  # unused, see: https://github.com/mendhak/waveshare-epaper-display/issues/13
+        'ALERT_MESSAGE': alert_message
     }
 
     logging.debug("main() - {}".format(output_dict))

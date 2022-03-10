@@ -27,13 +27,13 @@ def get_outlook_events(max_event_results):
 
     if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Outlook Calendar API")
-        now_iso = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        today_midnight = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time()).isoformat()
         oneyearlater_iso = (datetime.datetime.now().astimezone()
                             + datetime.timedelta(days=365)).astimezone().isoformat()
         access_token = outlook_util.get_access_token()
         events_data = outlook_util.get_outlook_calendar_events(
                                                                 outlook_calendar_id,
-                                                                now_iso,
+                                                                today_midnight,
                                                                 oneyearlater_iso,
                                                                 access_token)
         logging.debug(events_data)
@@ -103,10 +103,11 @@ def get_google_events(max_event_results):
     if is_stale(os.getcwd() + "/" + google_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Calendar API")
 
+        today_midnight = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
         # Call the Calendar API
         events_result = service.events().list(
             calendarId=google_calendar_id,
-            timeMin=datetime.datetime.utcnow().isoformat() + 'Z',
+            timeMin=today_midnight.isoformat() + 'Z',
             maxResults=max_event_results,
             singleEvents=True,
             orderBy='startTime').execute()
@@ -133,7 +134,7 @@ def get_output_dict_from_google_events(events, event_slot_count):
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if (event_i <= event_count - 1):
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_google_datetime_formatted(events[event_i]['start'])
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_google_datetime_formatted(events[event_i]['start'], events[event_i]['end'])
             formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['summary']
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
@@ -141,11 +142,25 @@ def get_output_dict_from_google_events(events, event_slot_count):
     return formatted_events
 
 
-def get_google_datetime_formatted(event_start):
-    start = event_start.get('dateTime', event_start.get('date'))
-    start = start.replace('Z', '+00:00')
-    if 'T' in start:
-        t = datetime.datetime.fromisoformat(start).timetuple()
+# <<<<<<< HEAD
+# def get_google_datetime_formatted(event_start):
+    # start = event_start.get('dateTime', event_start.get('date'))
+    # start = start.replace('Z', '+00:00')
+    # if 'T' in start:
+        # t = datetime.datetime.fromisoformat(start).timetuple()
+# =======
+def get_google_datetime_formatted(event_start, event_end):
+    if(event_start.get('dateTime')):
+        start_date = datetime.datetime.strptime(event_start.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
+        end_date = datetime.datetime.strptime(event_end.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
+        if(start_date.date() == end_date.date()):
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+        day = "{} - {}".format(start_formatted, end_formatted)
+# >>>>>>> b65f50709d1d65d0b9314a040767e148b49942ef
     else:
         t = time.strptime(start,"%Y-%m-%d")
 

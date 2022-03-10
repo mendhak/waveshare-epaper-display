@@ -71,7 +71,7 @@ class AccuWeather(BaseWeatherProvider):
         url = ("http://dataservice.accuweather.com/forecasts/v1/daily/1day/{}?apikey={}&details=true&metric={}"
                .format(self.location_key, self.accuweather_apikey, "true" if self.units == "metric" else "false"))
 
-        response_data = self.get_response_data(url)
+        response_data = self.get_response_json(url)
         weather_data = response_data
         logging.debug("get_weather() - {}".format(weather_data))
 

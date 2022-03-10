@@ -86,4 +86,3 @@ class BaseWeatherProvider(ABC):
                 else:
                     return ET.fromstring(file.read())
         return response_parsed
-

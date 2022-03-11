@@ -5,7 +5,7 @@ import sys
 import os
 import logging
 from utility import is_stale
-from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing
 from alert_providers import metofficerssfeed
 from utility import update_svg, configure_logging
 import textwrap
@@ -35,6 +35,7 @@ def get_weather(location_lat, location_long, units):
     accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
     metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
     visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
+    use_met_eireann = os.getenv("WEATHER_MET_EIREANN")
 
     if (
         not climacell_apikey
@@ -43,13 +44,18 @@ def get_weather(location_lat, location_long, units):
         and not accuweather_apikey
         and not metno_self_id
         and not visualcrossing_apikey
+        and not use_met_eireann
     ):
-        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no, VisualCrossing...)")
+        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no, Met Eireann, VisualCrossing...)")
         sys.exit(1)
 
     if visualcrossing_apikey:
         logging.info("Getting weather from Visual Crossing")
         weather_provider = visualcrossing.VisualCrossing(visualcrossing_apikey, location_lat, location_long, units)
+
+    elif use_met_eireann:
+        logging.info("Getting weather from Met Eireann")
+        weather_provider = meteireann.MetEireann(location_lat, location_long, units)
 
     elif metno_self_id:
         logging.info("Getting weather from Met.no")

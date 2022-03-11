@@ -1,4 +1,4 @@
-# sCRAPE SENSOR VALUes from a local HomeAssistant instance.
+# scrape sensor values from a local HomeAssistant instance.
 
 from __future__ import print_function
 import codecs

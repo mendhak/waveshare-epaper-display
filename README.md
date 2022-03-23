@@ -128,6 +128,8 @@ Note that the Met.no API provides 6 hours of forecast, rather than a full day.
 
     export WEATHER_MET_EIREANN=1
 
+Note that a condition of use of this data is that weather alerts be displayed, so ALERT_MET_EIREANN_FEED_URL should be uncommented, too.
+
 ### Climacell (tomorrow.io)
 
 Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.   

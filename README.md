@@ -13,7 +13,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Met Office (UK)](#met-office-uk)
   - [AccuWeather](#accuweather)
   - [Met.no](#metno)
-  - [Met Eireann](#met-eireann-ireland)
+  - [Met Éireann](#met-éireann-ireland)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
   - [Location information for Weather](#location-information-for-weather)
 - [Pick a Calendar provider](#pick-a-calendar-provider)

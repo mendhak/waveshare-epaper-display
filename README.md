@@ -13,6 +13,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Met Office (UK)](#met-office-uk)
   - [AccuWeather](#accuweather)
   - [Met.no](#metno)
+  - [Met Eireann](#met-eireann-ireland)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
   - [Location information for Weather](#location-information-for-weather)
 - [Pick a Calendar provider](#pick-a-calendar-provider)
@@ -120,6 +121,12 @@ Met.no's [Terms of Service](https://api.met.no/doc/TermsOfService) requires you 
     export METNO_SELF_IDENTIFICATION=you@example.com
 
 Note that the Met.no API provides 6 hours of forecast, rather than a full day.  
+
+### Met Éireann (Ireland)
+
+[Met Éireann](https://www.met.ie/) publish their forecast data under a [Creative Commons Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  All you need to do to use it is to uncomment this line in `env.sh`:
+
+    export WEATHER_MET_EIREANN=1
 
 ### Climacell (tomorrow.io)
 

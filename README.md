@@ -8,14 +8,19 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Setup the PI](#setup-the-pi)
 - [Setup dependencies](#setup-dependencies)
 - [Using this application](#using-this-application)
+- [Set your location](#set-your-location)
 - [Pick a Weather provider](#pick-a-weather-provider)
   - [OpenWeatherMap](#openweathermap)
   - [Met Office (UK)](#met-office-uk)
   - [AccuWeather](#accuweather)
   - [Met.no](#metno)
   - [Met Éireann](#met-éireann-ireland)
+  - [Weather.gov (US)](#weathergov-us)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
-  - [Location information for Weather](#location-information-for-weather)
+  - [VisualCrossing](#visualcrossing)
+- [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
+  - [Met Office (UK)](#met-office-uk-1)
+  - [Weather.gov (US)](#weathergov-us-1)
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
@@ -48,7 +53,7 @@ Connect the ribbon from the epaper display to the extension.  To do this you wil
 
     sudo apt update && sudo apt upgrade  
     sudo apt install git gsfonts python3 python3-pip cairosvg pigpio python3-pigpio  
-    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow google-api-python-client google-auth-httplib2 google-auth-oauthlib msal cryptography==36.0.0
+    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow google-api-python-client google-auth-httplib2 google-auth-oauthlib msal
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 
@@ -71,10 +76,21 @@ Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Modu
 
     export WAVESHARE_EPD75_VERSION=2
 
+## Set your location
+
+Whichever weather provider you use, you'll need to provide the location and units to display in.  
+
+Modify the `env.sh` file and update with the latitude and longitude of your location.  
+As needed, change the temperature format (CELSIUS or FAHRENHEIT).  
+
+    export WEATHER_LATITUDE=51.3656
+    export WEATHER_LONGITUDE=0.1963
+    export WEATHER_FORMAT=CELSIUS
+
 ## Pick a Weather provider
 
-You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no and Climacell to provide temperature and weather forecasts.  
-You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `weather-cache.json` if you switch weather providers. 
+You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.  
+You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `cache_weather.json` if you switch weather providers. 
 
 ### OpenWeatherMap
 
@@ -130,6 +146,15 @@ Note that the Met.no API provides 6 hours of forecast, rather than a full day.
 
 Note that a condition of use of this data is that weather alerts be displayed, so ALERT_MET_EIREANN_FEED_URL should be uncommented, too.
 
+### Weather.gov (US)
+
+Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
+Set its value in the `env.sh` as shown:
+
+    export WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+
+Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
+
 ### Climacell (tomorrow.io)
 
 Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.   
@@ -137,16 +162,36 @@ Modify the `env.sh` file and put your Climacell API key in there.
 
     export CLIMACELL_APIKEY=xxxxxx
 
-### Location information for Weather
+### VisualCrossing
 
-Whichever weather provider you've picked, you'll need to provide the location and units to display in.  
+Register on [VisualCrossing](https://www.visualcrossing.com/). Under Account Details, you should be able to generate an API key. Once you have that, simply add it to `env.sh` as shown: 
 
-Modify the `env.sh` file and update with the latitude and longitude of your location.  
-As needed, change the temperature format (CELSIUS or FAHRENHEIT).  
+    export VISUALCROSSING_APIKEY=XXXXXXXXXXXXXXXXXXXXXX
 
-    export WEATHER_LATITUDE=51.3656
-    export WEATHER_LONGITUDE=0.1963
-    export WEATHER_FORMAT=CELSIUS
+
+
+## Pick a severe weather warning provider
+
+This is an optional step.  By doing nothing you simply won't see severe weather warnings.  
+
+### Met Office (UK)
+
+Go to the [Met Office RSS Feeds page](https://www.metoffice.gov.uk/weather/guides/rss) and copy the URL of the RSS feed based on your region.  
+Set its value in the `env.sh` as shown below. For example, London would be:
+
+    export ALERT_METOFFICE_FEED_URL=https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se
+
+### Weather.gov (US)
+
+Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
+Set its value in the `env.sh` as shown: 
+
+    export ALERT_WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+
+This provider will use the same latitude and longitude as specified for the weather provider.  
+
+Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
+
 
 
 ## Pick a Calendar provider
@@ -225,8 +270,8 @@ If you've set up the cron job as shown above, a `run.log` file will appear which
 If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG` in the `env.sh` and the `run.log` will contain even more information.  
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.   
-If you want to force a weather update, you can delete the `weather-cache.json`.   
-If you want to force a calendar update, you can delete the `calendar.pickle` or `outlookcalendar.pickle`.   
+If you want to force a weather update, you can delete the `cache_weather.json`.   
+If you want to force a calendar update, you can delete the `cache_calendar.pickle` or `cache_outlookcalendar.pickle`.   
 If you want to force a re-login to Google or Outlook, delete the `token.pickle` or `outlooktoken.bin`.  
 
 

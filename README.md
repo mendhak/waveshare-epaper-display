@@ -14,13 +14,14 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Met Office (UK)](#met-office-uk)
   - [AccuWeather](#accuweather)
   - [Met.no](#metno)
-  - [Met Éireann](#met-éireann-ireland)
+  - [Met Éireann (Ireland)](#met-éireann-ireland)
   - [Weather.gov (US)](#weathergov-us)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
   - [VisualCrossing](#visualcrossing)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
   - [Met Office (UK)](#met-office-uk-1)
   - [Weather.gov (US)](#weathergov-us-1)
+  - [Met Éireann (Ireland)](#met-éireann-ireland-1)  
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
@@ -191,6 +192,12 @@ Set its value in the `env.sh` as shown:
 This provider will use the same latitude and longitude as specified for the weather provider.  
 
 Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
+
+### Met Éireann (Ireland)
+
+To use alerts from Met Éireann, uncomment the environment variable:
+
+    export ALERT_MET_EIREANN_FEED_URL=https://www.met.ie/warningsxml/rss.xml
 
 
 

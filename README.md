@@ -199,7 +199,7 @@ To use alerts from Met Éireann, uncomment the environment variable:
 
     export ALERT_MET_EIREANN_FEED_URL=https://www.met.ie/warningsxml/rss.xml
 
-
+Note that these alerts are nation wide and is not filtered by specific location. 
 
 ## Pick a Calendar provider
 

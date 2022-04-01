@@ -119,7 +119,7 @@ def get_alert_message(location_lat, location_long):
     # uses the same implementation code as ALERT_METOFFICE_FEED_URL, but this way
     # if we need them to diverge into different implementations in future, it won't
     # require users modify their env.sh
-    if alert_meteireann_feed_url:
+    elif alert_meteireann_feed_url:
         alert_provider = metofficerssfeed.MetOfficeRssFeed(alert_meteireann_feed_url)
         alert_message = alert_provider.get_alert()
 

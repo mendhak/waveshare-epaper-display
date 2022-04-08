@@ -147,17 +147,39 @@ def get_google_datetime_formatted(event_start, event_end):
         start_date = datetime.datetime.strptime(event_start.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         end_date = datetime.datetime.strptime(event_end.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         if(start_date.date() == end_date.date()):
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            #start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = get_formatted_date(start_date)
             end_formatted = end_date.strftime("%-I:%M %p")
         else:
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
-            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+            #start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = get_formatted_date(start_date)
+            #end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+            end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
     else:
         start = event_start.get('date')
-        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
+        #day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
+        day = get_formatted_date(datetime.datetime.strptime(start, "%Y-%m-%d"), include_time=False)
     return day
 
+def get_formatted_date(dt, include_time=True):
+    today = datetime.datetime.today()
+    tomorrow = today + datetime.timedelta(days=1)
+    next_week = today + datetime.timedelta(days=7)
+    formatter_day = "%a %b %-d"
+    formatter_time = ""
+
+    if include_time:
+        formatter_time = ", %-I:%M %p"
+
+    if dt.date() == today.date():
+        formatter_day = "Today"
+    elif dt.date() == tomorrow.date():
+        formatter_day = "Tomorrow"
+    elif dt.date() < next_week.date():
+        formatter_day = "%A"
+    return dt.strftime(formatter_day + formatter_time)
+    
 
 def main():
 

@@ -14,12 +14,14 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Met Office (UK)](#met-office-uk)
   - [AccuWeather](#accuweather)
   - [Met.no](#metno)
+  - [Met Éireann (Ireland)](#met-éireann-ireland)
   - [Weather.gov (US)](#weathergov-us)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
   - [VisualCrossing](#visualcrossing)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
   - [Met Office (UK)](#met-office-uk-1)
   - [Weather.gov (US)](#weathergov-us-1)
+  - [Met Éireann (Ireland)](#met-éireann-ireland-1)  
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
@@ -137,6 +139,14 @@ Met.no's [Terms of Service](https://api.met.no/doc/TermsOfService) requires you 
 
 Note that the Met.no API provides 6 hours of forecast, rather than a full day.  
 
+### Met Éireann (Ireland)
+
+[Met Éireann](https://www.met.ie/) publish their forecast data under a [Creative Commons Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  All you need to do to use it is to uncomment this line in `env.sh`:
+
+    export WEATHER_MET_EIREANN=1
+
+Note that a condition of use of this data is that weather alerts be displayed, so ALERT_MET_EIREANN_FEED_URL should be uncommented, too.
+
 ### Weather.gov (US)
 
 Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address. 
@@ -183,7 +193,12 @@ This provider will use the same latitude and longitude as specified for the weat
 
 Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again. 
 
+### Met Éireann (Ireland)
 
+To use alerts from Met Éireann, visit  https://www.met.ie/Open_Data/json/ and choose the appropriate "warning_EIXX" JSON file for your region, using each county's FIPS code.  This code can be found in the table on http://www.statoids.com/uie.html,
+in the pre-2014 section.  For example, this is the file for Dublin:
+
+    export ALERT_MET_EIREANN_FEED_URL=https://www.met.ie/Open_Data/json/warning_EI07.json
 
 ## Pick a Calendar provider
 

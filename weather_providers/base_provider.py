@@ -21,6 +21,12 @@ class BaseWeatherProvider(ABC):
         """
         pass
 
+    def f_to_c(self, fahrenheit):
+        """
+        Return the Celsius value from a given Fahrenheit
+        """
+        return float((fahrenheit - 32) * 5/9)
+
     def c_to_f(self, celsius):
         """
         Return the Fahrenheit value from a given Celsius
@@ -54,7 +60,7 @@ class BaseWeatherProvider(ABC):
         Caches the response in `cache_file_name` for WEATHER_TTL seconds.
         Returns the response as JSON
         """
-        return get_json_from_url(url, headers, "weather-cache.json", self.ttl)
+        return get_json_from_url(url, headers, "cache_weather.json", self.ttl)
 
     def get_response_xml(self, url, headers={}):
         """
@@ -62,4 +68,4 @@ class BaseWeatherProvider(ABC):
         Caches the response in `cache_file_name` for WEATHER_TTL seconds.
         Returns the response as an XML ElementTree
         """
-        return get_xml_from_url(url, headers, "weather-cache.xml", self.ttl)
+        return get_xml_from_url(url, headers, "cache_weather.xml", self.ttl)

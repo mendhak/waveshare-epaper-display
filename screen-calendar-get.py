@@ -23,7 +23,7 @@ ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 def get_outlook_events(max_event_results):
 
-    outlook_calendar_pickle = 'outlookcalendar.pickle'
+    outlook_calendar_pickle = 'cache_outlookcalendar.pickle'
 
     if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Outlook Calendar API")
@@ -94,7 +94,7 @@ def get_google_credentials():
 
 def get_google_events(max_event_results):
 
-    google_calendar_pickle = 'calendar.pickle'
+    google_calendar_pickle = 'cache_calendar.pickle'
 
     service = build('calendar', 'v3', credentials=get_google_credentials(), cache_discovery=False)
 

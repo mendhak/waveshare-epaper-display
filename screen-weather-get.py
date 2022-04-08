@@ -5,8 +5,8 @@ import sys
 import os
 import logging
 from utility import is_stale
-from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing
-from alert_providers import metofficerssfeed
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, accuweather, visualcrossing, weathergov
+from alert_providers import metofficerssfeed, weathergovalerts
 from utility import update_svg, configure_logging
 import textwrap
 import html
@@ -35,6 +35,7 @@ def get_weather(location_lat, location_long, units):
     accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
     metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
     visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
+    weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
 
     if (
         not climacell_apikey
@@ -43,13 +44,18 @@ def get_weather(location_lat, location_long, units):
         and not accuweather_apikey
         and not metno_self_id
         and not visualcrossing_apikey
+        and not weathergov_self_id
     ):
-        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, MetOffice, AccuWeather, Met.no, VisualCrossing...)")
+        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, Weather.gov, MetOffice, AccuWeather, Met.no, VisualCrossing...)")
         sys.exit(1)
 
     if visualcrossing_apikey:
         logging.info("Getting weather from Visual Crossing")
         weather_provider = visualcrossing.VisualCrossing(visualcrossing_apikey, location_lat, location_long, units)
+
+    elif weathergov_self_id:
+        logging.info("Getting weather from Weather.gov")
+        weather_provider = weathergov.WeatherGov(weathergov_self_id, location_lat, location_long, units)
 
     elif metno_self_id:
         logging.info("Getting weather from Met.no")
@@ -88,10 +94,18 @@ def get_weather(location_lat, location_long, units):
 def format_alert_description(alert_message):
     return html.escape(alert_message)
 
-def get_alert_message():
+def get_alert_message(location_lat, location_long):
     alert_message = ""
     alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
-    if alert_metoffice_feed_url:
+    alert_weathergov_self_id = os.getenv("ALERT_WEATHERGOV_SELF_IDENTIFICATION")
+
+    if alert_weathergov_self_id:
+        logging.info("Getting weather alert from Weather.gov API")
+        alert_provider = weathergovalerts.WeatherGovAlerts(location_lat, location_long, alert_weathergov_self_id)
+        alert_message = alert_provider.get_alert()
+
+    elif alert_metoffice_feed_url:
+        logging.info("Getting weather alert from Met Office RSS Feed")
         alert_provider = metofficerssfeed.MetOfficeRssFeed(os.getenv("ALERT_METOFFICE_FEED_URL"))
         alert_message = alert_provider.get_alert()
     logging.info("alert - {}".format(alert_message))
@@ -119,7 +133,7 @@ def main():
 
     weather_desc = format_weather_description(weather["description"])
 
-    alert_message = get_alert_message()
+    alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
     
 

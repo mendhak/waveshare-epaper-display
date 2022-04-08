@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import outlook_util
-from utility import is_stale, update_svg, configure_logging
+from utility import is_stale, update_svg, configure_logging, get_formatted_date
 
 configure_logging()
 
@@ -162,24 +162,6 @@ def get_google_datetime_formatted(event_start, event_end):
         day = get_formatted_date(datetime.datetime.strptime(start, "%Y-%m-%d"), include_time=False)
     return day
 
-def get_formatted_date(dt, include_time=True):
-    today = datetime.datetime.today()
-    tomorrow = today + datetime.timedelta(days=1)
-    next_week = today + datetime.timedelta(days=7)
-    formatter_day = "%a %b %-d"
-    formatter_time = ""
-
-    if include_time:
-        formatter_time = ", %-I:%M %p"
-
-    if dt.date() == today.date():
-        formatter_day = "Today"
-    elif dt.date() == tomorrow.date():
-        formatter_day = "Tomorrow"
-    elif dt.date() < next_week.date():
-        formatter_day = "%A"
-    return dt.strftime(formatter_day + formatter_time)
-    
 
 def main():
 

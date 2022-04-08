@@ -1,3 +1,6 @@
+## 2022-04-08
+* Add Met Éireann weather and alert provider by [@jmason](https://github.com/mendhak/waveshare-epaper-display/pull/34)
+
 ## 2022-03-06
 * Add weather.gov as a weather and alert provider
 * Add VisualCrossing instructions to the README

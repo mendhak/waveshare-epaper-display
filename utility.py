@@ -6,8 +6,11 @@ import contextlib
 from http.client import HTTPConnection # py3
 import requests
 import datetime
+import pytz
 import json
 import xml.etree.ElementTree as ET
+from astral import LocationInfo
+from astral.sun import sun
 
 def configure_logging():
     """
@@ -137,9 +140,21 @@ def get_formatted_date(dt, include_time=True):
 
     if dt.date() == today.date():
         formatter_day = "Today"
+        if dt >= get_sunset_time():
+            formatter_day = "Tonight"
     elif dt.date() == tomorrow.date():
         formatter_day = "Tomorrow"
     elif dt.date() < next_week.date():
         formatter_day = "%A"
     return dt.strftime(formatter_day + formatter_time)
-        
+
+def get_sunset_time():
+    """
+    Return the time at which darkness begins, aka 'tonight'
+    """
+    location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
+    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
+    dt = datetime.datetime.now(pytz.utc)
+    city = LocationInfo(location_lat, location_long)
+    s = sun(city.observer, date=dt)
+    return s['sunset']

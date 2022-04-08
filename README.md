@@ -195,8 +195,7 @@ Warning: YMMV. During my testing, I found the weather.gov API would start return
 
 ### Met Éireann (Ireland)
 
-To use alerts from Met Éireann, visit  https://www.met.ie/Open_Data/json/ and choose the appropriate "warning_EIXX" JSON  
-file for your region, using each county's FIPS code.  This code can be found in the table on http://www.statoids.com/uie.html,
+To use alerts from Met Éireann, visit  https://www.met.ie/Open_Data/json/ and choose the appropriate "warning_EIXX" JSON file for your region, using each county's FIPS code.  This code can be found in the table on http://www.statoids.com/uie.html,
 in the pre-2014 section.  For example, this is the file for Dublin:
 
     export ALERT_MET_EIREANN_FEED_URL=https://www.met.ie/Open_Data/json/warning_EI07.json

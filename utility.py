@@ -133,10 +133,7 @@ def get_formatted_date(dt, include_time=True):
     tomorrow = today + datetime.timedelta(days=1)
     next_week = today + datetime.timedelta(days=7)
     formatter_day = "%a %b %-d"
-    formatter_time = ""
-
-    if include_time:
-        formatter_time = ", %-I:%M %p"
+    formatter_time = ", %-I:%M %p" if include_time else ""
 
     if dt.date() == today.date():
         formatter_day = "Today"

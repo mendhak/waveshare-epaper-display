@@ -152,8 +152,8 @@ def get_sunset_time():
     """
     Return the time at which darkness begins, aka 'tonight'
     """
-    location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
-    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
+    location_lat = os.getenv("WEATHER_LATITUDE", "51.5077")
+    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1277")
     dt = datetime.datetime.now(pytz.utc)
     city = LocationInfo(location_lat, location_long)
     s = sun(city.observer, date=dt)

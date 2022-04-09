@@ -153,7 +153,7 @@ def main():
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
-        'ICON_ONE': 'climacell_drizzle',
+        'ICON_ONE': 'climacell_ice_pellets_light',
         'WEATHER_DESC_1': weather_desc[1],
         'WEATHER_DESC_2': weather_desc[2],
         'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),

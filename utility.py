@@ -140,7 +140,7 @@ def get_formatted_date(dt, include_time=True):
 
     if dt.date() == today.date():
         formatter_day = "Today"
-        if dt >= get_sunset_time():
+        if dt.astimezone() >= get_sunset_time():
             formatter_day = "Tonight"
     elif dt.date() == tomorrow.date():
         formatter_day = "Tomorrow"

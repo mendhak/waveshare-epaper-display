@@ -8,19 +8,7 @@
     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" height="480" width="800" version="1.1" id="svg3095" inkscape:version="0.92.3 (2405546, 2018-03-11)" sodipodi:docname="weather-script-preprocess_temps.svg">
     <rect width="800" height="480" id="rect3855" fill="white" />
-    <metadata id="metadata3203">
-        <rdf:RDF>
-            <cc:Work rdf:about="">
-                <dc:format>image/svg+xml</dc:format>
-                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                <dc:title />
-            </cc:Work>
-        </rdf:RDF>
-    </metadata>
-    <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="2498" inkscape:window-height="1379" id="namedview3201" showgrid="false" inkscape:zoom="0.945" inkscape:cx="334.47814" inkscape:cy="189.13584" inkscape:window-x="62" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="svg3095" />
-    <defs id="weather-icons">
 
-    </defs>
 
     <g transform="scale(1.2) translate(75 165)" id="currentweather">
         <use id="currentweathericon" href="icons/ICON_ONE.svg" />
@@ -32,9 +20,6 @@
     <text id="temphighlow" x="155" y="390" font-size="38px" style="font-size:28px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">WEATHER_DESC_1</text>
     <text id="temphighlow" x="155" y="415" font-size="38px" style="font-size:28px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">WEATHER_DESC_2</text>
     <path d="m 301.08466,394.8254 v 70 h 3 v -235.5 h -3 z" id="divider" inkscape:connector-curvature="0" />
-
-
-
 
     <g id="calendaricon" transform="scale(0.1) translate(3300,2000)">
         <path style="fill:#090509" d="M 506.645,89.372 C 502.609,76.437 491.008,66.87 476.738,66.87 h -31.782 v 49.326 c 0,26.284 -21.39,47.674 -47.674,47.674 -26.284,0 -47.674,-21.39 -47.674,-47.674 V 66.87 H 158.753 v 49.326 c 0,26.284 -21.39,47.674 -47.674,47.674 -26.284,0 -47.674,-21.39 -47.674,-47.674 V 66.87 H 31.782 c -14.27,0 -25.903,9.567 -29.907,22.502 H 0 v 387.365 c 0,17.544 14.239,31.782 31.782,31.782 h 444.955 c 17.544,0 31.782,-14.239 31.782,-31.782 V 89.372 Z M 476.737,476.737 H 31.782 v -254.26 h 444.955 z" id="path132" inkscape:connector-curvature="0" />

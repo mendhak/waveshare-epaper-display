@@ -2,16 +2,14 @@
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" height="480" width="800" version="1.1" id="svg3095" inkscape:version="0.92.3 (2405546, 2018-03-11)" sodipodi:docname="weather-script-preprocess_temps.svg">
     <rect width="800" height="480" id="rect3855" fill="white" />
 
-
     <g transform="scale(1.2) translate(75 165)" id="currentweather">
         <use id="currentweathericon" href="icons/ICON_ONE.svg" />
     </g>
 
-
     <text id="alertmessage" x="0" y="35" font-size="30px" style="font-weight:bold;font-size:30px;line-height:0%;font-family:'Nimbus Mono PS';text-anchor:beginning">ALERT_MESSAGE</text>
     <text id="temphighlow" x="155" y="360" font-size="38px" style="font-size:38px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">HIGH_ONE/LOW_ONE</text>
-    <text id="temphighlow" x="155" y="390" font-size="38px" style="font-size:28px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">WEATHER_DESC_1</text>
-    <text id="temphighlow" x="155" y="415" font-size="38px" style="font-size:28px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">WEATHER_DESC_2</text>
+    <text id="weatherdesc1" x="155" y="390" font-size="38px" style="font-size:28px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">WEATHER_DESC_1</text>
+    <text id="weaetherdesc2" x="155" y="415" font-size="38px" style="font-size:28px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:middle">WEATHER_DESC_2</text>
     <path d="m 301.08466,394.8254 v 70 h 3 v -235.5 h -3 z" id="divider" inkscape:connector-curvature="0" />
 
     <g id="calendaricon" transform="scale(0.1) translate(3300,2000)">

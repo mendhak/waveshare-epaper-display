@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import outlook_util
-from utility import is_stale, update_svg, configure_logging
+from utility import is_stale, update_svg, configure_logging, get_formatted_date
 
 configure_logging()
 
@@ -147,15 +147,15 @@ def get_google_datetime_formatted(event_start, event_end):
         start_date = datetime.datetime.strptime(event_start.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         end_date = datetime.datetime.strptime(event_end.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         if(start_date.date() == end_date.date()):
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = get_formatted_date(start_date)
             end_formatted = end_date.strftime("%-I:%M %p")
         else:
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
-            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
     else:
         start = event_start.get('date')
-        day = time.strftime("%a %b %-d", time.strptime(start, "%Y-%m-%d"))
+        day = get_formatted_date(datetime.datetime.strptime(start, "%Y-%m-%d"), include_time=False)
     return day
 
 

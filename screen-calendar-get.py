@@ -13,7 +13,7 @@ from utility import is_stale, update_svg, configure_logging
 configure_logging()
 
 # note: increasing this will require updates to the SVG template to accommodate more events
-max_event_results = 4
+max_event_results = 10
 
 google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
 outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)

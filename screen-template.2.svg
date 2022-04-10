@@ -20,6 +20,6 @@
   <text id="textdate" x="25" y="78" font-size="40px" style=""><tspan style="" id="tspan312">DAY_ONE</tspan></text>
   <text id="texttime" x="25" y="155" font-size="50px" style=""><tspan style="" id="tspan530">TIME_NOW</tspan></text>
   <use id="customdata" href="screen-output-custom-temp.svg" />
-  <rect width="110%" height="35" x="0" y="450" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0);background-color: white;" visibility="ALERT_MESSAGE_VISIBILITY" />
-  <text id="text3141" x="20" y="475" font-size="20px" style="font-weight:bolder;font-size:30px;line-height:0%;font-family:'Nimbus Sans L'; text-anchor:left;">ALERT_MESSAGE</text>
+  <rect width="110%" height="40" x="0" y="440" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0);background-color: white;" visibility="ALERT_MESSAGE_VISIBILITY" />
+   <text id="text3141" x="20" y="470" font-size="20px" style="font-weight:bolder;font-size:30px;line-height:0%;font-family:'Nimbus Mono PS'; text-anchor:left;">ALERT_MESSAGE</text>
 </svg>

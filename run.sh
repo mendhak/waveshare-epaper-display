@@ -7,13 +7,13 @@ function log {
     echo "---------------------------------------"
 }
 
-log "Get Weather info"
+log "Add weather info"
 python3 screen-weather-get.py
 
-log "Get Calendar info"
+log "Add Calendar info"
 python3 screen-calendar-get.py
 
-log "Get Custom data"
+log "Add Custom data"
 python3 screen-custom-get.py
 
 log "Export to PNG"

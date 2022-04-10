@@ -127,6 +127,7 @@ def get_alert_message(location_lat, location_long):
 
 def main():
 
+    template_name = os.getenv("SCREEN_TEMPLATE", "1")
     location_lat = os.getenv("WEATHER_LATITUDE", "51.3656")
     location_long = os.getenv("WEATHER_LONGITUDE", "-0.1963")
     weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
@@ -166,7 +167,8 @@ def main():
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
-    template_svg_filename = 'screen-template.svg'
+    
+    template_svg_filename = f'screen-template.{template_name}.svg'
     output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
 

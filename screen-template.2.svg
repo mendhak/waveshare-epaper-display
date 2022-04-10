@@ -2,13 +2,13 @@
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" height="480" width="800" version="1.1" id="svg3095" inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)" sodipodi:docname="screen-template.svg">
   <rect width="800" height="480" id="rect3855" fill="white"/>
     
-  <g transform="scale(1.2) translate(75 165)" id="currentweather">
+  <g transform="scale(1.2) translate(25 165)" id="currentweather">
     <use href="icons/ICON_ONE.svg" id="currentweathericon"/>
   </g>
   <text id="alertmessage" x="0" y="105" font-size="30px" style="">ALERT_MESSAGE</text>
-  <text id="temphighlow" x="80" y="372" font-size="38px" style="">HIGH_ONE/LOW_ONE</text>
-  <text id="text499" x="75" y="430" font-size="28px" style="">WEATHER_DESC_1</text>
-  <text id="text501" x="155" y="465" font-size="38px" style="">WEATHER_DESC_2</text>
+  <text id="temphighlow" x="25" y="372" font-size="38px" style="">HIGH_ONE/LOW_ONE</text>
+  <text id="text499" x="25" y="430" font-size="22px" style="">WEATHER_DESC_1</text>
+  <text id="text501" x="25" y="465" font-size="22px" style="">WEATHER_DESC_2</text>
   <text id="calendarentry1" x="292" y="-3" font-size="29px" style=""><tspan x="292" dy="25" style="" id="tspan193">CAL_DATETIME_1</tspan><tspan style="" x="292" dy="25" id="tspan195">CAL_DESC_1</tspan></text>
   <text id="calendarentry2" x="290.63306" y="61" font-size="29px" style=""><tspan x="290.63306" dy="25" style="" id="tspan198">CAL_DATETIME_2</tspan><tspan style="" x="290.63306" dy="25" id="tspan200">CAL_DESC_2</tspan></text>
   <text id="calendarentry3" x="292" y="123" font-size="29px" style=""><tspan x="292" dy="25" style="" id="tspan203">CAL_DATETIME_3</tspan><tspan style="" x="292" dy="25" id="tspan205">CAL_DESC_3</tspan></text>
@@ -17,7 +17,7 @@
   <text id="calendarentry6" x="292" y="298" font-size="29px" style=""><tspan x="292" dy="25" id="tspan218" style="">CAL_DATETIME_6</tspan><tspan style="" x="292" dy="25" id="tspan220">CAL_DESC_6</tspan></text>
   <text id="calendarentry7" x="292" y="356" font-size="29px" style=""><tspan x="292" dy="25" id="tspan305" style="">CAL_DATETIME_7</tspan><tspan style="" x="292" dy="25" id="tspan307">CAL_DESC_7</tspan></text>
   <text id="calendarentry8" x="292" y="416" font-size="29px" style=""><tspan x="292" dy="25" id="tspan308" style="">CAL_DATETIME_8</tspan><tspan style="" x="292" dy="25" id="tspan310">CAL_DESC_8</tspan></text>
-  <text id="textday" x="164" y="33" style="">DAY_NAME</text>
-  <text id="textdate" x="162" y="78" style=""><tspan style="" id="tspan312">DAY_ONE</tspan></text>
-  <text id="texttime" x="74" y="155" font-size="100px" style=""><tspan style="" id="tspan530">TIME_NOW</tspan></text>
+  <text id="textday" x="25" y="33" font-size="40px" style="">DAY_NAME</text>
+  <text id="textdate" x="25" y="78" font-size="40px" style=""><tspan style="" id="tspan312">DAY_ONE</tspan></text>
+  <text id="texttime" x="25" y="155" font-size="50px" style=""><tspan style="" id="tspan530">TIME_NOW</tspan></text>
 </svg>

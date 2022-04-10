@@ -150,7 +150,7 @@ def main():
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
     
-
+    
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
@@ -161,6 +161,7 @@ def main():
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
+        'ALERT_MESSAGE_VISIBILITY': "visible" if alert_message else "hidden",
         'ALERT_MESSAGE': alert_message
     }
 

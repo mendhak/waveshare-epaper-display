@@ -5,7 +5,6 @@
   <g transform="scale(1.2) translate(25 165)" id="currentweather">
     <use href="icons/ICON_ONE.svg" id="currentweathericon"/>
   </g>
-  <text id="alertmessage" x="0" y="105" font-size="30px" style="">ALERT_MESSAGE</text>
   <text id="temphighlow" x="25" y="372" font-size="38px" style="">HIGH_ONE/LOW_ONE</text>
   <text id="text499" x="25" y="430" font-size="22px" style="">WEATHER_DESC_1</text>
   <text id="text501" x="25" y="465" font-size="22px" style="">WEATHER_DESC_2</text>
@@ -20,4 +19,6 @@
   <text id="textday" x="25" y="33" font-size="40px" style="">DAY_NAME</text>
   <text id="textdate" x="25" y="78" font-size="40px" style=""><tspan style="" id="tspan312">DAY_ONE</tspan></text>
   <text id="texttime" x="25" y="155" font-size="50px" style=""><tspan style="" id="tspan530">TIME_NOW</tspan></text>
+  <rect width="110%" height="35" x="0" y="450" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0);background-color: white;" visibility="ALERT_MESSAGE_VISIBILITY" />
+   <text id="text3141" x="20" y="475" font-size="20px" style="font-weight:bolder;font-size:30px;line-height:0%;font-family:'Nimbus Sans L'; text-anchor:left;">ALERT_MESSAGE</text>
 </svg>

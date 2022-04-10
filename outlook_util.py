@@ -8,7 +8,7 @@ import atexit
 import os
 import time
 from datetime import timezone
-from utility import configure_logging
+from utility import configure_logging, get_formatted_date
 from dateutil import tz
 
 configure_logging()
@@ -75,7 +75,7 @@ def get_outlook_datetime_formatted(event):
     end_date = datetime.datetime.strptime(event["end"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")
     
     if event['isAllDay'] == True:
-        day = start_date.strftime("%a %b %-d")
+        day = get_formatted_date(start_date, include_time=False)
     else:
         # Convert start/end to local time
         start_date = start_date.replace(tzinfo=tz.tzutc())
@@ -83,11 +83,11 @@ def get_outlook_datetime_formatted(event):
         end_date = end_date.replace(tzinfo=tz.tzutc())
         end_date = end_date.astimezone(tz.tzlocal())
         if(start_date.date() == end_date.date()):
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = get_formatted_date(start_date)
             end_formatted = end_date.strftime("%-I:%M %p")
         else:
-            start_formatted = start_date.strftime("%a %b %-d, %-I:%M %p")
-            end_formatted = end_date.strftime("%a %b %-d, %-I:%M %p")
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
     return day
 

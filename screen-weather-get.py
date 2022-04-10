@@ -150,7 +150,6 @@ def main():
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
     
-    
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),

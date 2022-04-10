@@ -127,7 +127,7 @@ def get_alert_message(location_lat, location_long):
 
 def main():
 
-    template_name = os.getenv("SCREEN_TEMPLATE", "1")
+    template_name = os.getenv("SCREEN_LAYOUT", "1")
     location_lat = os.getenv("WEATHER_LATITUDE", "51.5077")
     location_long = os.getenv("WEATHER_LONGITUDE", "-0.1277")
     weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")

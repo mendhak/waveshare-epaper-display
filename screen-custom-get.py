@@ -6,8 +6,9 @@ configure_logging()
 def main():
     output_svg_filename = 'screen-custom.svg'
 
-    # Your custom code here like getting PiHole Status, car charger status, API calls. 
-    # Edit the screen-custom.svg to change position, font size, add more custom data. 
+    # Add custom code here like getting PiHole Status, car charger status, API calls. 
+    # Assign the value you want to display to custom_value_1, and it will replace CUSTOM_DATA_1 in screen-custom.svg.
+    # You can edit the screen-custom.svg to change appearance, position, font size, add more custom data. 
     custom_value_1 = "";
 
     logging.info("Updating SVG")

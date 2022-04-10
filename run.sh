@@ -13,6 +13,9 @@ python3 screen-weather-get.py
 log "Get Calendar info"
 python3 screen-calendar-get.py
 
+log "Get Custom data"
+python3 screen-custom-get.py
+
 log "Export to PNG"
 
 if [ $WAVESHARE_EPD75_VERSION = 1 ]; then

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" height="480" width="800" version="1.1" id="svg3095" inkscape:version="0.92.3 (2405546, 2018-03-11)" sodipodi:docname="weather-script-preprocess_temps.svg">
+
+   <!-- Original template by jmason: https://github.com/jmason/waveshare-epaper-display -->
+
    <rect width="800" height="480" id="rect3855" fill="white" />
 
    <defs>
@@ -10,12 +13,10 @@
       </g>
    </defs>
 
-   <!-- start of justin bits -->
-
    <text id="text3145" x="20.973104" y="106.00896" font-size="100px" style="font-weight:bold;font-size:100px;line-height:0%;font-family:'Nimbus Sans L';fill:#ff0000;-inkscape-font-specification:'Nimbus Sans L, Bold';font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;">
       <tspan sodipodi:role="line" id="tspan82">HOUR_NOW</tspan>
    </text>
-   <!-- </g> -->
+
    <g transform="scale(1.2) translate(525 5)" id="g3127">
       <use href="icons/ICON_ONE.svg" id="use3129" />
    </g>
@@ -51,19 +52,6 @@
       <tspan style="font-weight:bold;-inkscape-font-specification:'Nimbus Sans L, Bold';font-family:'Nimbus Sans L';font-style:normal;font-stretch:normal;font-variant:normal;font-size:29px;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;" x="110.3409" dy="25" id="tspan73-5">CAL_DESC_2</tspan>
    </text>
 
-   <text id="text3159-3" x="769.64655" y="447.16748" font-size="38px" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:37.33333333px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr;text-anchor:end;">
-      <tspan sodipodi:role="line" id="tspan83" x="769.64655" y="447.16748">
-         <!--Leaf: -->
-         HCR2HCS2 km
-      </tspan>
-   </text>
-   <text id="text3159-3-6" x="769.12445" y="379.36859" font-size="38px" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:37.33333333px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr;text-anchor:end;">
-      <!--tspan
-       sodipodi:role="line"
-       id="tspan81"
-       x="769.12445"
-       y="379.36859">Merc: HCR1 km</tspan-->
-   </text>
    <text id="text3159-2" x="682.87079" y="190.69188" font-size="38px" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.33333397px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle">WEATHER_DESC_1</text>
    <text id="text3159-2-8" x="683.9115" y="224.61513" font-size="38px" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.33333397px;line-height:0%;font-family:'Nimbus Sans L';-inkscape-font-specification:'Nimbus Sans L, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle">WEATHER_DESC_2</text>
 

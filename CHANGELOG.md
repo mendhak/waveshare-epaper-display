@@ -1,3 +1,12 @@
+## 2022-04-xx
+* Add new layouts for the user to choose from. Set the value `export SCREEN_LAYOUT=1` to 2, 3, 4...
+* Layouts contributed by @feh123 and @jmason 
+* Added the ability to have custom SVGs added onto the rendered output.  Done via `screen-custom-get.py` and `screen-custom.svg`.  
+
+## 2022-04-10
+* Use friendly day names for calendar entries, like "Today", "Tonight", "Tomorrow".  
+* If the calendar entry is within the next 6 days use the day name "Monday" "Tuesday", else use "Mon Apr 18". 
+
 ## 2022-04-08
 * Add Met Éireann weather and alert provider by [@jmason](https://github.com/mendhak/waveshare-epaper-display/pull/34)
 

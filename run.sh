@@ -17,7 +17,7 @@ if [ -f screen-custom-get.py ]; then
     log "Add Custom data"
     python3 screen-custom-get.py    
 elif [ ! -f screen-output-custom-temp.svg ]; then
-    # Create temporary svg since the main SVG needs it
+    # Create temporary empty svg since the main SVG needs it
     echo "<svg />" > screen-output-custom-temp.svg
 fi
 

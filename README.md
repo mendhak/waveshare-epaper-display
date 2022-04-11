@@ -289,8 +289,7 @@ This will cause the script to run every minute, and write the output as well as 
 
 Optionally, it's possible to add your own custom data to the screen. For example this could be API calls, data from Home Assistant, PiHole stats, or something external. 
 
-Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display.  
-Run `./run.sh` and it'll appear on screen. 
+Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen. 
 
 Next, modify `screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position. 
 You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.  

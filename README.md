@@ -252,8 +252,6 @@ Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored
 This is an optional step.  There are a few different layouts to choose from.  
 
 
-This theme comes in nine different skins (in addition to the default one).
-
 | `export SCREEN_LAYOUT=1` <br />This is the default | `export SCREEN_LAYOUT=2` <br />More calendar entries and less emphasis on weather and time | 
 | --- | --- | 
 | [![Layout 1](screenshots/001.png)](screenshots/001.png) | [![Layout 2](screenshots/002.png)](screenshots/002.png) | 

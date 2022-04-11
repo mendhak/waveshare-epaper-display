@@ -25,6 +25,7 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
+- [Pick a layout](#pick-a-layout)
 - [Run it](#run-it)
 - [Troubleshooting](#troubleshooting)
 - [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
@@ -246,6 +247,61 @@ Copy the ID of the calendar you want, and add it to env.sh like so:
 
 Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored.  
 
+## Pick a layout
+
+This is an optional step.  There are a few different layouts to choose from.  
+
+
+This theme comes in nine different skins (in addition to the default one).
+
+| `export SCREEN_LAYOUT=1` <br />This is the default | `export SCREEN_LAYOUT=2` <br />More calendar entries and less emphasis on weather and time | 
+| --- | --- | 
+| [![Layout 1](screenshots/001.png)](screenshots/001.png) | [![Layout 2](screenshots/002.png)](screenshots/002.png) | 
+
+| `export SCREEN_LAYOUT=3` <br />Calendar entries on left, less emphasis on weather | `export SCREEN_LAYOUT=4` <br />Shows hour instead of time. Meant for color screens. | 
+| --- | --- | 
+| [![Layout 3](screenshots/003.png)](screenshots/003.png) | [![Layout 4](screenshots/004.png)](screenshots/004.png) | 
+
+
+Layout 1 is the default. Set `export SCREEN_LAYOUT=1` in env.sh.
+
+<details>
+  <summary>Preview Layout 1</summary>
+
+  ![layout 1](screenshots/001.png) 
+</details>
+&nbsp;
+&nbsp;
+
+Layout 2 has more calendar entries and less emphasis on weather and time.  Set `export SCREEN_LAYOUT=2` in env.sh. 
+
+<details>
+  <summary>Preview Layout 2</summary>
+
+  ![layout 2](screenshots/002.png) 
+</details>
+&nbsp;
+&nbsp;
+
+Layout 3 gives `export SCREEN_LAYOUT=3` calendar entries given more space, less emphasis on weather.  
+
+<details>
+  <summary>Preview Layout 3</summary>
+
+  ![layout 3](screenshots/003.png) 
+</details>
+&nbsp;
+&nbsp;
+
+`export SCREEN_LAYOUT=4` same as #3 but shows the hour only instead of time. It's meant for color screens due to slower render speeds, you'd run this hourly instead of every minute  
+
+<details>
+  <summary>Preview Layout 4</summary>
+
+  ![layout 4](screenshots/004.png) 
+</details>
+&nbsp;
+&nbsp;
 
 ## Run it
 

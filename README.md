@@ -261,45 +261,7 @@ This is an optional step.  There are a few different layouts to choose from.
 | [![Layout 3](screenshots/003.png)](screenshots/003.png) | [![Layout 4](screenshots/004.png)](screenshots/004.png) | 
 
 
-Layout 1 is the default. Set `export SCREEN_LAYOUT=1` in env.sh.
 
-<details>
-  <summary>Preview Layout 1</summary>
-
-  ![layout 1](screenshots/001.png) 
-</details>
-&nbsp;
-&nbsp;
-
-Layout 2 has more calendar entries and less emphasis on weather and time.  Set `export SCREEN_LAYOUT=2` in env.sh. 
-
-<details>
-  <summary>Preview Layout 2</summary>
-
-  ![layout 2](screenshots/002.png) 
-</details>
-&nbsp;
-&nbsp;
-
-Layout 3 gives `export SCREEN_LAYOUT=3` calendar entries given more space, less emphasis on weather.  
-
-<details>
-  <summary>Preview Layout 3</summary>
-
-  ![layout 3](screenshots/003.png) 
-</details>
-&nbsp;
-&nbsp;
-
-`export SCREEN_LAYOUT=4` same as #3 but shows the hour only instead of time. It's meant for color screens due to slower render speeds, you'd run this hourly instead of every minute  
-
-<details>
-  <summary>Preview Layout 4</summary>
-
-  ![layout 4](screenshots/004.png) 
-</details>
-&nbsp;
-&nbsp;
 
 ## Run it
 

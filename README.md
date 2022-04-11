@@ -27,6 +27,8 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Outlook Calendar](#outlook-calendar)
 - [Pick a layout](#pick-a-layout)
 - [Run it](#run-it)
+  - [Automate it](#automate-it)
+- [Adding custom data](#adding-custom-data)
 - [Troubleshooting](#troubleshooting)
 - [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
 
@@ -282,6 +284,16 @@ Add this entry so it runs every minute:
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
 
+
+## Adding custom data
+
+Optionally, it's possible to add your own custom data to the screen. For example this could be API calls, data from Home Assistant, PiHole stats, or something external. 
+
+Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display.  
+Run `./run.sh` and it'll appear on screen. 
+
+Next, modify `screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position. 
+You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.  
 
 ## Troubleshooting
 

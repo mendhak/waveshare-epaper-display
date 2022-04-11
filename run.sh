@@ -13,8 +13,14 @@ python3 screen-weather-get.py
 log "Add Calendar info"
 python3 screen-calendar-get.py
 
-log "Add Custom data"
-python3 screen-custom-get.py
+if [ -f screen-custom-get.py ]; then
+    log "Add Custom data"
+    python3 screen-custom-get.py    
+elif [ ! -f screen-output-custom-temp.svg ]; then
+    # Create temporary svg since the main SVG needs it
+    echo "<svg />" > screen-output-custom-temp.svg
+fi
+
 
 log "Export to PNG"
 

@@ -1,7 +1,7 @@
 Instructions on setting up a Raspberry Pi Zero WH with a Waveshare ePaper 7.5 Inch HAT. 
 The screen will display date, time, weather icon with high and low, and calendar entries.
 
-![example](display.png)
+![example](screenshots/display.png)
 
 
 - [Shopping list](#shopping-list)

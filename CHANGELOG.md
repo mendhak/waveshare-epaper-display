@@ -2,6 +2,7 @@
 * Add new layouts for the user to choose from. Set the value `export SCREEN_LAYOUT=1` to 2, 3, 4...
 * Layouts contributed by @feh123 and @jmason 
 * Added the ability to have custom SVGs added onto the rendered output.  Done via `screen-custom-get.py` and `screen-custom.svg`.  
+* Bugfix: Multi day events will now show start and end days. eg, "Monday - Wednesday"
 
 ## 2022-04-10
 * Use friendly day names for calendar entries, like "Today", "Tonight", "Tomorrow".  

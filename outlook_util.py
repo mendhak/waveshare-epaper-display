@@ -76,6 +76,9 @@ def get_outlook_datetime_formatted(event):
     end_date = datetime.datetime.strptime(event["end"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")
     
     if event['isAllDay'] == True:
+        # Outlook Calendar marks the 'end' of all-day-events as 
+        # the day _after_ the last day. eg, Today's all day event ends tomorrow midnight.
+        # So subtract a day
         end_date = end_date - datetime.timedelta(days=1)
         start_day = get_formatted_date(start_date, include_time=False)
         end_day = get_formatted_date(end_date, include_time=False)

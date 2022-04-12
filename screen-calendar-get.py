@@ -154,8 +154,18 @@ def get_google_datetime_formatted(event_start, event_end):
             end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
     else:
-        start = event_start.get('date')
-        day = get_formatted_date(datetime.datetime.strptime(start, "%Y-%m-%d"), include_time=False)
+        start = datetime.datetime.strptime(event_start.get('date'), "%Y-%m-%d")
+        end = datetime.datetime.strptime(event_end.get('date'), "%Y-%m-%d")
+        # Google Calendar marks the 'end' of all-day-events as 
+        # the day _after_ the last day. eg, Today's all day event ends tomorrow!
+        # So subtract a day
+        end = end - datetime.timedelta(days=1)
+        start_day = get_formatted_date(start, include_time=False)
+        end_day = get_formatted_date(end, include_time=False)
+        if start == end:
+            day = start_day
+        else:
+            day = "{} - {}".format(start_day, end_day)
     return day
 
 

@@ -1,4 +1,4 @@
-## 2022-04-xx
+## 2022-04-13
 * Add new layouts for the user to choose from. Set the value `export SCREEN_LAYOUT=1` to 2, 3, 4...
 * Layouts contributed by @feh123 and @jmason 
 * Added the ability to have custom SVGs added onto the rendered output.  Done via `screen-custom-get.py` and `screen-custom.svg`.  

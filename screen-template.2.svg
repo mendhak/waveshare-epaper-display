@@ -13,8 +13,8 @@
     <tspan style="" x="290" dy="25" id="tspan195">CAL_DESC_1</tspan>
   </text>
   <text id="calendarentry2" x="290" y="61" font-size="29px" style="font-family:'Nimbus Sans L'">
-    <tspan x="290.63306" dy="25" style="" id="tspan198">CAL_DATETIME_2</tspan>
-    <tspan style="" x="290.63306" dy="25" id="tspan200">CAL_DESC_2</tspan>
+    <tspan x="290" dy="25" style="" id="tspan198">CAL_DATETIME_2</tspan>
+    <tspan style="" x="290" dy="25" id="tspan200">CAL_DESC_2</tspan>
   </text>
   <text id="calendarentry3" x="290" y="123" font-size="29px" style="font-family:'Nimbus Sans L'">
     <tspan x="290" dy="25" style="" id="tspan203">CAL_DATETIME_3</tspan>

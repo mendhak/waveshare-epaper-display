@@ -1,7 +1,7 @@
 Instructions on setting up a Raspberry Pi Zero WH with a Waveshare ePaper 7.5 Inch HAT. 
 The screen will display date, time, weather icon with high and low, and calendar entries.
 
-![example](display.png)
+![example](screenshots/display.png)
 
 
 - [Shopping list](#shopping-list)
@@ -25,7 +25,10 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
+- [Pick a layout](#pick-a-layout)
 - [Run it](#run-it)
+  - [Automate it](#automate-it)
+- [Adding custom data](#adding-custom-data)
 - [Troubleshooting](#troubleshooting)
 - [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
 
@@ -246,6 +249,21 @@ Copy the ID of the calendar you want, and add it to env.sh like so:
 
 Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored.  
 
+## Pick a layout
+
+This is an optional step.  There are a few different layouts to choose from.  
+
+
+| `export SCREEN_LAYOUT=1` <br />This is the default | `export SCREEN_LAYOUT=2` <br />More calendar entries and less emphasis on weather and time | 
+| --- | --- | 
+| [![Layout 1](screenshots/001.png)](screenshots/001.png) | [![Layout 2](screenshots/002.png)](screenshots/002.png) | 
+
+| `export SCREEN_LAYOUT=3` <br />Calendar entries on left, less emphasis on weather | `export SCREEN_LAYOUT=4` <br />Shows hour instead of time. Meant for color screens. | 
+| --- | --- | 
+| [![Layout 3](screenshots/003.png)](screenshots/003.png) | [![Layout 4](screenshots/004.png)](screenshots/004.png) | 
+
+
+
 
 ## Run it
 
@@ -266,6 +284,15 @@ Add this entry so it runs every minute:
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file. 
 
+
+## Adding custom data
+
+Optionally, it's possible to add your own custom data to the screen. For example this could be API calls, data from Home Assistant, PiHole stats, or something external. 
+
+Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen. 
+
+Next, modify `screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position. 
+You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.  
 
 ## Troubleshooting
 

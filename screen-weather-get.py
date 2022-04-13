@@ -127,6 +127,7 @@ def get_alert_message(location_lat, location_long):
 
 def main():
 
+    template_name = os.getenv("SCREEN_LAYOUT", "1")
     location_lat = os.getenv("WEATHER_LATITUDE", "51.5077")
     location_long = os.getenv("WEATHER_LONGITUDE", "-0.1277")
     weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
@@ -149,7 +150,6 @@ def main():
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
     
-
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
@@ -160,13 +160,15 @@ def main():
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
+        'ALERT_MESSAGE_VISIBILITY': "visible" if alert_message else "hidden",
         'ALERT_MESSAGE': alert_message
     }
 
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
-    template_svg_filename = 'screen-template.svg'
+    
+    template_svg_filename = f'screen-template.{template_name}.svg'
     output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
 

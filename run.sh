@@ -7,11 +7,20 @@ function log {
     echo "---------------------------------------"
 }
 
-log "Get Weather info"
+log "Add weather info"
 python3 screen-weather-get.py
 
-log "Get Calendar info"
+log "Add Calendar info"
 python3 screen-calendar-get.py
+
+if [ -f screen-custom-get.py ]; then
+    log "Add Custom data"
+    python3 screen-custom-get.py    
+elif [ ! -f screen-output-custom-temp.svg ]; then
+    # Create temporary empty svg since the main SVG needs it
+    echo "<svg />" > screen-output-custom-temp.svg
+fi
+
 
 log "Export to PNG"
 

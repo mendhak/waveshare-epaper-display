@@ -133,6 +133,7 @@ def get_xml_from_url(url, headers, cache_file_name, ttl):
 
 def get_formatted_date(dt, include_time=True):
     today = datetime.datetime.today()
+    yesterday = today - datetime.timedelta(days=1)
     tomorrow = today + datetime.timedelta(days=1)
     next_week = today + datetime.timedelta(days=7)
     formatter_day = "%a %b %-d"
@@ -144,6 +145,8 @@ def get_formatted_date(dt, include_time=True):
             formatter_day = "Tonight"
     elif dt.date() == tomorrow.date():
         formatter_day = "Tomorrow"
+    elif dt.date() == yesterday.date():
+        formatter_day = "Yesterday"
     elif dt.date() < next_week.date():
         formatter_day = "%A"
     return dt.strftime(formatter_day + formatter_time)

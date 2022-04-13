@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <!-- If you make changes to this file be sure to make a backup in case you ever update!  -->
+    <!-- Adjust the position or appearance of the text here.  Do your custom code or API calls in screen-custom-get.py 
+    You can also add more text elements for CUSTOM_DATA_2, CUSTOM_DATA_3 and so on. 
+    Supply the values in the dictionary in screen-custom-get.py.   -->
+    <text x="350" y="150" style="font-size: 35px; text-anchor:middle;">CUSTOM_DATA_1</text>
+</svg>

@@ -1,3 +1,7 @@
+## 2022-04-21
+* By default, past calendar events will disappear from the list. 
+* Added option to show all past events from today, `CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY=1`
+
 ## 2022-04-13
 * Add new layouts for the user to choose from. Set the value `export SCREEN_LAYOUT=1` to 2, 3, 4...
 * Layouts contributed by @feh123 and @jmason 

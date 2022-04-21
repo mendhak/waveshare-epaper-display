@@ -27,13 +27,15 @@ def get_outlook_events(max_event_results):
 
     if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Outlook Calendar API")
-        today_midnight = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time()).isoformat()
+        today_start_time = datetime.datetime.utcnow().isoformat()
+        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time()).isoformat()
         oneyearlater_iso = (datetime.datetime.now().astimezone()
                             + datetime.timedelta(days=365)).astimezone().isoformat()
         access_token = outlook_util.get_access_token()
         events_data = outlook_util.get_outlook_calendar_events(
                                                                 outlook_calendar_id,
-                                                                today_midnight,
+                                                                today_start_time,
                                                                 oneyearlater_iso,
                                                                 access_token)
         logging.debug(events_data)
@@ -103,11 +105,13 @@ def get_google_events(max_event_results):
     if is_stale(os.getcwd() + "/" + google_calendar_pickle, ttl):
         logging.debug("Pickle is stale, calling the Calendar API")
 
-        today_midnight = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+        today_start_time = datetime.datetime.utcnow()
+        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
         # Call the Calendar API
         events_result = service.events().list(
             calendarId=google_calendar_id,
-            timeMin=today_midnight.isoformat() + 'Z',
+            timeMin=today_start_time.isoformat() + 'Z',
             maxResults=max_event_results,
             singleEvents=True,
             orderBy='startTime').execute()

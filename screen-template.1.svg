@@ -20,22 +20,22 @@
 
     <text id="calendarentry1" x="330" y="255" font-size="29px" style="font-size:29px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_1</tspan>
-        <tspan style="font-weight:bold;" x="330" dy="25">CAL_DESC_1</tspan>
+        <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_1]]></tspan>
     </text>
 
     <text id="calendarentry2" x="330" y="305" font-size="29px" style="font-size:29px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_2</tspan>
-        <tspan style="font-weight:bold;" x="330" dy="25">CAL_DESC_2</tspan>
+        <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_2]]></tspan>
     </text>
 
     <text id="calendarentry3" x="330" y="355" font-size="29px" style="font-size:29px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_3</tspan>
-        <tspan style="font-weight:bold;" x="330" dy="25">CAL_DESC_3</tspan>
+        <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_3]]></tspan>
     </text>
 
     <text id="calendarentry4" x="330" y="405" font-size="29px" style="font-size:29px;line-height:0%;font-family:'Nimbus Sans L';text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_4</tspan>
-        <tspan style="font-weight:bold;" x="330" dy="25">CAL_DESC_4</tspan>
+        <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_4]]></tspan>
     </text>
 
 

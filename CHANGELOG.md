@@ -1,3 +1,6 @@
+## 2022-10-04
+* Bugfix: an `&` ampersand in event title would cause image generation to crash. 
+
 ## 2022-04-21
 * By default, past calendar events will disappear from the list. 
 * Added option to show all past events from today, `CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY=1`

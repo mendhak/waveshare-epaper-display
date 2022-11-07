@@ -7,6 +7,9 @@ import logging
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
+import caldav_util
+import icloud_util
+import ics_util
 import outlook_util
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
 
@@ -17,6 +20,10 @@ max_event_results = 10
 
 google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
 outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
+caldav_calendar_url = os.getenv("CALDAV_CALENDAR_URL", None)
+caldav_calendar_id = os.getenv("CALDAV_CALENDAR_ID", None)
+icloud_calendar_id = os.getenv("ICLOUD_CALENDAR_ID", None)
+ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -63,6 +70,184 @@ def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
             formatted_events['CAL_DESC_' + event_label_id] = ""
     return formatted_events
+
+
+def get_caldav_events(max_event_results):
+    auth_dict = caldav_util.get_auth_dict()
+    caldav_calendar_pickle = 'cache_caldav.pickle'
+
+    if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
+        logging.debug("Pickle is stale, fetching iCloud Calendar")
+        today_start_time = datetime.datetime.utcnow()
+        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+        oneyearlater_iso = (datetime.datetime.now().astimezone()
+                            + datetime.timedelta(days=365)).astimezone()
+
+        events_data = caldav_util.get_caldav_calendar_events(
+            caldav_calendar_url,
+            caldav_calendar_id,
+            today_start_time,
+            oneyearlater_iso,
+            **auth_dict)
+        logging.debug(events_data)
+
+        with open(caldav_calendar_pickle, 'wb') as cal:
+            pickle.dump(events_data, cal)
+    else:
+        logging.info("Found in cache")
+        with open(caldav_calendar_pickle, 'rb') as cal:
+            events_data = pickle.load(cal)
+
+    return events_data
+
+
+def get_output_dict_from_caldav_events(events, event_slot_count):
+    formatted_events = {}
+    event_count = len(events)
+    for event_i in range(event_slot_count):
+        event_label_id = str(event_i + 1)
+        if event_i <= event_count - 1:
+            dtstart = events[event_i].vobject_instance.vevent.dtstart.value
+            dtend = events[event_i].vobject_instance.vevent.dtend.value
+            summary = events[event_i].vobject_instance.vevent.summary.value
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_caldav_datetime_formatted(dtstart, dtend)
+            formatted_events['CAL_DESC_' + event_label_id] = summary
+        else:
+            formatted_events['CAL_DATETIME_' + event_label_id] = ""
+            formatted_events['CAL_DESC_' + event_label_id] = ""
+    return formatted_events
+
+
+def get_caldav_datetime_formatted(event_start, event_end):
+    if isinstance(event_start, datetime.datetime):
+        start_date = event_start
+        end_date = event_end
+        if start_date.date() == end_date.date():
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = get_formatted_date(end_date)
+        day = "{} - {}".format(start_formatted, end_formatted)
+    elif isinstance(event_start, datetime.date):
+        start = datetime.datetime.combine(event_start, datetime.time.min)
+        end = datetime.datetime.combine(event_end, datetime.time.min)
+        # CalDav Calendar marks the 'end' of all-day-events as
+        # the day _after_ the last day. eg, Today's all day event ends tomorrow!
+        # So subtract a day
+        end = end - datetime.timedelta(days=1)
+        start_day = get_formatted_date(start, include_time=False)
+        end_day = get_formatted_date(end, include_time=False)
+        if start == end:
+            day = start_day
+        else:
+            day = "{} - {}".format(start_day, end_day)
+    else:
+        day = ''
+    return day
+
+
+def get_icloud_events(max_event_results):
+    auth_dict = icloud_util.get_auth_dict()
+    icloud_calendar_pickle = 'cache_icloudcalendar.pickle'
+
+    if is_stale(os.getcwd() + "/" + icloud_calendar_pickle, ttl):
+        logging.debug("Pickle is stale, fetching iCloud Calendar")
+        today_start_time = datetime.datetime.utcnow()
+        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+        oneyearlater_iso = (datetime.datetime.now().astimezone()
+                            + datetime.timedelta(days=365)).astimezone()
+
+        events_data = icloud_util.get_icloud_calendar_events(
+            icloud_calendar_id,
+            today_start_time,
+            oneyearlater_iso,
+            **auth_dict)
+        logging.debug(events_data)
+
+        with open(icloud_calendar_pickle, 'wb') as cal:
+            pickle.dump(events_data, cal)
+    else:
+        logging.info("Found in cache")
+        with open(icloud_calendar_pickle, 'rb') as cal:
+            events_data = pickle.load(cal)
+
+    return events_data
+
+
+def get_output_dict_from_icloud_events(events, event_slot_count):
+    return get_output_dict_from_caldav_events(events, event_slot_count)
+
+
+def get_ics_events(max_event_results):
+    caldav_calendar_pickle = 'cache_ics.pickle'
+
+    if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
+        logging.debug("Pickle is stale, fetching ics Calendar")
+        today_start_time = datetime.datetime.utcnow()
+        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+        oneyearlater_iso = (datetime.datetime.now().astimezone()
+                            + datetime.timedelta(days=365)).astimezone()
+
+        events_data = ics_util.get_ics_calendar_events(
+            ics_calendar_url,
+            today_start_time,
+            oneyearlater_iso)
+        logging.debug(events_data)
+
+        with open(caldav_calendar_pickle, 'wb') as cal:
+            pickle.dump(events_data, cal)
+    else:
+        logging.info("Found in cache")
+        with open(caldav_calendar_pickle, 'rb') as cal:
+            events_data = pickle.load(cal)
+
+    return events_data
+
+
+def get_output_dict_from_ics_events(events, event_slot_count):
+    formatted_events = {}
+    event_count = len(events)
+    for event_i in range(event_slot_count):
+        event_label_id = str(event_i + 1)
+        if event_i <= event_count - 1:
+            dtstart = events[event_i]['DTSTART'].dt
+            dtend = events[event_i]['DTEND'].dt
+            summary = events[event_i]['SUMMARY']
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_ics_datetime_formatted(dtstart, dtend)
+            formatted_events['CAL_DESC_' + event_label_id] = summary
+        else:
+            formatted_events['CAL_DATETIME_' + event_label_id] = ""
+            formatted_events['CAL_DESC_' + event_label_id] = ""
+    return formatted_events
+
+
+def get_ics_datetime_formatted(event_start, event_end):
+    if isinstance(event_start, datetime.datetime):
+        start_date = event_start
+        end_date = event_end
+        if start_date.date() == end_date.date():
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = get_formatted_date(end_date)
+        day = "{} - {}".format(start_formatted, end_formatted)
+    elif isinstance(event_start, datetime.date):
+        start = datetime.datetime.combine(event_start, datetime.time.min)
+        end = datetime.datetime.combine(event_end, datetime.time.min)
+        start_day = get_formatted_date(start, include_time=False)
+        end_day = get_formatted_date(end, include_time=False)
+        if start == end:
+            day = start_day
+        else:
+            day = "{} - {}".format(start_day, end_day)
+    else:
+        day = ''
+    return day
 
 
 def get_google_credentials():
@@ -181,7 +366,18 @@ def main():
         logging.info("Fetching Outlook Calendar Events")
         outlook_events = get_outlook_events(max_event_results)
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
-
+    elif caldav_calendar_url:
+        logging.info("Fetching iCloud Calendar Events")
+        caldav_events = get_caldav_events(max_event_results)
+        output_dict = get_output_dict_from_caldav_events(caldav_events, max_event_results)
+    elif icloud_calendar_id:
+        logging.info("Fetching iCloud Calendar Events")
+        icloud_events = get_icloud_events(max_event_results)
+        output_dict = get_output_dict_from_icloud_events(icloud_events, max_event_results)
+    elif ics_calendar_url:
+        logging.info("Fetching ics Calendar Events")
+        caldav_events = get_ics_events(max_event_results)
+        output_dict = get_output_dict_from_ics_events(caldav_events, max_event_results)
     else:
         logging.info("Fetching Google Calendar Events")
         google_events = get_google_events(max_event_results)

@@ -196,7 +196,8 @@ def get_ics_events(max_event_results):
         events_data = ics_util.get_ics_calendar_events(
             ics_calendar_url,
             today_start_time,
-            oneyearlater_iso)
+            oneyearlater_iso, 
+            max_event_results)
         logging.debug(events_data)
 
         with open(caldav_calendar_pickle, 'wb') as cal:
@@ -211,23 +212,29 @@ def get_ics_events(max_event_results):
 
 def get_output_dict_from_ics_events(events, event_slot_count):
     formatted_events = {}
-    event_count = len(events)
-    for event_i in range(event_slot_count):
-        event_label_id = str(event_i + 1)
-        if event_i <= event_count - 1:
-            dtstart = events[event_i]['DTSTART'].dt
-            dtend = events[event_i]['DTEND'].dt
-            summary = events[event_i]['SUMMARY']
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_ics_datetime_formatted(dtstart, dtend)
-            formatted_events['CAL_DESC_' + event_label_id] = summary
-        else:
-            formatted_events['CAL_DATETIME_' + event_label_id] = ""
-            formatted_events['CAL_DESC_' + event_label_id] = ""
+    event_index = 0
+    for event in events[0:event_slot_count]:
+        dtstart = event.start
+        dtend = event.end
+        all_day = event.all_day
+        summary = event.summary 
+        formatted_events['CAL_DATETIME_' + str(event_index)] = get_ics_datetime_formatted(dtstart, dtend, all_day)
+        formatted_events['CAL_DESC_' + str(event_index)] = summary
+        event_index = event_index + 1
     return formatted_events
 
 
-def get_ics_datetime_formatted(event_start, event_end):
-    if isinstance(event_start, datetime.datetime):
+def get_ics_datetime_formatted(event_start, event_end, all_day):
+    if all_day:
+        start = datetime.datetime.combine(event_start, datetime.time.min)
+        end = datetime.datetime.combine(event_end, datetime.time.min)
+        start_day = get_formatted_date(start, include_time=False)
+        end_day = get_formatted_date(end, include_time=False)
+        if start == end:
+            day = start_day
+        else:
+            day = "{} - {}".format(start_day, end_day)
+    elif isinstance(event_start, datetime.datetime):
         start_date = event_start
         end_date = event_end
         if start_date.date() == end_date.date():
@@ -237,15 +244,7 @@ def get_ics_datetime_formatted(event_start, event_end):
             start_formatted = get_formatted_date(start_date)
             end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
-    elif isinstance(event_start, datetime.date):
-        start = datetime.datetime.combine(event_start, datetime.time.min)
-        end = datetime.datetime.combine(event_end, datetime.time.min)
-        start_day = get_formatted_date(start, include_time=False)
-        end_day = get_formatted_date(end, include_time=False)
-        if start == end:
-            day = start_day
-        else:
-            day = "{} - {}".format(start_day, end_day)
+    
     else:
         day = ''
     return day

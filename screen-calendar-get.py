@@ -12,6 +12,7 @@ import icloud_util
 import ics_util
 import outlook_util
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
+import pytz
 
 configure_logging()
 

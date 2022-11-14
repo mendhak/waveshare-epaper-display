@@ -13,3 +13,4 @@ test.svg
 *.xml
 venv
 cache_
+.venv

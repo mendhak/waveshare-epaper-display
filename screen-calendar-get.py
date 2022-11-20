@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from calendar_providers.base_provider import CalendarEvent
 from calendar_providers.caldav import CalDav
-import ics_util
+from calendar_providers.ics import ICS
 import outlook_util
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
 
@@ -73,74 +73,6 @@ def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
             formatted_events['CAL_DESC_' + event_label_id] = ""
     return formatted_events
-
-
-def get_ics_events(max_event_results):
-    caldav_calendar_pickle = 'cache_ics.pickle'
-
-    if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
-        logging.debug("Pickle is stale, fetching ics Calendar")
-        today_start_time = datetime.datetime.utcnow()
-        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
-            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
-        oneyearlater_iso = (datetime.datetime.now().astimezone()
-                            + datetime.timedelta(days=365)).astimezone()
-
-        events_data = ics_util.get_ics_calendar_events(
-            ics_calendar_url,
-            today_start_time,
-            oneyearlater_iso,
-            max_event_results)
-        logging.debug(events_data)
-
-        with open(caldav_calendar_pickle, 'wb') as cal:
-            pickle.dump(events_data, cal)
-    else:
-        logging.info("Found in cache")
-        with open(caldav_calendar_pickle, 'rb') as cal:
-            events_data = pickle.load(cal)
-
-    return events_data
-
-
-def get_output_dict_from_ics_events(events, event_slot_count):
-    formatted_events = {}
-    event_index = 0
-    for event in events[0:event_slot_count]:
-        dtstart = event.start
-        dtend = event.end
-        all_day = event.all_day
-        summary = event.summary
-        formatted_events['CAL_DATETIME_' + str(event_index)] = get_ics_datetime_formatted(dtstart, dtend, all_day)
-        formatted_events['CAL_DESC_' + str(event_index)] = summary
-        event_index = event_index + 1
-    return formatted_events
-
-
-def get_ics_datetime_formatted(event_start, event_end, all_day):
-    if all_day:
-        start = datetime.datetime.combine(event_start, datetime.time.min)
-        end = datetime.datetime.combine(event_end, datetime.time.min)
-        start_day = get_formatted_date(start, include_time=False)
-        end_day = get_formatted_date(end, include_time=False)
-        if start == end:
-            day = start_day
-        else:
-            day = "{} - {}".format(start_day, end_day)
-    elif type(event_start) == datetime.datetime:
-        start_date = event_start
-        end_date = event_end
-        if start_date.date() == end_date.date():
-            start_formatted = get_formatted_date(start_date)
-            end_formatted = end_date.strftime("%-I:%M %p")
-        else:
-            start_formatted = get_formatted_date(start_date)
-            end_formatted = get_formatted_date(end_date)
-        day = "{} - {}".format(start_formatted, end_formatted)
-
-    else:
-        day = ''
-    return day
 
 
 def get_google_credentials():
@@ -269,17 +201,7 @@ def get_formatted_calendar_events(fetched_events: list[CalendarEvent]) -> dict:
 
 def get_datetime_formatted(event_start, event_end, is_all_day_event):
 
-    if type(event_start) == datetime.datetime:
-        start_date = event_start
-        end_date = event_end
-        if start_date.date() == end_date.date():
-            start_formatted = get_formatted_date(start_date)
-            end_formatted = end_date.strftime("%-I:%M %p")
-        else:
-            start_formatted = get_formatted_date(start_date)
-            end_formatted = get_formatted_date(end_date)
-        day = "{} - {}".format(start_formatted, end_formatted)
-    elif type(event_start) == datetime.date or is_all_day_event:
+    if is_all_day_event or type(event_start) == datetime.date:
         start = datetime.datetime.combine(event_start, datetime.time.min)
         end = datetime.datetime.combine(event_end, datetime.time.min)
 
@@ -289,6 +211,16 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event):
             day = start_day
         else:
             day = "{} - {}".format(start_day, end_day)
+    elif type(event_start) == datetime.datetime:
+        start_date = event_start
+        end_date = event_end
+        if start_date.date() == end_date.date():
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = end_date.strftime("%-I:%M %p")
+        else:
+            start_formatted = get_formatted_date(start_date)
+            end_formatted = get_formatted_date(end_date)
+        day = "{} - {}".format(start_formatted, end_formatted)
     else:
         day = ''
     return day
@@ -310,14 +242,15 @@ def main():
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
     elif caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
-        caldav = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results,
-                        today_start_time, oneyearlater_iso, caldav_username, caldav_password)
-        calendar_events = caldav.get_calendar_events()
+        provider = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results,
+                          today_start_time, oneyearlater_iso, caldav_username, caldav_password)
+        calendar_events = provider.get_calendar_events()
         output_dict = get_formatted_calendar_events(calendar_events)
     elif ics_calendar_url:
         logging.info("Fetching ics Calendar Events")
-        caldav_events = get_ics_events(max_event_results)
-        output_dict = get_output_dict_from_ics_events(caldav_events, max_event_results)
+        provider = ICS(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
+        calendar_events = provider.get_calendar_events()
+        output_dict = get_formatted_calendar_events(calendar_events)
     else:
         logging.info("Fetching Google Calendar Events")
         google_events = get_google_events(max_event_results)

@@ -1,12 +1,18 @@
-from icalevnt.icalevents import events
+
 import datetime
-from dateutil import tz
-import logging
-import pytz
+import os
+from calendar_providers.ics import ICS
 
-def get_ics_calendar_events(ics_calendar_url, from_date: datetime.datetime, to_date: datetime.datetime, max_event_results):
-    cal_events  = events(ics_calendar_url, start=from_date, end=to_date)
-    cal_events.sort(key=lambda x: x.start)
-    return cal_events[0:max_event_results]
+ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
 
 
+def main():
+    ics = ICS(ics_calendar_url, 50, datetime.datetime.utcnow(),
+              (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone())
+    events = ics.get_calendar_events()
+    for event in events:
+        print(f'{event.summary}, {event.start}, {event.end}, {event.all_day_event}')
+
+
+if __name__ == "__main__":
+    main()

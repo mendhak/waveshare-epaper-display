@@ -8,7 +8,6 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import caldav_util
-import icloud_util
 import ics_util
 import outlook_util
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
@@ -23,7 +22,6 @@ google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
 outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
 caldav_calendar_url = os.getenv("CALDAV_CALENDAR_URL", None)
 caldav_calendar_id = os.getenv("CALDAV_CALENDAR_ID", None)
-icloud_calendar_id = os.getenv("ICLOUD_CALENDAR_ID", None)
 ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
@@ -121,37 +119,6 @@ def get_output_dict_from_caldav_events(events, event_slot_count):
 
 
 
-def get_icloud_events(max_event_results):
-    auth_dict = icloud_util.get_auth_dict()
-    icloud_calendar_pickle = 'cache_icloudcalendar.pickle'
-
-    if is_stale(os.getcwd() + "/" + icloud_calendar_pickle, ttl):
-        logging.debug("Pickle is stale, fetching iCloud Calendar")
-        today_start_time = datetime.datetime.utcnow()
-        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
-            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
-        oneyearlater_iso = (datetime.datetime.now().astimezone()
-                            + datetime.timedelta(days=365)).astimezone()
-
-        events_data = icloud_util.get_icloud_calendar_events(
-            icloud_calendar_id,
-            today_start_time,
-            oneyearlater_iso,
-            **auth_dict)
-        logging.debug(events_data)
-
-        with open(icloud_calendar_pickle, 'wb') as cal:
-            pickle.dump(events_data, cal)
-    else:
-        logging.info("Found in cache")
-        with open(icloud_calendar_pickle, 'rb') as cal:
-            events_data = pickle.load(cal)
-
-    return events_data
-
-
-def get_output_dict_from_icloud_events(events, event_slot_count):
-    return get_output_dict_from_caldav_events(events, event_slot_count)
 
 
 def get_ics_events(max_event_results):
@@ -339,13 +306,9 @@ def main():
         outlook_events = get_outlook_events(max_event_results)
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
     elif caldav_calendar_url:
-        logging.info("Fetching iCloud Calendar Events")
+        logging.info("Fetching Caldav Calendar Events")
         caldav_events = get_caldav_events(max_event_results)
         output_dict = get_output_dict_from_caldav_events(caldav_events, max_event_results)
-    elif icloud_calendar_id:
-        logging.info("Fetching iCloud Calendar Events")
-        icloud_events = get_icloud_events(max_event_results)
-        output_dict = get_output_dict_from_icloud_events(icloud_events, max_event_results)
     elif ics_calendar_url:
         logging.info("Fetching ics Calendar Events")
         caldav_events = get_ics_events(max_event_results)

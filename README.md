@@ -326,3 +326,19 @@ This is the best place to start for troubleshooting - try to make sure the examp
 [Readme for the Python demo](https://github.com/waveshare/e-Paper/blob/master/RaspberryPi_JetsonNano/python/readme_jetson_EN.txt)
 
 
+## Debugging locally
+
+It's possible to run and debug the application locally with virtual environments.  The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `screen-output.png`. 
+
+Do this before opening VSCode. 
+
+```bash
+# Generate the virtual environment directory
+python3 -m venv .venv
+# Switch to it
+source .venv/bin/activate
+# Install dependencies
+pip install -r requirements.txt 
+```
+
+Then, open VSCode with the project, and it should automatically detect and switch to the virtual environment in the terminal.  

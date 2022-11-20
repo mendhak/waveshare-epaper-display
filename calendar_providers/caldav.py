@@ -56,7 +56,7 @@ class CalDav(BaseCalendarProvider):
                 # CalDav Calendar marks the 'end' of all-day-events as
                 # the day _after_ the last day. eg, Today's all day event ends tomorrow!
                 # So subtract a day, if the event is an all day event
-                if isinstance(event_end, datetime.date):
+                if type(event_end) == datetime.date:
                     event_end = event_end - datetime.timedelta(days=1)
                     all_day_event = True
                     

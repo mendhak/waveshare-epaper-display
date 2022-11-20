@@ -130,7 +130,7 @@ def get_ics_datetime_formatted(event_start, event_end, all_day):
             day = start_day
         else:
             day = "{} - {}".format(start_day, end_day)
-    elif isinstance(event_start, datetime.datetime):
+    elif type(event_start) == datetime.datetime:
         start_date = event_start
         end_date = event_end
         if start_date.date() == end_date.date():
@@ -269,7 +269,7 @@ def get_formatted_calendar_events(fetched_events: list[CalendarEvent] ) -> dict:
 
 def get_datetime_formatted(event_start, event_end, is_all_day_event):
     
-    if isinstance(event_start, datetime.datetime):
+    if type(event_start) == datetime.datetime:
         start_date = event_start
         end_date = event_end
         if start_date.date() == end_date.date():
@@ -279,7 +279,7 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event):
             start_formatted = get_formatted_date(start_date)
             end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
-    elif isinstance(event_start, datetime.date) or is_all_day_event:
+    elif type(event_start) == datetime.date or is_all_day_event:
         start = datetime.datetime.combine(event_start, datetime.time.min)
         end = datetime.datetime.combine(event_end, datetime.time.min)
 

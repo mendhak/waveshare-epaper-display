@@ -2,11 +2,11 @@
 import pickle
 import caldav
 from utility import get_formatted_date, is_stale
-import typing as T
 import os
 import logging
 import datetime
-from calendar_providers.base_provider import BaseCalendarProvider
+from .base_provider import BaseCalendarProvider, CalendarEvent
+
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -19,52 +19,16 @@ class CalDav(BaseCalendarProvider):
         self.username = username
         self.password = password
 
-    def get_caldav_datetime_formatted(self, event):
-        event_start = event['DTSTART'].dt
-
-        # If a dtend isn't included, calculate it from the duration
-        if 'DTEND' in event:
-            event_end = event['DTEND'].dt
-        if 'DURATION' in event:
-            event_end = event['DTSTART'].dt + event['DURATION'].dt
-
-        if isinstance(event_start, datetime.datetime):
-            start_date = event_start
-            end_date = event_end
-            if start_date.date() == end_date.date():
-                start_formatted = get_formatted_date(start_date)
-                end_formatted = end_date.strftime("%-I:%M %p")
-            else:
-                start_formatted = get_formatted_date(start_date)
-                end_formatted = get_formatted_date(end_date)
-            day = "{} - {}".format(start_formatted, end_formatted)
-        elif isinstance(event_start, datetime.date):
-            start = datetime.datetime.combine(event_start, datetime.time.min)
-            end = datetime.datetime.combine(event_end, datetime.time.min)
-            # CalDav Calendar marks the 'end' of all-day-events as
-            # the day _after_ the last day. eg, Today's all day event ends tomorrow!
-            # So subtract a day
-            end = end - datetime.timedelta(days=1)
-            start_day = get_formatted_date(start, include_time=False)
-            end_day = get_formatted_date(end, include_time=False)
-            if start == end:
-                day = start_day
-            else:
-                day = "{} - {}".format(start_day, end_day)
-        else:
-            day = ''
-        return day
-
     def get_calendar_events(self):
 
         caldav_calendar_pickle = 'cache_caldav.pickle'
+        calendar_events: list[CalendarEvent] = []
 
         if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching Caldav Calendar")
 
             now = datetime.datetime.now().astimezone().replace(microsecond=0)
-            oneyearlater = (
-                    datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
+            oneyearlater = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
 
             with caldav.DAVClient(url=self.calendar_url, username=self.username, password=self.password) as client:
                 my_principal = client.principal()
@@ -77,28 +41,33 @@ class CalDav(BaseCalendarProvider):
                     for component in result.icalendar_instance.subcomponents:
                         events_data.append(component)
                 
-
+            # Sort by start date. Since some are dates, and some are datetimes, a simple string sort works
             events_data.sort(key=lambda x: str(x['DTSTART'].dt))
             
-            formatted_events = {}
+            for event in events_data[0:self.max_event_results]:
 
-            for index, event in enumerate(events_data[0:self.max_event_results]):
-                event_label_id = str(index + 1)
-                if index <= self.max_event_results - 1:
-                    summary = str(event['SUMMARY'])
-                    formatted_events['CAL_DATETIME_' + event_label_id] = self.get_caldav_datetime_formatted(event)
-                    formatted_events['CAL_DESC_' + event_label_id] = summary
-                else:
-                    formatted_events['CAL_DATETIME_' + event_label_id] = ""
-                    formatted_events['CAL_DESC_' + event_label_id] = ""
+                # If a dtend isn't included, calculate it from the duration
+                if 'DTEND' in event:
+                    event_end = event['DTEND'].dt
+                if 'DURATION' in event:
+                    event_end = event['DTSTART'].dt + event['DURATION'].dt
 
-            # return events_data[0:self.max_event_results]
+                all_day_event = False
+                # CalDav Calendar marks the 'end' of all-day-events as
+                # the day _after_ the last day. eg, Today's all day event ends tomorrow!
+                # So subtract a day, if the event is an all day event
+                if isinstance(event_end, datetime.date):
+                    event_end = event_end - datetime.timedelta(days=1)
+                    all_day_event = True
+                    
+                calendar_events.append(CalendarEvent(str(event['SUMMARY']), event['DTSTART'].dt, event_end, all_day_event))
+
             with open(caldav_calendar_pickle, 'wb') as cal:
-                    pickle.dump(formatted_events, cal)
+                    pickle.dump(calendar_events, cal)
 
-            return formatted_events                    
+            return calendar_events                    
         else:
             logging.info("Found in cache")
             with open(caldav_calendar_pickle, 'rb') as cal:
-                formatted_events = pickle.load(cal)
-                return formatted_events
+                calendar_events = pickle.load(cal)
+                return calendar_events

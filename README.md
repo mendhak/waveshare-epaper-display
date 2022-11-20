@@ -330,7 +330,7 @@ This is the best place to start for troubleshooting - try to make sure the examp
 
 It's possible to run and debug the application locally with virtual environments.  The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `screen-output.png`. 
 
-Do this before opening VSCode. 
+Do this before opening VSCode: 
 
 ```bash
 # Generate the virtual environment directory

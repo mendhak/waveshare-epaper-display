@@ -21,6 +21,7 @@ def get_caldav_calendar_events(calendar_url,
                                calendar_id,
                                from_date,
                                to_date,
+                               max_event_results,
                                username=None, password=None) -> T.List[caldav.Event]:
     with caldav.DAVClient(url=calendar_url, username=username, password=password) as client:
         my_principal = client.principal()
@@ -35,7 +36,7 @@ def get_caldav_calendar_events(calendar_url,
         
 
     events_data.sort(key=lambda x: str(x['DTSTART'].dt))
-    return events_data
+    return events_data[0:max_event_results]
 
 
 def get_caldav_datetime_formatted(event):
@@ -95,7 +96,7 @@ def main():
                     datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
             logging.debug(now)
             logging.debug(oneyearlater)
-            events_data = get_caldav_calendar_events(caldav_url, cal.id, now, oneyearlater, **auth_dict)
+            events_data = get_caldav_calendar_events(caldav_url, cal.id, now, oneyearlater, 50, **auth_dict)
 
             for event in events_data:
                 print("     ", str(event['SUMMARY']), ": ", get_caldav_datetime_formatted(event))

@@ -90,6 +90,7 @@ def get_caldav_events(max_event_results):
             caldav_calendar_id,
             today_start_time,
             oneyearlater_iso,
+            max_event_results,
             **auth_dict)
         logging.debug(events_data)
 

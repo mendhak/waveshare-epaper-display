@@ -110,7 +110,10 @@ def get_output_dict_from_caldav_events(events, event_slot_count):
         event_label_id = str(event_i + 1)
         if event_i <= event_count - 1:
             dtstart = events[event_i].vobject_instance.vevent.dtstart.value
-            dtend = events[event_i].vobject_instance.vevent.dtend.value
+            if hasattr(events[event_i].vobject_instance.vevent, 'dtend'):
+                dtend = events[event_i].vobject_instance.vevent.dtend.value
+            if hasattr(events[event_i].vobject_instance.vevent, 'duration'):
+                dtend = events[event_i].vobject_instance.vevent.dtstart.value + events[event_i].vobject_instance.vevent.duration.value
             summary = events[event_i].vobject_instance.vevent.summary.value
             formatted_events['CAL_DATETIME_' + event_label_id] = get_caldav_datetime_formatted(dtstart, dtend)
             formatted_events['CAL_DESC_' + event_label_id] = summary

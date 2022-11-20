@@ -109,7 +109,7 @@ def get_output_dict_from_caldav_events(events, event_slot_count):
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if event_i <= event_count - 1:
-            summary = events[event_i].vobject_instance.vevent.summary.value
+            summary = str(events[event_i]['SUMMARY'])
             formatted_events['CAL_DATETIME_' + event_label_id] = caldav_util.get_caldav_datetime_formatted(events[event_i])
             formatted_events['CAL_DESC_' + event_label_id] = summary
         else:

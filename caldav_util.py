@@ -26,30 +26,26 @@ def get_caldav_calendar_events(calendar_url,
         my_principal = client.principal()
 
         calendar = my_principal.calendar(cal_id=calendar_id)
-        events_data = calendar.date_search(start=from_date, end=to_date, expand=True)
+        event_results = calendar.date_search(start=from_date, end=to_date, expand=True)
+        events_data = []
 
-        for event in events_data:
-            if not hasattr(event.vobject_instance.vevent, 'summary'):
-                events_data.remove(event)
-                continue
-            # #Leaving these here for troubleshooting
-            # logging.info(dir(o.vobject_instance.vevent))
-            # logging.info(dir(o.icalendar_instance.subcomponents[0]))
-            # logging.info(o.icalendar_instance.subcomponents[0].keys())
-            # logging.info(o.icalendar_instance.subcomponents)
+        for result in event_results:
+            for component in result.icalendar_instance.subcomponents:
+                events_data.append(component)
         
 
+    events_data.sort(key=lambda x: str(x['DTSTART'].dt))
     return events_data
 
 
 def get_caldav_datetime_formatted(event):
-    event_start = event.vobject_instance.vevent.dtstart.value
+    event_start = event['DTSTART'].dt
 
     # If a dtend isn't included, calculate it from the duration
-    if hasattr(event.vobject_instance.vevent, 'dtend'):
-        event_end = event.vobject_instance.vevent.dtend.value
-    if hasattr(event.vobject_instance.vevent, 'duration'):
-        event_end = event.vobject_instance.vevent.dtstart.value + event.vobject_instance.vevent.duration.value
+    if 'DTEND' in event:
+        event_end = event['DTEND'].dt
+    if 'DURATION' in event:
+        event_end = event['DTSTART'].dt + event['DURATION'].dt
 
     if isinstance(event_start, datetime.datetime):
         start_date = event_start
@@ -102,7 +98,7 @@ def main():
             events_data = get_caldav_calendar_events(caldav_url, cal.id, now, oneyearlater, **auth_dict)
 
             for event in events_data:
-                print("     ", event.vobject_instance.vevent.summary.value, ": ", get_caldav_datetime_formatted(event))
+                print("     ", str(event['SUMMARY']), ": ", get_caldav_datetime_formatted(event))
             print("============================================")
 
 

@@ -17,10 +17,10 @@ caldav_url = os.getenv('CALDAV_CALENDAR_URL', None)
 
 def main():
 
-    caldav = CalDav(caldav_url, None, 50, caldav_username, caldav_password)
+    caldav = CalDav(caldav_url, None, 50, datetime.datetime.utcnow(), (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone(), caldav_username, caldav_password)
     events = caldav.get_calendar_events()
     for event in events:
-        print(event)
+        print(f'{event.summary}, {event.start}, {event.end}')
 
 
 if __name__ == "__main__":

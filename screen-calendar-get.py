@@ -297,13 +297,19 @@ def main():
 
     output_svg_filename = 'screen-output-weather.svg'
 
+    today_start_time = datetime.datetime.utcnow()
+    if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+        today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+    oneyearlater_iso = (datetime.datetime.now().astimezone()
+                        + datetime.timedelta(days=365)).astimezone()
+
     if outlook_calendar_id:
         logging.info("Fetching Outlook Calendar Events")
         outlook_events = get_outlook_events(max_event_results)
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
     elif caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
-        caldav = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results, caldav_username, caldav_password)
+        caldav = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results, today_start_time, oneyearlater_iso, caldav_username, caldav_password)
         calendar_events = caldav.get_calendar_events()
         output_dict = get_formatted_calendar_events(calendar_events)
     elif ics_calendar_url:

@@ -12,12 +12,14 @@ ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 class CalDav(BaseCalendarProvider):
 
-    def __init__(self, calendar_url, calendar_id, max_event_results, username=None, password=None):
+    def __init__(self, calendar_url, calendar_id, max_event_results, from_date, to_date, username=None, password=None):
         self.calendar_url = calendar_url
         self.calendar_id = calendar_id
         self.max_event_results = max_event_results
         self.username = username
         self.password = password
+        self.from_date = from_date
+        self.to_date = to_date
 
     def get_calendar_events(self):
 
@@ -27,14 +29,13 @@ class CalDav(BaseCalendarProvider):
         if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching Caldav Calendar")
 
-            now = datetime.datetime.now().astimezone().replace(microsecond=0)
-            oneyearlater = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
+            
 
             with caldav.DAVClient(url=self.calendar_url, username=self.username, password=self.password) as client:
                 my_principal = client.principal()
 
                 calendar = my_principal.calendar(cal_id=self.calendar_id)
-                event_results = calendar.date_search(start=now, end=oneyearlater, expand=True)
+                event_results = calendar.date_search(start=self.from_date, end=self.to_date, expand=True)
                 events_data = []
 
                 for result in event_results:

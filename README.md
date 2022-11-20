@@ -6,8 +6,8 @@ The screen will display date, time, weather icon with high and low, and calendar
 
 - [Shopping list](#shopping-list)
 - [Setup the PI](#setup-the-pi)
-- [Setup dependencies](#setup-dependencies)
 - [Using this application](#using-this-application)
+- [Setup dependencies](#setup-dependencies)
 - [Set your location](#set-your-location)
 - [Pick a Weather provider](#pick-a-weather-provider)
   - [OpenWeatherMap](#openweathermap)
@@ -53,14 +53,6 @@ Turn the Pi off, then put the HAT on top of the Pi's GPIO pins.
 Connect the ribbon from the epaper display to the extension.  To do this you will need to lift the black latch at the back of the connector, insert the ribbon slowly, then push the latch down.  Now turn the Pi back on. 
 
 
-## Setup dependencies
-
-    sudo apt update && sudo apt upgrade  
-    sudo apt install git gsfonts python3 python3-pip cairosvg pigpio python3-pigpio  
-    sudo pip3 install python-dateutil astral spidev RPi.GPIO Pillow google-api-python-client google-auth-httplib2 google-auth-oauthlib msal cairosvg pytz caldav
-    sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
-    sudo reboot
-
 ## Using this application
 
 ### Clone it
@@ -71,6 +63,16 @@ git clone this repository in the `/home/pi` directory.
     git clone --recursive https://github.com/mendhak/waveshare-epaper-display.git
     
 This should create a `/home/pi/waveshare-epaper-display` directory. 
+
+### Setup dependencies
+
+    cd waveshare-epaper-display
+    sudo apt update && sudo apt upgrade  
+    sudo apt install git gsfonts python3 python3-pip cairosvg pigpio python3-pigpio  
+    sudo pip3 -r requirements.txt
+    sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
+    sudo reboot
+
 
 ### Waveshare version
 

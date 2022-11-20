@@ -1,5 +1,4 @@
 import datetime
-import time
 import pickle
 import os.path
 import os
@@ -7,13 +6,12 @@ import logging
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-import caldav_util
 from calendar_providers.base_provider import CalendarEvent
 from calendar_providers.caldav import CalDav
 import ics_util
 import outlook_util
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
-import pytz
+
 
 configure_logging()
 
@@ -46,10 +44,10 @@ def get_outlook_events(max_event_results):
                             + datetime.timedelta(days=365)).astimezone().isoformat()
         access_token = outlook_util.get_access_token()
         events_data = outlook_util.get_outlook_calendar_events(
-                                                                outlook_calendar_id,
-                                                                today_start_time,
-                                                                oneyearlater_iso,
-                                                                access_token)
+            outlook_calendar_id,
+            today_start_time,
+            oneyearlater_iso,
+            access_token)
         logging.debug(events_data)
 
         with open(outlook_calendar_pickle, 'wb') as cal:
@@ -77,7 +75,6 @@ def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
     return formatted_events
 
 
-
 def get_ics_events(max_event_results):
     caldav_calendar_pickle = 'cache_ics.pickle'
 
@@ -92,7 +89,7 @@ def get_ics_events(max_event_results):
         events_data = ics_util.get_ics_calendar_events(
             ics_calendar_url,
             today_start_time,
-            oneyearlater_iso, 
+            oneyearlater_iso,
             max_event_results)
         logging.debug(events_data)
 
@@ -113,7 +110,7 @@ def get_output_dict_from_ics_events(events, event_slot_count):
         dtstart = event.start
         dtend = event.end
         all_day = event.all_day
-        summary = event.summary 
+        summary = event.summary
         formatted_events['CAL_DATETIME_' + str(event_index)] = get_ics_datetime_formatted(dtstart, dtend, all_day)
         formatted_events['CAL_DESC_' + str(event_index)] = summary
         event_index = event_index + 1
@@ -140,7 +137,7 @@ def get_ics_datetime_formatted(event_start, event_end, all_day):
             start_formatted = get_formatted_date(start_date)
             end_formatted = get_formatted_date(end_date)
         day = "{} - {}".format(start_formatted, end_formatted)
-    
+
     else:
         day = ''
     return day
@@ -219,7 +216,8 @@ def get_output_dict_from_google_events(events, event_slot_count):
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if (event_i <= event_count - 1):
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_google_datetime_formatted(events[event_i]['start'], events[event_i]['end'])
+            formatted_events['CAL_DATETIME_' + event_label_id] = \
+                get_google_datetime_formatted(events[event_i]['start'], events[event_i]['end'])
             formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['summary']
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
@@ -228,10 +226,10 @@ def get_output_dict_from_google_events(events, event_slot_count):
 
 
 def get_google_datetime_formatted(event_start, event_end):
-    if(event_start.get('dateTime')):
+    if event_start.get('dateTime'):
         start_date = datetime.datetime.strptime(event_start.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
         end_date = datetime.datetime.strptime(event_end.get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
-        if(start_date.date() == end_date.date()):
+        if start_date.date() == end_date.date():
             start_formatted = get_formatted_date(start_date)
             end_formatted = end_date.strftime("%-I:%M %p")
         else:
@@ -241,7 +239,7 @@ def get_google_datetime_formatted(event_start, event_end):
     else:
         start = datetime.datetime.strptime(event_start.get('date'), "%Y-%m-%d")
         end = datetime.datetime.strptime(event_end.get('date'), "%Y-%m-%d")
-        # Google Calendar marks the 'end' of all-day-events as 
+        # Google Calendar marks the 'end' of all-day-events as
         # the day _after_ the last day. eg, Today's all day event ends tomorrow!
         # So subtract a day
         end = end - datetime.timedelta(days=1)
@@ -253,22 +251,24 @@ def get_google_datetime_formatted(event_start, event_end):
             day = "{} - {}".format(start_day, end_day)
     return day
 
-def get_formatted_calendar_events(fetched_events: list[CalendarEvent] ) -> dict:
-        formatted_events = {}
 
-        for index, event in enumerate(fetched_events):
-            event_label_id = str(index + 1)
-            if index <= max_event_results - 1:
-                formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(event.start, event.end, event.all_day_event)
-                formatted_events['CAL_DESC_' + event_label_id] = event.summary
-            else:
-                formatted_events['CAL_DATETIME_' + event_label_id] = ""
-                formatted_events['CAL_DESC_' + event_label_id] = ""
+def get_formatted_calendar_events(fetched_events: list[CalendarEvent]) -> dict:
+    formatted_events = {}
 
-        return formatted_events
+    for index, event in enumerate(fetched_events):
+        event_label_id = str(index + 1)
+        if index <= max_event_results - 1:
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(event.start, event.end, event.all_day_event)
+            formatted_events['CAL_DESC_' + event_label_id] = event.summary
+        else:
+            formatted_events['CAL_DATETIME_' + event_label_id] = ""
+            formatted_events['CAL_DESC_' + event_label_id] = ""
+
+    return formatted_events
+
 
 def get_datetime_formatted(event_start, event_end, is_all_day_event):
-    
+
     if type(event_start) == datetime.datetime:
         start_date = event_start
         end_date = event_end
@@ -293,6 +293,7 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event):
         day = ''
     return day
 
+
 def main():
 
     output_svg_filename = 'screen-output-weather.svg'
@@ -309,7 +310,8 @@ def main():
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
     elif caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
-        caldav = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results, today_start_time, oneyearlater_iso, caldav_username, caldav_password)
+        caldav = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results,
+                        today_start_time, oneyearlater_iso, caldav_username, caldav_password)
         calendar_events = caldav.get_calendar_events()
         output_dict = get_formatted_calendar_events(calendar_events)
     elif ics_calendar_url:

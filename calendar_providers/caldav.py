@@ -1,7 +1,7 @@
 
 import pickle
 import caldav
-from utility import get_formatted_date, is_stale
+from utility import is_stale
 import os
 import logging
 import datetime
@@ -9,6 +9,7 @@ from .base_provider import BaseCalendarProvider, CalendarEvent
 
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
+
 
 class CalDav(BaseCalendarProvider):
 
@@ -29,8 +30,6 @@ class CalDav(BaseCalendarProvider):
         if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching Caldav Calendar")
 
-            
-
             with caldav.DAVClient(url=self.calendar_url, username=self.username, password=self.password) as client:
                 my_principal = client.principal()
 
@@ -41,10 +40,10 @@ class CalDav(BaseCalendarProvider):
                 for result in event_results:
                     for component in result.icalendar_instance.subcomponents:
                         events_data.append(component)
-                
+
             # Sort by start date. Since some are dates, and some are datetimes, a simple string sort works
             events_data.sort(key=lambda x: str(x['DTSTART'].dt))
-            
+
             for event in events_data[0:self.max_event_results]:
 
                 # If a dtend isn't included, calculate it from the duration
@@ -60,13 +59,13 @@ class CalDav(BaseCalendarProvider):
                 if type(event_end) == datetime.date:
                     event_end = event_end - datetime.timedelta(days=1)
                     all_day_event = True
-                    
+
                 calendar_events.append(CalendarEvent(str(event['SUMMARY']), event['DTSTART'].dt, event_end, all_day_event))
 
             with open(caldav_calendar_pickle, 'wb') as cal:
-                    pickle.dump(calendar_events, cal)
+                pickle.dump(calendar_events, cal)
 
-            return calendar_events                    
+            return calendar_events
         else:
             logging.info("Found in cache")
             with open(caldav_calendar_pickle, 'rb') as cal:

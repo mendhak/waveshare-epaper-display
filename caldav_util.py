@@ -1,4 +1,5 @@
 import caldav
+
 import datetime
 from utility import configure_logging, get_formatted_date
 import typing as T
@@ -9,7 +10,7 @@ configure_logging()
 
 caldav_username = os.getenv("CALDAV_USERNAME", None)
 caldav_password = os.getenv("CALDAV_PASSWORD", None)
-caldav_url = os.getenv('CALDAV_URL', None)
+caldav_url = os.getenv('CALDAV_CALENDAR_URL', None)
 
 
 def get_auth_dict() -> dict:
@@ -25,14 +26,30 @@ def get_caldav_calendar_events(calendar_url,
         my_principal = client.principal()
 
         calendar = my_principal.calendar(cal_id=calendar_id)
-        events_data = calendar.date_search(start=from_date, end=to_date, expand=False)
+        events_data = calendar.date_search(start=from_date, end=to_date, expand=True)
+
+        for event in events_data:
+            if not hasattr(event.vobject_instance.vevent, 'summary'):
+                events_data.remove(event)
+                continue
+            # #Leaving these here for troubleshooting
+            # logging.info(dir(o.vobject_instance.vevent))
+            # logging.info(dir(o.icalendar_instance.subcomponents[0]))
+            # logging.info(o.icalendar_instance.subcomponents[0].keys())
+            # logging.info(o.icalendar_instance.subcomponents)
+        
 
     return events_data
 
 
 def get_caldav_datetime_formatted(event):
     event_start = event.vobject_instance.vevent.dtstart.value
-    event_end = event.vobject_instance.vevent.dtend.value
+
+    # If a dtend isn't included, calculate it from the duration
+    if hasattr(event.vobject_instance.vevent, 'dtend'):
+        event_end = event.vobject_instance.vevent.dtend.value
+    if hasattr(event.vobject_instance.vevent, 'duration'):
+        event_end = event.vobject_instance.vevent.dtstart.value + event.vobject_instance.vevent.duration.value
 
     if isinstance(event_start, datetime.datetime):
         start_date = event_start
@@ -64,7 +81,6 @@ def get_caldav_datetime_formatted(event):
 
 def main():
     auth_dict = get_auth_dict()
-
     if auth_dict:
         with caldav.DAVClient(url=caldav_url, **auth_dict) as client:
             my_principal = client.principal()
@@ -83,7 +99,7 @@ def main():
                     datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
             logging.debug(now)
             logging.debug(oneyearlater)
-            events_data = get_caldav_calendar_events(cal.id, now, oneyearlater, **auth_dict)
+            events_data = get_caldav_calendar_events(caldav_url, cal.id, now, oneyearlater, **auth_dict)
 
             for event in events_data:
                 print("     ", event.vobject_instance.vevent.summary.value, ": ", get_caldav_datetime_formatted(event))

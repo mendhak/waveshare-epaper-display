@@ -1,6 +1,4 @@
-import icalendar
 from icalevnt.icalevents import events
-import requests
 import datetime
 from dateutil import tz
 import logging

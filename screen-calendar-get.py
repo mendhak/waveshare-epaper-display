@@ -78,7 +78,7 @@ def get_caldav_events(max_event_results):
     caldav_calendar_pickle = 'cache_caldav.pickle'
 
     if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
-        logging.debug("Pickle is stale, fetching iCloud Calendar")
+        logging.debug("Pickle is stale, fetching Caldav Calendar")
         today_start_time = datetime.datetime.utcnow()
         if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
             today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
@@ -109,13 +109,8 @@ def get_output_dict_from_caldav_events(events, event_slot_count):
     for event_i in range(event_slot_count):
         event_label_id = str(event_i + 1)
         if event_i <= event_count - 1:
-            dtstart = events[event_i].vobject_instance.vevent.dtstart.value
-            if hasattr(events[event_i].vobject_instance.vevent, 'dtend'):
-                dtend = events[event_i].vobject_instance.vevent.dtend.value
-            if hasattr(events[event_i].vobject_instance.vevent, 'duration'):
-                dtend = events[event_i].vobject_instance.vevent.dtstart.value + events[event_i].vobject_instance.vevent.duration.value
             summary = events[event_i].vobject_instance.vevent.summary.value
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_caldav_datetime_formatted(dtstart, dtend)
+            formatted_events['CAL_DATETIME_' + event_label_id] = caldav_util.get_caldav_datetime_formatted(events[event_i])
             formatted_events['CAL_DESC_' + event_label_id] = summary
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
@@ -123,33 +118,6 @@ def get_output_dict_from_caldav_events(events, event_slot_count):
     return formatted_events
 
 
-def get_caldav_datetime_formatted(event_start, event_end):
-    if isinstance(event_start, datetime.datetime):
-        start_date = event_start
-        end_date = event_end
-        if start_date.date() == end_date.date():
-            start_formatted = get_formatted_date(start_date)
-            end_formatted = end_date.strftime("%-I:%M %p")
-        else:
-            start_formatted = get_formatted_date(start_date)
-            end_formatted = get_formatted_date(end_date)
-        day = "{} - {}".format(start_formatted, end_formatted)
-    elif isinstance(event_start, datetime.date):
-        start = datetime.datetime.combine(event_start, datetime.time.min)
-        end = datetime.datetime.combine(event_end, datetime.time.min)
-        # CalDav Calendar marks the 'end' of all-day-events as
-        # the day _after_ the last day. eg, Today's all day event ends tomorrow!
-        # So subtract a day
-        end = end - datetime.timedelta(days=1)
-        start_day = get_formatted_date(start, include_time=False)
-        end_day = get_formatted_date(end, include_time=False)
-        if start == end:
-            day = start_day
-        else:
-            day = "{} - {}".format(start_day, end_day)
-    else:
-        day = ''
-    return day
 
 
 def get_icloud_events(max_event_results):

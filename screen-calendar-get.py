@@ -8,6 +8,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import caldav_util
+from calendar_providers.caldav import CalDav
 import ics_util
 import outlook_util
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
@@ -20,8 +21,12 @@ max_event_results = 10
 
 google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
 outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
-caldav_calendar_url = os.getenv("CALDAV_CALENDAR_URL", None)
+
+caldav_calendar_url = os.getenv('CALDAV_CALENDAR_URL', None)
+caldav_username = os.getenv("CALDAV_USERNAME", None)
+caldav_password = os.getenv("CALDAV_PASSWORD", None)
 caldav_calendar_id = os.getenv("CALDAV_CALENDAR_ID", None)
+
 ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
@@ -100,23 +105,6 @@ def get_caldav_events(max_event_results):
             events_data = pickle.load(cal)
 
     return events_data
-
-
-def get_output_dict_from_caldav_events(events, event_slot_count):
-    formatted_events = {}
-    event_count = len(events)
-    for event_i in range(event_slot_count):
-        event_label_id = str(event_i + 1)
-        if event_i <= event_count - 1:
-            summary = str(events[event_i]['SUMMARY'])
-            formatted_events['CAL_DATETIME_' + event_label_id] = caldav_util.get_caldav_datetime_formatted(events[event_i])
-            formatted_events['CAL_DESC_' + event_label_id] = summary
-        else:
-            formatted_events['CAL_DATETIME_' + event_label_id] = ""
-            formatted_events['CAL_DESC_' + event_label_id] = ""
-    return formatted_events
-
-
 
 
 
@@ -307,8 +295,8 @@ def main():
         output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
     elif caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
-        caldav_events = get_caldav_events(max_event_results)
-        output_dict = get_output_dict_from_caldav_events(caldav_events, max_event_results)
+        caldav = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results, caldav_username, caldav_password)
+        output_dict = caldav.get_calendar_events()
     elif ics_calendar_url:
         logging.info("Fetching ics Calendar Events")
         caldav_events = get_ics_events(max_event_results)

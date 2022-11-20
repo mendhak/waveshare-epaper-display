@@ -8,9 +8,11 @@ env.sh
 *.pickle
 credentials*
 *.json
+!.vscode/*
 *.bin
 test.svg
 *.xml
 venv
 cache_
 .venv
+.env

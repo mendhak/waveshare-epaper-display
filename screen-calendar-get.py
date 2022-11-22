@@ -9,7 +9,7 @@ from googleapiclient.discovery import build
 from calendar_providers.base_provider import CalendarEvent
 from calendar_providers.caldav import CalDav
 from calendar_providers.ics import ICS
-import outlook_util
+from calendar_providers.outlook import OutlookCalendar
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
 
 
@@ -29,50 +29,6 @@ caldav_calendar_id = os.getenv("CALDAV_CALENDAR_ID", None)
 ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
-
-
-def get_outlook_events(max_event_results):
-
-    outlook_calendar_pickle = 'cache_outlookcalendar.pickle'
-
-    if is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
-        logging.debug("Pickle is stale, calling the Outlook Calendar API")
-        today_start_time = datetime.datetime.utcnow().isoformat()
-        if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
-            today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time()).isoformat()
-        oneyearlater_iso = (datetime.datetime.now().astimezone()
-                            + datetime.timedelta(days=365)).astimezone().isoformat()
-        access_token = outlook_util.get_access_token()
-        events_data = outlook_util.get_outlook_calendar_events(
-            outlook_calendar_id,
-            today_start_time,
-            oneyearlater_iso,
-            access_token)
-        logging.debug(events_data)
-
-        with open(outlook_calendar_pickle, 'wb') as cal:
-            pickle.dump(events_data, cal)
-    else:
-        logging.info("Found in cache")
-        with open(outlook_calendar_pickle, 'rb') as cal:
-            events_data = pickle.load(cal)
-
-    return events_data
-
-
-def get_output_dict_from_outlook_events(outlook_events, event_slot_count):
-    events = outlook_events["value"]
-    formatted_events = {}
-    event_count = len(events)
-    for event_i in range(event_slot_count):
-        event_label_id = str(event_i + 1)
-        if (event_i <= event_count - 1):
-            formatted_events['CAL_DATETIME_' + event_label_id] = outlook_util.get_outlook_datetime_formatted(events[event_i])
-            formatted_events['CAL_DESC_' + event_label_id] = events[event_i]['subject']
-        else:
-            formatted_events['CAL_DATETIME_' + event_label_id] = ""
-            formatted_events['CAL_DESC_' + event_label_id] = ""
-    return formatted_events
 
 
 def get_google_credentials():
@@ -238,8 +194,9 @@ def main():
 
     if outlook_calendar_id:
         logging.info("Fetching Outlook Calendar Events")
-        outlook_events = get_outlook_events(max_event_results)
-        output_dict = get_output_dict_from_outlook_events(outlook_events, max_event_results)
+        provider = OutlookCalendar(outlook_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
+        calendar_events = provider.get_calendar_events()
+        output_dict = get_formatted_calendar_events(calendar_events)
     elif caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
         provider = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results,

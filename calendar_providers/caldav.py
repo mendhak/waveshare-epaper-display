@@ -11,7 +11,7 @@ from .base_provider import BaseCalendarProvider, CalendarEvent
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
-class CalDav(BaseCalendarProvider):
+class CalDavCalendar(BaseCalendarProvider):
 
     def __init__(self, calendar_url, calendar_id, max_event_results, from_date, to_date, username=None, password=None):
         self.calendar_url = calendar_url

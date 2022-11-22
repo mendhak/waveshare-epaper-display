@@ -10,7 +10,7 @@ import icalevnt.icalevents
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
-class ICS(BaseCalendarProvider):
+class ICSCalendar(BaseCalendarProvider):
 
     def __init__(self, ics_calendar_url, max_event_results, from_date, to_date):
         self.ics_calendar_url = ics_calendar_url

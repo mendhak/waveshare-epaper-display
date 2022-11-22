@@ -1,7 +1,7 @@
 
 
 import datetime
-from calendar_providers.caldav import CalDav
+from calendar_providers.caldav import CalDavCalendar
 from utility import configure_logging
 import os
 
@@ -14,8 +14,10 @@ caldav_url = os.getenv('CALDAV_CALENDAR_URL', None)
 
 def main():
 
-    caldav = CalDav(caldav_url, None, 50, datetime.datetime.utcnow(),
-                    (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone(), caldav_username, caldav_password)
+    caldav = CalDavCalendar(caldav_url, None, 50, datetime.datetime.utcnow(),
+                            (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone(),
+                            caldav_username,
+                            caldav_password)
     events = caldav.get_calendar_events()
     for event in events:
         print(f'{event.summary}, {event.start}, {event.end}')

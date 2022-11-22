@@ -7,8 +7,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from calendar_providers.base_provider import CalendarEvent
-from calendar_providers.caldav import CalDav
-from calendar_providers.ics import ICS
+from calendar_providers.caldav import CalDavCalendar
+from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
 from utility import is_stale, update_svg, configure_logging, get_formatted_date
 
@@ -199,13 +199,13 @@ def main():
         output_dict = get_formatted_calendar_events(calendar_events)
     elif caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
-        provider = CalDav(caldav_calendar_url, caldav_calendar_id, max_event_results,
-                          today_start_time, oneyearlater_iso, caldav_username, caldav_password)
+        provider = CalDavCalendar(caldav_calendar_url, caldav_calendar_id, max_event_results,
+                                  today_start_time, oneyearlater_iso, caldav_username, caldav_password)
         calendar_events = provider.get_calendar_events()
         output_dict = get_formatted_calendar_events(calendar_events)
     elif ics_calendar_url:
         logging.info("Fetching ics Calendar Events")
-        provider = ICS(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
+        provider = ICSCalendar(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
         calendar_events = provider.get_calendar_events()
         output_dict = get_formatted_calendar_events(calendar_events)
     else:

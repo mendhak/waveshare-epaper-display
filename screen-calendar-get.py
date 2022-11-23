@@ -30,12 +30,13 @@ ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 def get_formatted_calendar_events(fetched_events: list[CalendarEvent]) -> dict:
     formatted_events = {}
+    event_count = len(fetched_events)
 
-    for index, event in enumerate(fetched_events):
+    for index in range(max_event_results):
         event_label_id = str(index + 1)
-        if index <= max_event_results - 1:
-            formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(event.start, event.end, event.all_day_event)
-            formatted_events['CAL_DESC_' + event_label_id] = event.summary
+        if index <= event_count - 1:
+            formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(fetched_events[index].start, fetched_events[index].end, fetched_events[index].all_day_event)
+            formatted_events['CAL_DESC_' + event_label_id] = fetched_events[index].summary
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
             formatted_events['CAL_DESC_' + event_label_id] = ""

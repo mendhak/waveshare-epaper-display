@@ -251,6 +251,24 @@ Copy the ID of the calendar you want, and add it to env.sh like so:
 
 Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored.
 
+### ICS Calendar
+
+ICS is simple, get the ICS URL for a calendar, and place it in `env.sh`.
+
+    export ICS_CALENDAR_URL=https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics
+
+There is no username/password support.
+
+### CalDav Calendar
+
+For CalDav you will need the CalDav URL, username, and password.
+
+    export CALDAV_CALENDAR_URL=https://nextcloud.example.com/remote.php/dav/principals/users/123456/
+    export CALDAV_USERNAME=username
+    export CALDAV_PASSWORD=password
+
+Some CalDav features may not work well as the protocol is heavily undocumented, proprietary, and many servers don't implement it the same way.
+
 ## Pick a layout
 
 This is an optional step.  There are a few different layouts to choose from.
@@ -286,10 +304,7 @@ Add this entry so it runs every minute:
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file.
 
-
-## Adding custom data
-
-Optionally, it's possible to add your own custom data to the screen. For example this could be API calls, data from Home Assistant, PiHole stats, or something external.
+private-4fd32b3ea053763cfed6cc4f27e65411add your own custom data to the screen. For example this could be API calls, data from Home Assistant, PiHole stats, or something external.
 
 Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
 

@@ -25,6 +25,8 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
   - [Outlook Calendar](#outlook-calendar)
+  - [ICS Calendar](#ics-calendar)
+  - [CalDav Calendar](#caldav-calendar)
 - [Pick a layout](#pick-a-layout)
 - [Run it](#run-it)
   - [Automate it](#automate-it)

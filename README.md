@@ -361,3 +361,7 @@ pip install -r requirements.txt
 ```
 
 Then, open VSCode with the project, and it should automatically detect and switch to the virtual environment in the terminal.
+
+To run the project, just run `./run.sh`.  It will pick up env.sh variables, and run the various Python scripts.
+
+To debug the project, open a Python script file such as `screen-calendar-get.py` or `screen-weather-get.py`, and press F5.  It will generate a .env from env.sh, and run the script.  It can hit breakpoints, no problem.

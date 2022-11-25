@@ -14,3 +14,7 @@ charset = utf-8
 [*.{py,java,r,R}]
 indent_style = space
 indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+charset = utf-8

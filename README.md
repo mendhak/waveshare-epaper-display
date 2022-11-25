@@ -33,6 +33,7 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Adding custom data](#adding-custom-data)
 - [Troubleshooting](#troubleshooting)
 - [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
+- [Debugging locally](#debugging-locally)
 
 
 ## Shopping list

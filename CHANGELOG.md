@@ -1,4 +1,4 @@
-## 2022-11-25
+## 2022-11-30
 * ICS and CalDav calendar support added by [anthonyscorrea](https://github.com/mendhak/waveshare-epaper-display/pull/43)
 * Moved pip package list into requirements.txt.  The package versions are fixed, it's simpler to install, and better stability.
 * Refactored the calendar code into providers and simplified the code for better reuse

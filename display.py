@@ -12,6 +12,8 @@ if os.path.exists(libdir):
 
 configure_logging()
 
+# Dear future me: consider converting this to a WAVESHARE_VERSION variable instead if you ever intend to support more screen sizes.
+
 waveshare_epd75_version = os.getenv("WAVESHARE_EPD75_VERSION", "2")
 
 if (waveshare_epd75_version == "1"):

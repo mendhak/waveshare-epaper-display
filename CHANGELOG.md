@@ -1,3 +1,6 @@
+## 2023-01-29
+* Add code to display on the [7.5 inch B version 2 screen](https://www.waveshare.com/product/displays/e-paper/epaper-1/7.5inch-e-paper-hat-b.htm)
+
 ## 2023-01-21
 * Downgrade 'cryptography' as its package was yanked in [the wheels](https://www.piwheels.org/project/cryptography/).  By [@jokeum](https://github.com/mendhak/waveshare-epaper-display/pull/48)
 * Bugfix: can't compare offset-naive and offset-aware datetimes by [@jokeum](https://github.com/mendhak/waveshare-epaper-display/pull/49). 

@@ -4,7 +4,7 @@ import datetime
 import sys
 import os
 import logging
-from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
 from utility import update_svg, configure_logging
@@ -37,6 +37,7 @@ def get_weather(location_lat, location_long, units):
     visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
     use_met_eireann = os.getenv("WEATHER_MET_EIREANN")
     weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
+    smhi_self_id = os.getenv("SMHI_SELF_IDENTIFICATION")
 
     if (
         not climacell_apikey
@@ -47,6 +48,7 @@ def get_weather(location_lat, location_long, units):
         and not visualcrossing_apikey
         and not use_met_eireann
         and not weathergov_self_id
+        and not smhi_self_id
     ):
         logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, Weather.gov, MetOffice, AccuWeather, Met.no, Met Eireann, VisualCrossing...)")
         sys.exit(1)
@@ -92,6 +94,10 @@ def get_weather(location_lat, location_long, units):
     elif climacell_apikey:
         logging.info("Getting weather from Climacell")
         weather_provider = climacell.Climacell(climacell_apikey, location_lat, location_long, units)
+
+    elif smhi_self_id:
+        logging.info("Getting weather from SMHI")
+        weather_provider = smhi.SMHI(smhi_self_id, location_lat, location_long, units)
 
     weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))

@@ -108,11 +108,11 @@ class SMHI(BaseWeatherProvider):
 
         response_data = self.get_response_json(url, headers=headers)
         logging.debug(response_data)
-        weather_data = response_data["timeSeries"][0]["parameters"]
+        weather_data = response_data["timeSeries"]
         logging.debug("get_weather() - {}".format(weather_data))
 
-        # Get the weather code.
-        for data in weather_data:
+        # Get the weather code of the first item.
+        for data in weather_data[0]["parameters"]:
             if data["name"] == "Wsymb2":
                 weather_code = data["values"][0]
 
@@ -120,10 +120,18 @@ class SMHI(BaseWeatherProvider):
 
         # { "temperatureMin": "2.0", "temperatureMax": "15.1", "icon": "mostly_cloudy", "description": "Cloudy with light breezes" }
         # No Min or Max here. We just get the estimated temperature for the hour.
-        # Since we get the forecast for several hours and days, maybe we could get the min/max for the XX hours?
+        # Since we get the forecast for several hours and days, get the min/max for the next 12 hours?
         weather = {}
-        weather["temperatureMin"] = weather_data[1]["values"][0]
-        weather["temperatureMax"] = weather_data[1]["values"][0]
+        temp_list = []
+
+        for item in range(0, 12):
+            for param in weather_data[item]['parameters']:
+                if param['name'] == 't':
+                    temp = param['values'][0]
+                    temp_list.append(temp)
+
+        weather["temperatureMin"] = min(temp_list)
+        weather["temperatureMax"] = max(temp_list)
         weather["icon"] = self.get_icon_from_smhi_weathercode(weather_code, daytime)
         weather["description"] = self.get_description_from_smhi_weathercode(weather_code)
         logging.debug(weather)

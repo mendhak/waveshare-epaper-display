@@ -112,12 +112,9 @@ class SMHI(BaseWeatherProvider):
         logging.debug("get_weather() - {}".format(weather_data))
 
         # Get the weather code.
-        if weather_data[18]["name"] == "Wsymb2":
-            weather_code = weather_data[18]["values"][0]
-        else:
-            for data in weather_data:
-                if data["name"] == "Wsymb2":
-                    weather_code = data["values"][0]
+        for data in weather_data:
+            if data["name"] == "Wsymb2":
+                weather_code = data["values"][0]
 
         daytime = self.is_daytime(self.location_lat, self.location_long)
 

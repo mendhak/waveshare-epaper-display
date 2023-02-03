@@ -81,7 +81,7 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
 Copy `env.sh.sample` (example environment variables) to `env.sh`
 
-Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Module  (newer ones are version 2)
+Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Module  (newer ones are version 2, red one is 2B)
 
     export WAVESHARE_EPD75_VERSION=2
 

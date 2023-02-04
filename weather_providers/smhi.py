@@ -13,35 +13,34 @@ class SMHI(BaseWeatherProvider):
     # Reference: https://opendata.smhi.se/apidocs/metfcst/parameters.html#parameter-wsymb
     def get_icon_from_smhi_weathercode(self, weathercode, is_daytime):
 
-
         icon_dict = {
-                        1: "clear_sky_day" if is_daytime else "clearnight", # Clear sky
+                        1: "clear_sky_day" if is_daytime else "clearnight",  # Clear sky
                         2: "clear_sky_day" if is_daytime else "clearnight",  # Nearly clear sky
-                        3: "few_clouds" if is_daytime else "partlycloudynight", # Variable cloudiness
-                        4: "scattered_clouds" if is_daytime else "partlycloudynight", # Halfclear sky
-                        5: "mostly_cloudy" if is_daytime else "mostly_cloudy_night", # Cloudy sky
-                        6: "overcast", # Overcast
-                        7: "climacell_fog", # Fog
-                        8: 'climacell_rain_light' if is_daytime else 'rain_night_light', # Light rain showers
-                        9: "climacell_rain" if is_daytime else "rain_night", # Moderate rain showers
-                        10: "climacell_rain_heavy" if is_daytime else "rain_night_heavy", # Heavy rain showers
-                        11: "thundershower_rain", # Thunderstorm
-                        12: "sleet", # Light sleet showers
-                        13: "sleet", # Moderate sleet showers
-                        14: "sleet", # Heavy sleet showers
-                        15: "climacell_snow_light", # Light snow showers
-                        16: "snow", # Moderate snow showers
-                        17: "snow", # Heavy snow showers
-                        18: 'climacell_rain_light' if is_daytime else 'rain_night_light', # Light rain
-                        19: "climacell_rain" if is_daytime else "rain_night", # Moderate rain
-                        20: "climacell_rain_heavy" if is_daytime else "rain_night_heavy", # Heavy rain
-                        21: "thundershower_rain", # Thunder
-                        22: "sleet", # Light sleet
-                        23: "sleet", # Moderate sleet
-                        24: "sleet", # Heavy sleet
-                        25: "climacell_snow_light", # Light snowfall
-                        26: "snow", # Moderate snowfall
-                        27: "snow", # Heavy snowfall
+                        3: "few_clouds" if is_daytime else "partlycloudynight",  # Variable cloudiness
+                        4: "scattered_clouds" if is_daytime else "partlycloudynight",  # Halfclear sky
+                        5: "mostly_cloudy" if is_daytime else "mostly_cloudy_night",  # Cloudy sky
+                        6: "overcast",  # Overcast
+                        7: "climacell_fog",  # Fog
+                        8: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # Light rain showers
+                        9: "climacell_rain" if is_daytime else "rain_night",  # Moderate rain showers
+                        10: "climacell_rain_heavy" if is_daytime else "rain_night_heavy",  # Heavy rain showers
+                        11: "thundershower_rain",  # Thunderstorm
+                        12: "sleet",  # Light sleet showers
+                        13: "sleet",  # Moderate sleet showers
+                        14: "sleet",  # Heavy sleet showers
+                        15: "climacell_snow_light",  # Light snow showers
+                        16: "snow",  # Moderate snow showers
+                        17: "snow",  # Heavy snow showers
+                        18: 'climacell_rain_light' if is_daytime else 'rain_night_light',  # Light rain
+                        19: "climacell_rain" if is_daytime else "rain_night",  # Moderate rain
+                        20: "climacell_rain_heavy" if is_daytime else "rain_night_heavy",  # Heavy rain
+                        21: "thundershower_rain",  # Thunder
+                        22: "sleet",  # Light sleet
+                        23: "sleet",  # Moderate sleet
+                        24: "sleet",  # Heavy sleet
+                        25: "climacell_snow_light",  # Light snowfall
+                        26: "snow",  # Moderate snowfall
+                        27: "snow",  # Heavy snowfall
                     }
 
         icon = icon_dict[weathercode]

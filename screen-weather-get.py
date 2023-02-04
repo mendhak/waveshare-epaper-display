@@ -24,6 +24,7 @@ def format_weather_description(weather_description):
     weather_dict[2] = splits[1] if len(splits) > 1 else ''
     return weather_dict
 
+
 def get_weather(location_lat, location_long, units):
 
     # gather relevant environment configs
@@ -103,8 +104,10 @@ def get_weather(location_lat, location_long, units):
     logging.info("weather - {}".format(weather))
     return weather
 
+
 def format_alert_description(alert_message):
     return html.escape(alert_message)
+
 
 def get_alert_message(location_lat, location_long):
     alert_message = ""
@@ -155,7 +158,7 @@ def main():
 
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
-    
+
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
@@ -173,7 +176,7 @@ def main():
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
-    
+
     template_svg_filename = f'screen-template.{template_name}.svg'
     output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)

@@ -4,7 +4,7 @@ import datetime
 import sys
 import os
 import logging
-from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
 from utility import update_svg, configure_logging
@@ -24,6 +24,7 @@ def format_weather_description(weather_description):
     weather_dict[2] = splits[1] if len(splits) > 1 else ''
     return weather_dict
 
+
 def get_weather(location_lat, location_long, units):
 
     # gather relevant environment configs
@@ -37,6 +38,7 @@ def get_weather(location_lat, location_long, units):
     visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
     use_met_eireann = os.getenv("WEATHER_MET_EIREANN")
     weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
+    smhi_self_id = os.getenv("SMHI_SELF_IDENTIFICATION")
 
     if (
         not climacell_apikey
@@ -47,6 +49,7 @@ def get_weather(location_lat, location_long, units):
         and not visualcrossing_apikey
         and not use_met_eireann
         and not weathergov_self_id
+        and not smhi_self_id
     ):
         logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, Weather.gov, MetOffice, AccuWeather, Met.no, Met Eireann, VisualCrossing...)")
         sys.exit(1)
@@ -93,12 +96,18 @@ def get_weather(location_lat, location_long, units):
         logging.info("Getting weather from Climacell")
         weather_provider = climacell.Climacell(climacell_apikey, location_lat, location_long, units)
 
+    elif smhi_self_id:
+        logging.info("Getting weather from SMHI")
+        weather_provider = smhi.SMHI(smhi_self_id, location_lat, location_long, units)
+
     weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))
     return weather
 
+
 def format_alert_description(alert_message):
     return html.escape(alert_message)
+
 
 def get_alert_message(location_lat, location_long):
     alert_message = ""
@@ -149,7 +158,7 @@ def main():
 
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
-    
+
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
@@ -167,7 +176,7 @@ def main():
     logging.debug("main() - {}".format(output_dict))
 
     logging.info("Updating SVG")
-    
+
     template_svg_filename = f'screen-template.{template_name}.svg'
     output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)

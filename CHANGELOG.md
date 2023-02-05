@@ -1,3 +1,6 @@
+## 2023-02-04
+* Add SMHI (Sweden) as weather provider. Added by [hnnweb](https://github.com/mendhak/waveshare-epaper-display/pull/51)
+
 ## 2023-01-29
 * Add code to display on the [7.5 inch B version 2 screen](https://www.waveshare.com/product/displays/e-paper/epaper-1/7.5inch-e-paper-hat-b.htm)
 

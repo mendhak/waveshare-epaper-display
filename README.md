@@ -18,6 +18,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Weather.gov (US)](#weathergov-us)
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
   - [VisualCrossing](#visualcrossing)
+  - [SMHI (Sweden)](#smhi-sweden)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
   - [Met Office (UK)](#met-office-uk-1)
   - [Weather.gov (US)](#weathergov-us-1)
@@ -177,7 +178,11 @@ Register on [VisualCrossing](https://www.visualcrossing.com/). Under Account Det
 
     export VISUALCROSSING_APIKEY=XXXXXXXXXXXXXXXXXXXXXX
 
+### SMHI (Sweden)
 
+SMHI requires you to identify yourself.  Just set your own email,
+
+    export SMHI_SELF_IDENTIFICATION=you@example.com
 
 ## Pick a severe weather warning provider
 

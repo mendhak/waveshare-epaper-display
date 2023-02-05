@@ -11,6 +11,10 @@ from utility import update_svg, configure_logging
 import textwrap
 import html
 
+from babel.dates import format_time
+
+
+
 configure_logging()
 
 
@@ -165,7 +169,7 @@ def main():
         'ICON_ONE': weather["icon"],
         'WEATHER_DESC_1': weather_desc[1],
         'WEATHER_DESC_2': weather_desc[2],
-        'TIME_NOW': datetime.datetime.now().strftime("%-I:%M %p"),
+        'TIME_NOW': format_time(datetime.datetime.now(), format='short'),
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
@@ -173,7 +177,7 @@ def main():
         'ALERT_MESSAGE': alert_message
     }
 
-    logging.debug("main() - {}".format(output_dict))
+    logging.info(output_dict)
 
     logging.info("Updating SVG")
 

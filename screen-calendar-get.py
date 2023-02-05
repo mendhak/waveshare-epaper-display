@@ -8,7 +8,9 @@ from calendar_providers.google import GoogleCalendar
 from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
 from utility import update_svg, configure_logging, get_formatted_date
+import locale
 
+locale.setlocale(locale.LC_ALL, '')
 
 configure_logging()
 

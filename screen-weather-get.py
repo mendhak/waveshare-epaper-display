@@ -14,7 +14,10 @@ import html
 from babel.dates import format_time
 
 import locale
-locale.setlocale(locale.LC_ALL, '')
+try:
+    locale.setlocale(locale.LC_ALL, '')
+except locale.Error:
+    logging.debug("Could not set locale")
 
 
 configure_logging()

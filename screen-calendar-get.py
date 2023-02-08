@@ -10,7 +10,11 @@ from calendar_providers.outlook import OutlookCalendar
 from utility import update_svg, configure_logging, get_formatted_date
 
 import locale
-locale.setlocale(locale.LC_ALL, '')
+
+try:
+    locale.setlocale(locale.LC_ALL, '')
+except locale.Error:
+    logging.debug("Could not set locale")
 
 configure_logging()
 

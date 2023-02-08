@@ -11,6 +11,8 @@ import json
 import xml.etree.ElementTree as ET
 from astral import LocationInfo
 from astral.sun import sun
+import humanize
+import locale
 
 def configure_logging():
     """
@@ -131,6 +133,7 @@ def get_xml_from_url(url, headers, cache_file_name, ttl):
     response_xml = ET.fromstring(response_data)
     return response_xml
 
+
 def get_formatted_date(dt, include_time=True):
     today = datetime.datetime.today()
     yesterday = today - datetime.timedelta(days=1)
@@ -139,17 +142,21 @@ def get_formatted_date(dt, include_time=True):
     formatter_day = "%a %b %-d"
     formatter_time = ", %-I:%M %p" if include_time else ""
 
-    if dt.date() == today.date():
-        formatter_day = "Today"
-        if dt.astimezone() >= get_sunset_time():
-            formatter_day = "Tonight"
-    elif dt.date() == tomorrow.date():
-        formatter_day = "Tomorrow"
-    elif dt.date() == yesterday.date():
-        formatter_day = "Yesterday"
+    try:
+        humanize.activate(locale.getlocale()[0])
+        has_locale = True
+    except Exception:
+        has_locale = False
+
+    if (has_locale and
+            (dt.date() == today.date()
+             or dt.date() == tomorrow.date()
+             or dt.date() == yesterday.date())):
+        formatter_day = humanize.naturalday(dt.date(), "%A").title()
     elif dt.date() < next_week.date():
         formatter_day = "%A"
     return dt.strftime(formatter_day + formatter_time)
+
 
 def get_sunset_time():
     """

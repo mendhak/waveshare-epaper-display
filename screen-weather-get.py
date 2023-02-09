@@ -168,7 +168,12 @@ def main():
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
 
-    time_now = format_time(datetime.datetime.now(), format='short', locale=locale.getlocale()[0])
+    try:
+        time_now = format_time(datetime.datetime.now(), format='short', locale=locale.getlocale()[0])
+    except Exception:
+        logging.debug("Locale not found for Babel library.")
+        time_now = datetime.datetime.now().strftime("%-I:%M %p")
+
     time_now_font_size = "100px"
 
     if len(time_now) > 6:

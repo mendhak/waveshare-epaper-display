@@ -43,7 +43,7 @@
 
     <text id="textdate" x="600" y="130" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:sans-serif;">DAY_ONE</text>
 
-    <text id="texttime" x="30" y="125" font-size="100px" style="font-weight:bold;font-size:100px;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
+    <text id="texttime" x="30" y="125" font-size="TIME_NOW_FONT_SIZE" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
 
     <use id="customdata" href="screen-output-custom-temp.svg" />
 

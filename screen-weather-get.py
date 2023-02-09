@@ -168,13 +168,20 @@ def main():
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
 
+    time_now = format_time(datetime.datetime.now(), format='short', locale=locale.getlocale()[0])
+    time_now_font_size = "100px"
+
+    if len(time_now) > 6:
+        time_now_font_size = str(100 - (len(time_now)-5) * 5) + "px"
+
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': weather["icon"],
         'WEATHER_DESC_1': weather_desc[1],
         'WEATHER_DESC_2': weather_desc[2],
-        'TIME_NOW': format_time(datetime.datetime.now(), format='short', locale=locale.getlocale()[0]),
+        'TIME_NOW_FONT_SIZE': time_now_font_size,
+        'TIME_NOW': time_now,
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),

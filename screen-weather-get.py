@@ -174,7 +174,7 @@ def main():
         'ICON_ONE': weather["icon"],
         'WEATHER_DESC_1': weather_desc[1],
         'WEATHER_DESC_2': weather_desc[2],
-        'TIME_NOW': format_time(datetime.datetime.now(), format='short'),
+        'TIME_NOW': format_time(datetime.datetime.now(), format='short', locale=locale.getlocale()[0]),
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
         'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),

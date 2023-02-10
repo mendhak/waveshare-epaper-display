@@ -135,6 +135,15 @@ def get_xml_from_url(url, headers, cache_file_name, ttl):
     return response_xml
 
 
+def get_formatted_time(dt):
+    try:
+        formatted_time = format_time(dt, format='short', locale=locale.getlocale()[0])
+    except Exception:
+        logging.debug("Locale not found for Babel library.")
+        formatted_time = dt.strftime("%-I:%M %p")
+    return formatted_time
+
+
 def get_formatted_date(dt, include_time=True):
     today = datetime.datetime.today()
     yesterday = today - datetime.timedelta(days=1)
@@ -144,13 +153,9 @@ def get_formatted_date(dt, include_time=True):
 
     # Display the time in the locale format, if possible
     if include_time:
-        try:
-            formatter_time = format_time(dt, format='short', locale=locale.getlocale()[0])
-        except Exception:
-            logging.debug("Locale not found for Babel library.")
-            formatter_time = "%-I:%M %p"
+        formatted_time = get_formatted_time(dt)
     else:
-        formatter_time = " "
+        formatted_time = " "
 
     try:
         short_locale = locale.getlocale()[0]  # en_GB
@@ -171,7 +176,7 @@ def get_formatted_date(dt, include_time=True):
     elif dt.date() < next_week.date():
         # Just show the day name if it's in the next few days
         formatter_day = "%A"
-    return dt.strftime(formatter_day + " " + formatter_time)
+    return dt.strftime(formatter_day + " " + formatted_time)
 
 
 def get_sunset_time():

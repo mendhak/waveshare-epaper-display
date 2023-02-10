@@ -7,7 +7,7 @@ from calendar_providers.caldav import CalDavCalendar
 from calendar_providers.google import GoogleCalendar
 from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
-from utility import update_svg, configure_logging, get_formatted_date
+from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date
 
 import locale
 
@@ -67,7 +67,7 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event):
         end_date = event_end
         if start_date.date() == end_date.date():
             start_formatted = get_formatted_date(start_date)
-            end_formatted = end_date.strftime("%-I:%M %p")
+            end_formatted = get_formatted_time(end_date)  # end_date.strftime("%-I:%M %p")
         else:
             start_formatted = get_formatted_date(start_date)
             end_formatted = get_formatted_date(end_date)

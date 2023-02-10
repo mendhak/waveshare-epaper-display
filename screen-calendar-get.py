@@ -67,7 +67,7 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event):
         end_date = event_end
         if start_date.date() == end_date.date():
             start_formatted = get_formatted_date(start_date)
-            end_formatted = get_formatted_time(end_date)  # end_date.strftime("%-I:%M %p")
+            end_formatted = get_formatted_time(end_date)
         else:
             start_formatted = get_formatted_date(start_date)
             end_formatted = get_formatted_date(end_date)

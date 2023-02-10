@@ -143,9 +143,13 @@ def get_formatted_date(dt, include_time=True):
     formatter_time = ", %-I:%M %p" if include_time else ""
 
     try:
-        humanize.activate(locale.getlocale()[0])
+        short_locale = locale.getlocale()[0]  # en_GB
+        short_locale = short_locale.split("_")[0]  # en
+        if not short_locale == "en":
+            humanize.activate(short_locale)
         has_locale = True
     except Exception:
+        logging.debug("Locale not found for humanize")
         has_locale = False
 
     if (has_locale and

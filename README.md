@@ -47,7 +47,7 @@ The screen will display date, time, weather icon with high and low, and calendar
 
 ### Prepare the Pi
 
-I've got a separate post for this, [prepare the Raspberry Pi with WiFi and SSH](https://code.mendhak.com/prepare-raspberry-pi/).  Once the Pi is set up, and you can access it, come back here.
+Use the [Raspberry Pi imager](https://www.raspberrypi.com/software/) and install Raspberry Pi OS.  Ensure that you have SSH access, or direct access, to the Raspberry Pi, and that it can connect to the Internet to download packages.  
 
 
 ### Connect the display

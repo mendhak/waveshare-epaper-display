@@ -13,6 +13,7 @@ from astral import LocationInfo
 from astral.sun import sun
 import humanize
 import locale
+from babel.dates import format_time
 
 def configure_logging():
     """
@@ -140,7 +141,16 @@ def get_formatted_date(dt, include_time=True):
     tomorrow = today + datetime.timedelta(days=1)
     next_week = today + datetime.timedelta(days=7)
     formatter_day = "%a %b %-d"
-    formatter_time = ", %-I:%M %p" if include_time else ""
+
+    # Display the time in the locale format, if possible
+    if include_time:
+        try:
+            formatter_time = format_time(dt, format='short', locale=locale.getlocale()[0])
+        except Exception:
+            logging.debug("Locale not found for Babel library.")
+            formatter_time = "%-I:%M %p"
+    else:
+        formatter_time = " "
 
     try:
         short_locale = locale.getlocale()[0]  # en_GB
@@ -156,10 +166,12 @@ def get_formatted_date(dt, include_time=True):
             (dt.date() == today.date()
              or dt.date() == tomorrow.date()
              or dt.date() == yesterday.date())):
+        # Show today/tomorrow/yesterday if available
         formatter_day = humanize.naturalday(dt.date(), "%A").title()
     elif dt.date() < next_week.date():
+        # Just show the day name if it's in the next few days
         formatter_day = "%A"
-    return dt.strftime(formatter_day + formatter_time)
+    return dt.strftime(formatter_day + " " + formatter_time)
 
 
 def get_sunset_time():

@@ -12,18 +12,18 @@
     <text id="weaetherdesc2" x="155" y="415" font-size="38px" style="font-size:28px;line-height:0%;font-family:sans-serif;text-anchor:middle">WEATHER_DESC_2</text>
     <path d="m 301.08466,394.8254 v 70 h 3 v -235.5 h -3 z" id="divider" inkscape:connector-curvature="0" />
 
-    <g id="calendaricon" transform="scale(0.1) translate(3300,2000)">
+    <g id="calendaricon" transform="scale(0.1) translate(3300,1800)">
         <path style="fill:#090509" d="M 506.645,89.372 C 502.609,76.437 491.008,66.87 476.738,66.87 h -31.782 v 49.326 c 0,26.284 -21.39,47.674 -47.674,47.674 -26.284,0 -47.674,-21.39 -47.674,-47.674 V 66.87 H 158.753 v 49.326 c 0,26.284 -21.39,47.674 -47.674,47.674 -26.284,0 -47.674,-21.39 -47.674,-47.674 V 66.87 H 31.782 c -14.27,0 -25.903,9.567 -29.907,22.502 H 0 v 387.365 c 0,17.544 14.239,31.782 31.782,31.782 h 444.955 c 17.544,0 31.782,-14.239 31.782,-31.782 V 89.372 Z M 476.737,476.737 H 31.782 v -254.26 h 444.955 z" id="path132" inkscape:connector-curvature="0" />
         <path style="fill:#090509" d="m 111.08,132.088 c 8.772,0 15.891,-7.119 15.891,-15.891 V 15.891 C 126.971,7.119 119.852,0 111.08,0 102.308,0 95.189,7.119 95.189,15.891 v 100.306 c 0,8.772 7.119,15.891 15.891,15.891 z" id="path134" inkscape:connector-curvature="0" />
         <path style="fill:#090509" d="m 397.281,132.088 c 8.74,0 15.891,-7.119 15.891,-15.891 V 15.891 C 413.172,7.119 406.021,0 397.281,0 388.541,0 381.39,7.119 381.39,15.891 v 100.306 c 0,8.772 7.151,15.891 15.891,15.891 z" id="path136" inkscape:connector-curvature="0" />
     </g>
 
-    <text id="calendarentry1" x="330" y="255" font-size="29px" style="font-size:29px;line-height:0%;font-family:sans-serif;text-anchor:beginning">
+    <text id="calendarentry1" x="330" y="235" font-size="29px" style="font-size:29px;line-height:0%;font-family:sans-serif;text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_1</tspan>
         <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_1]]></tspan>
     </text>
 
-    <text id="calendarentry2" x="330" y="305" font-size="29px" style="font-size:29px;line-height:0%;font-family:sans-serif;text-anchor:beginning">
+    <text id="calendarentry2" x="330" y="295" font-size="29px" style="font-size:29px;line-height:0%;font-family:sans-serif;text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_2</tspan>
         <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_2]]></tspan>
     </text>
@@ -33,7 +33,7 @@
         <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_3]]></tspan>
     </text>
 
-    <text id="calendarentry4" x="330" y="405" font-size="29px" style="font-size:29px;line-height:0%;font-family:sans-serif;text-anchor:beginning">
+    <text id="calendarentry4" x="330" y="415" font-size="29px" style="font-size:29px;line-height:0%;font-family:sans-serif;text-anchor:beginning">
         <tspan x="330" dy="25" style="font-size:23px;">CAL_DATETIME_4</tspan>
         <tspan style="font-weight:bold;" x="330" dy="25"><![CDATA[CAL_DESC_4]]></tspan>
     </text>

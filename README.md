@@ -371,6 +371,32 @@ $ fc-match sans-serif
 NotoSans-Regular.ttf: "Noto Sans" "Regular"
 ```
 
+## Using a different display language
+
+The default locale of the system will be used to generate the time and date formats, including month and day names. There is limited support as it's very hard to fit all kinds of text into a small space. 
+
+To know the current locale, run `locale`. For me it shows `en_GB.UTF-8`.  
+To know all the locales installed on the system, use `locale -a`
+
+It is possible to use a locale other than the default of your Raspberry Pi. First you'll need to install it, if it's not listed. 
+
+    sudo dpkg-reconfigure locales
+
+Select the locales you want to install, pick the ones that have `.UTF-8` in the name. It should take a few minutes for the locales to be generated. 
+
+Edit the `env.sh` file and at the top, set the language like so: 
+
+    export LANG=ko_KR.UTF-8
+
+The next time `run.sh` runs, the output should have the chosen language.
+
+I've also noticed that some languages don't render (like Chinese, Japanese, Korean), even if their locales have been generated.  
+Their corresponding fonts will need to be installed too. I tried the Noto fonts and it worked for me. 
+
+    sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
+
+
+
 ## Troubleshooting
 
 If the scripts don't work at all, try going through the Waveshare sample code linked below - if you can get those working, this script should work for you too.

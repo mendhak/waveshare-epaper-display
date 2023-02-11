@@ -312,12 +312,61 @@ Add this entry so it runs every minute:
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file.
 
-private-4fd32b3ea053763cfed6cc4f27e65411add your own custom data to the screen. For example this could be API calls, data from Home Assistant, PiHole stats, or something external.
+## Custom Data
+
+This is an optional step, to add your own custom data to the screen.  For example this could be API calls, data from Home Assistant, PiHole stats, or something external.
 
 Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
 
 Next, modify `screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position.
 You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.
+
+## Using a different font
+
+This is an optional step.  The default font is set to `sans-serif` which on a Raspberry Pi defaults to DejaVu Sans.  It's a decent font, wide, and visible.  
+
+In this example I'll replace it with Noto Sans. 
+First run this command, it will show the current font being used. 
+
+```
+$ fc-match sans-serif
+DejaVuSans.ttf: "DejaVu Sans" "Book"
+```
+
+Now install Noto fonts.  This is a massive download. 
+
+```
+sudo apt install fonts-noto
+```
+
+Now create a font config file if it doesn't already exist. 
+
+```
+mkdir -p ~/.config/fontconfig/
+touch ~/.config/fontconfig/fonts.conf
+```
+
+Add these contents to the fonts.conf file:
+
+```xml
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+  <alias>
+    <family>sans-serif</family>
+    <prefer>
+        <family>Noto Sans</family>
+    </prefer>
+  </alias>
+</fontconfig>
+```
+
+This tells the system to prefer 'Noto Sans' if the 'sans-serif' family is requested. You can test it by running:
+
+```
+$ fc-match sans-serif
+NotoSans-Regular.ttf: "Noto Sans" "Regular"
+```
 
 ## Troubleshooting
 

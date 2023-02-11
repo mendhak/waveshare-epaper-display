@@ -1,7 +1,7 @@
 ## 2023-02-xx
 * Breaking change - the setup now runs under a Python virtual environment for safety and easy recovery. If you are updating, rerun the README instructions. 
-* Localization - the time format and date format will now be formatted according to the Raspberry Pi's locale. 
-* The font used to display the text will also be based on the Raspberry Pi's locale. Whatever `fc-match sans-serif` says is the font that gets used. The default for most locales is DejaVu Sans. 
+* Localization - the time format and date format will now be formatted according to the Raspberry Pi's default locale. 
+* The font used to display the text will also be based on the Raspberry Pi's locale. Whatever `fc-match sans-serif` says is the font that gets used. The default for most Western locales is DejaVu Sans. 
 * It's possible to override the font, I've added instructions for that.  But it's really basic. I don't know much about font config. 
 * It's possible to pick another locale by setting the `LANG` environment variable in the env.sh, instructions added for that. 
 

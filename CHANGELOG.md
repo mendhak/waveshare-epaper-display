@@ -1,8 +1,9 @@
 ## 2023-02-xx
+* Breaking change - the setup now runs under a Python virtual environment for safety and easy recovery. If you are updating, rerun the README instructions. 
 * Localization - the time format and date format will not be formatted according to the Raspberry Pi's locale. 
 * The font used to display the text will also be based on the Raspberry Pi's locale. Whatever `fc-match sans-serif` says is the font that gets used. 
-* It's possible to override the font, I've added instructions for that.  But it's really basic. I don't know much about font configs. 
-* It's possible to pick another locale by setting the `LC_ALL` environment variable in the env.sh.  
+* It's possible to override the font, I've added instructions for that.  But it's really basic. I don't know much about font config. 
+* It's possible to pick another locale by setting the `LC_ALL` environment variable in the env.sh, instructions added for that too. 
 
 ## 2023-02-04
 * Add SMHI (Sweden) as weather provider. Added by [hnnweb](https://github.com/mendhak/waveshare-epaper-display/pull/51)

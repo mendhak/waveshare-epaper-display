@@ -54,7 +54,9 @@ Use the [Raspberry Pi imager](https://www.raspberrypi.com/software/) and install
 
 Turn the Pi off, then put the HAT on top of the Pi's GPIO pins.
 
-Connect the ribbon from the epaper display to the extension.  To do this you will need to lift the black latch at the back of the connector, insert the ribbon slowly, then push the latch down.  Now turn the Pi back on.
+Connect the ribbon from the epaper display to the extension.  To do this you will need to lift the black latch at the back of the connector, insert the ribbon slowly, then push the latch down.  
+
+Now turn the Pi back on and SSH into it.  
 
 
 ## Using this application
@@ -72,8 +74,9 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
     cd waveshare-epaper-display
     sudo apt update && sudo apt upgrade
-    sudo apt install git gsfonts python3 python3-pip cairosvg pigpio python3-pigpio
-    sudo pip3 install -r requirements.txt
+    sudo apt install gsfonts python3 python3-pip pigpio
+    python3 -m venv .venv
+    .venv/bin/pip3 install -r requirements.txt
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
     sudo reboot
 
@@ -235,7 +238,7 @@ Next, head over to the [API Dashboard Credentials page](https://console.cloud.go
 
 You can now kick off the authentication process. On the Raspberry Pi, run:
 
-    python3 screen-calendar-get.py
+    .venv/bin/python3 screen-calendar-get.py
 
 The script will prompt you to visit a URL in your browser and then wait.  Copy the URL, open it in a browser and you will go through the login process.  When the OAuth workflow tries to redirect back (and fails), copy the URL it was trying to go to (eg: http://localhost:8080/...) and in another SSH session with the Raspberry Pi,
 
@@ -249,7 +252,7 @@ I also have a [post here with screenshots](https://github.com/mendhak/waveshare-
 
 The setup is much simpler, just run this script which will give instructions on how to login:
 
-    python3 outlook_util.py
+    .venv/bin/python3 outlook_util.py
 
 Login with the Microsoft account you want to get the calendar from, and accept the consent screen.
 After a moment, the script will then display a set of Calendar IDs and some sample events from those Calendars.

@@ -326,12 +326,12 @@ You can add more values by adding more SVG elements for custom_value_2, custom_v
 
 ## How to use a different display language
 
-The default locale of the system will be used to generate the time and date formats, including month and day names. 
+The default locale of the system will be used to generate the time and date formats, including month and day names.  On Raspberry Pi OS the default is usually `en_GB`.  
 
-If the default locale isn't working well, use the following instructions to set en_GB as the 'default', or to try other languages.  
+Use the following instructions to install and try out other locales, or even force en_GB. 
 
-To know the current default locale, run `locale`.  
-To know all the locales installed on the system, use `locale -a`.  
+To see the current default locale, run `locale`.  
+To see all the locales installed on the system, use `locale -a`.  
 
 To install a new locale, go through the locale wizard:
 
@@ -341,9 +341,18 @@ Select the locales you want to install, be sure to pick the ones that have `.UTF
 
 Edit the `env.sh` file and at the top, set the language like so: 
 
-    export LANG=en_GB.UTF-8
+    export LANG=ko_KR.UTF-8
 
 The next time `run.sh` runs, the output should have the chosen language.
+
+### Fonts for non-western languages
+
+Some languages don't render well (like Chinese, Japanese, Korean), because the default Raspberry Pi system fonts don't have all the characters needed to display on screen. 
+In these cases, install a font that supports all the characters you want to display.  For Chinese/Japanese/Korean, just installing the Noto fonts (`sudo apt install fonts-noto`) was enough for it to work without any changes. 
+
+For other languages, install a font for that langauge and use the [font instructions](#how-to-use-a-different-font) to set it as the default. 
+
+The reason this is necessary: the SVG renderer [does not support fallback fonts](https://github.com/Kozea/CairoSVG/issues/72#issuecomment-132500219) which means that if a font doesn't have a certain character, it won't ask the system for other fonts to help plug the gaps. You'll just see squares. 
 
 
 ## How to use a different font
@@ -392,14 +401,6 @@ This tells the system to prefer 'Noto Sans' if the 'sans-serif' family is reques
 $ fc-match sans-serif
 NotoSans-Regular.ttf: "Noto Sans" "Regular"
 ```
-### Fonts for non-western languages
-
-Some languages don't render well (like Chinese, Japanese, Korean), because the default Raspberry Pi system fonts don't have all the characters needed to display on screen. 
-In these cases, install a font that supports all the characters you want to display.  For Chinese/Japanese/Korean, just installing the Noto fonts (`sudo apt install fonts-noto`) was enough for it to work without any changes. 
-
-For other languages, install a font for that langauge and use the above instructions to set it as the default. 
-
-The reason this is necessary: the SVG renderer [does not support fallback fonts](https://github.com/Kozea/CairoSVG/issues/72#issuecomment-132500219) which means that if a font doesn't have a certain character, it won't ask the system for other fonts to help plug the gaps. You'll just see squares. 
 
 
 

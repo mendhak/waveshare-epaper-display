@@ -11,8 +11,6 @@ from utility import get_formatted_time, update_svg, configure_logging
 import textwrap
 import html
 
-from babel.dates import format_time
-
 import locale
 try:
     locale.setlocale(locale.LC_ALL, '')

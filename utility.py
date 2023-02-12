@@ -2,8 +2,7 @@ import codecs
 import logging
 import os
 import time
-import contextlib
-from http.client import HTTPConnection # py3
+from http.client import HTTPConnection
 import requests
 import datetime
 import pytz
@@ -14,6 +13,7 @@ from astral.sun import sun
 import humanize
 import locale
 from babel.dates import format_time
+
 
 def configure_logging():
     """
@@ -75,6 +75,7 @@ def is_stale(filepath, ttl):
         .format(filepath, str(verdict)))
 
     return verdict
+
 
 def get_json_from_url(url, headers, cache_file_name, ttl):
     """

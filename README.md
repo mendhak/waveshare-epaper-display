@@ -324,9 +324,31 @@ Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom c
 Next, modify `screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position.
 You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.
 
-## Using a different font
+## How to use a different display language
 
-This is an optional step.  The default font is set to `sans-serif` which on a Raspberry Pi defaults to DejaVu Sans.  It's a decent font, wide, and visible.  
+The default locale of the system will be used to generate the time and date formats, including month and day names. 
+
+If the default locale isn't working well, use the following instructions to set en_GB as the 'default', or to try other languages.  
+
+To know the current default locale, run `locale`.  
+To know all the locales installed on the system, use `locale -a`.  
+
+To install a new locale, go through the locale wizard:
+
+    sudo dpkg-reconfigure locales
+
+Select the locales you want to install, be sure to pick the ones that have `.UTF-8` in the name. 
+
+Edit the `env.sh` file and at the top, set the language like so: 
+
+    export LANG=en_GB.UTF-8
+
+The next time `run.sh` runs, the output should have the chosen language.
+
+
+## How to use a different font
+
+The default font is set to `sans-serif` which on a Raspberry Pi defaults to DejaVu Sans. It's a decent font, wide, and visible, and works for most western languages.  
 
 In this example I'll replace it with Noto Sans. 
 First run this command, it will show the current font being used. 
@@ -345,11 +367,11 @@ sudo apt install fonts-noto
 Now create a font config file if it doesn't already exist. 
 
 ```
-mkdir -p ~/.config/fontconfig/
-touch ~/.config/fontconfig/fonts.conf
+mkdir -p ~/.config/fontconfig/conf.d
+nano ~/.config/fontconfig/conf.d/00-fonts.conf
 ```
 
-Add these contents to the fonts.conf file:
+Add these contents to the 00-fonts.conf file:
 
 ```xml
 <?xml version='1.0'?>
@@ -370,30 +392,14 @@ This tells the system to prefer 'Noto Sans' if the 'sans-serif' family is reques
 $ fc-match sans-serif
 NotoSans-Regular.ttf: "Noto Sans" "Regular"
 ```
+### Fonts for non-western languages
 
-## Using a different display language
+Some languages don't render well (like Chinese, Japanese, Korean), because the default Raspberry Pi system fonts don't have all the characters needed to display on screen. 
+In these cases, install a font that supports all the characters you want to display.  For Chinese/Japanese/Korean, just installing the Noto fonts (`sudo apt install fonts-noto`) was enough for it to work without any changes. 
 
-The default locale of the system will be used to generate the time and date formats, including month and day names. There is limited support as it's very hard to fit all kinds of text into a small space. 
+For other languages, install a font for that langauge and use the above instructions to set it as the default. 
 
-To know the current locale, run `locale`. For me it shows `en_GB.UTF-8`.  
-To know all the locales installed on the system, use `locale -a`
-
-It is possible to use a locale other than the default of your Raspberry Pi. First you'll need to install it, if it's not listed. 
-
-    sudo dpkg-reconfigure locales
-
-Select the locales you want to install, pick the ones that have `.UTF-8` in the name. It should take a few minutes for the locales to be generated. 
-
-Edit the `env.sh` file and at the top, set the language like so: 
-
-    export LANG=ko_KR.UTF-8
-
-The next time `run.sh` runs, the output should have the chosen language.
-
-I've also noticed that some languages don't render (like Chinese, Japanese, Korean), even if their locales have been generated.  
-Their corresponding fonts will need to be installed too. I tried the Noto fonts and it worked for me. 
-
-    sudo apt install fonts-noto-cjk fonts-noto-cjk-extra
+The reason this is necessary: the SVG renderer [does not support fallback fonts](https://github.com/Kozea/CairoSVG/issues/72#issuecomment-132500219) which means that if a font doesn't have a certain character, it won't ask the system for other fonts to help plug the gaps. You'll just see squares. 
 
 
 

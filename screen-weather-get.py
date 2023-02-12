@@ -7,17 +7,11 @@ import logging
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
-from utility import get_formatted_time, update_svg, configure_logging
+from utility import get_formatted_time, update_svg, configure_logging, configure_locale
 import textwrap
 import html
 
-import locale
-try:
-    locale.setlocale(locale.LC_ALL, '')
-except locale.Error:
-    logging.debug("Could not set locale")
-
-
+configure_locale()
 configure_logging()
 
 

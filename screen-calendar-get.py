@@ -7,15 +7,9 @@ from calendar_providers.caldav import CalDavCalendar
 from calendar_providers.google import GoogleCalendar
 from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
-from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date
+from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date, configure_locale
 
-import locale
-
-try:
-    locale.setlocale(locale.LC_ALL, '')
-except locale.Error:
-    logging.debug("Could not set locale")
-
+configure_locale()
 configure_logging()
 
 # note: increasing this will require updates to the SVG template to accommodate more events

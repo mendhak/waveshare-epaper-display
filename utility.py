@@ -15,6 +15,13 @@ import locale
 from babel.dates import format_time
 
 
+def configure_locale():
+    try:
+        locale.setlocale(locale.LC_ALL, '')
+    except locale.Error:
+        logging.debug("Could not set locale")
+
+
 def configure_logging():
     """
     Sets up logging with a specific logging format.

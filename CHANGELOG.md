@@ -1,4 +1,4 @@
-## 2023-02-xx
+## 2023-02-13
 * Breaking change - the setup now runs under a Python virtual environment for safety and easy recovery. If you are updating, rerun the README instructions. 
 * Localization - the time format and date format will now be formatted according to the Raspberry Pi's default locale. Usually this is `en_GB` but can be changed using `raspi-config`.  
 * The font used to display the text will also be based on the Raspberry Pi's locale. Whatever `fc-match sans-serif` says is the font that gets used. The default for most Western locales is DejaVu Sans. 

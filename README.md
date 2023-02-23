@@ -76,7 +76,7 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
     cd waveshare-epaper-display
     sudo apt update && sudo apt upgrade
-    sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7
+    sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7 python3-venv
     python3 -m venv .venv
     .venv/bin/pip3 install -r requirements.txt
     sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI

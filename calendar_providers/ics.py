@@ -6,6 +6,7 @@ import os
 import logging
 import pickle
 import icalevnt.icalevents
+from dateutil import tz
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -38,7 +39,11 @@ class ICSCalendar(BaseCalendarProvider):
                 if ics_event.all_day:
                     event_end = event_end - datetime.timedelta(days=1)
 
-                calendar_events.append(CalendarEvent(ics_event.summary, ics_event.start, event_end, ics_event.all_day))
+                # convert to local timezone
+                event_end = ics_event.end.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
+                event_start = ics_event.start.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
+
+                calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
 
             with open(ics_calendar_pickle, 'wb') as cal:
                 pickle.dump(calendar_events, cal)

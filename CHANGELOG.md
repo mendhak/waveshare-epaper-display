@@ -1,3 +1,6 @@
+## 2023-03-10
+* Ability to set the timezone name for Google Calendar, with the `GOOGLE_CALENDAR_TIME_ZONE_NAME` variable. This is necessary if you're using Google's Family Calendar feature, which is hardcoded to UTC. 
+
 ## 2023-02-13
 * Breaking change - the setup now runs under a Python virtual environment for safety and easy recovery. If you are updating, rerun the README instructions. 
 * Localization - the time format and date format will now be formatted according to the Raspberry Pi's default locale. Usually this is `en_GB` but can be changed using `raspi-config`.  

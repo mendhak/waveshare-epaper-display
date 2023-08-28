@@ -32,6 +32,10 @@ else
     WAVESHARE_HEIGHT=480
 fi
 
+
+## Hier if else für App integration einbringen
+
+
 .venv/bin/cairosvg -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
 
 log "Display on epaper"

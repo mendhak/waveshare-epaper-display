@@ -24,6 +24,7 @@ icalevnt==0.1.26
 idna==3.4
 lxml==4.9.1
 msal==1.20.0
+numpy==1.24.4
 oauthlib==3.2.2
 Pillow==9.3.0
 protobuf==4.21.9
@@ -48,4 +49,5 @@ uritemplate==4.1.1
 urllib3==1.26.12
 vobject==0.9.6.1
 webencodings==0.5.1
+wget==3.2
 zope.interface==5.5.1

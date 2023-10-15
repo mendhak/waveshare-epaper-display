@@ -1,3 +1,6 @@
+## 2023-10-15
+* Updated instructions for Raspberry Pi OS October 2023 edition, which comes with Python 3.11 and breaks a few dependencies. 
+
 ## 2023-03-10
 * Ability to set the timezone name for Google Calendar, with the `GOOGLE_CALENDAR_TIME_ZONE_NAME` variable. This is necessary if you're using Google's Family Calendar feature, which is hardcoded to UTC. 
 

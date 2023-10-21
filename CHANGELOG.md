@@ -1,3 +1,6 @@
+## 2023-10-21
+* Point at OpenWeatherAPI version 3. Added by [jcolladosp](https://github.com/mendhak/waveshare-epaper-display/pull/71)
+
 ## 2023-10-15
 * Updated instructions for Raspberry Pi OS October 2023 edition, which comes with Python 3.11 and breaks a few dependencies. 
 

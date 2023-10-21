@@ -82,7 +82,7 @@ class OpenWeatherMap(BaseWeatherProvider):
     # https://openweathermap.org/api/one-call-api
     def get_weather(self):
 
-        url = ("https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&exclude=current,minutely,hourly&units={}&appid={}"
+        url = ("https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,hourly&units={}&appid={}"
                .format(self.location_lat, self.location_long, self.units, self.openweathermap_apikey))
         response_data = self.get_response_json(url)
         logging.debug(response_data)

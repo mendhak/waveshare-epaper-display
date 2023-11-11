@@ -1,3 +1,6 @@
+## 2023-11-11
+* Setting `PRIVACY_MODE=1` hides everything and just displays an XKCD comic
+
 ## 2023-10-21
 * Point at OpenWeatherAPI version 3. Added by [jcolladosp](https://github.com/mendhak/waveshare-epaper-display/pull/71)
 

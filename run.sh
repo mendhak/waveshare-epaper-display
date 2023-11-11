@@ -18,7 +18,9 @@ fi
 if [ $PRIVACY_MODE = 1 ]; then
     log "Get XKCD comic strip"
     .venv/bin/python3 xkcd_get.py
-    .venv/bin/python3 display.py xkcd-comic-strip.png
+    if [ $? -eq 0 ]; then
+        .venv/bin/python3 display.py xkcd-comic-strip.png
+    fi
 
 else
 

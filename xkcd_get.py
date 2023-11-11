@@ -1,11 +1,9 @@
 import requests
-import json
-import wget
 import logging
 import os
-import numpy as np
 from PIL import Image
 from utility import is_stale, configure_logging
+import sys
 
 configure_logging()
 
@@ -13,7 +11,7 @@ def xkcd_get_img():
     xkcd_file_name = "xkcd-comic-strip.png"
     if not is_stale(xkcd_file_name, 3600):
         logging.info("xkcd-comic-strip.png is still fresh. Skipping download.")
-        return
+        sys.exit(1)
 
     logging.info("Downloading xkcd-json")
     response = requests.get("https://xkcd.com/info.0.json")
@@ -26,16 +24,10 @@ def xkcd_get_img():
     filename = path + '/' + os.path.basename(xkcd_file_name)
     if os.path.exists(filename):
         os.remove(filename)
-    wget.download(result["img"], filename)
+    image_response = requests.get(result["img"])
+    open(filename, 'wb').write(image_response.content)
 
-    # Convert grayscale to pseudo-rgb since grayscale confuses the eink display
-
-    image = np.array(Image.open(filename).convert('RGB'))
-    Image.fromarray(image).save(xkcd_file_name)
-
-    """ If the downloaded image is too big to fit into the display downscale it
-    while taking the scales into account.
-    Afterwards resize the image to fit the screen. Sligh disortions can happen """
+    logging.info("Resizing the image to fit the screen. Disortions can happen.")
 
     im = Image.open(filename)
     logging.debug("PNG size: ",im.size)
@@ -43,14 +35,8 @@ def xkcd_get_img():
     width = int(os.environ.get('WAVESHARE_WIDTH'))
     height = int(os.environ.get('WAVESHARE_HEIGHT'))
     print(width, height)
-    if (im.size[0] > width and im.size[1] > height):
-        logging.debug("Picture is bigger than eink-display")
-        print("After using thumbnail: ",im.size)
-        im.thumbnail((width,height))
-
-    if (im.size[0] < width and im.size[1] < height):
-        im = im.resize((width,height))
-        logging.debug("Sizing onto eink-display size: ", im.size)
+    print(im.size)
+    im = im.resize((width,height))
     im.save(filename, "PNG")
 
 

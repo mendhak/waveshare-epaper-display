@@ -34,8 +34,6 @@ def xkcd_get_img():
 
     width = int(os.environ.get('WAVESHARE_WIDTH'))
     height = int(os.environ.get('WAVESHARE_HEIGHT'))
-    print(width, height)
-    print(im.size)
     im = im.resize((width,height))
     im.save(filename, "PNG")
 

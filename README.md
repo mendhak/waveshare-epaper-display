@@ -34,6 +34,7 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Adding custom data](#custom-data)
 - [Choosing a different language](#how-to-use-a-different-display-language)
 - [Choosing a different font](#how-to-use-a-different-font)
+- [Privacy Mode](#privacy-mode)
 - [Troubleshooting](#troubleshooting)
 - [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
 - [Debugging locally](#debugging-locally)
@@ -410,10 +411,14 @@ NotoSans-Regular.ttf: "Noto Sans" "Regular"
 ```
 
 ## Privacy Mode
-The default is off.  
-If you don't want to display your appointments and instead display a xkcd-comic, you can set ```PRIVACY_MODE=1``` in `env.sh`  
-Afterwards an image is downloaded and will be displayed onto the display.  
-Slight dissortions of the comic can occur.
+
+This mode hides away everything and just displays an XKCD comic.  In env.sh, set
+
+```
+export PRIVACY_MODE=1
+```
+
+An XKCD comic is downloaded and will be rendered onto the display. The comic will be distorted to fit the dimensions. 
 
 ## Troubleshooting
 

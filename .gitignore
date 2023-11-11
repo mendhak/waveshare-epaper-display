@@ -16,3 +16,5 @@ venv
 cache_
 .venv
 .env
+
+xkcd-comic-strip.png

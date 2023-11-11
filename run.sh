@@ -7,8 +7,17 @@ function log {
     echo "---------------------------------------"
 }
 
+if [ $WAVESHARE_EPD75_VERSION = 1 ]; then
+    export WAVESHARE_WIDTH=640
+    export WAVESHARE_HEIGHT=384
+else
+    export WAVESHARE_WIDTH=800
+    export WAVESHARE_HEIGHT=480
+fi
+
 if [ $PRIVACY_MODE = 1 ]; then
-    log "Display on epaper"
+    log "Get XKCD comic strip"
+    .venv/bin/python3 xkcd_get.py
     .venv/bin/python3 display.py xkcd-comic-strip.png
 
 else
@@ -29,14 +38,6 @@ else
 
 
     log "Export to PNG"
-
-    if [ $WAVESHARE_EPD75_VERSION = 1 ]; then
-        WAVESHARE_WIDTH=640
-        WAVESHARE_HEIGHT=384
-    else
-        WAVESHARE_WIDTH=800
-        WAVESHARE_HEIGHT=480
-    fi
 
     .venv/bin/cairosvg -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
 

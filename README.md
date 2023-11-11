@@ -6,12 +6,8 @@ The screen will display date, time, weather icon with high and low, and calendar
 
 - [Shopping list](#shopping-list)
 - [Setup the PI](#setup-the-pi)
-  - [Prepare the Pi](#prepare-the-pi)
-  - [Connect the display](#connect-the-display)
 - [Using this application](#using-this-application)
-  - [Clone it](#clone-it)
-  - [Setup dependencies](#setup-dependencies)
-  - [Waveshare version](#waveshare-version)
+- [Setup dependencies](#setup-dependencies)
 - [Set your location](#set-your-location)
 - [Pick a Weather provider](#pick-a-weather-provider)
   - [OpenWeatherMap](#openweathermap)
@@ -29,18 +25,15 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Met Éireann (Ireland)](#met-éireann-ireland-1)
 - [Pick a Calendar provider](#pick-a-calendar-provider)
   - [Google Calendar setup](#google-calendar-setup)
-    - [Google Calendar token](#google-calendar-token)
   - [Outlook Calendar](#outlook-calendar)
   - [ICS Calendar](#ics-calendar)
   - [CalDav Calendar](#caldav-calendar)
 - [Pick a layout](#pick-a-layout)
 - [Run it](#run-it)
   - [Automate it](#automate-it)
-- [Custom Data](#custom-data)
-- [How to use a different display language](#how-to-use-a-different-display-language)
-  - [Fonts for non-western languages](#fonts-for-non-western-languages)
-- [How to use a different font](#how-to-use-a-different-font)
-- [Privacy Mode](#privacy-mode)
+- [Adding custom data](#custom-data)
+- [Choosing a different language](#how-to-use-a-different-display-language)
+- [Choosing a different font](#how-to-use-a-different-font)
 - [Troubleshooting](#troubleshooting)
 - [Waveshare documentation and sample code](#waveshare-documentation-and-sample-code)
 - [Debugging locally](#debugging-locally)
@@ -416,15 +409,11 @@ $ fc-match sans-serif
 NotoSans-Regular.ttf: "Noto Sans" "Regular"
 ```
 
-
 ## Privacy Mode
 The default is off.  
 If you don't want to display your appointments and instead display a xkcd-comic, you can set ```PRIVACY_MODE=1``` in `env.sh`  
 Afterwards an image is downloaded and will be displayed onto the display.  
 Slight dissortions of the comic can occur.
-
-
-
 
 ## Troubleshooting
 

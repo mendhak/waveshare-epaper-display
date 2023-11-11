@@ -56,7 +56,9 @@ The screen will display date, time, weather icon with high and low, and calendar
 
 ### Prepare the Pi
 
-Use the [Raspberry Pi imager](https://www.raspberrypi.com/software/) and install Raspberry Pi OS.  Ensure that you have SSH access, or direct access, to the Raspberry Pi, and that it can connect to the Internet to download packages.  
+Use the [Raspberry Pi imager](https://www.raspberrypi.com/software/) and install Raspberry Pi OS (tested with Raspberry Pi OS Lite, October 2023 edition).   
+
+Ensure that you have SSH access, or direct access, to the Raspberry Pi, and that it can connect to the Internet to download packages. In most cases you would do this via the imager's settings screen: set the username and password, enable SSH and set up WiFi access. 
 
 
 ### Connect the display
@@ -79,14 +81,20 @@ git clone this repository in the `/home/pi` directory.
 
 This should create a `/home/pi/waveshare-epaper-display` directory.
 
+Due to a [bug](https://github.com/waveshareteam/e-Paper/issues/306) in the original Waveshare code, run this temporary workaround: 
+
+    cd waveshare-epaper-display
+    git submodule set-url lib/e-Paper https://github.com/mendhak/waveshare-epaper-sample.git
+    git submodule update --init --recursive --remote
+
 ### Setup dependencies
 
     cd waveshare-epaper-display
     sudo apt update && sudo apt upgrade
-    sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7 python3-venv
+    sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7 python3-venv libjpeg-dev libxslt1-dev fontconfig
     python3 -m venv .venv
     .venv/bin/pip3 install -r requirements.txt
-    sudo sed -i s/#dtparam=spi=on/dtparam=spi=on/ /boot/config.txt  #This enables SPI
+    sudo raspi-config nonint do_spi 0  #This enables SPI
     sudo reboot
 
 

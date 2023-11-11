@@ -45,7 +45,6 @@ try:
     else:
         epd.display(epd.getbuffer(Himage))
     epd.sleep()
-    epd.Dev_exit()
 
 except IOError as e:
     logging.exception(e)

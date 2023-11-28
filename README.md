@@ -75,18 +75,12 @@ git clone this repository in the `/home/pi` directory.
 
 This should create a `/home/pi/waveshare-epaper-display` directory.
 
-Due to a [bug](https://github.com/waveshareteam/e-Paper/issues/306) in the original Waveshare code, run this temporary workaround: 
-
-    cd waveshare-epaper-display
-    git submodule set-url lib/e-Paper https://github.com/mendhak/waveshare-epaper-sample.git
-    git submodule update --init --recursive --remote
-
 ### Setup dependencies
 
     cd waveshare-epaper-display
     sudo apt update && sudo apt upgrade
     sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7 python3-venv libjpeg-dev libxslt1-dev fontconfig
-    python3 -m venv .venv
+    python3 -m venv --system-site-packages .venv
     .venv/bin/pip3 install -r requirements.txt
     sudo raspi-config nonint do_spi 0  #This enables SPI
     sudo reboot

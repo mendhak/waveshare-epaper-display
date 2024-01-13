@@ -30,6 +30,9 @@ else
     log "Add Calendar info"
     .venv/bin/python3 screen-calendar-get.py
 
+    log "Add Calendar month"
+    .venv/bin/python3 screen-calendar-month.py
+
     if [ -f screen-custom-get.py ]; then
         log "Add Custom data"
         .venv/bin/python3 screen-custom-get.py

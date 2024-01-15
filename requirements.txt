@@ -23,6 +23,7 @@ humanize==4.6.0
 icalendar==4.0.9
 icalevents==0.1.27
 idna==3.4
+inky==1.5.0
 lxml==4.9.1
 msal==1.20.0
 oauthlib==3.2.2

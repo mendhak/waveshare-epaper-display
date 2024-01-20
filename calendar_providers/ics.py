@@ -5,7 +5,7 @@ from utility import is_stale
 import os
 import logging
 import pickle
-import icalevnt.icalevents
+import icalevents.icalevents
 from dateutil import tz
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
@@ -25,7 +25,7 @@ class ICSCalendar(BaseCalendarProvider):
         if is_stale(os.getcwd() + "/" + ics_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching ICS Calendar")
 
-            ics_events = icalevnt.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date)
+            ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date)
             ics_events.sort(key=lambda x: x.start.replace(tzinfo=None))
 
             logging.debug(ics_events)

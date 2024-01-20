@@ -17,10 +17,10 @@ google-auth==2.14.1
 google-auth-httplib2==0.1.0
 google-auth-oauthlib==0.7.1
 googleapis-common-protos==1.56.4
-httplib2==0.20.1
+httplib2==0.20.4
 humanize==4.6.0
-icalendar==4.0.8
-icalevnt==0.1.26
+icalendar==4.0.9
+icalevents==0.1.27
 idna==3.4
 lxml==4.9.1
 msal==1.20.0

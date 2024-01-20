@@ -10,6 +10,9 @@ configure_logging()
 
 def get_formatted_calendar_month() -> dict:
     formatted_calendar_month = {}
+    week_headers = calendar.weekheader(2).split()
+    for d in range(len(week_headers)):
+      formatted_calendar_month[f'WH{d}'] = week_headers[d]
     today = datetime.date.today()
     firstWeekDay, days = calendar.monthrange(today.year, today.month)
     for d in range(37):

@@ -298,6 +298,10 @@ This is an optional step.  There are a few different layouts to choose from.
 | --- | --- |
 | [![Layout 3](screenshots/003.png)](screenshots/003.png) | [![Layout 4](screenshots/004.png)](screenshots/004.png) |
 
+| `export SCREEN_LAYOUT=5` <br />Calendar entries on left, with a month calendar for at-a-glance |  |
+| --- | --- |
+| [![Layout 5](screenshots/005.png)](screenshots/005.png) | |
+
 
 
 

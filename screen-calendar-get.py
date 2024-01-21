@@ -36,6 +36,7 @@ def get_formatted_calendar_events(fetched_events: list[CalendarEvent]) -> dict:
         event_label_id = str(index + 1)
         if index <= event_count - 1:
             formatted_events['CAL_DATETIME_' + event_label_id] = get_datetime_formatted(fetched_events[index].start, fetched_events[index].end, fetched_events[index].all_day_event)
+            formatted_events['CAL_DATETIME_START_' + event_label_id] = get_datetime_formatted(fetched_events[index].start, fetched_events[index].end, fetched_events[index].all_day_event, True)
             formatted_events['CAL_DESC_' + event_label_id] = fetched_events[index].summary
         else:
             formatted_events['CAL_DATETIME_' + event_label_id] = ""
@@ -44,7 +45,7 @@ def get_formatted_calendar_events(fetched_events: list[CalendarEvent]) -> dict:
     return formatted_events
 
 
-def get_datetime_formatted(event_start, event_end, is_all_day_event):
+def get_datetime_formatted(event_start, event_end, is_all_day_event, start_only=False):
 
     if is_all_day_event or type(event_start) == datetime.date:
         start = datetime.datetime.combine(event_start, datetime.time.min)
@@ -65,7 +66,7 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event):
         else:
             start_formatted = get_formatted_date(start_date)
             end_formatted = get_formatted_date(end_date)
-        day = "{} - {}".format(start_formatted, end_formatted)
+        day = start_formatted if start_only else "{} - {}".format(start_formatted, end_formatted)
     else:
         day = ''
     return day

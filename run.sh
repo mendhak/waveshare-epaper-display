@@ -30,8 +30,11 @@ else
     log "Add Calendar info"
     .venv/bin/python3 screen-calendar-get.py
 
-    log "Add Calendar month"
-    .venv/bin/python3 screen-calendar-month.py
+    # Only layout 5 shows a calendar, so save a few seconds.
+    if [ "$SCREEN_LAYOUT" -eq 5 ]; then
+        log "Add Calendar month"
+        .venv/bin/python3 screen-calendar-month.py
+    fi
 
     if [ -f screen-custom-get.py ]; then
         log "Add Custom data"

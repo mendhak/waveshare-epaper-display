@@ -11,6 +11,7 @@ cryptography==38.0.1
 cssselect2==0.7.0
 DateTime==4.3
 defusedxml==0.7.1
+drawsvg==2.3.0
 google-api-core==2.10.2
 google-api-python-client==2.65.0
 google-auth==2.14.1

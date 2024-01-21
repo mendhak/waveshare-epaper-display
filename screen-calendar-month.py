@@ -1,64 +1,69 @@
 import datetime
 import calendar
-import svgwrite
 from utility import update_svg, configure_locale, configure_logging
 import locale
 import babel
 import logging
 from collections import deque
-
+import drawsvg as draw
 
 configure_logging()
 configure_locale()
 
-# Set the first weekday based on locale
-# Handle UnknownLocaleError
 try:
     babel_locale = babel.Locale(locale.getlocale()[0])
-    logging.info(babel_locale)
+    logging.debug(babel_locale)
 except babel.core.UnknownLocaleError:
-    logging.error("Could not get locale from environment. ")
+    logging.error("Could not get locale from environment. Using default locale.")
+    babel_locale = babel.Locale("")
 
 
-calendar.setfirstweekday(babel_locale.first_week_day)
+def main():
+    logging.info("Generating SVG for calendar month")
 
-# Get current year and month
-now = datetime.datetime.now()
-current_year, current_month, current_day = now.year, now.month, now.day
+    # Python does not know about the locale's first day of week 🤦  https://stackoverflow.com/a/4265852/974369
+    # Use babel to set it instead
+    calendar.setfirstweekday(babel_locale.first_week_day)
 
-# Get the month's calendar
-cal = calendar.monthcalendar(current_year, current_month)
+    now = datetime.datetime.now()
+    current_year, current_month, current_day = now.year, now.month, now.day
 
-# Create a new SVG drawing
-dwg = svgwrite.Drawing(profile='tiny')
-dwg['transform'] = 'translate(500, 240)'
-dwg['id'] = 'month-cal'
+    # Get this month's calendar as a matrix
+    cal = calendar.monthcalendar(current_year, current_month)
 
-# Define dimensions
-# cell_size = 40
-cell_width = 40
-cell_height = 30
-width = 7 * cell_width
-height = (len(cal) + 1) * cell_height
+    # Create a new SVG drawing
+    dwg = draw.Drawing(width=500, height=500, origin=(0,0),  id='month-cal', transform='translate(500, 240)')
 
-# Have the day abbreviations respect the locale's first day of the week
-day_abbr = deque(list(calendar.day_abbr))
-day_abbr.rotate(-calendar.firstweekday())
+    cell_width = 40
+    cell_height = 30
 
-# Draw days of the week
-for i, day in enumerate(day_abbr):
-    dwg.add(dwg.text(day[:2], insert=(i*cell_width + 20, 20), fill='black'))
+    # Have the day abbreviations respect the locale's first day of the week
+    day_abbr = deque(list(calendar.day_abbr))
+    day_abbr.rotate(-calendar.firstweekday())
 
-# Draw days of the month
-for i, week in enumerate(cal):
-    for j, day in enumerate(week):
-        if day != 0:  # calendar.monthcalendar pads with 0s
-            text = dwg.text(day, insert=(j*cell_width + 20, (i+2)*cell_height - 10), fill='black')
-            if day == current_day:
-                text['class'] = 'important'
-            dwg.add(text)
+    # Header for days of the week
+    for i, day in enumerate(day_abbr):
+        dwg.append(draw.Text(day[:2], font_size=None, x=i*cell_width + 20, y= 20, fill='black' ))
 
-logging.info(dwg.tostring())
-update_svg('screen-output-weather.svg', 'screen-output-weather.svg', {'MONTH_CAL': dwg.tostring()})
+    # Days of the month per week
+    for i, week in enumerate(cal):
+        for j, day in enumerate(week):
+            if day != 0:  # calendar.monthcalendar pads with 0s
+                text_fill = 'black'
+                if day == current_day:
+                    text_fill = 'red'
+                text = draw.Text(str(day), font_size=None, x=j*cell_width + 20, y=(i+2)*cell_height - 10, width=cell_width, height=cell_height, fill=text_fill)
+                dwg.append(text)
 
-# Don't save the SVG, it will write a file to disk.
+    svg_output = dwg.as_svg()
+    # Remove the <?xml> line
+    svg_output = svg_output.split('\n', 1)[1]
+
+    output_svg_filename = 'screen-output-weather.svg'
+    output_dict = {'MONTH_CAL': svg_output}
+    logging.info("main() - {}".format(output_dict))
+    logging.info("Updating SVG")
+    update_svg(output_svg_filename, output_svg_filename, output_dict)
+
+if __name__ == "__main__":
+    main()

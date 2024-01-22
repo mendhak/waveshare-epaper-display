@@ -6,6 +6,7 @@ import babel
 import logging
 from collections import deque
 import drawsvg as draw
+import os
 
 configure_logging()
 configure_locale()
@@ -32,7 +33,8 @@ def main():
     cal = calendar.monthcalendar(current_year, current_month)
 
     # Create a new SVG drawing
-    dwg = draw.Drawing(width=500, height=500, origin=(0,0),  id='month-cal', transform='translate(500, 240)')
+    top_left = os.getenv("MONTH_CALENDAR_TOP_LEFT", "(500, 240)")
+    dwg = draw.Drawing(width=500, height=500, origin=(0,0),  id='month-cal', transform=f'translate{top_left}')
 
     cell_width = 40
     cell_height = 30

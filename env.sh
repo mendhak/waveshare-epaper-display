@@ -1,0 +1,75 @@
+# Pick a weather provider
+# Climacell API Key
+# export CLIMACELL_APIKEY=xxxxxxxxxxxxxx
+# Or, OpenWeatherMap API Key
+export OPENWEATHERMAP_APIKEY=69917d43f401cd275b296f62c8989f2d
+# Or, MetOffice Weather DataHub Client ID + Secret
+# export METOFFICEDATAHUB_CLIENT_ID=xxxxxxxxxxxxxx
+# export METOFFICEDATAHUB_CLIENT_SECRET=xxxxxxxxxxxxxx
+# Or, AccuWeather API Key and Location Key
+# export ACCUWEATHER_APIKEY=xxxxxxxxxxxxxx
+# export ACCUWEATHER_LOCATIONKEY=xxxxxxxxxxxxxx
+# Or, Met.no self identification
+# export METNO_SELF_IDENTIFICATION=your_email_address
+# Or, Met Eireann (Ireland, no keys required)
+# export WEATHER_MET_EIREANN=1
+# Or, weather.gov self identification
+# export WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+# Or, SMHI self identification
+# export SMHI_SELF_IDENTIFICATION=you@example.com
+
+# Your latitude and longitude to pass to weather providers
+export WEATHER_LATITUDE=34.110489
+export WEATHER_LONGITUDE=-117.594429
+
+# Choose CELSIUS or FAHRENHEIT
+export WEATHER_FORMAT=FAHRENHEIT
+
+# Pick a calendar provider
+# Google Calendar ID, you can get this from Google Calendar Settings
+# export GOOGLE_CALENDAR_ID=primary
+# If your Google Calendar is a family calendar or doesn't allow setting timezones
+# export GOOGLE_CALENDAR_TIME_ZONE_NAME=Asia/Kuala_Lumpur
+# Or if you use Outlook Calendar, use python3 outlook_util.py to get available Calendar IDs
+# export OUTLOOK_CALENDAR_ID=AQMkAxyz...
+# Or if you use ICS Calendar,
+# export ICS_CALENDAR_URL=https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics
+# Or if you have a CalDave calendar
+# export CALDAV_CALENDAR_URL=https://nextcloud.example.com/remote.php/dav/principals/users/123456/
+# export CALDAV_USERNAME=username
+# export CALDAV_PASSWORD=password
+
+# Most new Waveshare are 2, older ones are 1 (SKU: 13504)
+# For 7.5 inch B with Red, use "2B" (SKU: 13505)
+export WAVESHARE_EPD75_VERSION=2
+
+# Choose an alert provider (optional)
+# MetOffice Alerts -
+# export ALERT_METOFFICE_FEED_URL=https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se
+# Met Eireann Alerts -
+# The FIPS code for the regions of Ireland are listed here: http://www.statoids.com/uie.html
+# Visit https://www.met.ie/Open_Data/json/ and choose the appropriate "warning_EIXX" JSON
+# file for your region, using that FIPS code.
+# export ALERT_MET_EIREANN_FEED_URL=https://www.met.ie/Open_Data/json/warning_EI07.json
+# Weather.gov Alerts requires self identification
+# export ALERT_WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+
+# Which layout to use. 1, 2, 3...
+export SCREEN_LAYOUT=1
+
+# Include all calendar events from today, even if they are past.
+# export CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY=1
+
+# How long, in seconds, to cache weather for
+export WEATHER_TTL=3600
+# How long, in seconds, to cache the calendar for
+export CALENDAR_TTL=3600
+
+# Set a language, but ensure it's installed first. Run locale -a
+# export LANG=ko_KR.UTF-8
+
+# You can set this to DEBUG for troubleshooting, otherwise leave it at INFO.
+export LOG_LEVEL=INFO
+
+# Privacy mode. Just displays an XKCD comic instead.
+export PRIVACY_MODE=0

@@ -18,7 +18,7 @@
    </text>
 
    <g transform="scale(1.2) translate(525 5)" id="g3127">
-      <use href="icons/ICON_ONE.svg" id="use3129" />
+      <use xlink:href="icons/ICON_ONE.svg#ICON_ONE" id="use3129" />
    </g>
 
    <text id="text3155" x="20" y="154.62" font-size="37px" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:37.33333206px;line-height:0%;font-family:sans-serif;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:start">DAY_ONE</text>

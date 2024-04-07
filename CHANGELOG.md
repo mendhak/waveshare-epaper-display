@@ -1,4 +1,4 @@
-## 2024-04-xx
+## 2024-04-07
 * Add support for simple emojis in calendar entries.
 
 ## 2024-01-20

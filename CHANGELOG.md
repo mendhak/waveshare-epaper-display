@@ -1,3 +1,6 @@
+## 2024-04-xx
+* Add emoji support in calendar entries. 
+
 ## 2024-01-20
 * New layout 5, which includes a calendar of the current month. Added by [jasompi](https://github.com/mendhak/waveshare-epaper-display/pull/74) and [#77](https://github.com/mendhak/waveshare-epaper-display/pull/77)
 

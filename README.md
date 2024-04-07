@@ -356,7 +356,9 @@ The next time `run.sh` runs, the output should have the chosen language.
 
 ### Fonts for non-western languages
 
-Some languages may not render well because the default Raspberry Pi system fonts don't have all the characters needed to display on screen. For such cases, you'll need to find and install a font that supports all the characters you want to display. Chinese/Japanese/Korean should already be taken care of by installing the fonts-noto package. But sometimes just installing isn't enough, you'll also have to set it as the default font, see the [font instructions](#how-to-use-a-different-font). 
+Some languages may not render well because the default Raspberry Pi system fonts don't have all the characters needed to display on screen. For such cases, you'll need to find and install a font that supports all the characters you want to display. 
+
+Chinese/Japanese/Korean should already be taken care of by installing the `fonts-noto` package. But sometimes just installing that isn't enough, you'll also have to set it as the default font, see the [font instructions](#how-to-use-a-different-font). 
 
 The reason this is necessary: the SVG renderer [does not support fallback fonts](https://github.com/Kozea/CairoSVG/issues/72#issuecomment-132500219) which means that if a font doesn't have a certain character, it won't ask the system for other fonts to help plug the gaps. You'll just see squares. 
 
@@ -407,6 +409,8 @@ This tells the system to prefer 'Noto Sans' if the 'sans-serif' family is reques
 $ fc-match sans-serif
 NotoSans-Regular.ttf: "Noto Sans" "Regular"
 ```
+
+The next time `run.sh` runs, the output image should have the chosen font.
 
 ## Privacy Mode
 

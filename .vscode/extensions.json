@@ -4,7 +4,7 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		"EditorConfig.EditorConfig", "ms-python.python"
+		"EditorConfig.EditorConfig", "ms-python.python", "ms-python.flake8"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [

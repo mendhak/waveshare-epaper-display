@@ -2,7 +2,6 @@
     "python.defaultInterpreterPath": ".venv/bin/python",
     "python.envFile": "${workspaceFolder}/env.sh",
     "python.terminal.activateEnvironment": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
     "markdown.extension.toc.updateOnSave": false
 }

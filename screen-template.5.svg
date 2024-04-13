@@ -35,7 +35,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_1</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_1]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_1</tspan>
          </text>
        </svg>
      </svg>
@@ -46,7 +46,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_2</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_2]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_2</tspan>
          </text>
        </svg>
      </svg>
@@ -57,7 +57,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_3</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_3]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_3</tspan>
          </text>
        </svg>
      </svg>
@@ -68,7 +68,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_4</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_4]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_4</tspan>
          </text>
        </svg>
      </svg>
@@ -79,7 +79,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_5</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_5]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_5</tspan>
          </text>
        </svg>
      </svg>
@@ -90,7 +90,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_6</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_6]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_6</tspan>
          </text>
        </svg>
      </svg>
@@ -101,7 +101,7 @@
        <svg x="75">
          <text class="event">
             <tspan x="0" dy="25" class="important">CAL_DATETIME_START_7</tspan>
-            <tspan x="0" dy="25"><![CDATA[CAL_DESC_7]]></tspan>
+            <tspan x="0" dy="25">CAL_DESC_7</tspan>
          </text>
        </svg>
      </svg>

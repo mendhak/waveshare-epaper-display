@@ -2,6 +2,8 @@ import datetime
 import os.path
 import os
 import logging
+import emoji
+from xml.sax.saxutils import escape
 from calendar_providers.base_provider import CalendarEvent
 from calendar_providers.caldav import CalDavCalendar
 from calendar_providers.google import GoogleCalendar
@@ -98,6 +100,14 @@ def main():
 
     calendar_events = provider.get_calendar_events()
     output_dict = get_formatted_calendar_events(calendar_events)
+
+    # XML escape for safety
+    for key, value in output_dict.items():
+        output_dict[key] = escape(value)
+
+    # Surround emojis with font-family emoji so it's rendered properly. Workaround for cairo not using fallback fonts.
+    for key, value in output_dict.items():
+        output_dict[key] = emoji.replace_emoji(value,  replace=lambda chars, data_dict: '<tspan style="font-family:emoji">' + chars + '</tspan>')
 
     logging.info("main() - {}".format(output_dict))
 

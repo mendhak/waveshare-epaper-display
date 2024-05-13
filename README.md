@@ -120,18 +120,12 @@ Add it to the env.sh file.
 
 ### Met Office (UK)
 
-Create an account [on the Met Office Weather DataHub](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/) site.
-Next, [register an application](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/application) - just call it Raspberry Pi or Home Project.
-You'll be shown a Client Secret, and a Client ID.  Copy both of these somewhere, you'll need it later.
+Create an account [on the Met Office Weather DataHub](https://datahub.metoffice.gov.uk) site.
+Next, [under subscriptions](https://datahub.metoffice.gov.uk/profile/subscriptions) - subscribe to the 'Site Specific' product 'Global Spot'. This will get you an API key. 
 
-After registering an application, you then "subscribe" to an API by going to the [API Usage Plans](https://metoffice.apiconnect.ibmcloud.com/metoffice/production/product).
-Pick "Global spot data bundle" which includes the "Global daily spot data" API.
-Choose the Basic (free) plan and when prompted, pick that application you previously registered.
+Add the API key to the env.sh file:
 
-Finally, add the Met Office Client ID and Secret to the env.sh file.
-
-    export METOFFICEDATAHUB_CLIENT_ID=xxxxxx-xxxxxx-....
-    export METOFFICEDATAHUB_CLIENT_SECRET=xxxxxx
+    export METOFFICEDATAHUB_API_KEY=eyJ.........
 
 ### AccuWeather
 

@@ -1,3 +1,6 @@
+## 2024-05-13
+* Fix for broken/migrated Met Office DataHub API. New instructions included to get an API key and set it in the env.sh file.
+
 ## 2024-04-07
 * Add support for simple emojis in calendar entries.
 

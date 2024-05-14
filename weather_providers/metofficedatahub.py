@@ -4,9 +4,8 @@ from weather_providers.base_provider import BaseWeatherProvider
 
 
 class MetOffice(BaseWeatherProvider):
-    def __init__(self, metoffice_clientid, metoffice_clientsecret, location_lat, location_long, units):
-        self.metoffice_clientid = metoffice_clientid
-        self.metoffice_clientsecret = metoffice_clientsecret
+    def __init__(self, metoffice_apikey, location_lat, location_long, units):
+        self.metoffice_apikey = metoffice_apikey
         self.location_lat = location_lat
         self.location_long = location_long
         self.units = units
@@ -99,15 +98,13 @@ class MetOffice(BaseWeatherProvider):
         return description.title()
 
     # Get weather from MetOffice Weather DataHub
-    # https://metoffice.apiconnect.ibmcloud.com/metoffice/production/node/173
     def get_weather(self):
 
-        url = ("https://api-metoffice.apiconnect.ibmcloud.com/metoffice/production/v0/forecasts/point/daily?excludeParameterMetadata=false&includeLocationName=false&latitude={}&longitude={}"
+        url = ("https://data.hub.api.metoffice.gov.uk/sitespecific/v0/point/daily?excludeParameterMetadata=false&includeLocationName=false&latitude={}&longitude={}"
                .format(self.location_lat, self.location_long))
 
         headers = {
-            "X-IBM-Client-Id": self.metoffice_clientid,
-            "X-IBM-Client-Secret": self.metoffice_clientsecret,
+            "apikey": self.metoffice_apikey,
             "accept": "application/json"
         }
 

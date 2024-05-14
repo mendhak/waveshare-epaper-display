@@ -31,8 +31,7 @@ def get_weather(location_lat, location_long, units):
     # gather relevant environment configs
     climacell_apikey = os.getenv("CLIMACELL_APIKEY")
     openweathermap_apikey = os.getenv("OPENWEATHERMAP_APIKEY")
-    metoffice_clientid = os.getenv("METOFFICEDATAHUB_CLIENT_ID")
-    metoffice_clientsecret = os.getenv("METOFFICEDATAHUB_CLIENT_SECRET")
+    metoffice_apikey = os.getenv("METOFFICEDATAHUB_API_KEY")
     accuweather_apikey = os.getenv("ACCUWEATHER_APIKEY")
     accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
     metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
@@ -44,7 +43,7 @@ def get_weather(location_lat, location_long, units):
     if (
         not climacell_apikey
         and not openweathermap_apikey
-        and not metoffice_clientid
+        and not metoffice_apikey
         and not accuweather_apikey
         and not metno_self_id
         and not visualcrossing_apikey
@@ -78,10 +77,9 @@ def get_weather(location_lat, location_long, units):
                                                    accuweather_locationkey,
                                                    units)
 
-    elif metoffice_clientid:
+    elif metoffice_apikey:
         logging.info("Getting weather from Met Office Weather Datahub")
-        weather_provider = metofficedatahub.MetOffice(metoffice_clientid,
-                                                      metoffice_clientsecret,
+        weather_provider = metofficedatahub.MetOffice(metoffice_apikey,
                                                       location_lat,
                                                       location_long,
                                                       units)

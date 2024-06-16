@@ -1,10 +1,44 @@
+import random
 import codecs
 import textwrap
+from utility import is_stale
+import requests
+import csv
+import datetime
 
 
-quote = """
-It was nine-twenty one. With one minute to go, there was no sign of Herbert’s mother.
-"""
+if is_stale('litclock_annotated.csv', 86400):
+    url = "https://raw.githubusercontent.com/JohannesNE/literature-clock/master/litclock_annotated.csv"
+    response = requests.get(url)
+    response.raise_for_status()
+    with open('litclock_annotated.csv', 'w') as text_file:
+        text_file.write(response.text)
+
+time_rows = []
+current_time = datetime.datetime.now().strftime("%H:%M")
+with open('litclock_annotated.csv', 'r') as file:
+    reader = csv.DictReader(file,
+                            fieldnames=[
+                                "time", "time_human", "full_quote", "book_title", "author_name", "sfw"],
+                            delimiter='|',
+                            lineterminator='\n',
+                            quotechar=None, quoting=csv.QUOTE_NONE)
+    for row in reader:
+        if row["time"] == current_time and row["sfw"] != "nsfw":
+            time_rows.append(row)
+
+# Pick a random item from time_rows
+
+random_item = random.choice(time_rows)
+quote = random_item["full_quote"]
+book = random_item["book_title"]
+author = random_item["author_name"]
+
+
+
+# quote = """
+# It was nine-twenty one. With one minute to go, there was no sign of Herbert’s mother.
+# """
 
 # quote="""Must have the phone disconnected. Some contractor keeps calling me up about payment for 50 bags of cement he claims I collected ten days ago. Says he helped me load them onto a truck himself. I did drive Whitby's pick-up into town but only to get some lead screening. What does he think I'd do with all that cement? Just the sort of irritating thing you don't expect to hang over your final exit. (Moral: don't try too hard to forget Eniwetok.) Woke 9:40. To sleep 4:15."""
 # book = "This is life"
@@ -13,17 +47,17 @@ It was nine-twenty one. With one minute to go, there was no sign of Herbert’s 
 # quote="""
 #     At the hour of 9:46 A.M., to be exact, as one should in these matters, I had cast three times above the known lair of this fish. Then I cast a fourth time, more from habit than hope; and the fight was on.
 # """
-book = "Ma Pettengill"
-author = "Harry Leon Wilson"
+# book = "Ma Pettengill"
+# author = "Harry Leon Wilson"
 
-quote = """
-At only nine in the morning, the kitchen was already pregnant to its capacity, every crevice and countertop overtaken by Marjan’s gourmet creations. Marinating vegetables (𝘵𝘰𝘳𝘴𝘩𝘪𝘴 of mango, eggplant, and the regular seven-spice variety), packed to the briny brims of five-gallon see-through canisters sat on the kitchen island. Large blue bowls were filled with salads (angelica lentil, tomato, cucumber and mint, and Persian fried chicken), 𝘥𝘰𝘭𝘮𝘦𝘩, and dips (cheese and walnut, yogurt and cucumber, baba ghanoush, and spicy hummus), which along with feta, Stilton, and cheddar cheeses, were covered and stacked in the enormous glass-door refrigerator.
-"""
+# quote = """
+# At only nine in the morning, the kitchen was already pregnant to its capacity, every crevice and countertop overtaken by Marjan’s gourmet creations. Marinating vegetables (𝘵𝘰𝘳𝘴𝘩𝘪𝘴 of mango, eggplant, and the regular seven-spice variety), packed to the briny brims of five-gallon see-through canisters sat on the kitchen island. Large blue bowls were filled with salads (angelica lentil, tomato, cucumber and mint, and Persian fried chicken), 𝘥𝘰𝘭𝘮𝘦𝘩, and dips (cheese and walnut, yogurt and cucumber, baba ghanoush, and spicy hummus), which along with feta, Stilton, and cheddar cheeses, were covered and stacked in the enormous glass-door refrigerator.
+# """
 # book = "Pomegranate Soup"
 # author = "Marsha Mehran"
 
-book = "Narrative of a Journey Round the Dead Sea and in the Bible Lands in 1850 and 1851"
-author = "Tom Clancy, Steve Pieczenik, and Jeff Rovin"
+# book = "Narrative of a Journey Round the Dead Sea and in the Bible Lands in 1850 and 1851"
+# author = "Tom Clancy, Steve Pieczenik, and Jeff Rovin"
 
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
 
@@ -33,10 +67,12 @@ if quote_length < 100:
     max_chars_per_line = 28
 elif quote_length < 308:
     font_size = 35
-    max_chars_per_line = 45
+    max_chars_per_line = 40
 else:
     font_size = 25
     max_chars_per_line = 55
+
+font_size_subtraction = 5
 
 if len(book) > 20:
     book = book[:20] + "…"

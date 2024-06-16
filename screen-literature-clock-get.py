@@ -18,7 +18,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
-#current_time = "13:48"
+# current_time = "14:27"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -42,8 +42,12 @@ else:
     human_time = random_item["time_human"]
 
 
+quote = quote.replace("<br/>", " ")
+quote = quote.replace("<br />", " ")
+quote = quote.replace("<br>", " ")
+quote = quote.replace(u"\u00A0", " ")  # non breaking space
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
-print(quote)
+
 
 quote_length = len(quote)
 if quote_length < 105:
@@ -62,24 +66,28 @@ else:
     font_size = 25
     max_chars_per_line = 55
 
+# experiment: let's try to calculate font size and max chars based on quote length
+goes_into = quote_length / 100
+font_size = 60 - (goes_into) * 8
+max_chars_per_line = 20 + (goes_into) * 6
+
 
 attribution = f"- {book}, {author}"
 author_font_subtraction = 5
-if len(attribution) > max_chars_per_line:
-    attribution = attribution[:max_chars_per_line] + "…"
+if len(attribution) > int(max_chars_per_line)-10:
+    attribution = attribution[:int(max_chars_per_line-10)] + "…"
     author_font_subtraction = 12
 
 
 print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {author_font_subtraction}")
 
-quote = quote.replace("<br/>", " ")
-quote = quote.replace("<br />", " ")
-quote = quote.replace("<br>", " ")
 
+
+print(quote)
 quote_pattern = re.compile(re.escape(human_time), re.IGNORECASE)
 # Replace human time by itself but surrounded by pipes for later processing.
 quote = quote_pattern.sub(lambda x: f"|{x.group()}|", quote)
-
+print(quote)
 lines = textwrap.wrap(quote, width=max_chars_per_line, break_long_words=True)
 
 generated_quote = ""
@@ -105,7 +113,6 @@ for line in lines:
     generated_quote += f"""
         <tspan x="33" dy="1.2em">{start_span}{line}{end_span}</tspan>
     """
-
 generated_quote += f"""
         <tspan x="150" dy="1.5em" style="font-size:{font_size-author_font_subtraction}px;">{attribution}</tspan>
 """

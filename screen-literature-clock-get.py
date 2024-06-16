@@ -35,8 +35,8 @@ if len(time_rows) == 0:
     print("No quotes found for this time.")
     exit()
 else:
-    chosen_item = random.choice(time_rows)
-    # chosen_item = min(time_rows, key=lambda x: len(x["full_quote"]))
+    # chosen_item = random.choice(time_rows)
+    chosen_item = min(time_rows, key=lambda x: len(x["full_quote"]))
     print(chosen_item)
     quote = chosen_item["full_quote"]
     book = chosen_item["book_title"]

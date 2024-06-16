@@ -18,7 +18,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
-current_time = "09:00"
+# current_time = "14:27"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[

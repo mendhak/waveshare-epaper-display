@@ -26,6 +26,7 @@ elif [ $PRIVACY_MODE_LITERATURE_CLOCK = 1 ]; then
     .venv/bin/python3 screen-literature-clock-get.py
     if [ $? -eq 0 ]; then
         .venv/bin/cairosvg -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
+        .venv/bin/python3 display.py screen-literature-clock.png
     fi
 else
 

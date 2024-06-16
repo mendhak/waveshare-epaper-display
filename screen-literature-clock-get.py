@@ -17,6 +17,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
+
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -29,38 +30,45 @@ with open('litclock_annotated.csv', 'r') as file:
             time_rows.append(row)
 
 
-random_item = random.choice(time_rows)
-quote = random_item["full_quote"]
-book = random_item["book_title"]
-author = random_item["author_name"]
-human_time = random_item["time_human"]
+if len(time_rows) == 0:
+    print("No quotes found for this time.")
+    exit()
+else:
+    random_item = random.choice(time_rows)
+    quote = random_item["full_quote"]
+    book = random_item["book_title"]
+    author = random_item["author_name"]
+    human_time = random_item["time_human"]
 
 
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
+print(quote)
 
 quote_length = len(quote)
-if quote_length < 100:
+if quote_length < 105:
     font_size = 45
     max_chars_per_line = 28
-elif quote_length < 308:
+elif quote_length < 305:
     font_size = 38
     max_chars_per_line = 40
+elif quote_length < 505:
+    font_size = 35
+    max_chars_per_line = 45
 else:
     font_size = 25
     max_chars_per_line = 55
 
-font_size_subtraction = 5
-
+author_font_subtraction = 5
 
 if len(book) > 20:
     book = book[:20] + "…"
-    font_size_subtraction = 12
+    author_font_subtraction = 12
 if len(author) > 20:
     author = author[:20] + "…"
-    font_size_subtraction = 12
+    author_font_subtraction = 12
 
 
-print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {font_size_subtraction}")
+print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {author_font_subtraction}")
 
 quote = quote.replace("<br/>", " ")
 quote = quote.replace("<br />", " ")
@@ -93,7 +101,7 @@ for line in lines:
     """
 
 generated_quote += f"""
-        <tspan x="150" dy="1.5em" style="font-size:{font_size-font_size_subtraction}px;">- {book}, <tspan style="font-style:italic;">{author}</tspan></tspan>
+        <tspan x="150" dy="1.5em" style="font-size:{font_size-author_font_subtraction}px;">- {book}, <tspan style="font-style:italic;">{author}</tspan></tspan>
 """
 
 svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>

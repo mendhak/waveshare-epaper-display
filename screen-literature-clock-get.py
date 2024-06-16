@@ -6,6 +6,7 @@ import requests
 import csv
 import datetime
 import re
+import math
 
 
 if is_stale('litclock_annotated.csv', 86400):
@@ -17,7 +18,7 @@ if is_stale('litclock_annotated.csv', 86400):
 
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
-# current_time = "09:00"
+# current_time = "20:56"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -34,8 +35,8 @@ if len(time_rows) == 0:
     print("No quotes found for this time.")
     exit()
 else:
-    # chosen_item = random.choice(time_rows)
-    chosen_item = min(time_rows, key=lambda x: len(x["full_quote"]))
+    chosen_item = random.choice(time_rows)
+    # chosen_item = min(time_rows, key=lambda x: len(x["full_quote"]))
     print(chosen_item)
     quote = chosen_item["full_quote"]
     book = chosen_item["book_title"]
@@ -56,36 +57,19 @@ human_time = human_time.translate(transl_table)
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
 human_time = human_time.encode('ascii', 'ignore').decode('utf-8')
 
-
 quote_length = len(quote)
-if quote_length < 105:
-    font_size = 55
-    max_chars_per_line = 25
-elif quote_length < 205:
-    font_size = 45
-    max_chars_per_line = 30
-elif quote_length < 305:
-    font_size = 35
-    max_chars_per_line = 35
-elif quote_length < 405:
-    font_size = 30
-    max_chars_per_line = 45
-else:
-    font_size = 25
-    max_chars_per_line = 55
 
-# experiment: let's try to calculate font size and max chars based on quote length
-goes_into = quote_length / 100
-font_size = 60 - (goes_into) * 8
-max_chars_per_line = 20 + (goes_into) * 6
+# Try to calculate font size and max chars based on quote length
+goes_into = (quote_length / 100) if quote_length > 80 else 0
+font_size = 60 - (goes_into * 8)
+max_chars_per_line = 20 + (goes_into * 6)
 
 # Some upper and lower limit adjustments
 font_size = 25 if font_size < 25 else font_size
 max_chars_per_line = 55 if max_chars_per_line > 55 else max_chars_per_line
 
-if quote_length < 100:
-    font_size = 55
-    max_chars_per_line = 25
+font_size = math.ceil(font_size)
+max_chars_per_line = math.ceil(max_chars_per_line)
 
 attribution = f"- {book}, {author}"
 if len(attribution) > 55:

@@ -17,7 +17,6 @@ if is_stale('litclock_annotated.csv', 86400):
 
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
-print(current_time)
 # current_time = "14:27"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
@@ -35,11 +34,13 @@ if len(time_rows) == 0:
     print("No quotes found for this time.")
     exit()
 else:
-    random_item = random.choice(time_rows)
-    quote = random_item["full_quote"]
-    book = random_item["book_title"]
-    author = random_item["author_name"]
-    human_time = random_item["time_human"]
+    # chosen_item = random.choice(time_rows)
+    chosen_item = min(time_rows, key=lambda x: len(x["full_quote"]))
+    print(chosen_item)
+    quote = chosen_item["full_quote"]
+    book = chosen_item["book_title"]
+    author = chosen_item["author_name"]
+    human_time = chosen_item["time_human"]
 
 
 quote = quote.replace("<br/>", " ")
@@ -81,8 +82,8 @@ font_size = 25 if font_size < 25 else font_size
 max_chars_per_line = 55 if max_chars_per_line > 55 else max_chars_per_line
 
 attribution = f"- {book}, {author}"
-if len(attribution) > 45:
-    attribution = attribution[:45] + "…"
+if len(attribution) > 55:
+    attribution = attribution[:55] + "…"
 
 
 
@@ -119,7 +120,7 @@ for line in lines:
         <tspan x="33" dy="1.2em">{start_span}{line}{end_span}</tspan>
     """
 generated_quote += f"""
-        <tspan x="150" dy="1.5em" style="font-size:16px;">{attribution}</tspan>
+        <tspan x="150" dy="1.5em" style="font-size:18px;">{attribution}</tspan>
 """
 
 svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>

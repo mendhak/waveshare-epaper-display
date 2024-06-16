@@ -16,6 +16,7 @@ if is_stale('litclock_annotated.csv', 86400):
 
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
+print(current_time)
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -27,37 +28,13 @@ with open('litclock_annotated.csv', 'r') as file:
         if row["time"] == current_time and row["sfw"] != "nsfw":
             time_rows.append(row)
 
-# Pick a random item from time_rows
 
 random_item = random.choice(time_rows)
 quote = random_item["full_quote"]
 book = random_item["book_title"]
 author = random_item["author_name"]
+human_time = random_item["time_human"]
 
-
-
-# quote = """
-# It was nine-twenty one. With one minute to go, there was no sign of Herbert’s mother.
-# """
-
-# quote="""Must have the phone disconnected. Some contractor keeps calling me up about payment for 50 bags of cement he claims I collected ten days ago. Says he helped me load them onto a truck himself. I did drive Whitby's pick-up into town but only to get some lead screening. What does he think I'd do with all that cement? Just the sort of irritating thing you don't expect to hang over your final exit. (Moral: don't try too hard to forget Eniwetok.) Woke 9:40. To sleep 4:15."""
-# book = "This is life"
-# author = "Dan Rhodes"
-
-# quote="""
-#     At the hour of 9:46 A.M., to be exact, as one should in these matters, I had cast three times above the known lair of this fish. Then I cast a fourth time, more from habit than hope; and the fight was on.
-# """
-# book = "Ma Pettengill"
-# author = "Harry Leon Wilson"
-
-# quote = """
-# At only nine in the morning, the kitchen was already pregnant to its capacity, every crevice and countertop overtaken by Marjan’s gourmet creations. Marinating vegetables (𝘵𝘰𝘳𝘴𝘩𝘪𝘴 of mango, eggplant, and the regular seven-spice variety), packed to the briny brims of five-gallon see-through canisters sat on the kitchen island. Large blue bowls were filled with salads (angelica lentil, tomato, cucumber and mint, and Persian fried chicken), 𝘥𝘰𝘭𝘮𝘦𝘩, and dips (cheese and walnut, yogurt and cucumber, baba ghanoush, and spicy hummus), which along with feta, Stilton, and cheddar cheeses, were covered and stacked in the enormous glass-door refrigerator.
-# """
-# book = "Pomegranate Soup"
-# author = "Marsha Mehran"
-
-# book = "Narrative of a Journey Round the Dead Sea and in the Bible Lands in 1850 and 1851"
-# author = "Tom Clancy, Steve Pieczenik, and Jeff Rovin"
 
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
 
@@ -66,13 +43,14 @@ if quote_length < 100:
     font_size = 45
     max_chars_per_line = 28
 elif quote_length < 308:
-    font_size = 35
+    font_size = 38
     max_chars_per_line = 40
 else:
     font_size = 25
     max_chars_per_line = 55
 
 font_size_subtraction = 5
+
 
 if len(book) > 20:
     book = book[:20] + "…"
@@ -82,12 +60,36 @@ if len(author) > 20:
     font_size_subtraction = 12
 
 
+print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {font_size_subtraction}")
+
+quote = quote.replace("<br/>", " ")
+quote = quote.replace("<br />", " ")
+quote = quote.replace("<br>", " ")
+quote = quote.replace(human_time, f"|{human_time}|")
 lines = textwrap.wrap(quote, width=max_chars_per_line, break_long_words=True)
 
 generated_quote = ""
+time_ends_on_next_line = False
 for line in lines:
+    start_span = ""
+    end_span = ""
+
+    if line.count("|") == 2:
+        line = line.replace("|", "<tspan style='font-weight:bold;'>", 1)
+        line = line.replace("|", "</tspan>", 1)
+
+    if line.count("|") == 1 and not time_ends_on_next_line:
+        line = line.replace("|", "<tspan style='font-weight:bold;'>", 1)
+        time_ends_on_next_line = True
+        end_span = "</tspan>"
+
+    if line.count("|") == 1 and time_ends_on_next_line:
+        line = line.replace("|", "</tspan>", 1)
+        time_ends_on_next_line = False
+        start_span = "<tspan style='font-weight:bold;'>"
+
     generated_quote += f"""
-        <tspan x="33" dy="1.2em">{line}</tspan>
+        <tspan x="33" dy="1.2em">{start_span}{line}{end_span}</tspan>
     """
 
 generated_quote += f"""

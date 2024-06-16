@@ -18,7 +18,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
-# current_time = "14:27"
+current_time = "09:00"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -46,7 +46,11 @@ quote = quote.replace("<br/>", " ")
 quote = quote.replace("<br />", " ")
 quote = quote.replace("<br>", " ")
 quote = quote.replace(u"\u00A0", " ")  # non breaking space
+transl_table = dict([(ord(x), ord(y)) for x, y in zip(u"‘’´“”–-",  u"'''\"\"--")]) #replace punctuation with simpler counterparts
+quote = quote.translate(transl_table)
+human_time = human_time.translate(transl_table)
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
+human_time = human_time.encode('ascii', 'ignore').decode('utf-8')
 
 
 quote_length = len(quote)
@@ -70,7 +74,8 @@ else:
 goes_into = quote_length / 100
 font_size = 60 - (goes_into) * 8
 max_chars_per_line = 20 + (goes_into) * 6
-
+font_size = 25 if font_size < 25 else font_size
+max_chars_per_line = 55 if max_chars_per_line > 55 else max_chars_per_line
 
 attribution = f"- {book}, {author}"
 author_font_subtraction = 5
@@ -86,7 +91,7 @@ print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line
 print(quote)
 quote_pattern = re.compile(re.escape(human_time), re.IGNORECASE)
 # Replace human time by itself but surrounded by pipes for later processing.
-quote = quote_pattern.sub(lambda x: f"|{x.group()}|", quote)
+quote = quote_pattern.sub(lambda x: f"|{x.group()}|", quote, count=1)
 print(quote)
 lines = textwrap.wrap(quote, width=max_chars_per_line, break_long_words=True)
 

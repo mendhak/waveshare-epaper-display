@@ -17,7 +17,7 @@ if is_stale('litclock_annotated.csv', 86400):
 
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
-# current_time = "14:27"
+# current_time = "09:00"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -78,17 +78,20 @@ else:
 goes_into = quote_length / 100
 font_size = 60 - (goes_into) * 8
 max_chars_per_line = 20 + (goes_into) * 6
+
+# Some upper and lower limit adjustments
 font_size = 25 if font_size < 25 else font_size
 max_chars_per_line = 55 if max_chars_per_line > 55 else max_chars_per_line
+
+if quote_length < 100:
+    font_size = 55
+    max_chars_per_line = 25
 
 attribution = f"- {book}, {author}"
 if len(attribution) > 55:
     attribution = attribution[:55] + "…"
 
-
-
 print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}")
-
 
 quote_pattern = re.compile(re.escape(human_time), re.IGNORECASE)
 # Replace human time by itself but surrounded by pipes for later processing.

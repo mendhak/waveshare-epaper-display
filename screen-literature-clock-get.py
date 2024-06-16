@@ -43,7 +43,7 @@ else:
     author = chosen_item["author_name"]
     human_time = chosen_item["time_human"]
 
-
+# replace newlines with spaces
 quote = quote.replace("<br/>", " ")
 quote = quote.replace("<br />", " ")
 quote = quote.replace("<br>", " ")
@@ -51,11 +51,11 @@ quote = quote.replace(u"\u00A0", " ")  # non breaking space
 
 # replace punctuation with simpler counterparts
 transl_table = dict([(ord(x), ord(y)) for x, y in zip(u"‘’´“”—–-",  u"'''\"\"---")])
-
 quote = quote.translate(transl_table)
 human_time = human_time.translate(transl_table)
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
 human_time = human_time.encode('ascii', 'ignore').decode('utf-8')
+
 
 quote_length = len(quote)
 

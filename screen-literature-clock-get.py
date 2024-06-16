@@ -61,14 +61,22 @@ else:
     font_size = 25
     max_chars_per_line = 55
 
-author_font_subtraction = 5
 
-if len(book) > 20:
-    book = book[:20] + "…"
+attribution = f"- {book}, {author}"
+author_font_subtraction = 5
+if len(attribution) > 40:
+    attribution = attribution[:40] + "…"
     author_font_subtraction = 12
-if len(author) > 20:
-    author = author[:20] + "…"
-    author_font_subtraction = 12
+
+
+# author_font_subtraction = 5
+
+# if len(book) > 20:
+#     book = book[:20] + "…"
+#     author_font_subtraction = 12
+# if len(author) > 20:
+#     author = author[:20] + "…"
+#     author_font_subtraction = 12
 
 
 print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {author_font_subtraction}")
@@ -104,7 +112,7 @@ for line in lines:
     """
 
 generated_quote += f"""
-        <tspan x="150" dy="1.5em" style="font-size:{font_size-author_font_subtraction}px;">- {book}, <tspan style="font-style:italic;">{author}</tspan></tspan>
+        <tspan x="150" dy="1.5em" style="font-size:{font_size-author_font_subtraction}px;">{attribution}</tspan>
 """
 
 svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>

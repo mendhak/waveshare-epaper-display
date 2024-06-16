@@ -81,21 +81,18 @@ font_size = 25 if font_size < 25 else font_size
 max_chars_per_line = 55 if max_chars_per_line > 55 else max_chars_per_line
 
 attribution = f"- {book}, {author}"
-author_font_subtraction = 5
-if len(attribution) > int(max_chars_per_line)-10:
-    attribution = attribution[:int(max_chars_per_line-10)] + "…"
-    author_font_subtraction = 12
-
-
-print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {author_font_subtraction}")
+if len(attribution) > 45:
+    attribution = attribution[:45] + "…"
 
 
 
-print(quote)
+print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}")
+
+
 quote_pattern = re.compile(re.escape(human_time), re.IGNORECASE)
 # Replace human time by itself but surrounded by pipes for later processing.
 quote = quote_pattern.sub(lambda x: f"|{x.group()}|", quote, count=1)
-print(quote)
+
 lines = textwrap.wrap(quote, width=max_chars_per_line, break_long_words=True)
 
 generated_quote = ""
@@ -122,7 +119,7 @@ for line in lines:
         <tspan x="33" dy="1.2em">{start_span}{line}{end_span}</tspan>
     """
 generated_quote += f"""
-        <tspan x="150" dy="1.5em" style="font-size:{font_size-author_font_subtraction}px;">{attribution}</tspan>
+        <tspan x="150" dy="1.5em" style="font-size:16px;">{attribution}</tspan>
 """
 
 svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>

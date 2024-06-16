@@ -5,6 +5,7 @@ from utility import is_stale
 import requests
 import csv
 import datetime
+import re
 
 
 if is_stale('litclock_annotated.csv', 86400):
@@ -17,7 +18,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
-# current_time = "13:02"
+#current_time = "13:48"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -74,7 +75,11 @@ print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line
 quote = quote.replace("<br/>", " ")
 quote = quote.replace("<br />", " ")
 quote = quote.replace("<br>", " ")
-quote = quote.replace(human_time, f"|{human_time}|")
+
+quote_pattern = re.compile(re.escape(human_time), re.IGNORECASE)
+# Replace human time by itself but surrounded by pipes for later processing.
+quote = quote_pattern.sub(lambda x: f"|{x.group()}|", quote)
+
 lines = textwrap.wrap(quote, width=max_chars_per_line, break_long_words=True)
 
 generated_quote = ""

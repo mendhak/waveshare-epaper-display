@@ -48,7 +48,7 @@ quote = quote.replace("<br />", " ")
 quote = quote.replace("<br>", " ")
 quote = quote.replace(u"\u00A0", " ")  # non breaking space
 
-#replace punctuation with simpler counterparts
+# replace punctuation with simpler counterparts
 transl_table = dict([(ord(x), ord(y)) for x, y in zip(u"‘’´“”—–-",  u"'''\"\"---")])
 
 quote = quote.translate(transl_table)
@@ -130,7 +130,7 @@ svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg height="480" width="800" version="1.1">
         <rect width="800" height="480" id="rect3855" fill="white" />
 
-        <text id="quote" x="33" y="15" style="font-size:{font_size}px;line-height:0%;font-family:serif;text-anchor:beginning">
+        <text id="quote" x="33" y="15" style="font-size:{font_size}px;line-height:0%;font-family:'Noto Serif',serif;text-anchor:beginning">
 
                 {generated_quote}
         </text>

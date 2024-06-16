@@ -17,7 +17,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
-# current_time = "13:02"
+current_time = "13:16"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -64,19 +64,9 @@ else:
 
 attribution = f"- {book}, {author}"
 author_font_subtraction = 5
-if len(attribution) > 40:
-    attribution = attribution[:40] + "…"
+if len(attribution) > max_chars_per_line:
+    attribution = attribution[:max_chars_per_line] + "…"
     author_font_subtraction = 12
-
-
-# author_font_subtraction = 5
-
-# if len(book) > 20:
-#     book = book[:20] + "…"
-#     author_font_subtraction = 12
-# if len(author) > 20:
-#     author = author[:20] + "…"
-#     author_font_subtraction = 12
 
 
 print(f"Quote length: {quote_length}, Font size: {font_size}, Max chars per line: {max_chars_per_line}, Subtraction: {author_font_subtraction}")

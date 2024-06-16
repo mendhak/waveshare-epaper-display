@@ -25,6 +25,8 @@ At only nine in the morning, the kitchen was already pregnant to its capacity, e
 book = "Narrative of a Journey Round the Dead Sea and in the Bible Lands in 1850 and 1851"
 author = "Tom Clancy, Steve Pieczenik, and Jeff Rovin"
 
+quote = quote.encode('ascii', 'ignore').decode('utf-8')
+
 quote_length = len(quote)
 if quote_length < 100:
     font_size = 45
@@ -34,7 +36,7 @@ elif quote_length < 308:
     max_chars_per_line = 45
 else:
     font_size = 25
-    max_chars_per_line = 50
+    max_chars_per_line = 55
 
 if len(book) > 20:
     book = book[:20] + "…"
@@ -60,7 +62,7 @@ svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg height="480" width="800" version="1.1">
         <rect width="800" height="480" id="rect3855" fill="white" />
 
-        <text id="quote" x="33" y="15" style="font-size:{font_size}px;line-height:0%;font-family:serif;text-anchor:beginning">
+        <text id="quote" x="33" y="15" style="font-size:{font_size}px;line-height:0%;font-family:Bookerly,serif;text-anchor:beginning">
 
                 {generated_quote}
         </text>

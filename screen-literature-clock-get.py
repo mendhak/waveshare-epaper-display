@@ -17,7 +17,7 @@ if is_stale('litclock_annotated.csv', 86400):
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 print(current_time)
-current_time = "13:02"
+# current_time = "13:02"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -56,7 +56,7 @@ elif quote_length < 305:
     max_chars_per_line = 35
 elif quote_length < 405:
     font_size = 30
-    max_chars_per_line = 40
+    max_chars_per_line = 45
 else:
     font_size = 25
     max_chars_per_line = 55

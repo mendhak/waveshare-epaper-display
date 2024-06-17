@@ -68,7 +68,7 @@ font_size = 25 if font_size < 25 else font_size
 max_chars_per_line = 55 if max_chars_per_line > 55 else max_chars_per_line
 
 font_size = math.ceil(font_size)
-max_chars_per_line = math.ceil(max_chars_per_line)
+max_chars_per_line = math.floor(max_chars_per_line)
 
 attribution = f"- {book}, {author}"
 if len(attribution) > 55:

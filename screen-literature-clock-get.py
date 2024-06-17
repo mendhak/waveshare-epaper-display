@@ -18,7 +18,7 @@ if is_stale('litclock_annotated.csv', 86400):
 
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
-# current_time = "20:56"
+# current_time = "07:32"
 with open('litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
@@ -56,13 +56,12 @@ human_time = human_time.translate(transl_table)
 quote = quote.encode('ascii', 'ignore').decode('utf-8')
 human_time = human_time.encode('ascii', 'ignore').decode('utf-8')
 
-
 quote_length = len(quote)
 
 # Try to calculate font size and max chars based on quote length
 goes_into = (quote_length / 100) if quote_length > 80 else 0
 font_size = 60 - (goes_into * 8)
-max_chars_per_line = 20 + (goes_into * 6)
+max_chars_per_line = 25 + (goes_into * 6)
 
 # Some upper and lower limit adjustments
 font_size = 25 if font_size < 25 else font_size

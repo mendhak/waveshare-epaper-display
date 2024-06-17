@@ -61,7 +61,7 @@ quote_length = len(quote)
 # Try to calculate font size and max chars based on quote length
 goes_into = (quote_length / 100) if quote_length > 80 else 0
 font_size = 60 - (goes_into * 8)
-max_chars_per_line = 25 + (goes_into * 6)
+max_chars_per_line = 23 + (goes_into * 6)
 
 # Some upper and lower limit adjustments
 font_size = 25 if font_size < 25 else font_size

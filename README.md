@@ -412,7 +412,7 @@ The next time `run.sh` runs, the output image should have the chosen font.
 This mode hides away everything and just displays an XKCD comic or a literary quote for the time.  In env.sh, set: 
 
 
-| `export PRIVACY_MODE=1` <br />XKCD comic | `export PRIVACY_MODE_LITERATURE_CLOCK=1` <br />Literature clock mode |
+| `export PRIVACY_MODE_XKCD=1` <br />XKCD comic | `export PRIVACY_MODE_LITERATURE_CLOCK=1` <br />Literature clock mode |
 | --- | --- |
 | [![XKCD](screenshots/pvt_xkcd.png)](screenshots/pvt_xkcd.png) | [![Literature](screenshots/pvt_literature.png)](screenshots/pvt_literature.png) |
 

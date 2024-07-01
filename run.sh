@@ -15,7 +15,7 @@ else
     export WAVESHARE_HEIGHT=480
 fi
 
-if [ $PRIVACY_MODE = 1 ]; then
+if [ $PRIVACY_MODE_XKCD = 1 ]; then
     log "Get XKCD comic strip"
     .venv/bin/python3 xkcd_get.py
     if [ $? -eq 0 ]; then

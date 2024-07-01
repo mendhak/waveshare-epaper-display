@@ -409,13 +409,14 @@ The next time `run.sh` runs, the output image should have the chosen font.
 
 ## Privacy Mode
 
-This mode hides away everything and just displays an XKCD comic.  In env.sh, set
+This mode hides away everything and just displays an XKCD comic or a literary quote for the time.  In env.sh, set: 
 
-```
-export PRIVACY_MODE=1
-```
 
-An XKCD comic is downloaded and will be rendered onto the display. The comic will be distorted to fit the dimensions. 
+| `export PRIVACY_MODE=1` <br />XKCD comic | `export PRIVACY_MODE_LITERATURE_CLOCK=1` <br />Literature clock mode |
+| --- | --- |
+| [![XKCD](screenshots/pvt_xkcd.png)](screenshots/pvt_xkcd.png) | [![Literature](screenshots/pvt_literature.png)](screenshots/pvt_literature.png) |
+
+
 
 ## Troubleshooting
 

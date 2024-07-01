@@ -18,3 +18,7 @@ cache_
 .env
 
 xkcd-comic-strip.png
+
+screen-literature*.svg
+screen-literature*.png
+litclock_annotated.csv

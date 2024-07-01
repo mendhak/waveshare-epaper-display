@@ -1,3 +1,6 @@
+## 2024-07-xx
+* Rename PRIVACY_MODE to PRIVACY_MODE_XKCD
+* Add a literary clock mode which shows current time as a literature quote. Set using `PRIVACY_MODE_LITERATURE_CLOCK`. 
 ## 2024-05-13
 * Fix for broken/migrated Met Office DataHub API. New instructions included to get an API key and set it in the env.sh file.
 

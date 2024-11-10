@@ -2,3 +2,4 @@
         path = lib/e-Paper
         url = https://github.com/waveshare/e-Paper.git
         ignore = dirty
+        branch = master

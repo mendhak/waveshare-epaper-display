@@ -160,7 +160,7 @@ class MetEireann(BaseWeatherProvider):
     # Get weather from Met Eireann's open data API:
     # https://data.gov.ie/dataset/met-eireann-weather-forecast-api
     def get_weather(self):
-        url = ("http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast?lat={};long={}"
+        url = ("http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat={};long={}"
                .format(self.location_lat, self.location_long))
 
         root = self.get_response_xml(url)

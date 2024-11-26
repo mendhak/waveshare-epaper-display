@@ -15,6 +15,9 @@ class MetEireannAlertProvider(BaseAlertProvider):
         logging.debug("get_alert() - {}".format(alert_data))
 
         for item in alert_data:
+            # ignore potato blight warnings, as I'm not a potato farmer?
+            if item["headline"] == "Blight Advisory":
+              continue
             level = item["level"].capitalize()  	# "yellow" => "Yellow"
             # add the level to the description to make something like
             # "Yellow: Wind warning for Donegal, Leitrim, Mayo, Sligo"

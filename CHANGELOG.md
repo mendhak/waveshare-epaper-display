@@ -1,3 +1,7 @@
+## 2024-12-07
+* Error handling and stopping the script if a previous step fails
+* Fix for Ireland Met office API change. Added by [jmason](https://github.com/mendhak/waveshare-epaper-display/pull/93)
+
 ## 2024-07-xx
 * Rename PRIVACY_MODE to PRIVACY_MODE_XKCD
 * Add a literary clock mode which shows current time as a literature quote. Set using `PRIVACY_MODE_LITERATURE_CLOCK`. 

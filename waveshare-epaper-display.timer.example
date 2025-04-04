@@ -1,0 +1,10 @@
+[Unit]
+Description=Waveshare ePaper display update timer
+
+[Timer]
+OnActiveSec=0
+OnUnitActiveSec=1m
+Unit=waveshare-epaper-display.service
+
+[Install]
+WantedBy=timers.target

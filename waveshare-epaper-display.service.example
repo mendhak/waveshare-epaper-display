@@ -1,0 +1,10 @@
+[Unit]
+Description=Waveshare ePaper display update service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/waveshare-epaper-display/
+ExecStart=%h/waveshare-epaper-display/run.sh
+
+[Install]
+WantedBy=default.target

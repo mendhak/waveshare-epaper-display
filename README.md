@@ -318,6 +318,16 @@ Add this entry so it runs every minute:
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file.
 
+Alternatively, you can use a systemd timer. There are example systemd units available to install a timer
+that starts a service every minute that runs the script. To achieve this, execute the following commands.
+
+    mkdir -p ~/.config/systemd/user/
+    cp waveshare-epaper-display.service.example ~/.config/systemd/user/waveshare-epaper-display.service
+    cp waveshare-epaper-display.timer.example ~/.config/systemd/user/waveshare-epaper-display.timer
+    systemctl --user daemon-reload
+    systemctl --user enable waveshare-epaper-display.timer
+    loginctl enable-linger
+
 ## Custom Data
 
 This is an optional step, to add your own custom data to the screen.  For example this could be API calls, data from Home Assistant, PiHole stats, or something external.

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# shellcheck source=env.sh
 . env.sh
 
 function log {

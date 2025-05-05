@@ -238,13 +238,15 @@ Run:
 The script will prompt you to visit a URL in your browser, then it will sit there and wait. The URL will look like `https://accounts.google.com/o/...` and will be very long.  
 
 Follow that URL in a browser window, you'll need to log in and choose your Google account.   
-Click continue on the "Make sure you trust Mendhak Waveshare Epaper Display" screen, and then let it fail when it tries to go to a `http://localhost:8080/...` URL.  
+On the "Make sure you trust Mendhak Waveshare Epaper Display" screen, you will see it's asking for permission to read your Google Calendar.  
+Click continue, and then let it fail when it tries to go to a `http://localhost:8080/...` URL.  
 
 Copy the URL it was trying to go to (eg: http://localhost:8080/...) and in another SSH session with the Raspberry Pi, run this (remember the double quotes): 
 
     curl "http://localhost:8080/..."
 
-On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.  The script should now be able to run in the future without prompting required.
+On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.   
+The script should now be able to run in the future without prompting required.
 
 
 ### Outlook Calendar

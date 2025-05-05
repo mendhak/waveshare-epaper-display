@@ -229,23 +229,23 @@ export GOOGLE_CALENDAR_ID=xyz12345@group.calendar.google.com
 
 #### Google Calendar token
 
-The Oauth process needs to complete once manually in order to allow the Python code to then continuously query Google Calendar for information.
+You will need to run an Oauth process once manually to allow the Python code to get a token, which lets it query Google Calendar for information.
 
-Go to the [Google Cloud Platform library page](https://console.cloud.google.com/apis/library), search for and enable the [Calendar API](https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview).
-
-Next, head over to the [API Dashboard Credentials page](https://console.cloud.google.com/apis/credentials), and create new credentials of type "OAuth Client ID".  For application type, choose "Desktop app" and give it a name such as "Epaper Display".  When presented, download or copy the `credentials.json` file and add it to this directory.
-
-You can now kick off the authentication process. On the Raspberry Pi, run:
+Run:
 
     .venv/bin/python3 screen-calendar-get.py
 
-The script will prompt you to visit a URL in your browser and then wait.  Copy the URL, open it in a browser and you will go through the login process.  When the OAuth workflow tries to redirect back (and fails), copy the URL it was trying to go to (eg: http://localhost:8080/...) and in another SSH session with the Raspberry Pi,
+The script will prompt you to visit a URL in your browser, then it will sit there and wait. The URL will look like `https://accounts.google.com/o/...` and will be very long.  
+
+Follow that URL in a browser window, you'll need to log in and choose your Google account.   
+Click continue on the "Make sure you trust Mendhak Waveshare Epaper Display" screen, and then let it fail when it tries to go to a `http://localhost:8080/...` URL.  
+
+Copy the URL it was trying to go to (eg: http://localhost:8080/...) and in another SSH session with the Raspberry Pi, run this (remember the double quotes): 
 
     curl "http://localhost:8080/..."
 
-On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.  The Python script should now be able to run in the future without prompting required.
+On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.  The script should now be able to run in the future without prompting required.
 
-I also have a [post here with screenshots](https://github.com/mendhak/waveshare-epaper-display/issues/19#issuecomment-780397819) walking through the process.
 
 ### Outlook Calendar
 

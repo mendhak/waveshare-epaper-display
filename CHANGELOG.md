@@ -1,3 +1,6 @@
+## 2025-04-13
+* Ability to use systemd as the scheduler, instead of crontab. Added by [martinezjavier](https://github.com/mendhak/waveshare-epaper-display/pull/100).
+
 ## 2024-12-07
 * Error handling and stopping the script if a previous step fails
 * Fix for Ireland Met office API change. Added by [jmason](https://github.com/mendhak/waveshare-epaper-display/pull/93)

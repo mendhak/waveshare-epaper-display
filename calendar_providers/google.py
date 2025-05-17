@@ -1,6 +1,6 @@
 import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
-from utility import is_stale
+from utility import is_stale, xor_decode
 import os
 import logging
 import pickle
@@ -22,7 +22,7 @@ class GoogleCalendar(BaseCalendarProvider):
     def get_google_credentials(self):
 
         google_token_pickle = 'token.pickle'
-        google_credentials_json = 'credentials.json'
+
         google_api_scopes = ['https://www.googleapis.com/auth/calendar.readonly']
 
         credentials = None
@@ -38,8 +38,15 @@ class GoogleCalendar(BaseCalendarProvider):
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    google_credentials_json, google_api_scopes)
+                flow = InstalledAppFlow.from_client_config({"installed": {
+                    "client_id": "872428123454-jjp9mvs2ha4at913874ik2ua6fosi23d.apps.googleusercontent.com",
+                    "project_id": "waveshare-epaper-display",
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                    "client_secret": xor_decode("HwI5FzprZiBiE0AtJ3A7IjZ+LB4VCBQjHmcIN1IBJz0QBjg=", "XMzDj3Kb4j2j_3jK_8dwoeuir3mm3jKb"),
+                    "redirect_uris": ["http://localhost"]}}, google_api_scopes)
+
                 credentials = flow.run_local_server()
             # Save the credentials for the next run
             with open(google_token_pickle, 'wb') as token:

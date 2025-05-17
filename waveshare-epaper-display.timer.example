@@ -2,8 +2,7 @@
 Description=Waveshare ePaper display update timer
 
 [Timer]
-OnActiveSec=0
-OnUnitActiveSec=1m
+OnCalendar=*:0/1
 Unit=waveshare-epaper-display.service
 
 [Install]

@@ -41,9 +41,11 @@ The screen will display date, time, weather icon with high and low, and calendar
 
 ## Shopping list
 
-[Waveshare 7.5 inch epaper display HAT 640x384](https://www.amazon.co.uk/gp/product/B075R4QY3L/)
-[Raspberry Pi Zero WH (presoldered header)](https://www.amazon.co.uk/gp/product/B07BHMRTTY/)
-[microSDHC card](https://www.amazon.co.uk/gp/product/B073K14CVB)
+[Waveshare 7.5 inch epaper display HAT 640x384](https://www.amazon.co.uk/gp/product/B075R4QY3L/)  
+[Raspberry Pi Zero WH (presoldered header)](https://www.amazon.co.uk/gp/product/B07BHMRTTY/)  
+[microSDHC card](https://www.amazon.co.uk/gp/product/B073K14CVB)  
+
+Optional - a picture frame. I used a [18x13cm (7x5 inch) frame](https://www.tescophoto.com/harriet-photo-frame) which just about fits the screen.
 
 ## Setup the PI
 

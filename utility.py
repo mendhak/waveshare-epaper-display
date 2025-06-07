@@ -1,3 +1,4 @@
+import base64
 import codecs
 import logging
 import os
@@ -197,3 +198,30 @@ def get_sunset_time():
     city = LocationInfo(location_lat, location_long)
     s = sun(city.observer, date=dt)
     return s['sunset']
+
+
+def xor_encode(data, key):
+    """XOR encode/decode the input data with a key."""
+    # Repeat the key to match the length of data
+    extended_key = (key * (len(data) // len(key) + 1))[:len(data)]
+
+    # XOR each byte
+    xored = bytes(a ^ b for a, b in zip(data.encode(), extended_key.encode()))
+
+    return base64.b64encode(xored).decode()
+
+
+def xor_decode(encoded_data, key):
+    """XOR decode the input data with a key.
+       Completely pointless and lightweight obfuscation, accomplishes nothing.
+    """
+    # Decode base64 first
+    decoded_bytes = base64.b64decode(encoded_data.encode())
+
+    # Repeat the key to match the length of data
+    extended_key = (key * (len(decoded_bytes) // len(key) + 1))[:len(decoded_bytes)]
+
+    # XOR each byte back
+    xored = bytes(a ^ b for a, b in zip(decoded_bytes, extended_key.encode()))
+
+    return xored.decode()

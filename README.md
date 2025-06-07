@@ -23,7 +23,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Weather.gov (US)](#weathergov-us-1)
   - [Met Éireann (Ireland)](#met-éireann-ireland-1)
 - [Pick a Calendar provider](#pick-a-calendar-provider)
-  - [Google Calendar setup](#google-calendar-setup)
+  - [Google Calendar](#google-calendar)
   - [Outlook Calendar](#outlook-calendar)
   - [ICS Calendar](#ics-calendar)
   - [CalDav Calendar](#caldav-calendar)
@@ -221,7 +221,7 @@ in the pre-2014 section.  For example, this is the file for Dublin:
 
 You can use Google Calendar or Outlook Calendar to display events.
 
-### Google Calendar setup
+### Google Calendar
 
 The script will by default get its info from your primary Google Calendar.  If you need to pick a specific calendar you will need its ID.  To get its ID, open up [Google Calendar](https://calendar.google.com) and go to the settings for your preferred calendar.  Under the 'Integrate Calendar' section you will see a Calendar ID which looks like `xyz12345@group.calendar.google.com`.  Set that value in `env.sh`
 
@@ -229,7 +229,7 @@ The script will by default get its info from your primary Google Calendar.  If y
 export GOOGLE_CALENDAR_ID=xyz12345@group.calendar.google.com
 ```
 
-#### Google Calendar token
+#### Get a Google Calendar token
 
 You will need to run an Oauth process once manually to allow the Python code to get a token, which lets it query Google Calendar for information.
 

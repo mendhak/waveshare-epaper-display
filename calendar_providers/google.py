@@ -44,6 +44,11 @@ class GoogleCalendar(BaseCalendarProvider):
                     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                     "token_uri": "https://oauth2.googleapis.com/token",
                     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                    # Pointless xor. For embedded/desktop apps, the client secret is not considered a secret but is called a secret 🙃
+                    # So here it's just for storage.
+                    # https://stackoverflow.com/questions/71111416/how-to-protect-client-credentials-in-a-desktop-app
+                    # https://stackoverflow.com/questions/59416326/safely-distribute-oauth-2-0-client-secret-in-desktop-applications-in-python
+                    # https://stackoverflow.com/questions/78857716/can-i-include-google-oauth-client-secret-in-my-desktop-application
                     "client_secret": xor_decode("HwI5FzprZiBiE0AtJ3A7IjZ+LB4VCBQjHmcIN1IBJz0QBjg=", "XMzDj3Kb4j2j_3jK_8dwoeuir3mm3jKb"),
                     "redirect_uris": ["http://localhost"]}}, google_api_scopes)
 

@@ -10,6 +10,7 @@ from calendar_providers.google import GoogleCalendar
 from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
 from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date, configure_locale
+from tzlocal import get_localzone
 
 configure_locale()
 configure_logging()
@@ -78,11 +79,11 @@ def main():
 
     output_svg_filename = 'screen-output-weather.svg'
 
-    today_start_time = datetime.datetime.utcnow()
+    today_start_time = datetime.datetime.now(get_localzone())
     if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
-        today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
-    oneyearlater_iso = (datetime.datetime.now().astimezone()
-                        + datetime.timedelta(days=365)).astimezone()
+        today_start_time = datetime.datetime.combine(datetime.datetime.now(get_localzone()), datetime.datetime.min.time())
+    oneyearlater_iso = (datetime.datetime.now(get_localzone())
+                        + datetime.timedelta(days=365)).astimezone(get_localzone())
 
     if outlook_calendar_id:
         logging.info("Fetching Outlook Calendar Events")

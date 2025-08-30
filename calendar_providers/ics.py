@@ -7,6 +7,7 @@ import logging
 import pickle
 import icalevents.icalevents
 from dateutil import tz
+from tzlocal import get_localzone
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -25,8 +26,11 @@ class ICSCalendar(BaseCalendarProvider):
         if is_stale(os.getcwd() + "/" + ics_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching ICS Calendar")
 
-            ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date)
-            ics_events.sort(key=lambda x: x.start.replace(tzinfo=None))
+            logging.debug(self.from_date)
+            logging.debug(self.to_date)
+
+            ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date, tzinfo=get_localzone(), strict=True, sort=True)
+            # ics_events.sort(key=lambda x: x.start.replace(tzinfo=None))
 
             logging.debug(ics_events)
 
@@ -40,8 +44,8 @@ class ICSCalendar(BaseCalendarProvider):
                     event_end = event_end - datetime.timedelta(days=1)
 
                 # convert to local timezone
-                event_end = ics_event.end.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
-                event_start = ics_event.start.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
+                event_end = ics_event.end
+                event_start = ics_event.start
 
                 calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
 

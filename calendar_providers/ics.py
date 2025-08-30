@@ -35,6 +35,7 @@ class ICSCalendar(BaseCalendarProvider):
             logging.debug(ics_events)
 
             for ics_event in ics_events[0:self.max_event_results]:
+                event_start = ics_event.start
                 event_end = ics_event.end
 
                 # CalDav Calendar marks the 'end' of all-day-events as
@@ -42,10 +43,6 @@ class ICSCalendar(BaseCalendarProvider):
                 # So subtract a day, if the event is an all day event
                 if ics_event.all_day:
                     event_end = event_end - datetime.timedelta(days=1)
-
-                # convert to local timezone
-                event_end = ics_event.end
-                event_start = ics_event.start
 
                 calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
 

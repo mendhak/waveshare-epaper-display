@@ -1,0 +1,23 @@
+[project]
+name = "waveshare-epaper-display"
+version = "14"
+description = "At-a-glance dashboard for Raspberry Pi with a Waveshare ePaper 7.5 Inch HAT. Date/Time, Weather, Alerts, Google/Outlook Calendar "
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "astral>=3.2",
+    "babel>=2.17.0",
+    "cairosvg>=2.8.2",
+    "caldav>=2.0.1",
+    "drawsvg>=2.4.0",
+    "emoji>=2.14.1",
+    "google-api-python-client>=2.179.0",
+    "google-auth-oauthlib>=1.2.2",
+    "humanize>=4.13.0",
+    "icalevents>=0.3.0",
+    "msal>=1.33.0",
+    "pillow>=11.3.0",
+    "pytz>=2025.2",
+    "requests>=2.32.5",
+    "tzlocal>=5.3.1",
+]

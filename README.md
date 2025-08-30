@@ -82,9 +82,16 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
     cd waveshare-epaper-display
     sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7 python3-venv libjpeg-dev libxslt1-dev fontconfig libcairo2
-    python3 -m venv --system-site-packages .venv
-    .venv/bin/pip3 install -r requirements.txt
-    sudo raspi-config nonint do_spi 0  #This enables SPI
+    
+    # Install uv, a package manager for Python
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    exec bash
+    
+    # Create a virtual environment and install the packages
+    uv sync
+
+    # Enable SPI and reboot
+    sudo raspi-config nonint do_spi 0  
     sudo reboot
 
 

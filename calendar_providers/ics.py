@@ -26,11 +26,7 @@ class ICSCalendar(BaseCalendarProvider):
         if is_stale(os.getcwd() + "/" + ics_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching ICS Calendar")
 
-            logging.debug(self.from_date)
-            logging.debug(self.to_date)
-
             ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date, tzinfo=get_localzone(), strict=True, sort=True)
-            # ics_events.sort(key=lambda x: x.start.replace(tzinfo=None))
 
             logging.debug(ics_events)
 

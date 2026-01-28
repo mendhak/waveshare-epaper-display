@@ -7,6 +7,7 @@ import logging
 import pickle
 import icalevents.icalevents
 from dateutil import tz
+from tzlocal import get_localzone
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -25,12 +26,12 @@ class ICSCalendar(BaseCalendarProvider):
         if is_stale(os.getcwd() + "/" + ics_calendar_pickle, ttl):
             logging.debug("Pickle is stale, fetching ICS Calendar")
 
-            ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date)
-            ics_events.sort(key=lambda x: x.start.replace(tzinfo=None))
+            ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date, tzinfo=get_localzone(), strict=True, sort=True)
 
             logging.debug(ics_events)
 
             for ics_event in ics_events[0:self.max_event_results]:
+                event_start = ics_event.start
                 event_end = ics_event.end
 
                 # CalDav Calendar marks the 'end' of all-day-events as
@@ -38,10 +39,6 @@ class ICSCalendar(BaseCalendarProvider):
                 # So subtract a day, if the event is an all day event
                 if ics_event.all_day:
                     event_end = event_end - datetime.timedelta(days=1)
-
-                # convert to local timezone
-                event_end = ics_event.end.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
-                event_start = ics_event.start.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal())
 
                 calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
 

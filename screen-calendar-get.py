@@ -93,6 +93,7 @@ def main():
                                   today_start_time, oneyearlater_iso, caldav_username, caldav_password)
     elif ics_calendar_url:
         logging.info("Fetching ics Calendar Events")
+        today_start_time = datetime.datetime.now().astimezone()
         provider = ICSCalendar(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
     else:
         logging.info("Fetching Google Calendar Events")

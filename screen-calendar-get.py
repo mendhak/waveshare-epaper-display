@@ -17,7 +17,13 @@ configure_logging()
 # note: increasing this will require updates to the SVG template to accommodate more events
 max_event_results = 10
 
-google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
+# get data from first Google calendar:
+google_calendar_ids = []
+google_calendar_ids.append(os.getenv("GOOGLE_CALENDAR_ID", None))
+# Get data from optional additional Google calendars, up to 5:
+for id in range(2, 6):
+    google_calendar_ids.append(os.getenv("GOOGLE_CALENDAR_ID_{}".format(id), None))
+
 outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
 
 caldav_calendar_url = os.getenv('CALDAV_CALENDAR_URL', None)
@@ -25,7 +31,12 @@ caldav_username = os.getenv("CALDAV_USERNAME", None)
 caldav_password = os.getenv("CALDAV_PASSWORD", None)
 caldav_calendar_id = os.getenv("CALDAV_CALENDAR_ID", None)
 
-ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
+# get data from first ics calendar:
+ics_calendar_urls = []
+ics_calendar_urls.append(os.getenv("ICS_CALENDAR_URL", None))
+# Get data from  optional additional ics calendars, up to 5:
+for id in range(2, 6):
+    ics_calendar_urls.append(os.getenv("ICS_CALENDAR_URL_{}".format(id), None))
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -78,28 +89,41 @@ def main():
 
     output_svg_filename = 'screen-output-weather.svg'
 
-    today_start_time = datetime.datetime.utcnow()
+    today_start_time = datetime.datetime.now().astimezone()
     if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
-        today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+        today_start_time = datetime.datetime.combine(datetime.datetime.now().astimezone(), datetime.time.min).astimezone()
     oneyearlater_iso = (datetime.datetime.now().astimezone()
                         + datetime.timedelta(days=365)).astimezone()
 
+    # Initiate calendar providers array:
+    providers = []
     if outlook_calendar_id:
         logging.info("Fetching Outlook Calendar Events")
-        provider = OutlookCalendar(outlook_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
-    elif caldav_calendar_url:
+        providers.append(OutlookCalendar(outlook_calendar_id, max_event_results, today_start_time, oneyearlater_iso,))
+    if caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
-        provider = CalDavCalendar(caldav_calendar_url, caldav_calendar_id, max_event_results,
+        providers.append(CalDavCalendar(caldav_calendar_url, caldav_calendar_id, max_event_results,
                                   today_start_time, oneyearlater_iso, caldav_username, caldav_password)
-    elif ics_calendar_url:
-        logging.info("Fetching ics Calendar Events")
-        today_start_time = datetime.datetime.now().astimezone()
-        provider = ICSCalendar(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
-    else:
-        logging.info("Fetching Google Calendar Events")
-        provider = GoogleCalendar(google_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
+        )
+    for index, ics_calendar_url in enumerate(ics_calendar_urls):
+        if ics_calendar_url:
+            logging.info("Fetching events from ICS calendar number {}".format(index + 1))
+            providers.append(ICSCalendar(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso, index + 1))
+    for index, google_calendar_id in enumerate(google_calendar_ids):
+        if google_calendar_id:
+            logging.info("Fetching events from Google calendar number {}".format(index + 1))
+            providers.append(GoogleCalendar(google_calendar_id, max_event_results, today_start_time, oneyearlater_iso, index + 1))
 
-    calendar_events = provider.get_calendar_events()
+    calendar_events = []
+    for provider in providers:
+        calendar_events = calendar_events + provider.get_calendar_events()
+    # sort events by start date: normalise date/datetime mix so comparisons work
+    def sort_key(event):
+        s = event.start
+        if isinstance(s, datetime.datetime):
+            return s if s.tzinfo else s.replace(tzinfo=datetime.timezone.utc)
+        return datetime.datetime(s.year, s.month, s.day, tzinfo=datetime.timezone.utc)
+    calendar_events = sorted(calendar_events, key=sort_key)
     output_dict = get_formatted_calendar_events(calendar_events)
 
     # XML escape for safety

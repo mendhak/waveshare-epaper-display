@@ -219,9 +219,9 @@ in the pre-2014 section.  For example, this is the file for Dublin:
 
 ## Pick a Calendar provider
 
-You can use Google Calendar or Outlook Calendar to display events.
+You can use up to 5 Google Calendars, up to 5 iCalendars, CalDav and Outlook Calendar to display events. Events will be sorted across the calendars according the time of start.
 
-### Google Calendar
+### Google Calendars
 
 The script will by default get its info from your primary Google Calendar.  If you need to pick a specific calendar you will need its ID.  To get its ID, open up [Google Calendar](https://calendar.google.com) and go to the settings for your preferred calendar.  Under the 'Integrate Calendar' section you will see a Calendar ID which looks like `xyz12345@group.calendar.google.com`.  Set that value in `env.sh`
 
@@ -250,6 +250,15 @@ Copy the URL it was trying to go to (eg: http://localhost:8080/...) and in anoth
 On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.   
 The script should now be able to run in the future without prompting required.
 
+#### Additional Google Calendars
+You can also add up to 4 additional Google calendars by setting `GOOGLE_CALENDAR_ID_2` etc. in the `env.sh` file. Additional calendars will use `token_google_2.pickle` etc. for their tokens.
+
+```bash
+export GOOGLE_CALENDAR_ID_2=second_email_address@gmail.com
+export GOOGLE_CALENDAR_ID_3=some_group@group.calendar.google.com
+export GOOGLE_CALENDAR_ID_4=other_group@group.calendar.google.com
+export GOOGLE_CALENDAR_ID_5=third_email_address@gmail.com
+```
 
 ### Outlook Calendar
 
@@ -265,13 +274,23 @@ Copy the ID of the calendar you want, and add it to env.sh like so:
 
 Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored.
 
-### ICS Calendar
+### ICS Calendars
 
 ICS is simple, get the ICS URL for a calendar, and place it in `env.sh`.
 
     export ICS_CALENDAR_URL=https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics
 
 There is no username/password support.
+
+#### Additional ICS Calendars
+You can also add up to 4 additional ICS calendars by setting `ICS_CALENDAR_URL_2` etc. in the `env.sh` file.
+
+```bash
+export ICS_CALENDAR_URL_2=https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics
+export ICS_CALENDAR_URL_3=https://ics.calendarlabs.com/35/72771a5e/Australia_Holidays.ics
+export ICS_CALENDAR_URL_4=https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics
+export ICS_CALENDAR_URL_5=https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics
+```
 
 ### CalDav Calendar
 

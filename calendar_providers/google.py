@@ -13,15 +13,19 @@ google_calendar_timezone = os.getenv("GOOGLE_CALENDAR_TIME_ZONE_NAME", None)
 
 
 class GoogleCalendar(BaseCalendarProvider):
-    def __init__(self, google_calendar_id, max_event_results, from_date, to_date):
+    def __init__(self, google_calendar_id, max_event_results, from_date, to_date, index):
         self.max_event_results = max_event_results
         self.from_date = from_date
         self.to_date = to_date
         self.google_calendar_id = google_calendar_id
+        self.index = index
 
     def get_google_credentials(self):
-
-        google_token_pickle = 'token.pickle'
+        if self.index == 1:
+            # for backward compatibility, the first calendar will use the old token filename
+            google_token_pickle = "token.pickle"
+        else:
+            google_token_pickle = "token_google_{}.pickle".format(self.index)
 
         google_api_scopes = ['https://www.googleapis.com/auth/calendar.readonly']
 
@@ -61,19 +65,19 @@ class GoogleCalendar(BaseCalendarProvider):
 
     def get_calendar_events(self) -> list[CalendarEvent]:
         calendar_events = []
-        google_calendar_pickle = 'cache_calendar.pickle'
+        google_calendar_pickle = 'cache_google_{}.pickle'.format(self.index)
 
         service = build('calendar', 'v3', credentials=self.get_google_credentials(), cache_discovery=False)
 
         events_result = None
 
         if is_stale(os.getcwd() + "/" + google_calendar_pickle, ttl):
-            logging.debug("Pickle is stale, calling the Calendar API")
+            logging.debug("Cache of Google calendar {} is stale, calling the Calendar API".format(self.index))
 
             # Call the Calendar API
             events_result = service.events().list(
                 calendarId=self.google_calendar_id,
-                timeMin=self.from_date.isoformat() + 'Z',
+                timeMin=self.from_date.isoformat(),
                 timeZone=google_calendar_timezone,
                 maxResults=self.max_event_results,
                 singleEvents=True,
@@ -82,8 +86,9 @@ class GoogleCalendar(BaseCalendarProvider):
             for event in events_result.get('items', []):
                 if event['start'].get('date'):
                     is_all_day = True
-                    start_date = datetime.datetime.strptime(event['start'].get('date'), "%Y-%m-%d")
-                    end_date = datetime.datetime.strptime(event['end'].get('date'), "%Y-%m-%d")
+                    # .isoformat() produces valid RFC3339 with timezone
+                    start_date = datetime.date.fromisoformat(event['start'].get('date'))
+                    end_date = datetime.date.fromisoformat(event['end'].get('date'))
                     # Google Calendar marks the 'end' of all-day-events as
                     # the day _after_ the last day. eg, Today's all day event ends tomorrow!
                     # So subtract a day
@@ -101,7 +106,7 @@ class GoogleCalendar(BaseCalendarProvider):
                 pickle.dump(calendar_events, cal)
 
         else:
-            logging.info("Found in cache")
+            logging.info("Google calendar {} found in cache.".format(self.index))
             with open(google_calendar_pickle, 'rb') as cal:
                 calendar_events = pickle.load(cal)
 

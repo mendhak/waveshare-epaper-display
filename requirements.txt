@@ -47,7 +47,7 @@ tinycss2==1.2.1
 tzdata==2025.2
 tzlocal==4.2
 uritemplate==4.1.1
-urllib3==2.5.0
+urllib3
 vobject==0.9.6.1
 webencodings==0.5.1
 zope.interface==5.5.1

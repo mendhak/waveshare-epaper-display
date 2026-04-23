@@ -77,6 +77,7 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event, start_only=
 def main():
 
     output_svg_filename = 'screen-output-weather.svg'
+    all_calendar_events = []
 
     today_start_time = datetime.datetime.utcnow()
     if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
@@ -87,19 +88,39 @@ def main():
     if outlook_calendar_id:
         logging.info("Fetching Outlook Calendar Events")
         provider = OutlookCalendar(outlook_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
-    elif caldav_calendar_url:
+        all_calendar_events.extend(provider.get_calendar_events())
+
+    if caldav_calendar_url:
         logging.info("Fetching Caldav Calendar Events")
         provider = CalDavCalendar(caldav_calendar_url, caldav_calendar_id, max_event_results,
                                   today_start_time, oneyearlater_iso, caldav_username, caldav_password)
-    elif ics_calendar_url:
+        all_calendar_events.extend(provider.get_calendar_events())
+    if ics_calendar_url:
         logging.info("Fetching ics Calendar Events")
         today_start_time = datetime.datetime.now().astimezone()
         provider = ICSCalendar(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
-    else:
+        all_calendar_events.extend(provider.get_calendar_events())
+    if google_calendar_id:
         logging.info("Fetching Google Calendar Events")
         provider = GoogleCalendar(google_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
+        all_calendar_events.extend(provider.get_calendar_events())
 
-    calendar_events = provider.get_calendar_events()
+    # logging.info(all_calendar_events)
+
+    # convert tz-aware datetimes to local time, then make all naive for sorting
+    from dateutil import tz as dateutil_tz
+    normalized = []
+    for event in all_calendar_events:
+        start = event.start
+        end = event.end
+        if hasattr(start, 'tzinfo') and start.tzinfo is not None:
+            start = start.astimezone(dateutil_tz.tzlocal()).replace(tzinfo=None)
+        if hasattr(end, 'tzinfo') and end.tzinfo is not None:
+            end = end.astimezone(dateutil_tz.tzlocal()).replace(tzinfo=None)
+        normalized.append(CalendarEvent(event.summary, start, end, event.all_day_event))
+
+    all_calendar_events = sorted(normalized, key=lambda x: x.start)
+    calendar_events = all_calendar_events
     output_dict = get_formatted_calendar_events(calendar_events)
 
     # XML escape for safety

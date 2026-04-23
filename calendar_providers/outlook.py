@@ -9,7 +9,6 @@ import msal
 import requests
 import sys
 import json
-from dateutil import tz
 
 ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
@@ -116,12 +115,7 @@ class OutlookCalendar(BaseCalendarProvider):
             # So subtract a day
             if is_all_day:
                 end_date = end_date - datetime.timedelta(days=1)
-            else:
-                # Convert start/end to local time
-                start_date = start_date.replace(tzinfo=tz.tzutc())
-                start_date = start_date.astimezone(tz.tzlocal())
-                end_date = end_date.replace(tzinfo=tz.tzutc())
-                end_date = end_date.astimezone(tz.tzlocal())
+            # Timezone normalization is handled by screen-calendar-get.py
 
             calendar_events.append(CalendarEvent(summary, start_date, end_date, is_all_day))
 

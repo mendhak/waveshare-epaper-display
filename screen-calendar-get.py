@@ -79,9 +79,9 @@ def main():
     output_svg_filename = 'screen-output-weather.svg'
     all_calendar_events = []
 
-    today_start_time = datetime.datetime.utcnow()
+    today_start_time = datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
     if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
-        today_start_time = datetime.datetime.combine(datetime.datetime.utcnow(), datetime.datetime.min.time())
+        today_start_time = datetime.datetime.combine(datetime.datetime.now(datetime.UTC).date(), datetime.datetime.min.time())
     oneyearlater_iso = (datetime.datetime.now().astimezone()
                         + datetime.timedelta(days=365)).astimezone()
 

@@ -105,7 +105,7 @@ def main():
         provider = GoogleCalendar(google_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
         all_calendar_events.extend(provider.get_calendar_events())
 
-    # logging.info(all_calendar_events)
+    logging.debug("All calendar events before normalization: {}".format(all_calendar_events))
 
     # convert tz-aware datetimes to local time, then make all naive for sorting
     from dateutil import tz as dateutil_tz

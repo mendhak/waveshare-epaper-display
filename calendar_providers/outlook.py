@@ -115,7 +115,6 @@ class OutlookCalendar(BaseCalendarProvider):
             # So subtract a day
             if is_all_day:
                 end_date = end_date - datetime.timedelta(days=1)
-            # Timezone normalization is handled by screen-calendar-get.py
 
             calendar_events.append(CalendarEvent(summary, start_date, end_date, is_all_day))
 

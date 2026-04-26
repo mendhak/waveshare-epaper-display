@@ -1,0 +1,67 @@
+[display]
+# Most new Waveshare are 2, older ones are 1 (SKU: 13504)
+# For 7.5 inch B with Red, use "2B" (SKU: 13505)
+waveshare_version = "2"
+
+# Which layout to use. 1, 2, 3...
+screen_output_layout = 1
+
+[weather]
+latitude          = 51.5077
+longitude         = -0.1278
+format            = "CELSIUS"  # or FAHRENHEIT
+cache_ttl_seconds = 3600
+
+[weather.provider]
+type    = "metoffice"
+api_key = "eyj..."
+
+
+
+[alerts.provider]
+type    = "metoffice"
+feed_url = "https://www.metoffice.gov.uk/..."
+
+[calendar]
+cache_ttl_seconds = 3600
+max_events = 10
+include_past_events_for_today = false
+
+# Google Calendar ID, you can get this from Google Calendar Settings
+# The double brackets are important for calendars!
+[[calendar.providers.google]]
+enabled   = false
+id        = "ee0b5..."
+time_zone = "Asia/Kuala_Lumpur"
+
+[[calendar.providers.google]]
+enabled = true
+id      = "921w"
+
+# If you use Outlook Calendar, use python3 outlook_util.py to get available Calendar IDs
+[[calendar.providers.outlook]]
+calendar_id = "AQMkADAwATM0MDAAMS1h"
+
+[[calendar.providers.ics]]
+enabled = true
+url     = "https://example.com/calendar.ics"
+
+[[calendar.providers.caldav]]
+enabled  = false
+url      = "https://example.com/caldav"
+username = "example"
+password = "example"
+id       = "12345"
+
+[privacy]
+# Privacy mode. Just displays an XKCD comic or literature clock instead.
+xkcd             = false
+# Privacy mode. Just displays an XKCD comic or literature clock instead.
+literature_clock = false
+
+[locale]
+# If you set a language, ensure it's installed first. Run `locale -a`
+language = ""
+
+# You can set this to DEBUG for troubleshooting, otherwise leave it at INFO.
+log_level = "INFO"

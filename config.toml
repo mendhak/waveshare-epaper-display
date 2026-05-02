@@ -6,25 +6,87 @@ waveshare_version = "2"
 # Which layout to use. 1, 2, 3...
 screen_output_layout = 1
 
+full_refresh_hour = 2 # Hour (0-23) for daily full-screen refresh.
+
 [weather]
+enabled           = true  # Set to false to disable weather entirely
 latitude          = 51.5077
 longitude         = -0.1278
 format            = "CELSIUS"  # or FAHRENHEIT
 cache_ttl_seconds = 3600
 
 [weather.provider]
+# TOML enforces exactly one [weather.provider] table.
+# If you uncomment another provider block below, delete or comment this one.
 type    = "metoffice"
 api_key = "eyj..."
 
+# ── Alternative Weather Providers ─────────────────────────────
+# Uncomment one of these blocks instead of the MetOffice config above.
+# TOML will error if you have multiple [weather.provider] sections active.
 
+# AccuWeather (requires API key and location key)
+# [weather.provider]
+# type         = "accuweather"
+# api_key      = "your-accuweather-api-key"
+# location_key = "your-location-key"
+
+# Met.no (Norway, no key required, just email for self-ID)
+# [weather.provider]
+# type                = "metno"
+# self_identification = "you@example.com"
+
+# Met Eireann (Ireland, no key required)
+# [weather.provider]
+# type    = "met_eireann"
+
+# Weather.gov (USA, email for self-ID)
+# [weather.provider]
+# type                = "weathergov"
+# self_identification = "you@example.com"
+
+# SMHI (Sweden, email for self-ID)
+# [weather.provider]
+# type                = "smhi"
+# self_identification = "you@example.com"
+
+# OpenWeatherMap (requires API key)
+# [weather.provider]
+# type    = "openweathermap"
+# api_key = "your-openweathermap-api-key"
+
+# Visual Crossing (requires API key)
+# [weather.provider]
+# type    = "visualcrossing"
+# api_key = "your-visualcrossing-api-key"
+
+[alerts]
+enabled           = true  # Set to false to disable alerts entirely
+cache_ttl_seconds = 3600
 
 [alerts.provider]
-type    = "metoffice"
+# TOML enforces exactly one [alerts.provider] table.
+# If you uncomment another provider block below, delete or comment this one.
+type     = "metoffice"
 feed_url = "https://www.metoffice.gov.uk/..."
 
+# ── Alternative Alert Providers ───────────────────────────────
+# Uncomment one of these blocks instead of the MetOffice config above.
+# TOML will error if you have multiple [alerts.provider] sections active.
+
+# Met Eireann (Ireland, use FIPS region code)
+# [alerts.provider]
+# type     = "met_eireann"
+# feed_url = "https://www.met.ie/Open_Data/json/warning_EI07.json"
+
+# Weather.gov (USA, requires email for self-ID)
+# [alerts.provider]
+# type                = "weathergov"
+# self_identification = "you@example.com"
+
 [calendar]
-cache_ttl_seconds = 3600
-max_events = 10
+cache_ttl_seconds             = 3600
+max_events                    = 10
 include_past_events_for_today = false
 
 # Google Calendar ID, you can get this from Google Calendar Settings
@@ -40,6 +102,7 @@ id      = "921w"
 
 # If you use Outlook Calendar, use python3 outlook_util.py to get available Calendar IDs
 [[calendar.providers.outlook]]
+enabled     = true
 calendar_id = "AQMkADAwATM0MDAAMS1h"
 
 [[calendar.providers.ics]]

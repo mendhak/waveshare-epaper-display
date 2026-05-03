@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-import tomllib, shlex
+import tomllib
 
 config = tomllib.load(open("config.toml", "rb"))
 disp = config["display"]

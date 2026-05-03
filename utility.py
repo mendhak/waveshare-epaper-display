@@ -23,13 +23,13 @@ def configure_locale():
         logging.debug("Could not set locale")
 
 
-def configure_logging():
+def configure_logging(log_level="INFO"):
     """
     Sets up logging with a specific logging format.
     Call this at the beginning of a script.
     Then using logging methods as normal
     """
-    log_level = os.getenv("LOG_LEVEL", "INFO")
+    # log_level = os.getenv("LOG_LEVEL", "INFO")
     log_format = "%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
     log_dateformat = "%Y-%m-%d:%H:%M:%S"
     logging.basicConfig(level=log_level, format=log_format, datefmt=log_dateformat)

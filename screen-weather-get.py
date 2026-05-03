@@ -10,9 +10,13 @@ from alert_providers import meteireann as meteireannalertprovider
 from utility import get_formatted_time, update_svg, configure_logging, configure_locale
 import textwrap
 import html
+import tomllib
+
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
 
 configure_locale()
-configure_logging()
+configure_logging(config["locale"]["log_level"])
 
 
 def format_weather_description(weather_description):
@@ -26,78 +30,76 @@ def format_weather_description(weather_description):
     return weather_dict
 
 
-def get_weather(location_lat, location_long, units):
+def get_weather(location_lat, location_long, units, weather_provider_name, provider_config):
 
-    # gather relevant environment configs
-    climacell_apikey = os.getenv("CLIMACELL_APIKEY")
-    openweathermap_apikey = os.getenv("OPENWEATHERMAP_APIKEY")
-    metoffice_apikey = os.getenv("METOFFICEDATAHUB_API_KEY")
-    accuweather_apikey = os.getenv("ACCUWEATHER_APIKEY")
-    accuweather_locationkey = os.getenv("ACCUWEATHER_LOCATIONKEY")
-    metno_self_id = os.getenv("METNO_SELF_IDENTIFICATION")
-    visualcrossing_apikey = os.getenv("VISUALCROSSING_APIKEY")
-    use_met_eireann = os.getenv("WEATHER_MET_EIREANN")
-    weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
-    smhi_self_id = os.getenv("SMHI_SELF_IDENTIFICATION")
+    api_key = provider_config.get("api_key", None)
+    location_key = provider_config.get("location_key", None)
+    self_identification = provider_config.get("self_identification", None)
 
-    if (
-        not climacell_apikey
-        and not openweathermap_apikey
-        and not metoffice_apikey
-        and not accuweather_apikey
-        and not metno_self_id
-        and not visualcrossing_apikey
-        and not use_met_eireann
-        and not weathergov_self_id
-        and not smhi_self_id
-    ):
-        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, Weather.gov, MetOffice, AccuWeather, Met.no, Met Eireann, VisualCrossing...)")
-        sys.exit(1)
-
-    if visualcrossing_apikey:
-        logging.info("Getting weather from Visual Crossing")
-        weather_provider = visualcrossing.VisualCrossing(visualcrossing_apikey, location_lat, location_long, units)
-
-    elif use_met_eireann:
-        logging.info("Getting weather from Met Eireann")
-        weather_provider = meteireann.MetEireann(location_lat, location_long, units)
-
-    elif weathergov_self_id:
-        logging.info("Getting weather from Weather.gov")
-        weather_provider = weathergov.WeatherGov(weathergov_self_id, location_lat, location_long, units)
-
-    elif metno_self_id:
-        logging.info("Getting weather from Met.no")
-        weather_provider = metno.MetNo(metno_self_id, location_lat, location_long, units)
-
-    elif accuweather_apikey:
-        logging.info("Getting weather from Accuweather")
-        weather_provider = accuweather.AccuWeather(accuweather_apikey, location_lat,
-                                                   location_long,
-                                                   accuweather_locationkey,
-                                                   units)
-
-    elif metoffice_apikey:
-        logging.info("Getting weather from Met Office Weather Datahub")
-        weather_provider = metofficedatahub.MetOffice(metoffice_apikey,
-                                                      location_lat,
-                                                      location_long,
-                                                      units)
-
-    elif openweathermap_apikey:
-        logging.info("Getting weather from OpenWeatherMap")
-        weather_provider = openweathermap.OpenWeatherMap(openweathermap_apikey,
-                                                         location_lat,
-                                                         location_long,
-                                                         units)
-
-    elif climacell_apikey:
-        logging.info("Getting weather from Climacell")
-        weather_provider = climacell.Climacell(climacell_apikey, location_lat, location_long, units)
-
-    elif smhi_self_id:
-        logging.info("Getting weather from SMHI")
-        weather_provider = smhi.SMHI(smhi_self_id, location_lat, location_long, units)
+    match weather_provider_name:
+        case "visualcrossing":
+            logging.info("Getting weather from Visual Crossing")
+            if not api_key:
+                logging.error("Visual Crossing API key not configured.")
+                sys.exit(1)
+            weather_provider = visualcrossing.VisualCrossing(api_key, location_lat, location_long, units)
+        case "met_eireann":
+            logging.info("Getting weather from Met Eireann")
+            weather_provider = meteireann.MetEireann(location_lat, location_long, units)
+        case "weathergov":
+            logging.info("Getting weather from Weather.gov")
+            if not self_identification:
+                logging.error("Weather.gov self identification not configured.")
+                sys.exit(1)
+            weather_provider = weathergov.WeatherGov(self_identification, location_lat, location_long, units)
+        case "metno":
+            logging.info("Getting weather from Met.no")
+            if not self_identification:
+                logging.error("Met.no self identification not configured.")
+                sys.exit(1)
+            weather_provider = metno.MetNo(self_identification, location_lat, location_long, units)
+        case "accuweather":
+            logging.info("Getting weather from Accuweather")
+            if not api_key or not location_key:
+                logging.error("AccuWeather API key or location key not configured.")
+                sys.exit(1)
+            weather_provider = accuweather.AccuWeather(api_key, location_lat,
+                                                       location_long,
+                                                       location_key,
+                                                       units)
+        case "metoffice":
+            logging.info("Getting weather from Met Office Weather Datahub")
+            if not api_key:
+                logging.error("Met Office Weather Datahub API key not configured.")
+                sys.exit(1)
+            weather_provider = metofficedatahub.MetOffice(api_key,
+                                                          location_lat,
+                                                          location_long,
+                                                          units)
+        case "openweathermap":
+            logging.info("Getting weather from OpenWeatherMap")
+            if not api_key:
+                logging.error("OpenWeatherMap API key not configured.")
+                sys.exit(1)
+            weather_provider = openweathermap.OpenWeatherMap(api_key,
+                                                             location_lat,
+                                                             location_long,
+                                                             units)
+        case "climacell":
+            logging.info("Getting weather from Climacell")
+            if not api_key:
+                logging.error("Climacell API key not configured.")
+                sys.exit(1)
+            weather_provider = climacell.Climacell(api_key, location_lat, location_long, units)
+        case "smhi":
+            logging.info("Getting weather from SMHI")
+            if not self_identification:
+                logging.error("SMHI self identification not configured.")
+                sys.exit(1)
+            weather_provider = smhi.SMHI(self_identification, location_lat, location_long, units)
+        case _:
+            logging.error(f"Unsupported weather provider: {weather_provider_name}")
+            sys.exit(1)
 
     weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))
@@ -135,10 +137,22 @@ def get_alert_message(location_lat, location_long):
 
 def main():
 
-    template_name = os.getenv("SCREEN_LAYOUT", "1")
-    location_lat = os.getenv("WEATHER_LATITUDE", "51.5077")
-    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1277")
-    weather_format = os.getenv("WEATHER_FORMAT", "CELSIUS")
+    weather_provider = config["weather"]["provider"]
+
+    if not weather_provider:
+        logging.error("No weather provider configured. Please set the 'provider' field in the config.toml file.")
+        sys.exit(1)
+    else:
+        logging.info(f"Selected weather provider: {weather_provider}")
+
+    provider_config = config["weather"]["providers"][weather_provider]
+
+
+    template_name = config["display"].get("screen_output_layout", "1")
+    location_lat = config["weather"].get("latitude", "51.5077")
+    location_long = config["weather"].get("longitude", "-0.1277")
+    weather_format = config["weather"].get("format", "CELSIUS")
+
 
     if (weather_format == "CELSIUS"):
         units = "metric"
@@ -147,7 +161,7 @@ def main():
         units = "imperial"
         degrees = "°F"
 
-    weather = get_weather(location_lat, location_long, units)
+    weather = get_weather(location_lat, location_long, units, weather_provider, provider_config)
 
     if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")

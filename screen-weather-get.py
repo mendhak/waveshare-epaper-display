@@ -3,10 +3,11 @@
 import datetime
 import sys
 import logging
+import json
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
-from utility import get_formatted_time, update_svg, configure_logging, configure_locale
+from utility import get_formatted_time, update_svg, configure_logging, configure_locale, is_stale
 import textwrap
 import html
 import tomllib
@@ -20,12 +21,12 @@ configure_logging(config["locale"]["log_level"])
 
 def format_weather_description(weather_description):
     if len(weather_description) < 20:
-        return {1: weather_description, 2: ''}
+        return {'1': weather_description, '2': ''}
 
     splits = textwrap.fill(weather_description, 20, break_long_words=False,
                            max_lines=2, placeholder='...').split('\n')
-    weather_dict = {1: splits[0]}
-    weather_dict[2] = splits[1] if len(splits) > 1 else ''
+    weather_dict = {'1': splits[0]}
+    weather_dict['2'] = splits[1] if len(splits) > 1 else ''
     return weather_dict
 
 
@@ -145,6 +146,48 @@ def get_alert_message(location_lat, location_long, alerts_provider_name, alerts_
     return alert_message
 
 
+def fetch_weather(location_lat, location_long, units, weather_provider_name, provider_config):
+    weather_ttl = float(config["weather"].get("cache_ttl_seconds", 3600))
+    cache_file = 'cache_weather.json'
+
+    if is_stale(cache_file, weather_ttl):
+        logging.info("Cache is stale, fetching fresh weather data")
+        weather = get_weather(location_lat, location_long, units, weather_provider_name, provider_config)
+        if not weather:
+            logging.error("Unable to fetch weather payload. SVG will not be updated.")
+            return None, None
+        weather_desc = format_weather_description(weather["description"])
+
+        with open(cache_file, 'w') as f:
+            json.dump({"weather": weather, "weather_desc": weather_desc}, f)
+        logging.info("Saved weather data to cache")
+        return weather, weather_desc
+    else:
+        logging.info("Using cached weather data")
+        with open(cache_file, 'r') as f:
+            cache_data = json.load(f)
+        return cache_data["weather"], cache_data["weather_desc"]
+
+
+def fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config):
+    alerts_ttl = float(config["alerts"].get("cache_ttl_seconds", 3600))
+    cache_file = 'cache_alerts.json'
+
+    if is_stale(cache_file, alerts_ttl):
+        logging.info("Cache is stale, fetching fresh alert data")
+        alert_message = get_alert_message(location_lat, location_long, alerts_provider_name, alerts_config)
+        alert_message = format_alert_description(alert_message)
+
+        with open(cache_file, 'w') as f:
+            json.dump({"alert_message": alert_message}, f)
+        logging.info("Saved alert data to cache")
+        return alert_message
+    else:
+        logging.info("Using cached alert data")
+        with open(cache_file, 'r') as f:
+            return json.load(f)["alert_message"]
+
+
 def main():
 
     weather_provider_name = config["weather"]["provider"]
@@ -157,12 +200,9 @@ def main():
 
     provider_config = config["weather"]["providers"][weather_provider_name]
 
-
-    template_name = config["display"].get("screen_output_layout", "1")
     location_lat = config["weather"].get("latitude", "51.5077")
     location_long = config["weather"].get("longitude", "-0.1277")
     weather_format = config["weather"].get("format", "CELSIUS")
-
 
     if (weather_format == "CELSIUS"):
         units = "metric"
@@ -171,26 +211,29 @@ def main():
         units = "imperial"
         degrees = "°F"
 
-    weather = get_weather(location_lat, location_long, units, weather_provider_name, provider_config)
-
-    if not weather:
-        logging.error("Unable to fetch weather payload. SVG will not be updated.")
+    weather, weather_desc = fetch_weather(location_lat, location_long, units, weather_provider_name, provider_config)
+    if weather is None:
+        logging.error("Unable to fetch weather data")
         return
 
-    weather_desc = format_weather_description(weather["description"])
+    logging.debug(f"Fetched weather: {weather}")
+    logging.debug(f"Fetched weather description: {weather_desc}")
 
     alerts_provider_name = config["alerts"].get("provider", None)
+    alert_message = ""
 
     if alerts_provider_name:
         logging.info(f"Selected alert provider: {alerts_provider_name}")
         alerts_config = config["alerts"]["providers"].get(alerts_provider_name, None)
+
         if alerts_config:
-            alert_message = get_alert_message(location_lat, location_long,
-                                              alerts_provider_name, alerts_config)
-            alert_message = format_alert_description(alert_message)
+            alert_message = fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config)
         else:
             logging.error(f"Alert provider '{alerts_provider_name}' is not configured in the config.toml file.")
-            alert_message = ""
+
+    logging.debug(f"Fetched alert message: {alert_message}")
+
+    template_name = config["display"].get("screen_output_layout", "1")
 
     time_now = get_formatted_time(datetime.datetime.now())
     time_now_font_size = "100px"
@@ -202,8 +245,8 @@ def main():
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': weather["icon"],
-        'WEATHER_DESC_1': weather_desc[1],
-        'WEATHER_DESC_2': weather_desc[2],
+        'WEATHER_DESC_1': weather_desc['1'],
+        'WEATHER_DESC_2': weather_desc['2'],
         'TIME_NOW_FONT_SIZE': time_now_font_size,
         'TIME_NOW': time_now,
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),

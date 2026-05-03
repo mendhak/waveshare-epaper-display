@@ -1,5 +1,4 @@
 import logging
-from utility import get_json_from_url
 from weather_providers.base_provider import BaseWeatherProvider
 
 
@@ -60,7 +59,7 @@ class WeatherGov(BaseWeatherProvider):
     def get_forecast_url(self, lat, long):
         logging.info("Using lat long to figure out the Weather.gov forecast URL")
         lookup_url = "https://api.weather.gov/points/{},{}".format(lat, long)
-        lookup_data = get_json_from_url(lookup_url, {'User-Agent':'({0})'.format(self.weathergov_self_id)}, "cache_weather_gov_lookup.json", 3600)
+        lookup_data = self.get_response_json(lookup_url, {'User-Agent':'({0})'.format(self.weathergov_self_id)})
         logging.debug(lookup_data)
         return lookup_data["properties"]["forecast"]
 

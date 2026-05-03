@@ -15,6 +15,9 @@ full_refresh_hour = 2
 
 # -------------------------------------------
 # WEATHER CONFIGURATION
+# Only the provider you name here will be used.
+# Fill in the credentials for your chosen provider.
+# You can leave the others empty or commented out.
 # -------------------------------------------
 
 [weather]
@@ -32,14 +35,8 @@ format = "CELSIUS"
 cache_ttl_seconds = 3600
 
 # Choose ONE weather provider by setting this to one of:
-#   metoffice, climacell, accuweather, openweathermap, metno, met_eireann,
-#   weathergov, smhi, visualcrossing
+#   metoffice, climacell, accuweather, openweathermap, metno, met_eireann, weathergov, smhi, visualcrossing
 provider = "metoffice"
-
-
-# Only the provider you selected above will be used.
-# Fill in the credentials for your chosen provider.
-# You can leave the others empty or commented out.
 
 # MetOffice (UK)
 [weather.providers.metoffice]
@@ -79,6 +76,8 @@ api_key = "your-climacell-api-key"
 
 # -------------------------------------------
 # ALERTS CONFIGURATION
+# All provider blocks are shown below. Only the provider you named here
+# will be used. Fill in the credentials for your chosen provider.
 # -------------------------------------------
 
 [alerts]
@@ -92,8 +91,6 @@ cache_ttl_seconds = 3600
 #   metoffice, met_eireann, weathergov
 provider = "metoffice"
 
-# All provider blocks are shown below. Only the provider you selected above
-# will be used. Fill in the credentials for your chosen provider.
 
 # MetOffice (UK)
 [alerts.providers.metoffice]
@@ -111,6 +108,9 @@ self_identification = "you@example.com"
 
 # --------------------------------------------
 # CALENDAR CONFIGURATION
+# You can enable multiple calendars by adding more [[calendar.providers.xyz]] blocks.
+# Events from all enabled calendars will be merged and sorted by date.
+# The [[double brackets]] are important here!
 # --------------------------------------------
 
 [calendar]
@@ -123,20 +123,15 @@ max_events = 10
 # Include all events from today, even if they're in the past
 include_past_events_for_today = false
 
-# You can enable multiple calendars. Events from all enabled calendars
-# will be merged and sorted by date.
-# The [[double brackets]] are important for calendars!
-
 # Google Calendar
+# You can add multiple Google calendars by adding more [[calendar.providers.google]] blocks
 # Get your Calendar ID from Google Calendar Settings > Share this calendar
 # Format: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@group.calendar.google.com
-
 [[calendar.providers.google]]
 enabled   = true
 id        = "your-google-calendar-id@group.calendar.google.com"
 time_zone = "Europe/London"  # Optional: for family calendars that don't support timezone
 
-# You can add multiple Google calendars by adding more [[calendar.providers.google]] blocks
 
 # Outlook Calendar
 # Run: python3 outlook_util.py to get available Calendar IDs

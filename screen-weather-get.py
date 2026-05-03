@@ -2,7 +2,6 @@
 
 import datetime
 import sys
-import os
 import logging
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
 from alert_providers import metofficerssfeed, weathergovalerts
@@ -110,26 +109,37 @@ def format_alert_description(alert_message):
     return html.escape(alert_message)
 
 
-def get_alert_message(location_lat, location_long):
+def get_alert_message(location_lat, location_long, alerts_provider_name, alerts_config):
     alert_message = ""
-    alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
-    alert_weathergov_self_id = os.getenv("ALERT_WEATHERGOV_SELF_IDENTIFICATION")
-    alert_meteireann_feed_url = os.getenv("ALERT_MET_EIREANN_FEED_URL")
 
-    if alert_weathergov_self_id:
-        logging.info("Getting weather alert from Weather.gov API")
-        alert_provider = weathergovalerts.WeatherGovAlerts(location_lat, location_long, alert_weathergov_self_id)
-        alert_message = alert_provider.get_alert()
+    feed_url = alerts_config.get("feed_url", None)
+    self_identification = alerts_config.get("self_identification", None)
 
-    elif alert_metoffice_feed_url:
-        logging.info("Getting weather alert from Met Office RSS Feed")
-        alert_provider = metofficerssfeed.MetOfficeRssFeed(alert_metoffice_feed_url)
-        alert_message = alert_provider.get_alert()
-
-    elif alert_meteireann_feed_url:
-        logging.info("Getting weather alert from Met Eireann")
-        alert_provider = meteireannalertprovider.MetEireannAlertProvider(alert_meteireann_feed_url)
-        alert_message = alert_provider.get_alert()
+    match alerts_provider_name:
+        case "weathergov":
+            logging.info("Getting weather alert from Weather.gov API")
+            if not self_identification:
+                logging.error("Weather.gov self identification not configured.")
+                sys.exit(1)
+            alert_provider = weathergovalerts.WeatherGovAlerts(location_lat, location_long, self_identification)
+            alert_message = alert_provider.get_alert()
+        case "metoffice":
+            logging.info("Getting weather alert from Met Office RSS Feed")
+            if not feed_url:
+                logging.error("Met Office RSS feed URL not configured.")
+                sys.exit(1)
+            alert_provider = metofficerssfeed.MetOfficeRssFeed(feed_url)
+            alert_message = alert_provider.get_alert()
+        case "met_eireann":
+            logging.info("Getting weather alert from Met Eireann")
+            if not feed_url:
+                logging.error("Met Eireann feed URL not configured.")
+                sys.exit(1)
+            alert_provider = meteireannalertprovider.MetEireannAlertProvider(feed_url)
+            alert_message = alert_provider.get_alert()
+        case _:
+            logging.error(f"Unsupported alert provider: {alerts_provider_name}")
+            sys.exit(1)
 
     logging.info("alert - {}".format(alert_message))
     return alert_message
@@ -137,15 +147,15 @@ def get_alert_message(location_lat, location_long):
 
 def main():
 
-    weather_provider = config["weather"]["provider"]
+    weather_provider_name = config["weather"]["provider"]
 
-    if not weather_provider:
+    if not weather_provider_name:
         logging.error("No weather provider configured. Please set the 'provider' field in the config.toml file.")
         sys.exit(1)
     else:
-        logging.info(f"Selected weather provider: {weather_provider}")
+        logging.info(f"Selected weather provider: {weather_provider_name}")
 
-    provider_config = config["weather"]["providers"][weather_provider]
+    provider_config = config["weather"]["providers"][weather_provider_name]
 
 
     template_name = config["display"].get("screen_output_layout", "1")
@@ -161,7 +171,7 @@ def main():
         units = "imperial"
         degrees = "°F"
 
-    weather = get_weather(location_lat, location_long, units, weather_provider, provider_config)
+    weather = get_weather(location_lat, location_long, units, weather_provider_name, provider_config)
 
     if not weather:
         logging.error("Unable to fetch weather payload. SVG will not be updated.")
@@ -169,8 +179,18 @@ def main():
 
     weather_desc = format_weather_description(weather["description"])
 
-    alert_message = get_alert_message(location_lat, location_long)
-    alert_message = format_alert_description(alert_message)
+    alerts_provider_name = config["alerts"].get("provider", None)
+
+    if alerts_provider_name:
+        logging.info(f"Selected alert provider: {alerts_provider_name}")
+        alerts_config = config["alerts"]["providers"].get(alerts_provider_name, None)
+        if alerts_config:
+            alert_message = get_alert_message(location_lat, location_long,
+                                              alerts_provider_name, alerts_config)
+            alert_message = format_alert_description(alert_message)
+        else:
+            logging.error(f"Alert provider '{alerts_provider_name}' is not configured in the config.toml file.")
+            alert_message = ""
 
     time_now = get_formatted_time(datetime.datetime.now())
     time_now_font_size = "100px"

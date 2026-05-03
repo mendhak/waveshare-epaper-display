@@ -1,7 +1,7 @@
 import tomllib
 import json
 
-with open("config.toml", "rb") as f:
+with open("config.toml.example", "rb") as f:
     config = tomllib.load(f)
 
 print(json.dumps(config, indent=4))

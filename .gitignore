@@ -4,6 +4,7 @@ __pycache__
 screen-output*
 screen-custom-get.py
 env.sh
+config.toml
 *.log
 *.pickle
 credentials*

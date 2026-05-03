@@ -1,14 +1,9 @@
 
 import pickle
 import caldav
-from utility import is_stale
-import os
 import logging
 import datetime
 from .base_provider import BaseCalendarProvider, CalendarEvent
-
-
-ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
 class CalDavCalendar(BaseCalendarProvider):
@@ -22,52 +17,41 @@ class CalDavCalendar(BaseCalendarProvider):
         self.from_date = from_date
         self.to_date = to_date
 
-    def get_calendar_events(self):
-
-        caldav_calendar_pickle = 'cache_caldav.pickle'
+    def get_calendar_events(self) -> list[CalendarEvent]:
         calendar_events: list[CalendarEvent] = []
 
-        if is_stale(os.getcwd() + "/" + caldav_calendar_pickle, ttl):
-            logging.debug("Pickle is stale, fetching Caldav Calendar")
+        logging.debug("Fetching CalDAV Calendar")
 
-            with caldav.DAVClient(url=self.calendar_url, username=self.username, password=self.password) as client:
-                my_principal = client.principal()
+        with caldav.DAVClient(url=self.calendar_url, username=self.username, password=self.password) as client:
+            my_principal = client.principal()
 
-                calendar = my_principal.calendar(cal_id=self.calendar_id)
-                event_results = calendar.date_search(start=self.from_date, end=self.to_date, expand=True)
-                events_data = []
+            calendar = my_principal.calendar(cal_id=self.calendar_id)
+            event_results = calendar.date_search(start=self.from_date, end=self.to_date, expand=True)
+            events_data = []
 
-                for result in event_results:
-                    for component in result.icalendar_instance.subcomponents:
-                        events_data.append(component)
+            for result in event_results:
+                for component in result.icalendar_instance.subcomponents:
+                    events_data.append(component)
 
-            # Sort by start date. Since some are dates, and some are datetimes, a simple string sort works
-            events_data.sort(key=lambda x: str(x['DTSTART'].dt))
+        # Sort by start date. Since some are dates, and some are datetimes, a simple string sort works
+        events_data.sort(key=lambda x: str(x['DTSTART'].dt))
 
-            for event in events_data[0:self.max_event_results]:
+        for event in events_data[0:self.max_event_results]:
 
-                # If a dtend isn't included, calculate it from the duration
-                if 'DTEND' in event:
-                    event_end = event['DTEND'].dt
-                if 'DURATION' in event:
-                    event_end = event['DTSTART'].dt + event['DURATION'].dt
+            # If a dtend isn't included, calculate it from the duration
+            if 'DTEND' in event:
+                event_end = event['DTEND'].dt
+            if 'DURATION' in event:
+                event_end = event['DTSTART'].dt + event['DURATION'].dt
 
-                all_day_event = False
-                # CalDav Calendar marks the 'end' of all-day-events as
-                # the day _after_ the last day. eg, Today's all day event ends tomorrow!
-                # So subtract a day, if the event is an all day event
-                if type(event_end) == datetime.date:
-                    event_end = event_end - datetime.timedelta(days=1)
-                    all_day_event = True
+            all_day_event = False
+            # CalDAV Calendar marks the 'end' of all-day-events as
+            # the day _after_ the last day. eg, Today's all day event ends tomorrow!
+            # So subtract a day, if the event is an all day event
+            if type(event_end) == datetime.date:
+                event_end = event_end - datetime.timedelta(days=1)
+                all_day_event = True
 
-                calendar_events.append(CalendarEvent(str(event['SUMMARY']), event['DTSTART'].dt, event_end, all_day_event))
+            calendar_events.append(CalendarEvent(str(event['SUMMARY']), event['DTSTART'].dt, event_end, all_day_event))
 
-            with open(caldav_calendar_pickle, 'wb') as cal:
-                pickle.dump(calendar_events, cal)
-
-            return calendar_events
-        else:
-            logging.info("Found in cache")
-            with open(caldav_calendar_pickle, 'rb') as cal:
-                calendar_events = pickle.load(cal)
-                return calendar_events
+        return calendar_events

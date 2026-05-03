@@ -1,33 +1,33 @@
 import datetime
-import os.path
-import os
 import logging
 import emoji
+import tomllib
+import pickle
 from xml.sax.saxutils import escape
 from calendar_providers.base_provider import CalendarEvent
 from calendar_providers.caldav import CalDavCalendar
 from calendar_providers.google import GoogleCalendar
 from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
-from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date, configure_locale
+from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date, configure_locale, is_stale
+
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
 
 configure_locale()
-configure_logging()
+configure_logging(config["locale"]["log_level"])
 
-# note: increasing this will require updates to the SVG template to accommodate more events
-max_event_results = 10
+calendar_config = config["calendar"]
+max_event_results = calendar_config["max_events"]
+ttl = float(calendar_config["cache_ttl_seconds"])
+include_past_events_for_today = calendar_config.get("include_past_events_for_today", False)
 
-google_calendar_id = os.getenv("GOOGLE_CALENDAR_ID", "primary")
-outlook_calendar_id = os.getenv("OUTLOOK_CALENDAR_ID", None)
-
-caldav_calendar_url = os.getenv('CALDAV_CALENDAR_URL', None)
-caldav_username = os.getenv("CALDAV_USERNAME", None)
-caldav_password = os.getenv("CALDAV_PASSWORD", None)
-caldav_calendar_id = os.getenv("CALDAV_CALENDAR_ID", None)
-
-ics_calendar_url = os.getenv("ICS_CALENDAR_URL", None)
-
-ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
+# arrays of calendars
+providers = calendar_config.get("providers", {})
+google_calendars = providers.get("google", [])
+outlook_calendars = providers.get("outlook", [])
+ics_calendars = providers.get("ics", [])
+caldav_calendars = providers.get("caldav", [])
 
 
 def get_formatted_calendar_events(fetched_events: list[CalendarEvent]) -> dict:
@@ -74,36 +74,67 @@ def get_datetime_formatted(event_start, event_end, is_all_day_event, start_only=
     return day
 
 
-def main():
-
-    output_svg_filename = 'screen-output-weather.svg'
+def fetch_all_calendar_events():
+    """Fetch events from all enabled calendar providers. No caching - always fetch fresh."""
     all_calendar_events = []
 
     today_start_time = datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
-    if os.getenv("CALENDAR_INCLUDE_PAST_EVENTS_FOR_TODAY", "0") == "1":
+    if include_past_events_for_today:
         today_start_time = datetime.datetime.combine(datetime.datetime.now(datetime.UTC).date(), datetime.datetime.min.time())
     oneyearlater_iso = (datetime.datetime.now().astimezone()
                         + datetime.timedelta(days=365)).astimezone()
 
-    if outlook_calendar_id:
-        logging.info("Fetching Outlook Calendar Events")
-        provider = OutlookCalendar(outlook_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
-        all_calendar_events.extend(provider.get_calendar_events())
+    for google_cal in google_calendars:
+        if google_cal.get("enabled", True):
+            calendar_id = google_cal.get("id", "primary")
+            logging.info(f"Fetching Google Calendar: {calendar_id}")
+            provider = GoogleCalendar(calendar_id, max_event_results, today_start_time, oneyearlater_iso)
+            all_calendar_events.extend(provider.get_calendar_events())
 
-    if caldav_calendar_url:
-        logging.info("Fetching Caldav Calendar Events")
-        provider = CalDavCalendar(caldav_calendar_url, caldav_calendar_id, max_event_results,
-                                  today_start_time, oneyearlater_iso, caldav_username, caldav_password)
-        all_calendar_events.extend(provider.get_calendar_events())
-    if ics_calendar_url:
-        logging.info("Fetching ics Calendar Events")
-        today_start_time = datetime.datetime.now().astimezone()
-        provider = ICSCalendar(ics_calendar_url, max_event_results, today_start_time, oneyearlater_iso)
-        all_calendar_events.extend(provider.get_calendar_events())
-    if google_calendar_id:
-        logging.info("Fetching Google Calendar Events")
-        provider = GoogleCalendar(google_calendar_id, max_event_results, today_start_time, oneyearlater_iso)
-        all_calendar_events.extend(provider.get_calendar_events())
+    for outlook_cal in outlook_calendars:
+        if outlook_cal.get("enabled", True):
+            calendar_id = outlook_cal.get("calendar_id")
+            logging.info(f"Fetching Outlook Calendar: {calendar_id}")
+            provider = OutlookCalendar(calendar_id, max_event_results, today_start_time, oneyearlater_iso)
+            all_calendar_events.extend(provider.get_calendar_events())
+
+    for ics_cal in ics_calendars:
+        if ics_cal.get("enabled", True):
+            ics_url = ics_cal.get("url")
+            logging.info(f"Fetching ICS Calendar: {ics_url}")
+            provider = ICSCalendar(ics_url, max_event_results, today_start_time, oneyearlater_iso)
+            all_calendar_events.extend(provider.get_calendar_events())
+
+    for caldav_cal in caldav_calendars:
+        if caldav_cal.get("enabled", True):
+            caldav_url = caldav_cal.get("url")
+            caldav_id = caldav_cal.get("id")
+            caldav_user = caldav_cal.get("username")
+            caldav_pass = caldav_cal.get("password")
+            logging.info(f"Fetching CalDAV Calendar: {caldav_url}")
+            provider = CalDavCalendar(caldav_url, caldav_id, max_event_results,
+                                      today_start_time, oneyearlater_iso, caldav_user, caldav_pass)
+            all_calendar_events.extend(provider.get_calendar_events())
+
+    return all_calendar_events
+
+
+def main():
+
+    output_svg_filename = 'screen-output-weather.svg'
+    cache_file = 'cache_all_calendars.pickle'
+
+    if is_stale(cache_file, ttl):
+        logging.info("Cache is stale, fetching fresh calendar data")
+        all_calendar_events = fetch_all_calendar_events()
+
+        with open(cache_file, 'wb') as f:
+            pickle.dump(all_calendar_events, f)
+        logging.info(f"Saved {len(all_calendar_events)} events to cache")
+    else:
+        logging.info("Using cached calendar data")
+        with open(cache_file, 'rb') as f:
+            all_calendar_events = pickle.load(f)
 
     logging.debug("All calendar events before normalization: {}".format(all_calendar_events))
 

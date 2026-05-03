@@ -1,7 +1,6 @@
 
 import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
-from utility import is_stale
 import os
 import logging
 import pickle
@@ -9,8 +8,6 @@ import msal
 import requests
 import sys
 import json
-
-ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
 class OutlookCalendar(BaseCalendarProvider):
@@ -81,27 +78,17 @@ class OutlookCalendar(BaseCalendarProvider):
                                   headers=headers).json()
         return events_data
 
-    def get_calendar_events(self, bypass_cache=False) -> list[CalendarEvent]:
+    def get_calendar_events(self) -> list[CalendarEvent]:
         calendar_events = []
-        outlook_calendar_pickle = 'cache_outlookcalendar.pickle'
-        if bypass_cache or is_stale(os.getcwd() + "/" + outlook_calendar_pickle, ttl):
-            logging.debug("Cache is stale, calling the Outlook Calendar API")
+        logging.debug("Calling the Outlook Calendar API")
 
-            access_token = self.get_access_token()
-            events_data = self.get_outlook_calendar_events(
-                self.outlook_calendar_id,
-                self.from_date,
-                self.to_date,
-                access_token)
-            logging.debug(events_data)
-
-            if not bypass_cache:
-                with open(outlook_calendar_pickle, 'wb') as cal:
-                    pickle.dump(events_data, cal)
-        else:
-            logging.info("Found in cache")
-            with open(outlook_calendar_pickle, 'rb') as cal:
-                events_data = pickle.load(cal)
+        access_token = self.get_access_token()
+        events_data = self.get_outlook_calendar_events(
+            self.outlook_calendar_id,
+            self.from_date,
+            self.to_date,
+            access_token)
+        logging.debug(events_data)
 
         for event in events_data["value"]:
             start_date = datetime.datetime.strptime(event["start"]["dateTime"], "%Y-%m-%dT%H:%M:%S.0000000")

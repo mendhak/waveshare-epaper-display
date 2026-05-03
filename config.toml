@@ -137,9 +137,9 @@ id       = "12345"
 # ---------------------------------------------
 
 [privacy]
-# Privacy mode. Just displays an XKCD comic or literature clock instead.
+# Privacy mode. Just displays an XKCD comic instead of normal things
 xkcd             = false
-# Privacy mode. Just displays an XKCD comic or literature clock instead.
+# Privacy mode. Just displays a clock with a literary quote instead of normal things
 literature_clock = false
 
 [locale]

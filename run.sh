@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
 
 # shellcheck source=env.sh
-. env.sh
+# . env.sh
 
 function log {
     echo "---------------------------------------"
     echo "${1^^}"
     echo "---------------------------------------"
 }
+
+if [[ ! -f config.toml ]]; then
+    log "⚠️ No config.toml file found."
+    echo " This project recently switched from env.sh to config.toml"
+    echo " Please copy config.toml.example to config.toml and edit it with your settings"
+    exit 1
+fi
+
+eval $(.venv/bin/python3 run_config_toml_helper.py)
+
 
 if [[ $WAVESHARE_EPD75_VERSION = 1 ]]; then
     export WAVESHARE_WIDTH=640

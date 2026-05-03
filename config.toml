@@ -1,3 +1,7 @@
+# --------------------------------------------
+# DISPLAY CONFIGURATION
+# --------------------------------------------
+
 [display]
 # Most new Waveshare are 2, older ones are 1 (SKU: 13504)
 # For 7.5 inch B with Red, use "2B" (SKU: 13505)
@@ -6,7 +10,12 @@ waveshare_version = "2"
 # Which layout to use. 1, 2, 3...
 screen_output_layout = 1
 
-full_refresh_hour = 2 # Hour (0-23) for daily full-screen refresh.
+# Hour (0-23) for daily full-screen refresh.
+full_refresh_hour = 2
+
+# -------------------------------------------
+# WEATHER CONFIGURATION
+# -------------------------------------------
 
 [weather]
 enabled           = true  # Set to false to disable weather entirely
@@ -16,14 +25,12 @@ format            = "CELSIUS"  # or FAHRENHEIT
 cache_ttl_seconds = 3600
 
 [weather.provider]
-# TOML enforces exactly one [weather.provider] table.
-# If you uncomment another provider block below, delete or comment this one.
 type    = "metoffice"
 api_key = "eyj..."
 
-# ── Alternative Weather Providers ─────────────────────────────
+# Other providers
 # Uncomment one of these blocks instead of the MetOffice config above.
-# TOML will error if you have multiple [weather.provider] sections active.
+# You can only have one [weather.provider] section active.
 
 # AccuWeather (requires API key and location key)
 # [weather.provider]
@@ -60,6 +67,10 @@ api_key = "eyj..."
 # type    = "visualcrossing"
 # api_key = "your-visualcrossing-api-key"
 
+# -------------------------------------------
+# ALERTS CONFIGURATION
+# -------------------------------------------
+
 [alerts]
 enabled           = true  # Set to false to disable alerts entirely
 cache_ttl_seconds = 3600
@@ -70,9 +81,9 @@ cache_ttl_seconds = 3600
 type     = "metoffice"
 feed_url = "https://www.metoffice.gov.uk/..."
 
-# ── Alternative Alert Providers ───────────────────────────────
+# Other providers
 # Uncomment one of these blocks instead of the MetOffice config above.
-# TOML will error if you have multiple [alerts.provider] sections active.
+# You can only have one [alerts.provider] section active.
 
 # Met Eireann (Ireland, use FIPS region code)
 # [alerts.provider]
@@ -84,13 +95,17 @@ feed_url = "https://www.metoffice.gov.uk/..."
 # type                = "weathergov"
 # self_identification = "you@example.com"
 
+# --------------------------------------------
+# CALENDAR CONFIGURATION
+# --------------------------------------------
+
 [calendar]
 cache_ttl_seconds             = 3600
 max_events                    = 10
 include_past_events_for_today = false
 
 # Google Calendar ID, you can get this from Google Calendar Settings
-# The double brackets are important for calendars!
+# The [[double brackets]] are important for calendars!
 [[calendar.providers.google]]
 enabled   = false
 id        = "ee0b5..."
@@ -115,6 +130,11 @@ url      = "https://example.com/caldav"
 username = "example"
 password = "example"
 id       = "12345"
+
+
+# ---------------------------------------------
+# OTHER CONFIGURATION
+# ---------------------------------------------
 
 [privacy]
 # Privacy mode. Just displays an XKCD comic or literature clock instead.

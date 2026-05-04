@@ -1,13 +1,29 @@
 #!/usr/bin/env bash
 
 # shellcheck source=env.sh
-. env.sh
+# . env.sh
 
 function log {
     echo "---------------------------------------"
     echo "${1^^}"
     echo "---------------------------------------"
 }
+
+if [[ -f env.sh ]]; then
+    echo "This project has switched to using config.toml. Run .venv/bin/python3 migrate-env-to-toml.py to generate your config.toml from the existing env.sh."
+    echo "You can then edit it to make any adjustments."
+    echo "Remember to remove the env.sh afterwards."
+    exit 1
+fi
+
+if [[ ! -f config.toml ]]; then
+    echo "No config.toml found. Copy config.toml.example to config.toml and edit."
+    exit 1
+fi
+
+# Read some specific values as env vars, it's needed here
+eval $(.venv/bin/python3 run_config_toml_helper.py)
+
 
 if [[ $WAVESHARE_EPD75_VERSION = 1 ]]; then
     export WAVESHARE_WIDTH=640

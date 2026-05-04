@@ -3,5 +3,6 @@
     "python.envFile": "${workspaceFolder}/env.sh",
     "python.terminal.activateEnvironment": true,
     "python.terminal.activateEnvInCurrentTerminal": true,
-    "markdown.extension.toc.updateOnSave": false
+    "markdown.extension.toc.updateOnSave": false,
+    "python.useEnvironmentsExtension": false
 }

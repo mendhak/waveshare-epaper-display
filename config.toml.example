@@ -1,0 +1,173 @@
+# --------------------------------------------
+# DISPLAY CONFIGURATION
+# --------------------------------------------
+
+[display]
+# Most new Waveshare are 2, older ones are 1 (SKU: 13504)
+# For 7.5 inch B with Red, use "2B" (SKU: 13505)
+waveshare_version = "2"
+
+# Which layout to use. 1, 2, 3...
+screen_output_layout = 1
+
+# Hour (0-23) for daily full-screen refresh.
+full_refresh_hour = 2
+
+# -------------------------------------------
+# WEATHER CONFIGURATION
+# Only the provider you name here will be used.
+# Fill in the credentials for your chosen provider.
+# You can leave the others empty or commented out.
+# -------------------------------------------
+
+[weather]
+# Your location (required for all providers)
+latitude  = 51.5077
+longitude = -0.1278
+
+# Temperature: "CELSIUS" or "FAHRENHEIT"
+format = "CELSIUS"
+
+# How long to cache weather data (in seconds)
+cache_ttl_seconds = 3600
+
+# Choose ONE weather provider by setting this to one of:
+#   metoffice, climacell, accuweather, openweathermap, metno, met_eireann, weathergov, smhi, visualcrossing
+provider = "metoffice"
+
+# MetOffice (UK)
+[weather.providers.metoffice]
+api_key = "your-metoffice-api-key"
+
+# AccuWeather (requires API key and location key)
+[weather.providers.accuweather]
+api_key      = "your-accuweather-api-key"
+location_key = "your-accuweather-location-key"
+
+# OpenWeatherMap (requires API key)
+[weather.providers.openweathermap]
+api_key = "your-openweathermap-api-key"
+
+# Met.no (Norway, no key required, just email for self-ID)
+[weather.providers.metno]
+self_identification = "you@example.com"
+
+# Met Eireann (Ireland, no key required)
+[weather.providers.met_eireann]
+
+# Weather.gov (USA, email for self-ID)
+[weather.providers.weathergov]
+self_identification = "you@example.com"
+
+# SMHI (Sweden, email for self-ID)
+[weather.providers.smhi]
+self_identification = "you@example.com"
+
+# Visual Crossing (requires API key)
+[weather.providers.visualcrossing]
+api_key = "your-visualcrossing-api-key"
+
+# Climacell / tomorrow.io (requires API key)
+[weather.providers.climacell]
+api_key = "your-climacell-api-key"
+
+# -------------------------------------------
+# ALERTS CONFIGURATION
+# All provider blocks are shown below. Only the provider you named here
+# will be used. Fill in the credentials for your chosen provider.
+# -------------------------------------------
+
+[alerts]
+# Set to false to disable alerts entirely
+enabled = false
+
+# How long to cache alert data (in seconds)
+cache_ttl_seconds = 3600
+
+# Choose ONE alert provider by setting this to one of:
+#   metoffice, met_eireann, weathergov
+provider = "metoffice"
+
+
+# MetOffice (UK)
+[alerts.providers.metoffice]
+feed_url = "https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se"
+
+# Met Eireann (Ireland, use FIPS region code)
+# Visit https://www.met.ie/Open_Data/json/ and choose the appropriate
+# "warning_EIXX" JSON file for your region
+[alerts.providers.met_eireann]
+feed_url = "https://www.met.ie/Open_Data/json/warning_EI07.json"
+
+# Weather.gov (USA, email for self-ID)
+[alerts.providers.weathergov]
+self_identification = "you@example.com"
+
+# --------------------------------------------
+# CALENDAR CONFIGURATION
+# You can enable multiple calendars by adding more [[calendar.providers.xyz]] blocks.
+# Events from all enabled calendars will be merged and sorted by date.
+# The [[double brackets]] are important here!
+# --------------------------------------------
+
+[calendar]
+# How long to cache calendar data (in seconds)
+cache_ttl_seconds = 3600
+
+# Maximum number of events to display
+max_events = 10
+
+# Include all events from today, even if they're in the past
+include_past_events_for_today = false
+
+# Google Calendar
+# You can add multiple Google calendars by adding more [[calendar.providers.google]] blocks
+# Get your Calendar ID from Google Calendar Settings > Share this calendar
+# Format: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@group.calendar.google.com
+[[calendar.providers.google]]
+enabled   = true
+id        = "your-google-calendar-id@group.calendar.google.com"
+time_zone = "Europe/London"  # Optional: for family calendars that don't support timezone
+
+
+# Outlook Calendar
+# Run: python3 outlook_util.py to get available Calendar IDs
+[[calendar.providers.outlook]]
+enabled     = false
+calendar_id = "your-outlook-calendar-id"
+
+# ICS Calendar
+[[calendar.providers.ics]]
+enabled = false
+url     = "https://example.com/calendar.ics"
+
+# CalDAV Calendar
+[[calendar.providers.caldav]]
+enabled  = false
+url      = "https://nextcloud.example.com/remote.php/dav/calendars/user/calendar/"
+username = "your-username"
+password = "your-password"
+id       = "your-calendar-id"
+
+# ---------------------------------------------
+# PRIVACY MODE
+# ---------------------------------------------
+
+[privacy]
+# Display an XKCD comic instead of weather/calendar
+xkcd = false
+
+# Display a literary quote with clock instead of weather/calendar
+literature_clock = false
+
+# ---------------------------------------------
+# LOCALIZATION & LOGGING
+# ---------------------------------------------
+
+[locale]
+# Set a language locale (e.g., "en_GB.UTF-8", "ko_KR.UTF-8")
+# Leave empty to use system default. Run `locale -a` to see available locales.
+language = ""
+
+# Logging level: "DEBUG", "INFO", "WARNING", or "ERROR"
+log_level = "INFO"

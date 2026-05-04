@@ -1,15 +1,11 @@
 
 import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
-from utility import is_stale
-import os
 import logging
 import pickle
 import icalevents.icalevents
 from dateutil import tz
 from tzlocal import get_localzone
-
-ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
 
 
 class ICSCalendar(BaseCalendarProvider):
@@ -22,31 +18,23 @@ class ICSCalendar(BaseCalendarProvider):
 
     def get_calendar_events(self) -> list[CalendarEvent]:
         calendar_events = []
-        ics_calendar_pickle = 'cache_ics.pickle'
-        if is_stale(os.getcwd() + "/" + ics_calendar_pickle, ttl):
-            logging.debug("Pickle is stale, fetching ICS Calendar")
 
-            ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date, tzinfo=get_localzone(), strict=True, sort=True)
+        logging.debug("Fetching ICS Calendar")
 
-            logging.debug(ics_events)
+        ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date, tzinfo=get_localzone(), strict=True, sort=True)
 
-            for ics_event in ics_events[0:self.max_event_results]:
-                event_start = ics_event.start
-                event_end = ics_event.end
+        logging.debug(ics_events)
 
-                # CalDav Calendar marks the 'end' of all-day-events as
-                # the day _after_ the last day. eg, Today's all day event ends tomorrow!
-                # So subtract a day, if the event is an all day event
-                if ics_event.all_day:
-                    event_end = event_end - datetime.timedelta(days=1)
+        for ics_event in ics_events[0:self.max_event_results]:
+            event_start = ics_event.start
+            event_end = ics_event.end
 
-                calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
+            # ICS Calendar marks the 'end' of all-day-events as
+            # the day _after_ the last day. eg, Today's all day event ends tomorrow!
+            # So subtract a day, if the event is an all day event
+            if ics_event.all_day:
+                event_end = event_end - datetime.timedelta(days=1)
 
-            with open(ics_calendar_pickle, 'wb') as cal:
-                pickle.dump(calendar_events, cal)
-        else:
-            logging.info("Found in cache")
-            with open(ics_calendar_pickle, 'rb') as cal:
-                calendar_events = pickle.load(cal)
+            calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
 
         return calendar_events

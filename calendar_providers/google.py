@@ -1,15 +1,12 @@
 import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
-from utility import is_stale, xor_decode
+from utility import xor_decode
 import os
 import logging
 import pickle
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-
-ttl = float(os.getenv("CALENDAR_TTL", 1 * 60 * 60))
-google_calendar_timezone = os.getenv("GOOGLE_CALENDAR_TIME_ZONE_NAME", None)
 
 
 class GoogleCalendar(BaseCalendarProvider):
@@ -61,49 +58,34 @@ class GoogleCalendar(BaseCalendarProvider):
 
     def get_calendar_events(self) -> list[CalendarEvent]:
         calendar_events = []
-        google_calendar_pickle = 'cache_calendar.pickle'
 
         service = build('calendar', 'v3', credentials=self.get_google_credentials(), cache_discovery=False)
 
-        events_result = None
+        # Call the Calendar API
+        events_result = service.events().list(
+            calendarId=self.google_calendar_id,
+            timeMin=self.from_date.isoformat() + 'Z',
+            maxResults=self.max_event_results,
+            singleEvents=True,
+            orderBy='startTime').execute()
 
-        if is_stale(os.getcwd() + "/" + google_calendar_pickle, ttl):
-            logging.debug("Pickle is stale, calling the Calendar API")
+        for event in events_result.get('items', []):
+            if event['start'].get('date'):
+                is_all_day = True
+                start_date = datetime.datetime.strptime(event['start'].get('date'), "%Y-%m-%d")
+                end_date = datetime.datetime.strptime(event['end'].get('date'), "%Y-%m-%d")
+                # Google Calendar marks the 'end' of all-day-events as
+                # the day _after_ the last day. eg, Today's all day event ends tomorrow!
+                # So subtract a day
+                end_date = end_date - datetime.timedelta(days=1)
+            else:
+                is_all_day = False
+                start_date = datetime.datetime.strptime(event['start'].get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
+                end_date = datetime.datetime.strptime(event['end'].get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
 
-            # Call the Calendar API
-            events_result = service.events().list(
-                calendarId=self.google_calendar_id,
-                timeMin=self.from_date.isoformat() + 'Z',
-                timeZone=google_calendar_timezone,
-                maxResults=self.max_event_results,
-                singleEvents=True,
-                orderBy='startTime').execute()
+            summary = event['summary']
 
-            for event in events_result.get('items', []):
-                if event['start'].get('date'):
-                    is_all_day = True
-                    start_date = datetime.datetime.strptime(event['start'].get('date'), "%Y-%m-%d")
-                    end_date = datetime.datetime.strptime(event['end'].get('date'), "%Y-%m-%d")
-                    # Google Calendar marks the 'end' of all-day-events as
-                    # the day _after_ the last day. eg, Today's all day event ends tomorrow!
-                    # So subtract a day
-                    end_date = end_date - datetime.timedelta(days=1)
-                else:
-                    is_all_day = False
-                    start_date = datetime.datetime.strptime(event['start'].get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
-                    end_date = datetime.datetime.strptime(event['end'].get('dateTime'), "%Y-%m-%dT%H:%M:%S%z")
-
-                summary = event['summary']
-
-                calendar_events.append(CalendarEvent(summary, start_date, end_date, is_all_day))
-
-            with open(google_calendar_pickle, 'wb') as cal:
-                pickle.dump(calendar_events, cal)
-
-        else:
-            logging.info("Found in cache")
-            with open(google_calendar_pickle, 'rb') as cal:
-                calendar_events = pickle.load(cal)
+            calendar_events.append(CalendarEvent(summary, start_date, end_date, is_all_day))
 
         if len(calendar_events) == 0:
             logging.info("No upcoming events found.")

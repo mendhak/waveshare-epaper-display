@@ -25,3 +25,4 @@ screen-literature*.png
 litclock_annotated.csv
 
 .notes
+*.bak

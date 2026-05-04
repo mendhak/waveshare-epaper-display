@@ -21,9 +21,6 @@ full_refresh_hour = 2
 # -------------------------------------------
 
 [weather]
-# Set to false to disable weather entirely
-enabled = true
-
 # Your location (required for all providers)
 latitude  = 51.5077
 longitude = -0.1278
@@ -82,7 +79,7 @@ api_key = "your-climacell-api-key"
 
 [alerts]
 # Set to false to disable alerts entirely
-enabled = true
+enabled = false
 
 # How long to cache alert data (in seconds)
 cache_ttl_seconds = 3600

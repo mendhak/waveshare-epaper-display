@@ -219,19 +219,21 @@ def main():
     logging.debug(f"Fetched weather: {weather}")
     logging.debug(f"Fetched weather description: {weather_desc}")
 
-    alerts_provider_name = config["alerts"].get("provider", None)
+    alerts_enabled = config["alerts"].get("enabled", False)
     alert_message = ""
+    if alerts_enabled:
+        alerts_provider_name = config["alerts"].get("provider", None)
 
-    if alerts_provider_name:
-        logging.info(f"Selected alert provider: {alerts_provider_name}")
-        alerts_config = config["alerts"]["providers"].get(alerts_provider_name, None)
+        if alerts_provider_name:
+            logging.info(f"Selected alert provider: {alerts_provider_name}")
+            alerts_config = config["alerts"]["providers"].get(alerts_provider_name, None)
 
-        if alerts_config:
-            alert_message = fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config)
-        else:
-            logging.error(f"Alert provider '{alerts_provider_name}' is not configured in the config.toml file.")
+            if alerts_config:
+                alert_message = fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config)
+            else:
+                logging.error(f"Alert provider '{alerts_provider_name}' is not configured in the config.toml file.")
 
-    logging.debug(f"Fetched alert message: {alert_message}")
+        logging.debug(f"Fetched alert message: {alert_message}")
 
     template_name = config["display"].get("screen_output_layout", "1")
 

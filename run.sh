@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# shellcheck source=env.sh
-# . env.sh
-
 function log {
     echo "---------------------------------------"
     echo "${1^^}"
@@ -10,7 +7,9 @@ function log {
 }
 
 if [[ -f env.sh ]]; then
-    echo "This project has switched to using config.toml. Run .venv/bin/python3 migrate-env-to-toml.py to generate your config.toml from the existing env.sh."
+    echo "This project has switched to using config.toml. "
+    echo "Run .venv/bin/python3 migrate-env-to-toml.py to generate your config.toml from the existing env.sh."
+    echo "Or, rename config.toml.example to config.toml and edit the values you need"
     echo "You can then edit it to make any adjustments."
     echo "Remember to remove the env.sh afterwards."
     exit 1

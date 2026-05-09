@@ -250,7 +250,8 @@ in the pre-2014 section.  For example, this is the file for Dublin:
 
 ## Pick a Calendar provider
 
-You can use Google Calendar, Outlook Calendar, ICS, or CalDAV to display events.
+You can use Google Calendar, Outlook Calendar, ICS, or CalDAV to display events.  
+You can mix and match providers, and add multiple calendars of each type. Events from all enabled calendars will be merged and sorted by date.
 
 ### Google Calendar
 
@@ -262,6 +263,8 @@ In `config.toml`, add your calendar using the `[[calendar.providers.google]]` ar
     enabled = true
     id = "xyz12345@group.calendar.google.com"
     time_zone = "Europe/London"  # Optional: for family calendars
+
+To add multiple Google calendars, include additional `[[calendar.providers.google]]` blocks.
 
 #### Get a Google Calendar token
 
@@ -299,6 +302,8 @@ Copy the ID of the calendar you want, and add it to `config.toml`:
     enabled = true
     calendar_id = "AQMkAxyz..."
 
+To add multiple Outlook calendars, include additional `[[calendar.providers.outlook]]` blocks.
+
 ### ICS Calendar
 
 ICS is simple but can be buggy. Get the ICS URL for a calendar, and add it to `config.toml`:
@@ -308,6 +313,8 @@ ICS is simple but can be buggy. Get the ICS URL for a calendar, and add it to `c
     url = "https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics"
 
 There is no username/password support.
+
+To add multiple ICS calendars, include additional `[[calendar.providers.ics]]` blocks.
 
 ### CalDav Calendar
 
@@ -321,6 +328,8 @@ For CalDav you will need the CalDav URL, username, and password. Add them to `co
     id = "your-calendar-id"
 
 Some CalDav features may not work well as the protocol is heavily undocumented, proprietary, and many servers don't implement it the same way.
+
+To add multiple CalDav calendars, include additional `[[calendar.providers.caldav]]` blocks.
 
 ## Pick a layout
 

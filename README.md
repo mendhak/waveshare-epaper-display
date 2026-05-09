@@ -90,7 +90,7 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
 ### Waveshare version
 
-Copy `config.toml.example` to `config.toml` and edit it.
+Copy `config.example.toml` to `config.toml` and edit it.
 
 Set the version of your Waveshare 7.5" e-Paper Module (newer ones are version 2, red one is 2B):
 
@@ -543,7 +543,7 @@ pip install -r requirements.txt
 
 Then, open VSCode with the project, and it should automatically detect and switch to the virtual environment in the terminal.
 
-Copy `config.toml.example` to `config.toml` and configure your settings.
+Copy `config.example.toml` to `config.toml` and configure your settings.
 
 To run the project, just run `./run.sh`.  It will read config.toml and run the various Python scripts.
 

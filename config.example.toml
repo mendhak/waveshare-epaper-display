@@ -10,9 +10,6 @@ waveshare_version = "2"
 # Which layout to use. 1, 2, 3...
 screen_output_layout = 1
 
-# Hour (0-23) for daily full-screen refresh.
-full_refresh_hour = 2
-
 # -------------------------------------------
 # WEATHER CONFIGURATION
 # Only the provider you name here will be used.

@@ -16,7 +16,7 @@ with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
 configure_locale()
-configure_logging(config["locale"].get("log_level", "INFO"))
+configure_logging(config.get("locale", {}).get("log_level", "INFO"))
 
 
 def format_weather_description(weather_description):
@@ -170,7 +170,7 @@ def fetch_weather(location_lat, location_long, units, weather_provider_name, pro
 
 
 def fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config):
-    alerts_ttl = float(config["alerts"].get("cache_ttl_seconds", 3600))
+    alerts_ttl = float(config.get("alerts", {}).get("cache_ttl_seconds", 3600))
     cache_file = 'cache_alerts.json'
 
     if is_stale(cache_file, alerts_ttl):
@@ -190,7 +190,7 @@ def fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config
 
 def main():
 
-    weather_provider_name = config["weather"]["provider"]
+    weather_provider_name = config["weather"].get("provider", "")
 
     if not weather_provider_name:
         logging.error("No weather provider configured. Please set the 'provider' field in the config.toml file.")
@@ -198,7 +198,7 @@ def main():
     else:
         logging.info(f"Selected weather provider: {weather_provider_name}")
 
-    provider_config = config["weather"]["providers"][weather_provider_name]
+    provider_config = config["weather"].get("providers", {}).get(weather_provider_name, {})
 
     location_lat = config["weather"].get("latitude", "51.5077")
     location_long = config["weather"].get("longitude", "-0.1277")
@@ -219,14 +219,16 @@ def main():
     logging.debug(f"Fetched weather: {weather}")
     logging.debug(f"Fetched weather description: {weather_desc}")
 
-    alerts_enabled = config["alerts"].get("enabled", False)
+    alerts_config = config.get("alerts", {})
+    alerts_enabled = alerts_config.get("enabled", False)
+
     alert_message = ""
     if alerts_enabled:
-        alerts_provider_name = config["alerts"].get("provider", None)
+        alerts_provider_name = alerts_config.get("provider", None)
 
         if alerts_provider_name:
             logging.info(f"Selected alert provider: {alerts_provider_name}")
-            alerts_config = config["alerts"]["providers"].get(alerts_provider_name, None)
+            alerts_config = alerts_config.get("providers", {}).get(alerts_provider_name, None)
 
             if alerts_config:
                 alert_message = fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config)
@@ -235,7 +237,7 @@ def main():
 
         logging.debug(f"Fetched alert message: {alert_message}")
 
-    template_name = config["display"].get("screen_output_layout", "1")
+    template_name = config.get("display", {}).get("screen_output_layout", "1")
 
     time_now = get_formatted_time(datetime.datetime.now())
     time_now_font_size = "100px"

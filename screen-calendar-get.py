@@ -15,7 +15,7 @@ with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
 configure_locale()
-configure_logging(config["locale"]["log_level"])
+configure_logging(config.get("locale", {}).get("log_level", "INFO"))
 
 calendar_config = config["calendar"]
 max_event_results = calendar_config.get("max_events", 10)

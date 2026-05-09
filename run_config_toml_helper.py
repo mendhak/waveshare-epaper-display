@@ -2,12 +2,12 @@
 import tomllib
 
 config = tomllib.load(open("config.toml", "rb"))
-disp = config["display"]
-priv = config["privacy"]
-loc  = config["locale"]
+disp = config.get("display", {})
+priv = config.get("privacy", {})
+loc = config.get("locale", {})
 
-print(f'export WAVESHARE_EPD75_VERSION="{disp["waveshare_version"]}"')
-print(f'export SCREEN_LAYOUT={disp["screen_output_layout"]}')
-print(f'export PRIVACY_MODE_XKCD={1 if priv["xkcd"] else 0}')
-print(f'export PRIVACY_MODE_LITERATURE_CLOCK={1 if priv["literature_clock"] else 0}')
-print(f'export LANG="{loc["language"]}"')
+print(f'export WAVESHARE_EPD75_VERSION="{disp.get("waveshare_version", "2")}"')
+print(f'export SCREEN_LAYOUT={disp.get("screen_output_layout", 1)}')
+print(f'export PRIVACY_MODE_XKCD={1 if priv.get("xkcd", False) else 0}')
+print(f'export PRIVACY_MODE_LITERATURE_CLOCK={1 if priv.get("literature_clock", False) else 0}')
+print(f'export LANG="{loc.get("language", "")}"')

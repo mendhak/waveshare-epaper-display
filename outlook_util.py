@@ -21,7 +21,7 @@ def main():
         calendars_data = requests.get(endpoint_calendar_list, headers=headers).json()
 
         print("")
-        print("Here are the available Calendar names and IDs.  Copy the ID of the Calendar you want into env.sh")
+        print("Here are the available Calendar names and IDs.  Copy the ID of the Calendar you want into config.toml")
         for cal in calendars_data["value"]:
             print("============================================")
             print("Name               : ", cal["name"])

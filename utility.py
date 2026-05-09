@@ -29,7 +29,7 @@ def configure_logging(log_level="INFO"):
     Call this at the beginning of a script.
     Then using logging methods as normal
     """
-    # log_level = os.getenv("LOG_LEVEL", "INFO")
+
     log_format = "%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
     log_dateformat = "%Y-%m-%d:%H:%M:%S"
     logging.basicConfig(level=log_level, format=log_format, datefmt=log_dateformat)
@@ -188,12 +188,12 @@ def get_formatted_date(dt, include_time=True):
     return dt.strftime(formatter_day + " " + formatted_time)
 
 
-def get_sunset_time():
+def get_sunset_time(lat, long):
     """
     Return the time at which darkness begins, aka 'tonight'
     """
-    location_lat = os.getenv("WEATHER_LATITUDE", "51.5077")
-    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1277")
+    location_lat = lat
+    location_long = long
     dt = datetime.datetime.now(pytz.utc)
     city = LocationInfo(location_lat, location_long)
     s = sun(city.observer, date=dt)

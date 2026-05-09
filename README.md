@@ -90,43 +90,53 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
 ### Waveshare version
 
-Copy `env.sh.sample` (example environment variables) to `env.sh`
+Copy `config.toml.example` to `config.toml` and edit it.
 
-Modify the `env.sh` file and set the version of your Waveshare 7.5" e-Paper Module  (newer ones are version 2, red one is 2B)
+Set the version of your Waveshare 7.5" e-Paper Module (newer ones are version 2, red one is 2B):
 
-    export WAVESHARE_EPD75_VERSION=2
+    [display]
+    waveshare_epd75_version = "2"
 
 ## Set your location
 
 Whichever weather provider you use, you'll need to provide the location and units to display in.
 
-Modify the `env.sh` file and update with the latitude and longitude of your location.
-As needed, change the temperature format (CELSIUS or FAHRENHEIT).
+Edit `config.toml` and update the latitude and longitude:
 
-    export WEATHER_LATITUDE=51.3656
-    export WEATHER_LONGITUDE=0.1963
-    export WEATHER_FORMAT=CELSIUS
+    [weather]
+    latitude = "51.3656"
+    longitude = "0.1963"
+    format = "CELSIUS"
 
 ## Pick a Weather provider
 
-You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.
-You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `cache_weather.json` if you switch weather providers.
+You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.
+
+In `config.toml`, set the `provider` field under `[weather]` to choose which provider to use:
+
+    [weather]
+    provider = "metoffice" # metoffice, climacell, accuweather, openweathermap, metno, met_eireann, weathergov, smhi, visualcrossing
+
+Then configure the API key in the corresponding provider section below.
 
 ### OpenWeatherMap
 
 Register on the [OpenWeathermap](https://openweathermap.org) website, and go to the [API Keys page](https://home.openweathermap.org/api_keys), that's the key you'll need.
-Add it to the env.sh file.
 
-    export OPENWEATHERMAP_APIKEY=xxxxxx
+In `config.toml`, add your API key:
+
+    [weather.providers.openweathermap]
+    api_key = "xxxxxx"
 
 ### Met Office (UK)
 
 Create an account [on the Met Office Weather DataHub](https://datahub.metoffice.gov.uk) site.
 Next, [under subscriptions](https://datahub.metoffice.gov.uk/profile/subscriptions) - subscribe to the 'Site Specific' product 'Global Spot'. This will get you an API key. 
 
-Add the API key to the env.sh file:
+In `config.toml`, add your API key:
 
-    export METOFFICEDATAHUB_API_KEY=eyJ.........
+    [weather.providers.metoffice]
+    api_key = "eyJ........."
 
 ### AccuWeather
 
@@ -139,72 +149,92 @@ You'll also need an AccuWeather Location Key.
 Do a normal [AccuWeather search](https://www.accuweather.com/) for your location.
 The last number in the URL is the Location Key.  In the example of [London](https://www.accuweather.com/en/gb/london/ec4a-2/weather-forecast/328328), it's `328328`.
 
-Add the API Key and Location Key to the `env.sh`.
+In `config.toml`, add both keys:
 
-    export ACCUWEATHER_APIKEY=xxxxxx
-    export ACCUWEATHER_LOCATIONKEY=328328
+    [weather.providers.accuweather]
+    api_key = "xxxxxx"
+    location_key = "328328"
 
 ### Met.no
 
-Met.no's [Terms of Service](https://api.met.no/doc/TermsOfService) requires you to identify yourself.  The purpose is to ensure they can contact you in case you overload or abuse their servers.  For this reason, you just need to set your email address in `env.sh` like so:
+Met.no's [Terms of Service](https://api.met.no/doc/TermsOfService) requires you to identify yourself.  The purpose is to ensure they can contact you in case you overload or abuse their servers.  For this reason, you just need to set your email address in `config.toml`:
 
-    export METNO_SELF_IDENTIFICATION=you@example.com
+    [weather.providers.metno]
+    self_identification = "you@example.com"
 
 Note that the Met.no API provides 6 hours of forecast, rather than a full day.
 
 ### Met Éireann (Ireland)
 
-[Met Éireann](https://www.met.ie/) publish their forecast data under a [Creative Commons Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  All you need to do to use it is to uncomment this line in `env.sh`:
+[Met Éireann](https://www.met.ie/) publish their forecast data under a [Creative Commons Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  No API key required.
 
-    export WEATHER_MET_EIREANN=1
+In `config.toml`, set the provider:
 
-Note that a condition of use of this data is that weather alerts be displayed, so ALERT_MET_EIREANN_FEED_URL should be uncommented, too.
+    [weather]
+    provider = "met_eireann"
+
+Note that a condition of use of this data is that weather alerts be displayed, so you should also configure the Met Éireann alert provider below.
 
 ### Weather.gov (US)
 
 Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address.
-Set its value in the `env.sh` as shown:
 
-    export WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+In `config.toml`, set your identifier:
+
+    [weather.providers.weathergov]
+    self_identification = "you@example.com"
 
 Warning: YMMV. During my testing, I found the weather.gov API would start returning errors and then suddenly work again.
 
 ### Climacell (tomorrow.io)
 
 Register on the [Climacell site](https://www.climacell.co/weather-api/), and when you do you should be given an API Key.
-Modify the `env.sh` file and put your Climacell API key in there.
 
-    export CLIMACELL_APIKEY=xxxxxx
+In `config.toml`, add your API key:
+
+    [weather.providers.climacell]
+    api_key = "xxxxxx"
 
 ### VisualCrossing
 
-Register on [VisualCrossing](https://www.visualcrossing.com/). Under Account Details, you should be able to generate an API key. Once you have that, simply add it to `env.sh` as shown:
+Register on [VisualCrossing](https://www.visualcrossing.com/). Under Account Details, you should be able to generate an API key. Once you have that, add it to `config.toml`:
 
-    export VISUALCROSSING_APIKEY=XXXXXXXXXXXXXXXXXXXXXX
+    [weather.providers.visualcrossing]
+    api_key = "XXXXXXXXXXXXXXXXXXXXXX"
 
 ### SMHI (Sweden)
 
-SMHI requires you to identify yourself.  Just set your own email,
+SMHI requires you to identify yourself.  Just set your own email in `config.toml`:
 
-    export SMHI_SELF_IDENTIFICATION=you@example.com
+    [weather.providers.smhi]
+    self_identification = "you@example.com"
 
 ## Pick a severe weather warning provider
 
 This is an optional step.  By doing nothing you simply won't see severe weather warnings.
 
+In `config.toml`, set the `provider` under `[alerts]` and configure the provider-specific settings:
+
+    [alerts]
+    provider = "metoffice" # metoffice, met_eireann, weathergov
+
 ### Met Office (UK)
 
 Go to the [Met Office RSS Feeds page](https://www.metoffice.gov.uk/weather/guides/rss) and copy the URL of the RSS feed based on your region.
-Set its value in the `env.sh` as shown below. For example, London would be:
 
-    export ALERT_METOFFICE_FEED_URL=https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se
+In `config.toml`, add the feed URL:
+
+    [alerts.providers.metoffice]
+    feed_url = "https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se"
 
 ### Weather.gov (US)
 
 Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api).  This can be any made up string, or an email address.
-Set its value in the `env.sh` as shown:
 
-    export ALERT_WEATHERGOV_SELF_IDENTIFICATION=you@example.com
+In `config.toml`, set your identifier:
+
+    [alerts.providers.weathergov]
+    self_identification = "you@example.com"
 
 This provider will use the same latitude and longitude as specified for the weather provider.
 
@@ -215,19 +245,23 @@ Warning: YMMV. During my testing, I found the weather.gov API would start return
 To use alerts from Met Éireann, visit  https://www.met.ie/Open_Data/json/ and choose the appropriate "warning_EIXX" JSON file for your region, using each county's FIPS code.  This code can be found in the table on http://www.statoids.com/uie.html,
 in the pre-2014 section.  For example, this is the file for Dublin:
 
-    export ALERT_MET_EIREANN_FEED_URL=https://www.met.ie/Open_Data/json/warning_EI07.json
+    [alerts.providers.met_eireann]
+    feed_url = "https://www.met.ie/Open_Data/json/warning_EI07.json"
 
 ## Pick a Calendar provider
 
-You can use Google Calendar or Outlook Calendar to display events.
+You can use Google Calendar, Outlook Calendar, ICS, or CalDAV to display events.
 
 ### Google Calendar
 
-The script will by default get its info from your primary Google Calendar.  If you need to pick a specific calendar you will need its ID.  To get its ID, open up [Google Calendar](https://calendar.google.com) and go to the settings for your preferred calendar.  Under the 'Integrate Calendar' section you will see a Calendar ID which looks like `xyz12345@group.calendar.google.com`.  Set that value in `env.sh`
+The script will by default get its info from your primary Google Calendar.  If you need to pick a specific calendar you will need its ID.  To get its ID, open up [Google Calendar](https://calendar.google.com) and go to the settings for your preferred calendar.  Under the 'Integrate Calendar' section you will see a Calendar ID which looks like `xyz12345@group.calendar.google.com`.
 
-```bash
-export GOOGLE_CALENDAR_ID=xyz12345@group.calendar.google.com
-```
+In `config.toml`, add your calendar using the `[[calendar.providers.google]]` array format:
+
+    [[calendar.providers.google]]
+    enabled = true
+    id = "xyz12345@group.calendar.google.com"
+    time_zone = "Europe/London"  # Optional: for family calendars
 
 #### Get a Google Calendar token
 
@@ -259,27 +293,32 @@ The setup is much simpler, just run this script which will give instructions on 
 
 Login with the Microsoft account you want to get the calendar from, and accept the consent screen.
 After a moment, the script will then display a set of Calendar IDs and some sample events from those Calendars.
-Copy the ID of the calendar you want, and add it to env.sh like so:
+Copy the ID of the calendar you want, and add it to `config.toml`:
 
-    export OUTLOOK_CALENDAR_ID=AQMkAxyz...
-
-Note that if you set an Outlook Calendar ID, the Google Calendar will be ignored.
+    [[calendar.providers.outlook]]
+    enabled = true
+    calendar_id = "AQMkAxyz..."
 
 ### ICS Calendar
 
-ICS is simple, get the ICS URL for a calendar, and place it in `env.sh`.
+ICS is simple but can be buggy. Get the ICS URL for a calendar, and add it to `config.toml`:
 
-    export ICS_CALENDAR_URL=https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics
+    [[calendar.providers.ics]]
+    enabled = true
+    url = "https://calendar.google.com/calendar/ical/xxxxxxxxxxxx/xxxxxxxxxxxxxx/basic.ics"
 
 There is no username/password support.
 
 ### CalDav Calendar
 
-For CalDav you will need the CalDav URL, username, and password.
+For CalDav you will need the CalDav URL, username, and password. Add them to `config.toml`:
 
-    export CALDAV_CALENDAR_URL=https://nextcloud.example.com/remote.php/dav/principals/users/123456/
-    export CALDAV_USERNAME=username
-    export CALDAV_PASSWORD=password
+    [[calendar.providers.caldav]]
+    enabled = true
+    url = "https://nextcloud.example.com/remote.php/dav/principals/users/123456/"
+    username = "username"
+    password = "password"
+    id = "your-calendar-id"
 
 Some CalDav features may not work well as the protocol is heavily undocumented, proprietary, and many servers don't implement it the same way.
 
@@ -287,16 +326,20 @@ Some CalDav features may not work well as the protocol is heavily undocumented, 
 
 This is an optional step.  There are a few different layouts to choose from.
 
+In `config.toml`, set the layout under `[display]`:
 
-| `export SCREEN_LAYOUT=1` <br />This is the default | `export SCREEN_LAYOUT=2` <br />More calendar entries and less emphasis on weather and time |
+    [display]
+    screen_output_layout = "1"
+
+| `screen_output_layout = "1"` <br />This is the default | `screen_output_layout = "2"` <br />More calendar entries and less emphasis on weather and time |
 | --- | --- |
 | [![Layout 1](screenshots/001.png)](screenshots/001.png) | [![Layout 2](screenshots/002.png)](screenshots/002.png) |
 
-| `export SCREEN_LAYOUT=3` <br />Calendar entries on left, less emphasis on weather | `export SCREEN_LAYOUT=4` <br />Shows hour instead of time. Meant for color screens. |
+| `screen_output_layout = "3"` <br />Calendar entries on left, less emphasis on weather | `screen_output_layout = "4"` <br />Shows hour instead of time. Meant for color screens. |
 | --- | --- |
 | [![Layout 3](screenshots/003.png)](screenshots/003.png) | [![Layout 4](screenshots/004.png)](screenshots/004.png) |
 
-| `export SCREEN_LAYOUT=5` <br />Calendar entries on left, with a month calendar for at-a-glance |  |
+| `screen_output_layout = "5"` <br />Calendar entries on left, with a month calendar for at-a-glance |  |
 | --- | --- |
 | [![Layout 5](screenshots/005.png)](screenshots/005.png) | |
 
@@ -356,9 +399,10 @@ To install a new locale, go through the locale wizard:
 
 Select the locales you want to install, be sure to pick the ones that have `.UTF-8` in the name. 
 
-Edit the `env.sh` file and at the top, set the language like so: 
+In `config.toml`, set the language under `[locale]`:
 
-    export LANG=ko_KR.UTF-8
+    [locale]
+    language = "ko_KR.UTF-8"
 
 The next time `run.sh` runs, the output should have the chosen language.
 
@@ -422,10 +466,17 @@ The next time `run.sh` runs, the output image should have the chosen font.
 
 ## Privacy Mode
 
-This mode hides away everything and just displays an XKCD comic or a literary quote for the time.  In env.sh, set: 
+This mode hides away everything and just displays an XKCD comic or a literary quote for the time.  In `config.toml`, set:
 
+    [privacy]
+    xkcd = true
 
-| `export PRIVACY_MODE_XKCD=1` <br />XKCD comic | `export PRIVACY_MODE_LITERATURE_CLOCK=1` <br />Literature clock mode |
+Or for literature clock mode:
+
+    [privacy]
+    literature_clock = true
+
+| `xkcd = true` <br />XKCD comic | `literature_clock = true` <br />Literature clock mode |
 | --- | --- |
 | [![XKCD](screenshots/pvt_xkcd.png)](screenshots/pvt_xkcd.png) | [![Literature](screenshots/pvt_literature.png)](screenshots/pvt_literature.png) |
 
@@ -437,12 +488,15 @@ If the scripts don't work at all, try going through the Waveshare sample code li
 
 You may want to further troubleshoot if you're seeing or not seeing something expected.
 If you've set up the cron job as shown above, a `run.log` file will appear which contains some info and errors.
-If there isn't enough information in there, you can set `export LOG_LEVEL=DEBUG` in the `env.sh` and the `run.log` will contain even more information.
+If there isn't enough information in there, you can set the log level in `config.toml`:
+
+    [locale]
+    log_level = "DEBUG"
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.
-If you want to force a weather update, you can delete the `cache_weather.json`.
-If you want to force a calendar update, you can delete the `cache_calendar.pickle` or `cache_outlookcalendar.pickle`.
-If you want to force a re-login to Google or Outlook, delete the `token.pickle` or `outlooktoken.bin`.
+If you want to force a weather update, delete `cache_weather.json`.
+If you want to force a calendar update, delete `cache_calendar.pickle`.
+If you want to force a re-login to Google or Outlook, delete `token.pickle` or `outlooktoken.bin`.
 
 
 ## Waveshare documentation and sample code
@@ -480,6 +534,8 @@ pip install -r requirements.txt
 
 Then, open VSCode with the project, and it should automatically detect and switch to the virtual environment in the terminal.
 
-To run the project, just run `./run.sh`.  It will pick up env.sh variables, and run the various Python scripts.
+Copy `config.toml.example` to `config.toml` and configure your settings.
 
-To debug the project, open a Python script file such as `screen-calendar-get.py` or `screen-weather-get.py`, and press F5.  It will generate a .env from env.sh, and run the script.  It can hit breakpoints, no problem.
+To run the project, just run `./run.sh`.  It will read config.toml and run the various Python scripts.
+
+To debug the project, open a Python script file such as `screen-calendar-get.py` or `screen-weather-get.py`, and press F5.  It will use config.toml for settings and run the script.  It can hit breakpoints, no problem.

@@ -18,8 +18,8 @@ configure_locale()
 configure_logging(config["locale"]["log_level"])
 
 calendar_config = config["calendar"]
-max_event_results = calendar_config["max_events"]
-ttl = float(calendar_config["cache_ttl_seconds"])
+max_event_results = calendar_config.get("max_events", 10)
+ttl = float(calendar_config.get("cache_ttl_seconds", 3600))
 include_past_events_for_today = calendar_config.get("include_past_events_for_today", False)
 
 # arrays of calendars

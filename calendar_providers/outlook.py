@@ -3,7 +3,6 @@ import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
 import os
 import logging
-import pickle
 import msal
 import requests
 import sys

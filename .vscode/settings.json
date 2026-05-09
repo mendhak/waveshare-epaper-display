@@ -3,5 +3,9 @@
     "python.terminal.activateEnvironment": true,
     "python.terminal.activateEnvInCurrentTerminal": true,
     "markdown.extension.toc.updateOnSave": false,
-    "python.useEnvironmentsExtension": false
+    "python.useEnvironmentsExtension": false,
+    "flake8.interpreter": [".venv/bin/python"],
+    "flake8.enabled": true,
+    "flake8.args": ["--max-line-length=180"],
+
 }

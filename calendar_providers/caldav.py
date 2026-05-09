@@ -1,5 +1,3 @@
-
-import pickle
 import caldav
 import logging
 import datetime

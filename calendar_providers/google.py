@@ -49,7 +49,13 @@ class GoogleCalendar(BaseCalendarProvider):
                     "client_secret": xor_decode("HwI5FzprZiBiE0AtJ3A7IjZ+LB4VCBQjHmcIN1IBJz0QBjg=", "XMzDj3Kb4j2j_3jK_8dwoeuir3mm3jKb"),
                     "redirect_uris": ["http://localhost"]}}, google_api_scopes)
 
-                credentials = flow.run_local_server()
+                credentials = flow.run_local_server(port=0,
+                                                    authorization_prompt_message="""\n\nPlease visit this URL in a browser to allow this application to read your Google Calendars:"""
+                                                    """\n\n{url}\n\n""",
+                                                    success_message="""The authentication flow has completed.
+                                                    You may close this browser window.
+                                                    Return to the waveshare setup, and a list of your calendars should be displayed.""",
+                                                    open_browser=False)
             # Save the credentials for the next run
             with open(google_token_pickle, 'wb') as token:
                 pickle.dump(credentials, token)

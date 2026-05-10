@@ -52,9 +52,9 @@ class GoogleCalendar(BaseCalendarProvider):
                 credentials = flow.run_local_server(port=0,
                                                     authorization_prompt_message="""\n\nPlease visit this URL in a browser to allow this application to read your Google Calendars:"""
                                                     """\n\n{url}\n\n""",
-                                                    success_message="""The authentication flow has completed.
-                                                    You may close this browser window.
-                                                    Return to the waveshare setup, and a list of your calendars should be displayed.""",
+                                                    success_message="""\n\nThe authentication flow has completed.\n"""
+                                                    """You may close this window or tab.\n"""
+                                                    """Return to the original waveshare setup, and a list of your calendars should be displayed.""",
                                                     open_browser=False)
             # Save the credentials for the next run
             with open(google_token_pickle, 'wb') as token:

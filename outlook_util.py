@@ -3,9 +3,13 @@ import datetime
 import requests
 from calendar_providers.outlook import OutlookCalendar
 from utility import configure_logging
+import tomllib
 
 
-configure_logging()
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
+
+configure_logging(config.get("locale", {}).get("log_level", "INFO"))
 
 
 def main():

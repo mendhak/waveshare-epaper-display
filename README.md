@@ -104,8 +104,8 @@ Whichever weather provider you use, you'll need to provide the location and unit
 Edit `config.toml` and update the latitude and longitude:
 
     [weather]
-    latitude = "51.3656"
-    longitude = "0.1963"
+    latitude  = 51.5077
+    longitude = -0.1278
     format = "CELSIUS"
 
 ## Pick a Weather provider

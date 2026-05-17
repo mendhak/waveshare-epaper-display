@@ -81,7 +81,7 @@ else
     log "Export to PNG"
 
     # .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
-    if ! .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output.svg; then
+    if ! .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg; then
         log "⚠️Error exporting to PNG, stopping."
         exit 1
     fi

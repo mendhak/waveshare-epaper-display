@@ -74,7 +74,7 @@ else
 
     elif [[ ! -f screen-output-custom-temp.svg ]]; then
         # Create temporary empty svg since the main SVG needs it
-        echo "<svg />" > screen-output-custom-temp.svg
+        echo '<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > screen-output-custom-temp.svg
     fi
 
 

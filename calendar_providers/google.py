@@ -50,7 +50,7 @@ class GoogleCalendar(BaseCalendarProvider):
                     "redirect_uris": ["http://localhost"]}}, google_api_scopes)
 
                 credentials = flow.run_local_server(port=0,
-                                                    authorization_prompt_message="""\n\nPlease visit this URL in a browser to allow this application to read your Google Calendars:"""
+                                                    authorization_prompt_message="""\n\nPlease visit this URL in a browser to allow this application to read your Google Calendars. When the browser attempts to redirect to localhost, remember to copy the URL and curl to it in a new session."""
                                                     """\n\n{url}\n\n""",
                                                     success_message="""\n\nThe authentication flow has completed.\n"""
                                                     """You may close this window or tab.\n"""

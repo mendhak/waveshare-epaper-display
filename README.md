@@ -213,9 +213,10 @@ SMHI requires you to identify yourself.  Just set your own email in `config.toml
 
 This is an optional step.  By doing nothing you simply won't see severe weather warnings.
 
-In `config.toml`, set the `provider` under `[alerts]` and configure the provider-specific settings:
+In `config.toml`, set enabled to true, and the `provider` name you wish to use under `[alerts]`:
 
     [alerts]
+    enabled = true
     provider = "metoffice" # metoffice, met_eireann, weathergov
 
 ### Met Office (UK)

@@ -261,7 +261,7 @@ You will need to run an Oauth process once manually to allow this application qu
 
 Run: 
 
-    .venv/bin/python3 google_util.py
+    .venv/bin/python3 google_calendar_util.py
 
 The script will prompt you to visit a URL in your browser, then it will sit there and wait. The URL will look like `https://accounts.google.com/o/...` and will be very long.  
 

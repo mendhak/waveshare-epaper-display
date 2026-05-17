@@ -32,7 +32,8 @@ def main():
             print("ID                 : ", cal["id"])
             print("Any upcoming events: ")
 
-            today_start_time = datetime.datetime.utcnow()
+            # today_start_time = datetime.datetime.utcnow()
+            today_start_time = datetime.datetime.now(datetime.UTC)
             oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
 
             logging.debug(today_start_time)

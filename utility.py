@@ -71,12 +71,17 @@ def update_svg(template_svg_filename, output_svg_filename, output_dict):
 def is_stale(filepath, ttl):
     """
     Checks if the specified `filepath` is older than the `ttl` in seconds
-    Returns true if the file doesn't exist.
+    Returns true if the file doesn't exist or is empty (0 bytes).
     """
 
     verdict = True
     if (os.path.isfile(filepath)):
-        verdict = time.time() - os.path.getmtime(filepath) > ttl
+        # Check if file is empty (0 bytes) - treat as stale
+        if os.path.getsize(filepath) == 0:
+            logging.debug("is_stale({}) - file is empty (0 bytes)".format(filepath))
+            verdict = True
+        else:
+            verdict = time.time() - os.path.getmtime(filepath) > ttl
 
     logging.debug(
         "is_stale({}) - {}"

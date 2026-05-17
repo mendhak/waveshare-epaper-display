@@ -71,9 +71,10 @@ else
             log "⚠️Error getting custom data, stopping."
             exit 1
         fi
+    fi
 
-    elif [[ ! -f screen-output-custom-temp.svg ]]; then
-        # Create temporary empty svg since the main SVG needs it
+    # Create temporary empty svg if it doesn't exist or is empty
+    if [[ ! -f screen-output-custom-temp.svg ]] || [[ ! -s screen-output-custom-temp.svg ]]; then
         echo -n '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > screen-output-custom-temp.svg
     fi
 

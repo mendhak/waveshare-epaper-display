@@ -39,7 +39,7 @@ def main():
             logging.debug(oneyearlater_iso)
 
             outlook_calendar = OutlookCalendar(cal["id"], 10, today_start_time, oneyearlater_iso)
-            events_data = outlook_calendar.get_calendar_events(bypass_cache=True)
+            events_data = outlook_calendar.get_calendar_events()
 
             for event in events_data:
                 print(f'{event.summary}, {event.start}, {event.end}, {event.all_day_event}')

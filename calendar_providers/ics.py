@@ -2,9 +2,7 @@
 import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
 import logging
-import pickle
 import icalevents.icalevents
-from dateutil import tz
 from tzlocal import get_localzone
 
 
@@ -21,7 +19,13 @@ class ICSCalendar(BaseCalendarProvider):
 
         logging.debug("Fetching ICS Calendar")
 
-        ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=self.from_date, end=self.to_date, tzinfo=get_localzone(), strict=True, sort=True)
+        # icalevents library requires timezone-aware datetimes when processing ICS files
+        # that contain timezone information, otherwise it throws naive/aware comparison errors
+        local_tz = get_localzone()
+        from_date = self.from_date if self.from_date.tzinfo else self.from_date.replace(tzinfo=local_tz)
+        to_date = self.to_date if self.to_date.tzinfo else self.to_date.replace(tzinfo=local_tz)
+
+        ics_events = icalevents.icalevents.events(self.ics_calendar_url, start=from_date, end=to_date, tzinfo=local_tz, strict=True, sort=True)
 
         logging.debug(ics_events)
 
@@ -34,6 +38,17 @@ class ICSCalendar(BaseCalendarProvider):
             # So subtract a day, if the event is an all day event
             if ics_event.all_day:
                 event_end = event_end - datetime.timedelta(days=1)
+
+            # Normalize to naive datetime for consistent sorting
+            if isinstance(event_start, datetime.date) and not isinstance(event_start, datetime.datetime):
+                event_start = datetime.datetime.combine(event_start, datetime.time.min)
+            elif isinstance(event_start, datetime.datetime) and event_start.tzinfo is not None:
+                event_start = event_start.astimezone(local_tz).replace(tzinfo=None)
+
+            if isinstance(event_end, datetime.date) and not isinstance(event_end, datetime.datetime):
+                event_end = datetime.datetime.combine(event_end, datetime.time.min)
+            elif isinstance(event_end, datetime.datetime) and event_end.tzinfo is not None:
+                event_end = event_end.astimezone(local_tz).replace(tzinfo=None)
 
             calendar_events.append(CalendarEvent(ics_event.summary, event_start, event_end, ics_event.all_day))
 

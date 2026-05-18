@@ -1,16 +1,15 @@
 import os
 from abc import ABC, abstractmethod
-from utility import get_xml_from_url, get_json_from_url
 import logging
+import xml.etree.ElementTree as ET
 from astral import LocationInfo
 from astral.sun import sun
 import datetime
 import pytz
+import requests
 
 
 class BaseWeatherProvider(ABC):
-
-    ttl = float(os.getenv("WEATHER_TTL", 1 * 60 * 60))
 
     @abstractmethod
     def get_weather(self):
@@ -57,15 +56,17 @@ class BaseWeatherProvider(ABC):
     def get_response_json(self, url, headers={}):
         """
         Perform an HTTP GET for a `url` with optional `headers`.
-        Caches the response in `cache_file_name` for WEATHER_TTL seconds.
         Returns the response as JSON
         """
-        return get_json_from_url(url, headers, "cache_weather.json", self.ttl)
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response.json()
 
     def get_response_xml(self, url, headers={}):
         """
         Perform an HTTP GET for a `url` with optional `headers`.
-        Caches the response in `cache_file_name` for WEATHER_TTL seconds.
         Returns the response as an XML ElementTree
         """
-        return get_xml_from_url(url, headers, "cache_weather.xml", self.ttl)
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return ET.fromstring(response.text)

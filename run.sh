@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
 
-# shellcheck source=env.sh
-. env.sh
-
 function log {
     echo "---------------------------------------"
     echo "${1^^}"
     echo "---------------------------------------"
 }
+
+if [[ -f env.sh ]]; then
+    echo "This project has switched to using config.toml. "
+    echo "Run .venv/bin/python3 migrate-env-to-toml.py to generate your config.toml from the existing env.sh."
+    echo "Or, copy config.example.toml to config.toml and edit the values you need"
+    echo "You can then edit it to make any adjustments."
+    echo "Remember to remove the env.sh afterwards."
+    exit 1
+fi
+
+if [[ ! -f config.toml ]]; then
+    echo "No config.toml found. Copy config.example.toml to config.toml and edit."
+    exit 1
+fi
+
+# Read some specific values as env vars, it's needed here
+eval $(.venv/bin/python3 run_config_toml_helper.py)
+
 
 if [[ $WAVESHARE_EPD75_VERSION = 1 ]]; then
     export WAVESHARE_WIDTH=640
@@ -25,7 +40,7 @@ if [[ $PRIVACY_MODE_XKCD = 1 ]]; then
 elif [[ $PRIVACY_MODE_LITERATURE_CLOCK = 1 ]]; then
     log "Get Literature Clock"
     if .venv/bin/python3 screen-literature-clock-get.py; then
-        .venv/bin/cairosvg -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
+        .venv/bin/cairosvg -u -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
         .venv/bin/python3 display.py screen-literature-clock.png
     fi
 else
@@ -56,16 +71,21 @@ else
             log "⚠️Error getting custom data, stopping."
             exit 1
         fi
+    fi
 
-    elif [[ ! -f screen-output-custom-temp.svg ]]; then
-        # Create temporary empty svg since the main SVG needs it
-        echo "<svg />" > screen-output-custom-temp.svg
+    # Create temporary empty svg if it doesn't exist or is empty
+    if [[ ! -f screen-output-custom-temp.svg ]] || [[ ! -s screen-output-custom-temp.svg ]]; then
+        echo -n '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > screen-output-custom-temp.svg
     fi
 
 
     log "Export to PNG"
 
-    .venv/bin/cairosvg -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
+    # .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
+    if ! .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg; then
+        log "⚠️Error exporting to PNG, stopping."
+        exit 1
+    fi
 
     log "Display on screen"
 

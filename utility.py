@@ -23,13 +23,13 @@ def configure_locale():
         logging.debug("Could not set locale")
 
 
-def configure_logging():
+def configure_logging(log_level="INFO"):
     """
     Sets up logging with a specific logging format.
     Call this at the beginning of a script.
     Then using logging methods as normal
     """
-    log_level = os.getenv("LOG_LEVEL", "INFO")
+
     log_format = "%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
     log_dateformat = "%Y-%m-%d:%H:%M:%S"
     logging.basicConfig(level=log_level, format=log_format, datefmt=log_dateformat)
@@ -71,12 +71,17 @@ def update_svg(template_svg_filename, output_svg_filename, output_dict):
 def is_stale(filepath, ttl):
     """
     Checks if the specified `filepath` is older than the `ttl` in seconds
-    Returns true if the file doesn't exist.
+    Returns true if the file doesn't exist or is empty (0 bytes).
     """
 
     verdict = True
     if (os.path.isfile(filepath)):
-        verdict = time.time() - os.path.getmtime(filepath) > ttl
+        # Check if file is empty (0 bytes) - treat as stale
+        if os.path.getsize(filepath) == 0:
+            logging.debug("is_stale({}) - file is empty (0 bytes)".format(filepath))
+            verdict = True
+        else:
+            verdict = time.time() - os.path.getmtime(filepath) > ttl
 
     logging.debug(
         "is_stale({}) - {}"
@@ -188,12 +193,12 @@ def get_formatted_date(dt, include_time=True):
     return dt.strftime(formatter_day + " " + formatted_time)
 
 
-def get_sunset_time():
+def get_sunset_time(lat, long):
     """
     Return the time at which darkness begins, aka 'tonight'
     """
-    location_lat = os.getenv("WEATHER_LATITUDE", "51.5077")
-    location_long = os.getenv("WEATHER_LONGITUDE", "-0.1277")
+    location_lat = lat
+    location_long = long
     dt = datetime.datetime.now(pytz.utc)
     city = LocationInfo(location_lat, location_long)
     s = sun(city.observer, date=dt)

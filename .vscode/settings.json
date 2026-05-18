@@ -1,7 +1,11 @@
 {
     "python.defaultInterpreterPath": ".venv/bin/python",
-    "python.envFile": "${workspaceFolder}/env.sh",
     "python.terminal.activateEnvironment": true,
     "python.terminal.activateEnvInCurrentTerminal": true,
-    "markdown.extension.toc.updateOnSave": false
+    "markdown.extension.toc.updateOnSave": false,
+    "python.useEnvironmentsExtension": false,
+    "flake8.interpreter": [".venv/bin/python"],
+    "flake8.enabled": true,
+    "flake8.args": ["--max-line-length=180"],
+
 }

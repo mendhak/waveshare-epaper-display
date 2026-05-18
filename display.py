@@ -3,6 +3,7 @@ import sys
 import os
 import logging
 import datetime
+import tomllib
 from PIL import Image
 from utility import configure_logging
 
@@ -10,11 +11,12 @@ libdir = "./lib/e-Paper/RaspberryPi_JetsonNano/python/lib"
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-configure_logging()
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
 
-# Dear future me: consider converting this to a WAVESHARE_VERSION variable instead if you ever intend to support more screen sizes.
+configure_logging(config.get("locale", {}).get("log_level", "INFO"))
 
-waveshare_epd75_version = os.getenv("WAVESHARE_EPD75_VERSION", "2")
+waveshare_epd75_version = config.get("display", {}).get("waveshare_version", "2")
 
 if (waveshare_epd75_version == "1"):
     from waveshare_epd import epd7in5 as epd7in5

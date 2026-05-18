@@ -3,9 +3,13 @@ import datetime
 import requests
 from calendar_providers.outlook import OutlookCalendar
 from utility import configure_logging
+import tomllib
 
 
-configure_logging()
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
+
+configure_logging(config.get("locale", {}).get("log_level", "INFO"))
 
 
 def main():
@@ -21,21 +25,22 @@ def main():
         calendars_data = requests.get(endpoint_calendar_list, headers=headers).json()
 
         print("")
-        print("Here are the available Calendar names and IDs.  Copy the ID of the Calendar you want into env.sh")
+        print("Here are the available Calendar names and IDs.  Copy the ID of the Calendar you want into config.toml")
         for cal in calendars_data["value"]:
             print("============================================")
             print("Name               : ", cal["name"])
             print("ID                 : ", cal["id"])
             print("Any upcoming events: ")
 
-            today_start_time = datetime.datetime.utcnow()
+            # today_start_time = datetime.datetime.utcnow()
+            today_start_time = datetime.datetime.now(datetime.UTC)
             oneyearlater_iso = (datetime.datetime.now().astimezone() + datetime.timedelta(days=365)).astimezone()
 
             logging.debug(today_start_time)
             logging.debug(oneyearlater_iso)
 
             outlook_calendar = OutlookCalendar(cal["id"], 10, today_start_time, oneyearlater_iso)
-            events_data = outlook_calendar.get_calendar_events(bypass_cache=True)
+            events_data = outlook_calendar.get_calendar_events()
 
             for event in events_data:
                 print(f'{event.summary}, {event.start}, {event.end}, {event.all_day_event}')

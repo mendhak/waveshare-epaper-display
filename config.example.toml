@@ -151,11 +151,11 @@ id       = "your-calendar-id"
 # ---------------------------------------------
 
 [privacy]
-# Display an XKCD comic instead of weather/calendar
-xkcd = false
+# Enable privacy mode (hides everything and replaces with one of the below)
+enabled = false
 
-# Display a literary quote with clock instead of weather/calendar
-literature_clock = false
+# Mode: "xkcd" for XKCD comic, "literature" for literary clock
+mode = "literature"  # options: xkcd, literature
 
 # ---------------------------------------------
 # LOCALIZATION & LOGGING

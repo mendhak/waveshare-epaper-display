@@ -32,16 +32,18 @@ else
     export WAVESHARE_HEIGHT=480
 fi
 
-if [[ $PRIVACY_MODE_XKCD = 1 ]]; then
-    log "Get XKCD comic strip"
-    if .venv/bin/python3 scripts/xkcd_get.py; then
-        .venv/bin/python3 scripts/display.py xkcd-comic-strip.png
-    fi
-elif [[ $PRIVACY_MODE_LITERATURE_CLOCK = 1 ]]; then
-    log "Get Literature Clock"
-    if .venv/bin/python3 scripts/screen-literature-clock-get.py; then
-        .venv/bin/cairosvg -u -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
-        .venv/bin/python3 scripts/display.py screen-literature-clock.png
+if [[ $PRIVACY_ENABLED = 1 ]]; then
+    if [[ $PRIVACY_MODE = "xkcd" ]]; then
+        log "Get XKCD comic strip"
+        if .venv/bin/python3 scripts/xkcd_get.py; then
+            .venv/bin/python3 scripts/display.py xkcd-comic-strip.png
+        fi
+    else
+        log "Get Literature Clock"
+        if .venv/bin/python3 scripts/screen-literature-clock-get.py; then
+            .venv/bin/cairosvg -u -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
+            .venv/bin/python3 scripts/display.py screen-literature-clock.png
+        fi
     fi
 else
     log "Add weather info"

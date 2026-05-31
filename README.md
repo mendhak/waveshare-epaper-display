@@ -479,15 +479,11 @@ The next time `run.sh` runs, the output image should have the chosen font.
 
 ## Privacy Mode
 
-This mode hides away everything and just displays an XKCD comic or a literary quote for the time.  In `config.toml`, set:
+This mode hides away everything and just displays an XKCD comic or a literary quote for the time.  In `config.toml`, enable privacy mode and select the mode:
 
     [privacy]
-    xkcd = true
-
-Or for literature clock mode:
-
-    [privacy]
-    literature_clock = true
+    enabled = true
+    mode = "xkcd"  # or "literature"
 
 | `xkcd = true` <br />XKCD comic | `literature_clock = true` <br />Literature clock mode |
 | --- | --- |

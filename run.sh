@@ -8,7 +8,7 @@ function log {
 
 if [[ -f env.sh ]]; then
     echo "This project has switched to using config.toml. "
-    echo "Run .venv/bin/python3 migrate-env-to-toml.py to generate your config.toml from the existing env.sh."
+    echo "Run .venv/bin/python3 utils/migrate_env_to_toml.py to generate your config.toml from the existing env.sh."
     echo "Or, copy config.example.toml to config.toml and edit the values you need"
     echo "You can then edit it to make any adjustments."
     echo "Remember to remove the env.sh afterwards."
@@ -21,7 +21,7 @@ if [[ ! -f config.toml ]]; then
 fi
 
 # Read some specific values as env vars, it's needed here
-eval $(.venv/bin/python3 run_config_toml_helper.py)
+eval $(.venv/bin/python3 scripts/run_config_toml_helper.py)
 
 
 if [[ $WAVESHARE_EPD75_VERSION = 1 ]]; then
@@ -34,24 +34,24 @@ fi
 
 if [[ $PRIVACY_MODE_XKCD = 1 ]]; then
     log "Get XKCD comic strip"
-    if .venv/bin/python3 xkcd_get.py; then
-        .venv/bin/python3 display.py xkcd-comic-strip.png
+    if .venv/bin/python3 scripts/xkcd_get.py; then
+        .venv/bin/python3 scripts/display.py xkcd-comic-strip.png
     fi
 elif [[ $PRIVACY_MODE_LITERATURE_CLOCK = 1 ]]; then
     log "Get Literature Clock"
-    if .venv/bin/python3 screen-literature-clock-get.py; then
+    if .venv/bin/python3 scripts/screen-literature-clock-get.py; then
         .venv/bin/cairosvg -u -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
-        .venv/bin/python3 display.py screen-literature-clock.png
+        .venv/bin/python3 scripts/display.py screen-literature-clock.png
     fi
 else
     log "Add weather info"
-    if ! .venv/bin/python3 screen-weather-get.py; then
+    if ! .venv/bin/python3 scripts/screen-weather-get.py; then
         log "⚠️Error getting weather, stopping."
         exit 1
     fi
 
     log "Add Calendar info"
-    if ! .venv/bin/python3 screen-calendar-get.py; then
+    if ! .venv/bin/python3 scripts/screen-calendar-get.py; then
         log "⚠️Error getting calendar info, stopping."
         exit 1
     fi
@@ -59,15 +59,15 @@ else
     # Only layout 5 shows a calendar, so save a few seconds.
     if [[ "$SCREEN_LAYOUT" -eq 5 ]]; then
         log "Add Calendar month"
-        if ! .venv/bin/python3 screen-calendar-month.py; then
+        if ! .venv/bin/python3 scripts/screen-calendar-month.py; then
             log "⚠️Error getting calendar month info, stopping."
             exit 1
         fi
     fi
 
-    if [[ -f screen-custom-get.py ]]; then
+    if [[ -f scripts/screen-custom-get.py ]]; then
         log "Add Custom data"
-        if ! .venv/bin/python3 screen-custom-get.py; then
+        if ! .venv/bin/python3 scripts/screen-custom-get.py; then
             log "⚠️Error getting custom data, stopping."
             exit 1
         fi
@@ -89,5 +89,5 @@ else
 
     log "Display on screen"
 
-    .venv/bin/python3 display.py screen-output.png
+    .venv/bin/python3 scripts/display.py screen-output.png
 fi

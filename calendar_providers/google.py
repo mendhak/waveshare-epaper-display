@@ -1,6 +1,6 @@
 import datetime
 from calendar_providers.base_provider import BaseCalendarProvider, CalendarEvent
-from utility import xor_decode
+from scripts.utility import xor_decode
 import os
 import logging
 import pickle

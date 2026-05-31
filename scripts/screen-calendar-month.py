@@ -1,6 +1,9 @@
 import datetime
 import calendar
-from utility import update_svg, configure_locale, configure_logging
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.utility import update_svg, configure_locale, configure_logging
 import locale
 import babel
 import logging

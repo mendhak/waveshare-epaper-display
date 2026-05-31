@@ -2,12 +2,16 @@
 
 import datetime
 import sys
+import os
 import logging
 import json
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
-from utility import get_formatted_time, update_svg, configure_logging, configure_locale, is_stale
+from scripts.utility import get_formatted_time, update_svg, configure_logging, configure_locale, is_stale
 import textwrap
 import html
 import tomllib
@@ -264,7 +268,7 @@ def main():
 
     logging.info("Updating SVG")
 
-    template_svg_filename = f'screen-template.{template_name}.svg'
+    template_svg_filename = f'templates/screen-template.{template_name}.svg'
     output_svg_filename = 'screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
 

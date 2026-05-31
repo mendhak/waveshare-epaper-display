@@ -1,7 +1,10 @@
 import random
 import codecs
 import textwrap
-from utility import is_stale
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.utility import is_stale
 import requests
 import csv
 import datetime

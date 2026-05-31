@@ -1,8 +1,13 @@
 import logging
 import tomllib
 import datetime
-from utility import configure_logging
+import sys
+import os
 from googleapiclient.discovery import build
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from scripts.utility import configure_logging
 from calendar_providers.google import GoogleCalendar
 
 with open("config.toml", "rb") as f:

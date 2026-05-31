@@ -3,13 +3,18 @@ import logging
 import emoji
 import tomllib
 import pickle
+import sys
+import os
 from xml.sax.saxutils import escape
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from calendar_providers.base_provider import CalendarEvent
 from calendar_providers.caldav import CalDavCalendar
 from calendar_providers.google import GoogleCalendar
 from calendar_providers.ics import ICSCalendar
 from calendar_providers.outlook import OutlookCalendar
-from utility import get_formatted_time, update_svg, configure_logging, get_formatted_date, configure_locale, is_stale
+from scripts.utility import get_formatted_time, update_svg, configure_logging, get_formatted_date, configure_locale, is_stale
 
 with open("config.toml", "rb") as f:
     config = tomllib.load(f)

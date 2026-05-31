@@ -1,9 +1,11 @@
 import requests
 import logging
 import os
-from PIL import Image
-from utility import is_stale, configure_logging
 import sys
+from PIL import Image
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.utility import is_stale, configure_logging
+
 
 configure_logging()
 
@@ -20,8 +22,8 @@ def xkcd_get_img():
     logging.info("Downloading xkcd_img")
     logging.info(result["img"])
 
-    path = os.path.dirname(os.path.realpath(__file__))
-    filename = path + '/' + os.path.basename(xkcd_file_name)
+    project_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filename = project_root_dir + '/' + os.path.basename(xkcd_file_name)
     if os.path.exists(filename):
         os.remove(filename)
     image_response = requests.get(result["img"])

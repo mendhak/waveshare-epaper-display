@@ -2,10 +2,10 @@
 """
 Convert env.sh to config.toml format.
 Run this to see what the config.toml would look like. Copy paste it to config.toml to use it:
-.venv/bin/python3 migrate-env-to-toml.py
+.venv/bin/python3 utils/migrate_env_to_toml.py
 
 Run this to generate a config.toml file:
-.venv/bin/python3 migrate-env-to-toml.py > config.toml
+.venv/bin/python3 utils/migrate_env_to_toml.py > config.toml
 """
 
 import re

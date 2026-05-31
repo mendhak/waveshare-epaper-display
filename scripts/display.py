@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-import sys
-import os
 import logging
 import datetime
+import os
+import sys
 import tomllib
 from PIL import Image
-from utility import configure_logging
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.utility import configure_logging
 
 libdir = "./lib/e-Paper/RaspberryPi_JetsonNano/python/lib"
 if os.path.exists(libdir):

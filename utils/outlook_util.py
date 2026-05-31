@@ -1,9 +1,14 @@
 import logging
 import datetime
 import requests
-from calendar_providers.outlook import OutlookCalendar
-from utility import configure_logging
+import sys
+import os
 import tomllib
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from calendar_providers.outlook import OutlookCalendar
+from scripts.utility import configure_logging
 
 
 with open("config.toml", "rb") as f:

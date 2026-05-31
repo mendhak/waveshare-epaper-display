@@ -262,7 +262,7 @@ You will need to run an Oauth process once manually to allow this application qu
 
 Run: 
 
-    .venv/bin/python3 google_calendar_util.py
+    .venv/bin/python3 utils/google_calendar_util.py
 
 The script will prompt you to visit a URL in your browser, then it will sit there and wait. The URL will look like `https://accounts.google.com/o/...` and will be very long.  
 
@@ -296,7 +296,7 @@ You can also get a calendar's ID manually by opening up [Google Calendar](https:
 
 The setup is much simpler, just run this script which will give instructions on how to login:
 
-    .venv/bin/python3 outlook_util.py
+    .venv/bin/python3 utils/outlook_util.py
 
 Login with the Microsoft account you want to get the calendar from, and accept the consent screen.
 After a moment, the script will then display a set of Calendar IDs and some sample events from those Calendars.
@@ -382,8 +382,8 @@ Alternatively, you can use a systemd timer. There are example systemd units avai
 that starts a service every minute that runs the script. To achieve this, execute the following commands.
 
     mkdir -p ~/.config/systemd/user/
-    cp waveshare-epaper-display.service.example ~/.config/systemd/user/waveshare-epaper-display.service
-    cp waveshare-epaper-display.timer.example ~/.config/systemd/user/waveshare-epaper-display.timer
+    cp utils/waveshare-epaper-display.service.example ~/.config/systemd/user/waveshare-epaper-display.service
+    cp utils/waveshare-epaper-display.timer.example ~/.config/systemd/user/waveshare-epaper-display.timer
     systemctl --user daemon-reload
     systemctl --user enable waveshare-epaper-display.timer
     loginctl enable-linger
@@ -392,9 +392,9 @@ that starts a service every minute that runs the script. To achieve this, execut
 
 This is an optional step, to add your own custom data to the screen.  For example this could be API calls, data from Home Assistant, PiHole stats, or something external.
 
-Rename `screen-custom-get.py.sample` to `screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
+Rename `scripts/screen-custom-get.py.sample` to `scripts/screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
 
-Next, modify `screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position.
+Next, modify `templates/screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position.
 You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.
 
 ## How to use a different display language
@@ -508,7 +508,7 @@ If there isn't enough information in there, you can set the log level in `config
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.
 If you want to force a weather update, delete `cache_weather.json`.
-If you want to force a calendar update, delete `cache_calendar.pickle`.
+If you want to force a calendar update, delete `cache_all_calendars.pickle`.
 If you want to force a re-login to Google or Outlook, delete `token.pickle` or `outlooktoken.bin`.
 
 
@@ -551,4 +551,4 @@ Copy `config.example.toml` to `config.toml` and configure your settings.
 
 To run the project, just run `./run.sh`.  It will read config.toml and run the various Python scripts.
 
-To debug the project, open a Python script file such as `screen-calendar-get.py` or `screen-weather-get.py`, and press F5.  It will use config.toml for settings and run the script.  It can hit breakpoints, no problem.
+To debug the project, open a Python script file such as `scripts/screen-calendar-get.py` or `scripts/screen-weather-get.py`, and press F5.  It will use config.toml for settings and run the script.  It can hit breakpoints, no problem.

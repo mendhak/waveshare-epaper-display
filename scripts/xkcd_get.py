@@ -10,9 +10,9 @@ from scripts.utility import is_stale, configure_logging
 configure_logging()
 
 def xkcd_get_img():
-    xkcd_file_name = "xkcd-comic-strip.png"
+    xkcd_file_name = "data/xkcd-comic-strip.png"
     if not is_stale(xkcd_file_name, 3600):
-        logging.info("xkcd-comic-strip.png is still fresh. Skipping download.")
+        logging.info("data/xkcd-comic-strip.png is still fresh. Skipping download.")
         sys.exit(1)
 
     logging.info("Downloading xkcd-json")

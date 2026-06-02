@@ -12,17 +12,17 @@ import re
 import math
 
 
-if is_stale('litclock_annotated.csv', 86400):
+if is_stale('data/litclock_annotated.csv', 86400):
     url = "https://raw.githubusercontent.com/JohannesNE/literature-clock/master/litclock_annotated.csv"
     response = requests.get(url)
     response.raise_for_status()
-    with open('litclock_annotated.csv', 'w') as text_file:
+    with open('data/litclock_annotated.csv', 'w') as text_file:
         text_file.write(response.text)
 
 time_rows = []
 current_time = datetime.datetime.now().strftime("%H:%M")
 # current_time = "07:32"
-with open('litclock_annotated.csv', 'r') as file:
+with open('data/litclock_annotated.csv', 'r') as file:
     reader = csv.DictReader(file,
                             fieldnames=[
                                 "time", "time_human", "full_quote", "book_title", "author_name", "sfw"],
@@ -124,7 +124,7 @@ svg_template = f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 """
 
-output_svg_filename = 'screen-literature-clock.svg'
+output_svg_filename = 'data/screen-literature-clock.svg'
 
 svg_output = svg_template
 

@@ -20,7 +20,7 @@ def main():
     output_dict = {
         'CUSTOM_DATA_1' : custom_value_1
     }
-    update_svg('screen-custom.svg', 'screen-output-custom-temp.svg', output_dict)
+    update_svg('templates/screen-custom.svg', 'data/screen-output-custom-temp.svg', output_dict)
 
 if __name__ == "__main__":
     main()

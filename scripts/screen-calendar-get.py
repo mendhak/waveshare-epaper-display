@@ -126,8 +126,8 @@ def fetch_all_calendar_events():
 
 def main():
 
-    output_svg_filename = 'screen-output-weather.svg'
-    cache_file = 'cache_all_calendars.pickle'
+    output_svg_filename = 'data/screen-output-weather.svg'
+    cache_file = 'data/cache_all_calendars.pickle'
 
     if is_stale(cache_file, ttl):
         logging.info("Cache is stale, fetching fresh calendar data")

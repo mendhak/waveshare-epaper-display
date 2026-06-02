@@ -18,7 +18,7 @@ class GoogleCalendar(BaseCalendarProvider):
 
     def get_google_credentials(self):
 
-        google_token_pickle = 'token.pickle'
+        google_token_pickle = 'data/token.pickle'
 
         google_api_scopes = ['https://www.googleapis.com/auth/calendar.readonly']
 

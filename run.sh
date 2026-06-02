@@ -20,6 +20,8 @@ if [[ ! -f config.toml ]]; then
     exit 1
 fi
 
+mkdir -p data
+
 # Read some specific values as env vars, it's needed here
 eval $(.venv/bin/python3 scripts/run_config_toml_helper.py)
 
@@ -36,13 +38,13 @@ if [[ $PRIVACY_ENABLED = 1 ]]; then
     if [[ $PRIVACY_MODE = "xkcd" ]]; then
         log "Get XKCD comic strip"
         if .venv/bin/python3 scripts/xkcd_get.py; then
-            .venv/bin/python3 scripts/display.py xkcd-comic-strip.png
+            .venv/bin/python3 scripts/display.py data/xkcd-comic-strip.png
         fi
     else
         log "Get Literature Clock"
         if .venv/bin/python3 scripts/screen-literature-clock-get.py; then
-            .venv/bin/cairosvg -u -o screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-literature-clock.svg
-            .venv/bin/python3 scripts/display.py screen-literature-clock.png
+            .venv/bin/cairosvg -u -o data/screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT data/screen-literature-clock.svg
+            .venv/bin/python3 scripts/display.py data/screen-literature-clock.png
         fi
     fi
 else
@@ -76,20 +78,20 @@ else
     fi
 
     # Create temporary empty svg if it doesn't exist or is empty
-    if [[ ! -f screen-output-custom-temp.svg ]] || [[ ! -s screen-output-custom-temp.svg ]]; then
-        echo -n '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > screen-output-custom-temp.svg
+    if [[ ! -f data/screen-output-custom-temp.svg ]] || [[ ! -s data/screen-output-custom-temp.svg ]]; then
+        echo -n '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > data/screen-output-custom-temp.svg
     fi
 
 
     log "Export to PNG"
 
     # .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
-    if ! .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg; then
+    if ! .venv/bin/cairosvg -u -o data/screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT data/screen-output-weather.svg; then
         log "⚠️Error exporting to PNG, stopping."
         exit 1
     fi
 
     log "Display on screen"
 
-    .venv/bin/python3 scripts/display.py screen-output.png
+    .venv/bin/python3 scripts/display.py data/screen-output.png
 fi

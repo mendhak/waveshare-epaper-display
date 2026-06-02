@@ -152,7 +152,7 @@ def get_alert_message(location_lat, location_long, alerts_provider_name, alerts_
 
 def fetch_weather(location_lat, location_long, units, weather_provider_name, provider_config):
     weather_ttl = float(config["weather"].get("cache_ttl_seconds", 3600))
-    cache_file = 'cache_weather.json'
+    cache_file = 'data/cache_weather.json'
 
     if is_stale(cache_file, weather_ttl):
         logging.info("Cache is stale, fetching fresh weather data")
@@ -175,7 +175,7 @@ def fetch_weather(location_lat, location_long, units, weather_provider_name, pro
 
 def fetch_alert(location_lat, location_long, alerts_provider_name, alerts_config):
     alerts_ttl = float(config.get("alerts", {}).get("cache_ttl_seconds", 3600))
-    cache_file = 'cache_alerts.json'
+    cache_file = 'data/cache_alerts.json'
 
     if is_stale(cache_file, alerts_ttl):
         logging.info("Cache is stale, fetching fresh alert data")
@@ -269,7 +269,7 @@ def main():
     logging.info("Updating SVG")
 
     template_svg_filename = f'templates/screen-template.{template_name}.svg'
-    output_svg_filename = 'screen-output-weather.svg'
+    output_svg_filename = 'data/screen-output-weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
 
 

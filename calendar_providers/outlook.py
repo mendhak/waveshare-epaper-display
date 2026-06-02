@@ -19,8 +19,8 @@ class OutlookCalendar(BaseCalendarProvider):
 
     def get_access_token(self):
         mscache = msal.SerializableTokenCache()
-        if os.path.exists("outlooktoken.bin"):
-            mscache.deserialize(open("outlooktoken.bin", "r").read())
+        if os.path.exists("data/outlooktoken.bin"):
+            mscache.deserialize(open("data/outlooktoken.bin", "r").read())
 
         app = msal.PublicClientApplication("3b49f0d7-201a-4b5d-b2b4-8f4c3e6c8a30",
                                            authority="https://login.microsoftonline.com/consumers",
@@ -52,7 +52,7 @@ class OutlookCalendar(BaseCalendarProvider):
 
         if "access_token" in result:
             if mscache.has_state_changed:
-                open("outlooktoken.bin", "w").write(mscache.serialize())
+                open("data/outlooktoken.bin", "w").write(mscache.serialize())
 
             return result["access_token"]
         else:

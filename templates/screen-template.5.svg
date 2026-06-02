@@ -17,7 +17,7 @@
    <text id="date" x="20" y="115">DAY_ONE</text>
 
    <g transform="scale(1.1) translate(565 5)" id="g3127">
-      <use href="icons/ICON_ONE.svg" id="use3129" />
+      <use href="../icons/ICON_ONE.svg" id="use3129" />
    </g>
 
    <text id="temperature" x="672" y="155">HIGH_ONE/LOW_ONE</text>

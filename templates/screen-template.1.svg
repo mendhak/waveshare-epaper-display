@@ -3,7 +3,7 @@
     <rect width="800" height="480" id="rect3855" fill="white" />
 
     <g transform="scale(1.2) translate(75 165)" id="currentweather">
-        <use id="currentweathericon" href="icons/ICON_ONE.svg" />
+        <use id="currentweathericon" href="../icons/ICON_ONE.svg" />
     </g>
 
     <text id="alertmessage" x="0" y="35" font-size="30px" style="font-weight:bold;font-size:30px;line-height:0%;font-family:'Nimbus Mono PS',monospace;text-anchor:beginning">ALERT_MESSAGE</text>

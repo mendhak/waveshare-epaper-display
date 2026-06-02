@@ -274,7 +274,7 @@ Copy the URL it was trying to go to (eg: http://localhost:8080/...) and in anoth
 
     curl "http://localhost:8080/..."
 
-On the first screen you should see the auth flow complete, and a new `token.pickle` file appears.   
+On the first screen you should see the auth flow complete, and a new `data/token.pickle` file appears.   
 The script should now be able to run in the future without prompting required.
 
 #### Get your calendar ID
@@ -503,9 +503,13 @@ If there isn't enough information in there, you can set the log level in `config
     log_level = "DEBUG"
 
 The scripts cache the calendar and weather information, to avoid hitting weather API rate limits.
-If you want to force a weather update, delete `cache_weather.json`.
-If you want to force a calendar update, delete `cache_all_calendars.pickle`.
-If you want to force a re-login to Google or Outlook, delete `token.pickle` or `outlooktoken.bin`.
+All temporary files are stored in the `data/` folder.
+
+If you want to force a weather update, delete `data/cache_weather.json`.
+If you want to force a calendar update, delete `data/cache_all_calendars.pickle`.
+If you want to force a re-login to Google or Outlook, delete `data/token.pickle` or `data/outlooktoken.bin`.
+
+To clear all cached data at once, run: `rm -rf data/*`
 
 
 ## Waveshare documentation and sample code
@@ -528,7 +532,7 @@ This is the best place to start for troubleshooting - try to make sure the examp
 
 ## Debugging locally
 
-It's possible to run and debug the application locally with virtual environments.  The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `screen-output.png`.
+It's possible to run and debug the application locally with virtual environments.  The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `data/screen-output.png`.
 
 Do this before opening VSCode:
 

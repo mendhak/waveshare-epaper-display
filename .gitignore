@@ -1,28 +1,20 @@
 __pycache__
 *.__pycache__
 *.pyc
-screen-output*
 screen-custom-get.py
 env.sh
 config.toml
 *.log
-*.pickle
 credentials*
-*.json
 !.vscode/*
-*.bin
 test.svg
 *.xml
 venv
-cache_
 .venv
 .env
 
-xkcd-comic-strip.png
-
-screen-literature*.svg
-screen-literature*.png
-litclock_annotated.csv
-
 .notes
 *.bak
+
+# Generated files, tokens, cache, etc.
+data/

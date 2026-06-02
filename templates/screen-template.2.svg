@@ -3,7 +3,7 @@
   <rect width="800" height="480" id="rect3855" fill="white" />
 
   <g transform="scale(1.2) translate(25 165)" id="currentweather">
-    <use href="icons/ICON_ONE.svg" id="currentweathericon" />
+    <use href="../icons/ICON_ONE.svg" id="currentweathericon" />
   </g>
   <text id="temphighlow" x="25" y="372" font-size="38px" style="">HIGH_ONE/LOW_ONE</text>
   <text id="text499" x="25" y="400" font-size="22px" style="font-family:sans-serif">WEATHER_DESC_1</text>

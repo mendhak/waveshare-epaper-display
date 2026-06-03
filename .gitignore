@@ -17,4 +17,5 @@ venv
 *.bak
 
 # Generated files, tokens, cache, etc.
-data/
+data/*
+!data/.gitkeep

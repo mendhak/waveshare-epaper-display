@@ -1,9 +1,8 @@
 ## ONGOING
 * Moved from env.sh to config.toml for configuration, as it was growing too large. It's a breaking change. A helper script, utils/migrate_env_to_toml.py is provided.
 * Folders restructured for better organization, root project was getting very messy. 
-* TODO: add a cache folder for the temporary files, tokens, cache output, point the weather icons at ../icons/ 
-* TODO: rename files to use underscore for consistency
-* Major refactor, using underscore in file names, reorganized temporary files into data/ folder
+* Added a 'data' folder for the temporary files, tokens, cache output
+* Renamed files to use underscore for consistency
 
 ## 2025-04-13
 * Ability to use systemd as the scheduler, instead of crontab. Added by [martinezjavier](https://github.com/mendhak/waveshare-epaper-display/pull/100).

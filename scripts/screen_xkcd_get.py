@@ -10,9 +10,9 @@ from scripts.utility import is_stale, configure_logging
 configure_logging()
 
 def xkcd_get_img():
-    xkcd_file_name = "data/xkcd-comic-strip.png"
+    xkcd_file_name = "data/screen_xkcd_comic_strip.png"
     if not is_stale(xkcd_file_name, 3600):
-        logging.info("data/xkcd-comic-strip.png is still fresh. Skipping download.")
+        logging.info("data/screen_xkcd_comic_strip.png is still fresh. Skipping download.")
         sys.exit(1)
 
     logging.info("Downloading xkcd-json")
@@ -23,7 +23,7 @@ def xkcd_get_img():
     logging.info(result["img"])
 
     project_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    filename = project_root_dir + '/' + os.path.basename(xkcd_file_name)
+    filename = project_root_dir + '/' + xkcd_file_name
     if os.path.exists(filename):
         os.remove(filename)
     image_response = requests.get(result["img"])

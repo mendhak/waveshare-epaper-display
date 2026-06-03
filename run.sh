@@ -37,25 +37,25 @@ fi
 if [[ $PRIVACY_ENABLED = 1 ]]; then
     if [[ $PRIVACY_MODE = "xkcd" ]]; then
         log "Get XKCD comic strip"
-        if .venv/bin/python3 scripts/xkcd_get.py; then
+        if .venv/bin/python3 scripts/screen_xkcd_get.py; then
             .venv/bin/python3 scripts/display.py data/xkcd-comic-strip.png
         fi
     else
         log "Get Literature Clock"
-        if .venv/bin/python3 scripts/screen-literature-clock-get.py; then
-            .venv/bin/cairosvg -u -o data/screen-literature-clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT data/screen-literature-clock.svg
-            .venv/bin/python3 scripts/display.py data/screen-literature-clock.png
+        if .venv/bin/python3 scripts/screen_literature_clock_get.py; then
+            .venv/bin/cairosvg -u -o data/screen_literature_clock.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT data/screen_literature_clock.svg
+            .venv/bin/python3 scripts/display.py data/screen_literature_clock.png
         fi
     fi
 else
     log "Add weather info"
-    if ! .venv/bin/python3 scripts/screen-weather-get.py; then
+    if ! .venv/bin/python3 scripts/screen_weather_get.py; then
         log "⚠️Error getting weather, stopping."
         exit 1
     fi
 
     log "Add Calendar info"
-    if ! .venv/bin/python3 scripts/screen-calendar-get.py; then
+    if ! .venv/bin/python3 scripts/screen_calendar_get.py; then
         log "⚠️Error getting calendar info, stopping."
         exit 1
     fi
@@ -63,35 +63,35 @@ else
     # Only layout 5 shows a calendar, so save a few seconds.
     if [[ "$SCREEN_LAYOUT" -eq 5 ]]; then
         log "Add Calendar month"
-        if ! .venv/bin/python3 scripts/screen-calendar-month.py; then
+        if ! .venv/bin/python3 scripts/screen_calendar_month.py; then
             log "⚠️Error getting calendar month info, stopping."
             exit 1
         fi
     fi
 
-    if [[ -f scripts/screen-custom-get.py ]]; then
+    if [[ -f scripts/screen_custom_get.py ]]; then
         log "Add Custom data"
-        if ! .venv/bin/python3 scripts/screen-custom-get.py; then
+        if ! .venv/bin/python3 scripts/screen_custom_get.py; then
             log "⚠️Error getting custom data, stopping."
             exit 1
         fi
     fi
 
     # Create temporary empty svg if it doesn't exist or is empty
-    if [[ ! -f data/screen-output-custom-temp.svg ]] || [[ ! -s data/screen-output-custom-temp.svg ]]; then
-        echo -n '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > data/screen-output-custom-temp.svg
+    if [[ ! -f data/screen_output_custom_temp.svg ]] || [[ ! -s data/screen_output_custom_temp.svg ]]; then
+        echo -n '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>' > data/screen_output_custom_temp.svg
     fi
 
 
     log "Export to PNG"
 
-    # .venv/bin/cairosvg -u -o screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen-output-weather.svg
-    if ! .venv/bin/cairosvg -u -o data/screen-output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT data/screen-output-weather.svg; then
+    # .venv/bin/cairosvg -u -o screen_output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT screen_output_weather.svg
+    if ! .venv/bin/cairosvg -u -o data/screen_output.png -f png --dpi 300 --output-width $WAVESHARE_WIDTH --output-height $WAVESHARE_HEIGHT data/screen_output_weather.svg; then
         log "⚠️Error exporting to PNG, stopping."
         exit 1
     fi
 
     log "Display on screen"
 
-    .venv/bin/python3 scripts/display.py data/screen-output.png
+    .venv/bin/python3 scripts/display.py data/screen_output.png
 fi

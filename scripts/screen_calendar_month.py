@@ -62,7 +62,7 @@ def main():
     # Remove the <?xml> line
     svg_output = svg_output.split('\n', 1)[1]
 
-    output_svg_filename = 'data/screen-output-weather.svg'
+    output_svg_filename = 'data/screen_output_weather.svg'
     output_dict = {'MONTH_CAL': svg_output}
     logging.info("main() - {}".format(output_dict))
     logging.info("Updating SVG")

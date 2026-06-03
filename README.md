@@ -274,7 +274,7 @@ Copy the URL it was trying to go to (eg: http://localhost:8080/...) and in anoth
 
     curl "http://localhost:8080/..."
 
-On the first screen you should see the auth flow complete, and a new `data/token.pickle` file appears.   
+On the first screen you should see the auth flow complete, and a new `data/token_google.pickle` file appears.   
 The script should now be able to run in the future without prompting required.
 
 #### Get your calendar ID
@@ -382,20 +382,20 @@ Alternatively, you can use a systemd timer. There are example systemd units avai
 that starts a service every minute that runs the script. To achieve this, execute the following commands.
 
     mkdir -p ~/.config/systemd/user/
-    cp utils/waveshare-epaper-display.service.example ~/.config/systemd/user/waveshare-epaper-display.service
-    cp utils/waveshare-epaper-display.timer.example ~/.config/systemd/user/waveshare-epaper-display.timer
+    cp utils/waveshare_epaper_display.service.example ~/.config/systemd/user/waveshare_epaper_display.service
+    cp utils/waveshare_epaper_display.timer.example ~/.config/systemd/user/waveshare_epaper_display.timer
     systemctl --user daemon-reload
-    systemctl --user enable waveshare-epaper-display.timer
+    systemctl --user enable waveshare_epaper_display.timer
     loginctl enable-linger
 
 ## Custom Data
 
 This is an optional step, to add your own custom data to the screen.  For example this could be API calls, data from Home Assistant, PiHole stats, or something external.
 
-Rename `scripts/screen-custom-get.py.sample` to `scripts/screen-custom-get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
+Rename `scripts/screen_custom_get.py.sample` to `scripts/screen_custom_get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
 
-Next, modify `templates/screen-custom.svg` and change the various x, y, font size values to adjust its appearance and position.
-You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen-custom.get.py`.
+Next, modify `templates/screen_custom.svg` and change the various x, y, font size values to adjust its appearance and position.
+You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen_custom.get.py`.
 
 ## How to use a different display language
 
@@ -507,7 +507,7 @@ All temporary files are stored in the `data/` folder.
 
 If you want to force a weather update, delete `data/cache_weather.json`.
 If you want to force a calendar update, delete `data/cache_all_calendars.pickle`.
-If you want to force a re-login to Google or Outlook, delete `data/token.pickle` or `data/outlooktoken.bin`.
+If you want to force a re-login to Google or Outlook, delete `data/token_google.pickle` or `data/token_outlook.bin`.
 
 To clear all cached data at once, run: `rm -rf data/*`
 
@@ -532,7 +532,7 @@ This is the best place to start for troubleshooting - try to make sure the examp
 
 ## Debugging locally
 
-It's possible to run and debug the application locally with virtual environments.  The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `data/screen-output.png`.
+It's possible to run and debug the application locally with virtual environments.  The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `data/screen_output.png`.
 
 Do this before opening VSCode:
 
@@ -551,4 +551,4 @@ Copy `config.example.toml` to `config.toml` and configure your settings.
 
 To run the project, just run `./run.sh`.  It will read config.toml and run the various Python scripts.
 
-To debug the project, open a Python script file such as `scripts/screen-calendar-get.py` or `scripts/screen-weather-get.py`, and press F5.  It will use config.toml for settings and run the script.  It can hit breakpoints, no problem.
+To debug the project, open a Python script file such as `scripts/screen_calendar_get.py` or `scripts/screen_weather_get.py`, and press F5.  It will use config.toml for settings and run the script.  It can hit breakpoints, no problem.

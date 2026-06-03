@@ -112,7 +112,7 @@
      <text id="alert" x="20" y="35">ALERT_MESSAGE</text>
    </svg>
 
-   <use id="customdata" href="screen-output-custom-temp.svg" />
+   <use id="customdata" href="screen_output_custom_temp.svg" />
 
    <style>
     <![CDATA[

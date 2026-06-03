@@ -1,7 +1,7 @@
 __pycache__
 *.__pycache__
 *.pyc
-screen-custom-get.py
+screen_custom_get.py
 env.sh
 config.toml
 *.log

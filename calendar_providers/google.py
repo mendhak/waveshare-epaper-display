@@ -18,12 +18,12 @@ class GoogleCalendar(BaseCalendarProvider):
 
     def get_google_credentials(self):
 
-        google_token_pickle = 'data/token.pickle'
+        google_token_pickle = 'data/token_google.pickle'
 
         google_api_scopes = ['https://www.googleapis.com/auth/calendar.readonly']
 
         credentials = None
-        # The file token.pickle stores the user's access and refresh tokens, and is
+        # The file token_google.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
         if os.path.exists(google_token_pickle):

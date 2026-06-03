@@ -45,6 +45,6 @@
 
     <text id="texttime" x="20" y="125" font-size="TIME_NOW_FONT_SIZE" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
 
-    <use id="customdata" href="screen-output-custom-temp.svg" />
+    <use id="customdata" href="screen_output_custom_temp.svg" />
 
 </svg>

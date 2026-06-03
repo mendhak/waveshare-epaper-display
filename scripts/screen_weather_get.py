@@ -268,8 +268,8 @@ def main():
 
     logging.info("Updating SVG")
 
-    template_svg_filename = f'templates/screen-template.{template_name}.svg'
-    output_svg_filename = 'data/screen-output-weather.svg'
+    template_svg_filename = f'templates/screen_template.{template_name}.svg'
+    output_svg_filename = 'data/screen_output_weather.svg'
     update_svg(template_svg_filename, output_svg_filename, output_dict)
 
 

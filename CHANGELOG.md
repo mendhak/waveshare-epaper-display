@@ -3,6 +3,7 @@
 * Folders restructured for better organization, root project was getting very messy. 
 * TODO: add a cache folder for the temporary files, tokens, cache output, point the weather icons at ../icons/ 
 * TODO: rename files to use underscore for consistency
+* Major refactor, using underscore in file names, reorganized temporary files into data/ folder
 
 ## 2025-04-13
 * Ability to use systemd as the scheduler, instead of crontab. Added by [martinezjavier](https://github.com/mendhak/waveshare-epaper-display/pull/100).

@@ -55,7 +55,7 @@ cache_ttl_seconds = 3600
 provider = "metoffice"
 
 # See README.md for setup instructions for each provider
-# MetOffice (UK)
+# MetOffice (UK) example:
 [alerts.providers.metoffice]
 feed_url = "https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/se"
 
@@ -74,7 +74,7 @@ max_events = 10
 include_past_events_for_today = false
 
 # See README.md for setup instructions for each provider
-# Google Calendar
+# Google Calendar example:
 # You can add multiple Google calendars by adding more [[calendar.providers.google]] blocks
 # Get your Calendar ID from Google Calendar Settings > Share this calendar
 # Format: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@group.calendar.google.com

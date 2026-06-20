@@ -32,9 +32,8 @@ cache_ttl_seconds = 3600
 
 # Choose ONE provider: metoffice, accuweather, openweathermap, metno,
 # met_eireann, weathergov, smhi, visualcrossing, climacell
-provider = "metoffice"
-
 # See README.md for setup instructions for each provider
+provider = "metoffice"
 
 # MetOffice (UK) example:
 [weather.providers.metoffice]
@@ -75,15 +74,13 @@ include_past_events_for_today = false
 
 # See README.md for setup instructions for each provider
 # Google Calendar example:
-# You can add multiple Google calendars by adding more [[calendar.providers.google]] blocks
-# Get your Calendar ID from Google Calendar Settings > Share this calendar
-# Format: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@group.calendar.google.com
+# Get your Calendar ID by running .venv/bin/python3 utils/google_calendar_util.py
 [[calendar.providers.google]]
 enabled   = true
 id        = "your-google-calendar-id@group.calendar.google.com"
-time_zone = "Europe/London"  # Optional: for family calendars that don't support timezone
+time_zone = "Europe/London"  # Optional, for family calendars that don't support timezone
 
-# Example of a second calendar:
+# You can add multiple calendars by adding more [[calendar.providers.google]] blocks:
 # [[calendar.providers.google]]
 # enabled = true
 # id = "another-calendar-id@group.calendar.google.com"

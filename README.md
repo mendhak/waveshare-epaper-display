@@ -101,7 +101,7 @@ Set the version of your Waveshare 7.5" e-Paper Module (newer ones are version 2,
 
 Whichever weather provider you use, you'll need to provide the location and units to display in.
 
-Edit `config.toml` and update the latitude and longitude:
+Edit `config.toml` and update the latitude and longitude under the `[weather]` section. 
 
     [weather]
     latitude  = 51.5077
@@ -112,10 +112,11 @@ Edit `config.toml` and update the latitude and longitude:
 
 You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.
 
-In `config.toml`, set the `provider` field under `[weather]` to choose which provider to use:
+In `config.toml`, under the `[weather]` section, set the `provider` to the provider you want to use.  For example:
 
     [weather]
-    provider = "metoffice" # metoffice, climacell, accuweather, openweathermap, metno, met_eireann, weathergov, smhi, visualcrossing
+    ... your location details from above ...
+    provider = "metoffice"                # metoffice, climacell, accuweather, openweathermap, metno, met_eireann, weathergov, smhi, visualcrossing
 
 Then configure the API key in the corresponding provider section below.
 
@@ -168,12 +169,12 @@ Note that the Met.no API provides 6 hours of forecast, rather than a full day.
 
 [Met Éireann](https://www.met.ie/) publish their forecast data under a [Creative Commons Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  No API key required.
 
-In `config.toml`, set the provider:
+In `config.toml`, just set the provider:
 
     [weather]
     provider = "met_eireann"
 
-Note that a condition of use of this data is that weather alerts be displayed, so you should also configure the Met Éireann alert provider below.
+Note that a condition of use of this data is that weather alerts also be displayed, so you should configure the Met Éireann alert provider below.
 
 ### Weather.gov (US)
 

@@ -83,6 +83,11 @@ enabled   = true
 id        = "your-google-calendar-id@group.calendar.google.com"
 time_zone = "Europe/London"  # Optional: for family calendars that don't support timezone
 
+# Example of a second calendar:
+# [[calendar.providers.google]]
+# enabled = true
+# id = "another-calendar-id@group.calendar.google.com"
+
 
 # ---------------------------------------------
 # PRIVACY MODE

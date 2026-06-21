@@ -73,7 +73,7 @@ def generate_toml(settings):
     version = settings.get('WAVESHARE_EPD75_VERSION', '2')
     lines.append('[display]')
     lines.append(f'screen_output_layout = "{layout}"')
-    lines.append(f'waveshare_epd75_version = "{version}"')
+    lines.append(f'waveshare_version = "{version}"')
     lines.append('')
 
     # Weather
@@ -184,8 +184,13 @@ def generate_toml(settings):
     xkcd = settings.get('PRIVACY_MODE_XKCD', '0')
     lit = settings.get('PRIVACY_MODE_LITERATURE_CLOCK', '0')
     lines.append('[privacy]')
-    lines.append(f'xkcd = {str(xkcd == "1").lower()}')
-    lines.append(f'literature_clock = {str(lit == "1").lower()}')
+    if xkcd == '1':
+        lines.append('mode = "xkcd"')
+    elif lit == '1':
+        lines.append('mode = "literature"')
+    else:
+        lines.append('mode = "literature"')
+    lines.append('enabled = true' if (xkcd == '1' or lit == '1') else 'enabled = false')
     lines.append('')
 
     # Locale

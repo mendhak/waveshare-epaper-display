@@ -100,7 +100,7 @@ Copy the example config file to `config.toml`, this is where all the settings wi
 Set the version of your Waveshare 7.5" e-Paper Module (newer ones are version 2, red one is 2B):
 
     [display]
-    waveshare_epd75_version = "2"
+    waveshare_version = "2"
 
 ## Set your location
 
@@ -402,7 +402,7 @@ This is an optional step, to add your own custom data to the screen.  For exampl
 Rename `scripts/screen_custom_get.py.sample` to `scripts/screen_custom_get.py`. Do your custom code, and set the value of `custom_value_1` to the value you want to display. Run `./run.sh` and it'll appear on screen.
 
 Next, modify `templates/screen_custom.svg` and change the various x, y, font size values to adjust its appearance and position.
-You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `screen_custom.get.py`.
+You can add more values by adding more SVG elements for custom_value_2, custom_value_3, and so on, and set its value in the `output_dict` in `scripts/screen_custom_get.py`.
 
 ## How to use a different display language
 

@@ -1,9 +1,10 @@
 ## 2026-06-21
-* Major refactor. If upgrading, I recommend renaming the existing folder to backup. Clone a fresh copy of the repo. Then copy the env.sh into the new folder and run `utils/migrate_env_to_toml.py` to migrate the env.sh variables into config.toml. 
 * Moved from env.sh to config.toml for configuration, as it was growing too large. It's a breaking change. A helper script, utils/migrate_env_to_toml.py is provided.
 * Folders restructured for better organization, root project was getting very messy. 
 * Added a 'data' folder for the temporary files, tokens, cache output
 * Renamed files to use underscore for consistency
+* If upgrading, I recommend renaming the existing folder to a backup. Clone a fresh copy of the repo. Then copy the env.sh into the new folder and run `utils/migrate_env_to_toml.py` to generate a config.toml. 
+* A backup branch, just before the refactor, is at `master-20260621`
 
 ## 2025-04-13
 * Ability to use systemd as the scheduler, instead of crontab. Added by [martinezjavier](https://github.com/mendhak/waveshare-epaper-display/pull/100).

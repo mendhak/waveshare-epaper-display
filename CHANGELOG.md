@@ -1,4 +1,5 @@
-## ONGOING
+## 2026-06-21
+* Major refactor. If upgrading, I recommend renaming the existing folder to backup. Clone a fresh copy of the repo. Then copy the env.sh into the new folder and run `utils/migrate_env_to_toml.py` to migrate the env.sh variables into config.toml. 
 * Moved from env.sh to config.toml for configuration, as it was growing too large. It's a breaking change. A helper script, utils/migrate_env_to_toml.py is provided.
 * Folders restructured for better organization, root project was getting very messy. 
 * Added a 'data' folder for the temporary files, tokens, cache output

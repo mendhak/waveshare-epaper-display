@@ -88,7 +88,7 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
     sudo raspi-config nonint do_spi 0  #This enables SPI
     sudo reboot
 
-### Set up the config file
+### Copy the config file
 
 Copy the example config file to `config.toml`, this is where all the settings will be stored. 
 

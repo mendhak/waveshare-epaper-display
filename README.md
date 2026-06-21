@@ -87,10 +87,14 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
     sudo raspi-config nonint do_spi 0  #This enables SPI
     sudo reboot
 
+### Set up the config file
+
+Copy the example config file to `config.toml`, this is where all the settings will be stored. 
+
+    cd waveshare-epaper-display
+    cp config.example.toml config.toml
 
 ## Set your Waveshare version
-
-Copy `config.example.toml` to `config.toml` and edit it.
 
 Set the version of your Waveshare 7.5" e-Paper Module (newer ones are version 2, red one is 2B):
 

@@ -7,6 +7,7 @@ The screen will display date, time, weather icon with high and low, and calendar
 - [Setup the PI](#setup-the-pi)
 - [Using this application](#using-this-application)
 - [Setup dependencies](#setup-dependencies)
+- [Set your Waveshare version](#set-your-waveshare-version)
 - [Set your location](#set-your-location)
 - [Pick a Weather provider](#pick-a-weather-provider)
   - [OpenWeatherMap](#openweathermap)

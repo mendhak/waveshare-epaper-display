@@ -88,7 +88,7 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
     sudo reboot
 
 
-### Waveshare version
+## Set your Waveshare version
 
 Copy `config.example.toml` to `config.toml` and edit it.
 
@@ -112,7 +112,7 @@ Edit `config.toml` and update the latitude and longitude under the `[weather]` s
 
 You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.
 
-In `config.toml`, under the `[weather]` section, set the `provider` to the provider you want to use.  For example:
+In `config.toml`, under the same `[weather]` section, set the `provider` to the provider you want to use.  For example:
 
     [weather]
     ... your location details from above ...
@@ -250,10 +250,11 @@ in the pre-2014 section.  For example, this is the file for Dublin:
     [alerts.providers.met_eireann]
     feed_url = "https://www.met.ie/Open_Data/json/warning_EI07.json"
 
-## Pick a Calendar provider
+## Pick your calendar providers
 
 You can use Google Calendar, Outlook Calendar, ICS, or CalDAV to display events.  
-You can mix and match providers, and add multiple calendars of each type. Events from all enabled calendars will be merged and sorted by date.
+You can mix and match providers, and add multiple calendars of each type.   
+Events from all enabled calendars will be merged and sorted by date.
 
 ### Google Calendar
 

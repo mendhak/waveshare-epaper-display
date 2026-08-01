@@ -14,4 +14,7 @@ privacy_mode = priv.get("mode", "literature")  # default: literature
 
 print(f'export PRIVACY_ENABLED={1 if privacy_enabled else 0}')
 print(f'export PRIVACY_MODE="{privacy_mode}"')
-print(f'export LANG="{loc.get("language", "")}"')
+
+lang = loc.get('language', '')
+if lang:
+    print(f'export LANG="{lang}"')

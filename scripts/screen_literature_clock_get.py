@@ -13,7 +13,7 @@ import math
 
 
 if is_stale('data/literature_clock_quotes.csv', 86400):
-    url = "https://raw.githubusercontent.com/JohannesNE/literature-clock/master/litclock_annotated.csv"
+    url = "https://raw.githubusercontent.com/JohsEnevoldsen/literature-clock/refs/heads/master/litclock_annotated.csv"
     response = requests.get(url)
     response.raise_for_status()
     with open('data/literature_clock_quotes.csv', 'w') as text_file:

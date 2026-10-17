@@ -315,20 +315,3 @@ main *::selection {
         box-shadow: none;
     }
 }
-
-                    /* E-PAPER PAGE HEADER STYLING */
-                    main > header h1 {
-                        font-family: Georgia, "Times New Roman", serif;
-                        text-transform: uppercase;
-                        letter-spacing: 0.02em;
-                        line-height: 1.1;
-                    }
-                    main > header p {
-                        font-family: Georgia, "Times New Roman", serif;
-                        font-style: italic;
-                        color: #5A5A5A;
-                    }
-                    main > header nav.d-flex.jc-space-between {
-                        border-bottom: 1px solid var(--epaper-rule-light);
-                        padding-bottom: 0.5em;
-                    }

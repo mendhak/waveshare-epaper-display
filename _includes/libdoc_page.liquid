@@ -38,7 +38,7 @@
     <!-- Android -->
     <meta name="mobile-web-app-capable" content="yes">
 
-    <meta name="color-scheme" content="light dark">
+    <meta name="color-scheme" content="light">
 
     <meta name="generator" content="{{ eleventy.generator }}">
 
@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="/core/assets/css/ds.css">
     <link rel="stylesheet" href="/core/assets/css/ds__defaults.css">
     <link rel="stylesheet" href="/core/assets/css/ds__colors.css">
-    <link rel="stylesheet" href="/core/assets/css/ds__dark_mode.css" media="(prefers-color-scheme: dark)" id="libdoc_dark_mode_css">
+
     <link rel="stylesheet" href="/core/assets/css/hljs/night-owl.css">
     <link rel="stylesheet" href="/core/assets/css/icons.css">
     <style>
@@ -145,16 +145,16 @@
                         <span class="fvs-wght-400 fs-1 tt-uppercase">{{ libdocMessages.top[pageLang] }}</span>
                     </button>
                     <div class="d-flex ai-center">
-                        <input type="checkbox"
-                            name="nav_primary"
-                            id="nav_primary_checkbox"
-                            value=""
-                            class="pos-absolute opa-0 pe-none">
                         <label for="nav_primary_checkbox"
                             class="d-flex fd-column jc-center ai-center gap-1 | h-100 pl-2 pr-5 | ta-center | cur-pointer c-primary-900 bc-neutral-100">
                             <span class="icon-list fs-6"></span>
                             <span class="fvs-wght-400 fs-1 tt-uppercase">{{ libdocMessages.menu[pageLang] }}</span>
                         </label>
+                        <input type="checkbox"
+                            name="nav_primary"
+                            id="nav_primary_checkbox"
+                            value=""
+                            class="pos-absolute opa-0 pe-none">
                     </div>
                 </div>
             </nav>
@@ -280,42 +280,7 @@
             <header class="d-flex fd-column | pt-5 {{ headerPadding }} {{ headerMargin }}">
                 <nav class="d-flex jc-space-between | pos-relative">
                     {% include 'libdoc_breadcrumb' %}
-                    <details id="user_preferences">
-                        <summary class="d-flex | pos-relative z-2 | p-5 | fs-4 td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 cur-pointer __hover-1 __soft-shadow"
-                            title="{{ libdocMessages.userPreferences[pageLang] }}">
-                            <span class="icons">
-                                <span class="icon-faders | pos-absolute top-50 left-50 t-tY-50 t-tX-50"></span>
-                                <span class="icon-x | pos-absolute top-50 left-50 t-tY-50 t-tX-50"></span>
-                            </span>
-                        </summary>
-                        <menu class="d-flex fd-column | pos-absolute right-0 z-1 | w-100 mt-3 mb-0 p-4 | ls-none bc-neutral-100 brad-2 bwidth-1 bstyle-dashed bcolor-neutral-500 | __soft-shadow"
-                            style="max-width: 400px">
-                            <li class="d-flex fd-column gap-3 | c-neutral-900">
-                                <p class="m-0 | fs-3 fvs-wght-500">{{ libdocMessages.colorSchemes[pageLang] }}</p>
-                                <div class="d-flex fd-column gap-3">
-                                    {% for item in libdocSystem.preferences.colorSchemes.choices %}
-                                        <div>
-                                            <input type="radio"
-                                                name="libdoc_color_scheme"
-                                                id="libdoc_color_scheme__{{ item.value }}"
-                                                class="pos-absolute opa-0"
-                                                value="{{ item.value }}"
-                                                {%- if forloop.first %}
-                                                    checked
-                                                {%- endif %}>
-                                            <label for="libdoc_color_scheme__{{ item.value }}"
-                                                class="d-flex ai-start gap-2">
-                                                <span class="d-flex fd-column gap-1">
-                                                    <strong class="fs-2 tt-uppercase">{{ libdocMessages[item.labelMainKey][pageLang] }}</strong>
-                                                    <span class="fs-2 | c-neutral-700">{{ libdocMessages[item.labelHelpKey][pageLang] }}</span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </li>
-                        </menu>
-                    </details>
+
                 </nav>
                 <h1 class="mt-3 mb-0 | lsp-5 fvs-wght-700 tws-balance {% if pageTitle == page.inputPath %}wb-break-work{% endif %}"
                     fs-10="md"

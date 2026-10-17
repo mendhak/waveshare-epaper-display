@@ -1,10 +1,8 @@
 const libdocUi = {
     defaults: {
         localStorageIdentifier: 'eleventyLibdoc',
-        colorSchemes: ['auto', 'light', 'dark'],
-        darkModeCssFilePath: `${libdocConfig.htmlBasePathPrefix}/core/assets/css/ds__dark_mode.css`,
+        colorSchemes: ['light'],
         supportedLanguagesJsonPath: `${libdocConfig.htmlBasePathPrefix}/core/assets/js/supported-languages.json`,
-        darkModeCssMedia: '',
         screenSizes: {
             xs: [0, 599],
             sm: [600, 959],
@@ -30,8 +28,7 @@ const libdocUi = {
         searchInputs: document.querySelectorAll('input[type="search"][name="search"]'),
         searchClearBtns: document.querySelectorAll('.search_form__clear_btn'),
         ftocHeadings: [],
-        darkModeCssMetaLink: document.head.querySelector('#libdoc_dark_mode_css'),
-        inputsColorScheme: document.querySelectorAll('[name="libdoc_color_scheme"]'),
+
         customLinks: document.querySelector('#custom_links')
     },
     getTransferSize: function() {
@@ -233,10 +230,6 @@ const libdocUi = {
         }
     },
     handlers: {
-        _colorSchemeClick: function(event) {
-            // console.log(event.target.value)
-            libdocUi.setColorScheme(event.target.value);
-        },
         _touchStart: function(evt) {
             document.body.classList.add('touch-device');
             document.body.removeEventListener('touch', libdocUi.handlers._touchStart);
@@ -788,28 +781,7 @@ const libdocUi = {
             }
         }
     },
-    setColorScheme: function(name) {
-        if (typeof name == 'string') {
-            if (libdocUi.defaults.colorSchemes.includes(name)) {
-                if (name == 'light') {
-                    libdocUi.el.darkModeCssMetaLink.href = '';
-                    libdocUi.el.darkModeCssMetaLink.media = libdocUi.defaults.darkModeCssMedia;
-                } else if (name == 'dark') {
-                    libdocUi.el.darkModeCssMetaLink.href = libdocUi.defaults.darkModeCssFilePath;
-                    libdocUi.el.darkModeCssMetaLink.media = '';
-                } else if (name == 'auto') {
-                    libdocUi.el.darkModeCssMetaLink.href = libdocUi.defaults.darkModeCssFilePath;
-                    libdocUi.el.darkModeCssMetaLink.media = libdocUi.defaults.darkModeCssMedia;
-                }
-                libdocUi.el.inputsColorScheme.forEach(function(elInput) {
-                    if (elInput.value == name) elInput.checked = true;
-                })
-                libdocUi.updateUserPreferences({
-                    colorScheme: name
-                });
-            }
-        }
-    },
+
     getJson: async function(url) {
         try {
             const response = await fetch(url);
@@ -948,8 +920,6 @@ const libdocUi = {
         }
     },
     update: function() {
-        libdocUi.defaults.darkModeCssMedia = libdocUi.el.darkModeCssMetaLink.media;
-        libdocUi.setColorScheme(libdocUi.getUserPreferences().colorScheme);
         libdocUi._currentScreenSizeName = libdocUi.getCurrentScreenSizeName();
         hljs.highlightAll();
         libdocUi.createCopyCodeOnCodeBlocks();
@@ -983,9 +953,6 @@ const libdocUi = {
             el.addEventListener('click', libdocUi.handlers._clickAbbr);
         });
         document.body.addEventListener('touchstart', libdocUi.handlers._touchStart);
-        libdocUi.el.inputsColorScheme.forEach(function(elInput) {
-            elInput.addEventListener('click', libdocUi.handlers._colorSchemeClick);
-        });
         document.addEventListener('DOMContentLoaded', libdocUi.handlers._DOMContentLoaded);
     }
 }

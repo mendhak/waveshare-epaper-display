@@ -1,9 +1,7 @@
 {
-    "siteTitle": "My Project Title",
-    "siteDescription": "This is the description of my project title",
+    "siteTitle": "Waveshare Epaper Dashboard",
+    "siteDescription": "At a glance waveshare epaper dashboard, with weather, calendar, time.",
     "faviconUrl": "/assets/myfavicon.png",
-    "blogTitle": "Blog",
-    "blogDescription": "Here is the description of the blog part",
     "productionUrl": "https://eleventy-libdoc.netlify.app",
     "customLinks": [
         {

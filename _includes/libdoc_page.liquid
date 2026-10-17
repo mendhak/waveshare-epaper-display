@@ -256,18 +256,6 @@
                     </a>
                 {% endif %}
 
-                {% if collections.myTags.size > 0 and libdocConfig.displayTagsListLink %}
-                    <a  href="/tags/"
-                        id="nav_primary_blog_link"
-                        {% if pageUrlSplit[1] == 'tags'%}
-                            aria-current="page"
-                        {% endif %}
-                        class="d-flex ai-center | pt-5 pb-5 | fvs-wght-500 fs-4 td-none lsp-2 | c-neutral-900 bbwidth-1 bbstyle-dashed bcolor-neutral-500 cur-pointer">
-                        {% comment %} <span class="icon-tag-simple | c-primary-500"></span> {% endcomment %}
-                        {{ libdocMessages.tagsList[pageLang] }}
-                    </a>
-                {% endif %}
-
                 <div id="nav_primary"
                     class="pos-relative | fg-1 o-auto">
                     {{ eleventyNavigationMenu }}
@@ -298,59 +286,7 @@
                 {% else %}
                     <div class="pt-5 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 {% endif %}
-                {% if page.url != '/search/' %}
-                    {% if tags.size > 0 %}
-                        <nav class="d-flex gap-2 fw-wrap | pl-5 pt-3 pb-5 | blwidth-1 blstyle-dashed bcolor-neutral-500">
-                            {% for tagName in tags %}
-                                {% if tagName != 'post' %}
-                                    <a  href="/tags/{{ tagName }}/"
-                                        class="
-                                        d-flex ai-center gap-1
-                                        pl-2 pr-3 pt-1 pb-1
-                                        fs-2 lsp-2 td-none
-                                        bc-primary-200 bwidth-1 bstyle-solid bcolor-primary-400 brad-1 bradtl-3 bradbl-3">
-                                        <span class="icon-tag-simple"></span>
-                                        <span class="page_tag">{{ tagName }}</span>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        </nav>
-                    {% endif %}
-                    <div class="d-flex ai-center | m-0 | blwidth-1 blstyle-dashed bcolor-neutral-500">
-                        <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></div>
-                        {% if date != false %}
-                            <p  class="d-flex ai-center gap-2 | m-0 pr-2 | fvs-wght-400 fs-3 lsp-3 lh-3 | c-neutral-700 bc-primary-100"
-                                fs-2="xs">
-                                <span class="icon-calendar-dots fs-6"></span>
-                                <time ws-nowrap="sm,md">
-                                    {% assign dateString = page.date | dateString %}
-                                    {% if dateString == "1111-11-11" %}
-                                        {{ libdocMessages.lastModified[pageLang] }}
-                                        {{ page.inputPath | gitLastModifiedDate }}
-                                    {% else %}
-                                        {{ date | datePrefixText }}
-                                        {{ dateString }}
-                                    {% endif %}
-                                </time>
-                            </p>
-                        {% endif %}
-                        <div class="pl-5 w-100 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></div>
-                        {% if author != false and pageAuthor != false %}
-                            <div class="d-flex ai-center gap-3">
-                                <div class="pos-relative | p-5 | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500">
-                                    <div class="icon-user | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-6"></div>
-                                </div>
-                                <p  class="d-flex fd-column | m-0 | fvs-wght-400 fs-3 lsp-3 lh-3 | c-neutral-700 bc-primary-100"
-                                    fs-2="xs"
-                                    ws-nowrap="sm,md">
-                                    {{ pageAuthor }}
-                                </p>
-                            </div>
-                        {% else %}
-                            <div class="pt-5 pb-5"></div>
-                        {% endif %}
-                    </div>
-                {% endif %}
+                   
                 {% if tocMarkup != '' %}
                     <details id="toc_main" open>
                         <summary class="d-flex ai-center | pt-5 pb-5 | fvs-wght-500 fs-3 | bwidth-1 bstyle-dashed bcolor-neutral-500 btwidth-0 brwidth-0 cur-pointer">

@@ -1,7 +1,6 @@
 {
     "siteTitle": "My Project Title",
     "siteDescription": "This is the description of my project title",
-    "author": "John Doe",
     "faviconUrl": "/assets/myfavicon.png",
     "blogTitle": "Blog",
     "blogDescription": "Here is the description of the blog part",

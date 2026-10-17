@@ -279,6 +279,27 @@ main *::selection {
     color: var(--epaper-ink-light);
 }
 
+/* === PREV/NEXT FOOTER LINKS === */
+main a.nav-prev-link,
+main a.nav-next-link {
+    color: var(--epaper-ink-light);
+    text-decoration: none;
+}
+.nav-prev-label,
+.nav-next-label {
+    font-size: 0.75em;
+    color: var(--epaper-ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.nav-prev-title,
+.nav-next-title {
+    font-weight: 500;
+}
+.nav-next-column {
+    text-align: right;
+}
+
 /* === PRINT === */
 @media print {
     body {

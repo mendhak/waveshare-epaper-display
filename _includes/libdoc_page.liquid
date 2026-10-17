@@ -318,29 +318,24 @@
             {% endif %}
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
-                <nav class="d-flex jc-space-between ai-center"
-                    fw-wrap="xs" style="max-width: var(--ita-widths-content); border-top: 1px dashed var(--ita-colors-neutral-500, #BFBFBF)">
+                <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500"
+                    fw-wrap="xs">
+                    <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></div>
                     {% if navLinks.prev %}
-                        <a href="{{ navLinks.prev.url }}" class="d-flex ai-center gap-2 | td-none" style="color: var(--epaper-ink-light)">
-                            <span class="icon-caret-left fs-5"></span>
-                            <span class="d-flex fd-column">
-                                <small style="font-size: 0.75em; color: var(--epaper-ink-faint); text-transform: uppercase; letter-spacing: 0.05em">Previous</small>
-                                <span style="font-weight: 500">{{ navLinks.prev.title }}</span>
-                            </span>
+                        <a href="{{ navLinks.prev.url }}"
+                            class="btn btn-primary-light">
+                            <span class="icon-caret-left fs-6"></span>
+                            Previous: {{ navLinks.prev.title }}
                         </a>
-                    {% else %}
-                        <div></div>
                     {% endif %}
                     {% if navLinks.next %}
-                        <a href="{{ navLinks.next.url }}" class="d-flex ai-center gap-2 | td-none" style="color: var(--epaper-ink-light)">
-                            <span class="d-flex fd-column" style="text-align: right">
-                                <small style="font-size: 0.75em; color: var(--epaper-ink-faint); text-transform: uppercase; letter-spacing: 0.05em">Next</small>
-                                <span style="font-weight: 500">{{ navLinks.next.title }}</span>
-                            </span>
-                            <span class="icon-caret-right fs-5"></span>
+                        <div class="w-100" d-none="sm,md"></div>
+                        <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500" w-100="sm,md"></div>
+                        <a href="{{ navLinks.next.url }}"
+                            class="btn btn-primary-light">
+                            Next: {{ navLinks.next.title }}
+                            <span class="icon-caret-right fs-6"></span>
                         </a>
-                    {% else %}
-                        <div></div>
                     {% endif %}
                 </nav>
             </footer>

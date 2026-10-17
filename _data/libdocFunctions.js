@@ -55,6 +55,66 @@ export default {
         }
     },
     filters: {
+        navPrevNext: function(navEntries, currentKey) {
+            // Build a flat list of all nav entries sorted by order
+            let allEntries = [];
+            function flatten(entries) {
+                if (!entries) return;
+                for (let entry of entries) {
+                    allEntries.push({ key: entry.key, parent: entry.parent, title: entry.title, url: entry.url, order: entry.order });
+                    if (entry.children && entry.children.length > 0) {
+                        flatten(entry.children);
+                    }
+                }
+            }
+            flatten(navEntries);
+            // Sort by order
+            allEntries.sort((a, b) => (a.order || 0) - (b.order || 0));
+            // Find current index
+            const currentIndex = allEntries.findIndex(e => e.key === currentKey);
+            if (currentIndex === -1) return { prev: null, next: null };
+            // Next is simply the next entry in the flat list
+            const next = currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null;
+            // Previous: if there's a sibling with same parent, use that; otherwise go up
+            const current = allEntries[currentIndex];
+            let prev = null;
+            // Check for sibling with same parent
+            const siblings = allEntries.filter(e => e.parent === current.parent);
+            const siblingIndex = siblings.findIndex(e => e.key === currentKey);
+            if (siblingIndex > 0) {
+                prev = siblings[siblingIndex - 1];
+            } else if (siblingIndex === 0 && current.parent) {
+                // First child - prev is the parent itself
+                prev = allEntries.find(e => e.key === current.parent);
+            } else {
+                // No previous sibling, go to parent's previous sibling's last child
+                if (current.parent) {
+                    const parentEntry = allEntries.find(e => e.key === current.parent);
+                    if (parentEntry && parentEntry.parent) {
+                        const parentSiblings = allEntries.filter(e => e.parent === parentEntry.parent);
+                        const parentSiblingIndex = parentSiblings.findIndex(e => e.key === current.parent);
+                        if (parentSiblingIndex > 0) {
+                            const prevParent = parentSiblings[parentSiblingIndex - 1];
+                            // Find last child of prevParent (deepest child)
+                            const prevParentChildren = allEntries.filter(e => e.parent === prevParent.key);
+                            if (prevParentChildren.length > 0) {
+                                // Get the last child recursively
+                                let last = prevParentChildren[prevParentChildren.length - 1];
+                                while (true) {
+                                    const childrenOfLast = allEntries.filter(e => e.parent === last.key);
+                                    if (childrenOfLast.length === 0) break;
+                                    last = childrenOfLast[childrenOfLast.length - 1];
+                                }
+                                prev = last;
+                            } else {
+                                prev = prevParent;
+                            }
+                        }
+                    }
+                }
+            }
+            return { prev: prev, next: next };
+        },
         sanitizeJson: async function(value) {
             // Remove back slashes
             value = value.replaceAll('\\', '');

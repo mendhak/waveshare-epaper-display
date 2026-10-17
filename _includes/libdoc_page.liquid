@@ -61,6 +61,7 @@
     <link rel="stylesheet" href="/core/assets/css/ds.css">
     <link rel="stylesheet" href="/core/assets/css/ds__defaults.css">
     <link rel="stylesheet" href="/core/assets/css/ds__colors.css">
+    <link rel="stylesheet" href="/core/assets/css/epaper.css">
 
     <link rel="stylesheet" href="/core/assets/css/hljs/night-owl.css">
     <link rel="stylesheet" href="/core/assets/css/icons.css">
@@ -266,7 +267,12 @@
             w-100-minus-sidebar="md"
             w-100="xs,sm">
             <header class="d-flex fd-column | pt-5 {{ headerPadding }} {{ headerMargin }}">
-                <nav class="d-flex jc-space-between | pos-relative">
+                <div class="d-flex jc-space-between ai-center | pb-3 bbwidth-1 bbstyle-solid bcolor-neutral-400 | fs-3 fvs-wght-400 tt-uppercase lsp-2" style="color: var(--epaper-ink-faint)">
+                    <span>{{ libdocConfig.siteTitle }}</span>
+                    <span>Documentation</span>
+                    <span>{{ "now" | date: "%B %d, %Y" }}</span>
+                </div>
+                <nav class="d-flex jc-space-between | pos-relative | mt-3">
                     {% include 'libdoc_breadcrumb' %}
 
                 </nav>
@@ -286,7 +292,7 @@
                 {% else %}
                     <div class="pt-5 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 {% endif %}
-                   
+
                 {% if tocMarkup != '' %}
                     <details id="toc_main" open>
                         <summary class="d-flex ai-center | pt-5 pb-5 | fvs-wght-500 fs-3 | bwidth-1 bstyle-dashed bcolor-neutral-500 btwidth-0 brwidth-0 cur-pointer">
@@ -306,26 +312,36 @@
                 {% alert noscriptAlert %}
             </noscript>
             {{ content | cleanup | autoids }}
+            {% if eleventyNavigation.key %}
+                {% assign currentPageKey = eleventyNavigation.key %}
+                {% assign navLinks = collections.all | eleventyNavigation | navPrevNext: currentPageKey %}
+            {% endif %}
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
-                <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500"
-                    fw-wrap="xs">
-                    <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></div>
-                    {% if editThisPageRootUrl.size > 0 %}
-                        <a  href="{{ editThisPageUrl }}"
-                            target="_blank"
-                            class="btn btn-primary-light">
-                            <span class="icon-pencil-simple"></span>
-                            {{ libdocMessages.editThisPage[libdocConfig.lang] }}
+                <nav class="d-flex jc-space-between ai-center"
+                    fw-wrap="xs" style="max-width: var(--ita-widths-content); border-top: 1px dashed var(--ita-colors-neutral-500, #BFBFBF)">
+                    {% if navLinks.prev %}
+                        <a href="{{ navLinks.prev.url }}" class="d-flex ai-center gap-2 | td-none" style="color: var(--epaper-ink-light)">
+                            <span class="icon-caret-left fs-5"></span>
+                            <span class="d-flex fd-column">
+                                <small style="font-size: 0.75em; color: var(--epaper-ink-faint); text-transform: uppercase; letter-spacing: 0.05em">Previous</small>
+                                <span style="font-weight: 500">{{ navLinks.prev.title }}</span>
+                            </span>
                         </a>
+                    {% else %}
+                        <div></div>
                     {% endif %}
-                    <div class="w-100" d-none="sm,md"></div>
-                    <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500" w-100="sm,md"></div>
-                    <a  href="https://github.com/ita-design-system/eleventy-libdoc"
-                        target="_blank"
-                        class="d-flex ai-center gap-2 | pl-2 pr-2 | fvs-wght-400 fs-2 lsp-3 lh-3 td-none ws-nowrap">
-                        11ty LibDoc {{ libdocUtils.version }}
-                    </a>
+                    {% if navLinks.next %}
+                        <a href="{{ navLinks.next.url }}" class="d-flex ai-center gap-2 | td-none" style="color: var(--epaper-ink-light)">
+                            <span class="d-flex fd-column" style="text-align: right">
+                                <small style="font-size: 0.75em; color: var(--epaper-ink-faint); text-transform: uppercase; letter-spacing: 0.05em">Next</small>
+                                <span style="font-weight: 500">{{ navLinks.next.title }}</span>
+                            </span>
+                            <span class="icon-caret-right fs-5"></span>
+                        </a>
+                    {% else %}
+                        <div></div>
+                    {% endif %}
                 </nav>
             </footer>
         </main>

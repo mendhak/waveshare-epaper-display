@@ -1,0 +1,12 @@
+code {
+    font-variation-settings: "slnt" 0, "CASL" 0, "CRSV" 0.0, "MONO" 1, "wght" 400;
+    font-size: var(--ita-fontSizes-3);
+}
+/* ELEMENTS TO HIDE */
+a[href="/search/"],
+#nav_primary_header > li:has(form[action="/search/"]),
+#sd_floating_toc_toggle_btn,
+#sd_gtt_btn,
+#user_preferences {
+    display: none;
+}

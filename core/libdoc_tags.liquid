@@ -1,0 +1,77 @@
+---
+# title: Tags list
+# description: List of all available tags
+layout: libdoc_page.liquid
+permalink: "tags/index.html"
+author: false
+date: false
+# eleventyExcludeFromCollections: true
+# eleventyNavigation:
+#     key: Tags list
+#     order: 0
+---
+{% assign lastIndex = collections.myTags.size |  minus: 1 %}
+{% assign highestBound = collections.myTags[0][1] %}
+{% assign lowestBound = collections.myTags[lastIndex][1] %}
+{% if collections.myTags.size > 0 %}
+    <ol>
+        {% for tag in collections.myTags %}
+            {% assign tagName = tag[0] %}
+            {% assign tagCount = tag[1] %}
+            <li class="d-flex jc-space-between ai-center"
+                gap-5="sm,md"
+                gap-3="xs">
+                <a  href="/tags/{{ tagName }}/"
+                    class="
+                    d-flex ai-center gap-2
+                    pl-2 pr-3 pt-1 pb-1 o-hidden
+                    fs-3 fvs-wght-600 lsp-2 td-none lh-5 ws-nowrap to-ellipsis
+                    bwidth-1 bstyle-solid bradtr-1 bradbr-1 bradtl-4 bradbl-4
+                    bc-primary-200 c-primary-500 bcolor-primary-400"
+                    fs-2="xs">
+                    <span class="icon-tag-simple"></span>
+                    <span class="o-hidden | to-ellipsis">{{ tagName }}</span>
+                </a>
+                <p  class="d-flex | m-0 | lh-1"
+                    fd-column="xs"
+                    ai-center="sm,md"
+                    gap-5="sm,md">
+                    <span class="fs-2 ws-nowrap"
+                        fs-1="xs">
+                        {{ tagCount }}
+                        {% if tagCount == 1 %}
+                            {{ libdocMessages.page[libdocConfig.lang] |  downcase }}
+                        {% else %}
+                            {{ libdocMessages.pages[libdocConfig.lang] | downcase }}
+                        {% endif %}
+                    </span>
+                    <span class="pl-10 pr-10 pt-2 | brad-3 bwidth-1 bstyle-solid bcolor-primary-500"
+                        pl-7="xs"
+                        pr-7="xs"
+                        pt-1="xs"
+                        style="
+                        background: linear-gradient( 
+                            90deg, 
+                            var(--ita-colors-primary-500) 0%, 
+                            var(--ita-colors-primary-500) calc(100% * {{ tagCount }} / {{ highestBound }}), 
+                            var(--ita-colors-primary-200) calc(100% * {{ tagCount }} / {{ highestBound }})">
+                    </span>
+                    {% comment %} <span class="d-flex gap-1"
+                        style="background: text linear-gradient( 
+                        90deg, 
+                        var(--ita-colors-primary-500) 0%, 
+                        var(--ita-colors-primary-500) calc(100% * {{ tagCount }} / {{ highestBound }}), 
+                        var(--ita-colors-neutral-500) calc(100% * {{ tagCount }} / {{ highestBound }})">
+                        <span class="icon-star-fill" style="color:transparent"></span>
+                        <span class="icon-star-fill" style="color:transparent"></span>
+                        <span class="icon-star-fill" style="color:transparent"></span>
+                        <span class="icon-star-fill" style="color:transparent"></span>
+                        <span class="icon-star-fill" style="color:transparent"></span>
+                    </span> {% endcomment %}
+                </p>
+            </li>
+        {% endfor %}
+    </ol>
+{% else %}
+    <p>No tags yet.</p>
+{% endif %}

@@ -1,0 +1,23 @@
+{
+  "name": "eleventy-libdoc",
+  "version": "0.14.9",
+  "description": "An Eleventy starter project to craft slick and responsive documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-img": "^7.0.0",
+    "@11ty/eleventy-navigation": "^0.3.5",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "sharp": "^0.35.3"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true
+  }
+}

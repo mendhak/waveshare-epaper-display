@@ -1,0 +1,56 @@
+---
+permalink: feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ libdocConfig.lang }}">
+    <title>{{ libdocConfig.siteTitle }}</title>
+    <subtitle>{{ libdocConfig.siteDescription }}</subtitle>
+    <link href="{{ permalink }}" rel="self" />
+    <link href="{{ libdocConfig.productionUrl }}{{ page.url }}" />
+    <updated>{{ collections.post | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+    <id>{{ libdocConfig.productionUrl }}{{ page.url }}</id>
+    <author>
+        <name>
+            {%- if libdocConfig.blogAuthor == false -%}
+                11ty LibDoc
+            {%- else -%}
+                {{ libdocConfig.blogAuthor }}
+            {%- endif -%}
+        </name>
+    </author>
+    {%- for post in collections.post | reverse %}
+        {%- set absolutePostUrl %}{{ libdocConfig.productionUrl }}{{ post.url }}{% endset %}
+        <entry>
+            <title>
+                {%- if post.data.title == '' -%}
+                    {{ post.inputPath }}
+                {%- else -%}
+                    {{ post.data.title }}
+                {%- endif -%}
+            </title>
+            <link href="{{ absolutePostUrl }}" />
+            <updated>{{ post.date | dateToRfc3339 }}</updated>
+            <id>{{ absolutePostUrl }}</id>
+            <author>
+                <name>
+                    {%- if post.data.author != false and post.data.author != '' and post.data.author != null -%}
+                        {{ post.data.author }}
+                    {%- else -%}
+                        {%- if libdocConfig.blogAuthor == false -%}
+                            11ty LibDoc
+                        {%- else -%}
+                            {{ libdocConfig.blogAuthor }}
+                        {%- endif -%}
+                    {%- endif -%}
+                </name>
+            </author>
+            <content type="html">
+                {% if post.data.ogImageUrl !== false and post.data.ogImageUrl != '' and post.data.ogImageUrl != null %}
+                    &lt;img src=&quot;{{ post.data.ogImageUrl }}&quot; alt=&quot;{{ post.data.title }}&quot;&gt;
+                {% endif %}
+                {{- post.content | renderTransforms(post.data.page, libdocConfig.productionUrl) -}}
+            </content>
+        </entry>
+    {%- endfor %}
+</feed>

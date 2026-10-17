@@ -1,0 +1,282 @@
+{
+	"copiedToClipboard": {
+		"en": "Copied to clipboard",
+		"fr": "Copié dans le presse-papiers",
+		"it": "Copiato negli appunti"
+	},
+	"code": {
+		"en": "Code",
+		"fr": "Code",
+		"it": "Codice"
+	},
+	"colorSchemes": {
+		"en": "Color schemes",
+		"fr": "Modes d’apparences",
+		"it": "Modalità visive"
+	},
+	"colorSchemeAuto": {
+		"en": "Automatic",
+		"fr": "Automatique",
+		"it": "Automatica"
+	},
+	"colorSchemeDescriptionAuto": {
+		"en": "Based on you operating system preference",
+		"fr": "Basé sur les règles d’affichage de votre système",
+		"it": "Basata sulle preferenze del tuo sistema"
+	},
+	"colorSchemeLight": {
+		"en": "Light",
+		"fr": "Clair",
+		"it": "Chiaro"
+	},
+	"colorSchemeDescriptionLight": {
+		"en": "Always apply light mode",
+		"fr": "Toujours appliquer le mode clair",
+		"it": "Applica sempre il tema chiaro"
+	},
+	"colorSchemeDark": {
+		"en": "Dark",
+		"fr": "Sombre",
+		"it": "Scuro"
+	},
+	"colorSchemeDescriptionDark": {
+		"en": "Always apply dark mode",
+		"fr": "Toujours appliquer le mode sombre",
+		"it": "Applica sempre il tema scuro"
+	},
+	"copied": {
+		"en": "Copied",
+		"fr": "Copié",
+		"it": "Copiato"
+	},
+	"copy": {
+		"en": "Copy",
+		"fr": "Copier",
+		"it": "Copia"
+	},
+	"copyCode": {
+		"en": "Copy code",
+		"fr": "Copier le code",
+		"it": "Copia il codice"
+	},
+	"copyHTML": {
+		"en": "Copy HTML",
+		"fr": "Copier le HTML",
+		"it": "Copia l’HTML"
+	},
+	"copyURL": {
+		"en": "Copy URL",
+		"fr": "Copier l’URL",
+		"it": "Copia l’URL"
+	},
+	"enable": {
+		"en": "Enable",
+		"fr": "Activer",
+		"it": "Attiva"
+	},
+	"goToTopOfPage": {
+		"en": "Go to top of page",
+		"fr": "Aller en haut de page",
+		"it": "Vai in vima alla pagina"
+	},
+	"editThisPage": {
+		"en": "Edit this page",
+		"fr": "Modifier la page",
+		"it": "Modifica la pagina"
+	},
+	"height": {
+		"en": "Height",
+		"fr": "Hauteur",
+		"it": "Altezza"
+	},
+	"homepage": {
+		"en": "Homepage",
+		"fr": "Page d’accueil",
+		"it": "Pagina iniziale"
+	},
+	"homepageShort": {
+		"en": "Home",
+		"fr": "Accueil",
+		"it": "Home"
+	},
+	"inANewTab": {
+		"en": "In a new tab",
+		"fr": "Dans un nouvel onglet",
+		"it": "In una nuova scheda"
+	},
+	"lastModified": {
+		"en": "Last modified",
+		"fr": "Dernière modification",
+		"it": "Ultima modifica"
+	},
+	"menu": {
+		"en": "Menu",
+		"fr": "Menu",
+		"it": "Menu"
+	},
+	"noscriptAlert": {
+		"en": "It seems that your browser JavaScript is disabled, LibDoc is set to fallback mode with reduced features.",
+		"fr": "Il semble que JavaScript soit désactivé de votre navigateur, LibDoc est en mode restreint avec des fonctionnalités réduites.",
+		"it": "Sembra che il tuo browser abbia JavaScript disattivato, LibDoc è impostato in modalità di riserva, con funzionalità ridotte."
+	},
+	"open": {
+		"en": "Open",
+		"fr": "Ouvrir",
+		"it": "Apri"
+	},
+	"openInANewTab": {
+		"en": "Open in a new tab",
+		"fr": "Ouvrir dans un nouvel onglet",
+		"it": "Apri in una nuova scheda"
+	},
+	"otherCustomLinks": {
+		"en": "Other custom links",
+		"fr": "Autres liens personnalisés",
+		"it": "Altri collegamenti personalizzati"
+	},
+	"page": {
+		"en": "Page",
+		"fr": "Page",
+		"it": "Pagina"
+	},
+	"pages": {
+		"en": "Pages",
+		"fr": "Pages",
+		"it": "Pagine"
+	},
+	"pagesTagged": {
+		"en": "Pages tagged",
+		"fr": "Pages taguées",
+		"it": "Pagine con tag"
+	},
+	"preferences": {
+		"en": "Preferences",
+		"fr": "Préférences",
+		"it": "Preferenze"
+	},
+	"reload": {
+		"en": "Reload",
+		"fr": "Recharger",
+		"it": "Ricarica"
+	},
+	"reloaded": {
+		"en": "Reloaded",
+		"fr": "Rechargé",
+		"it": "Ricaricato"
+	},
+	"result": {
+		"en": "result",
+		"fr": "Résultat",
+		"it": "Risultato"
+	},
+	"sandbox": {
+		"en": "Sandbox",
+		"fr": "Bac à sable",
+		"it": "Sandbox"
+	},
+	"sandboxResizeHelper": {
+		"en": "Click and drag to resize code and result",
+		"fr": "Cliquer déplacer pour redimensionner code et résultat",
+		"it": "Clicca e trascina per ridimensionare il codice e il risultato"
+	},
+	"search": {
+		"en": "Search",
+		"fr": "Rechercher",
+		"it": "Cerca"
+	},
+	"searchClear": {
+		"en": "Clear input",
+		"fr": "Effacer la saisie",
+		"it": "Cancella l’input"
+	},
+	"searchMinimumCharacters": {
+		"en": "3 characters min.",
+		"fr": "3 caractères min.",
+		"it": "Almeno 3 aratteri"
+	},
+	"searchResultsNoResultForQuery": {
+		"en": "No result for query",
+		"fr": "Aucun résultat pour la requête",
+		"it": "Nessun risultato per questa ricerca"
+	},
+    "searchOccurrence": {
+        "en": "Occurrence search",
+        "fr": "Recherche d’occurrence",
+		"it": "Ricerca di risultato"
+    },
+	"searchOccurrencesCurrent": {
+		"en": "Current search occurrence",
+		"fr": "Occurrence actuelle",
+		"it": "Attuale risultato"
+	},
+	"searchOccurrencesNext": {
+		"en": "Next search occurrence",
+		"fr": "Occurrence suivante",
+		"it": "Risultato seguente"
+	},
+	"searchOccurrencesPrevious": {
+		"en": "Previous search occurrence",
+		"fr": "Occurrence précédente",
+		"it": "Risultato precedente"
+	},
+	"searchOccurrencesStop": {
+		"en": "Stop search occurrences",
+		"fr": "Fermet la recherches d’occurrences",
+		"it": "Ferma la ricerca"
+	},
+    "searchPlaceholder": {
+        "en": "Press 🆂 to search",
+        "fr": "Presser 🆂 pour rechercher",
+        "it": "Premere 🆂 per cercare"
+    },
+	"searchSubmit": {
+		"en": "Submit search",
+		"fr": "Lancer la recherche",
+		"it": "Effettua la ricerca"
+	},
+	"tableOfContent": {
+		"en": "Table of content",
+		"fr": "Sommaire",
+		"it": "Indice"
+	},
+	"tableOfContentAbbr": {
+		"en": "TOC",
+		"fr": "Sommaire",
+		"it": "Indice"
+	},
+	"tag": {
+		"en": "Tag",
+		"fr": "Tag",
+		"it": "Tag"
+	},
+	"tagsList": {
+		"en": "Tags list",
+		"fr": "Liste des tags",
+		"it": "Lista dei tag"
+	},
+	"tagsListDescription": {
+		"en": "List of every tag available",
+		"fr": "Liste de l’ensemble des tags disponibles",
+		"it": "Lista di tutti i tag disponibili"
+	},
+	"toggleFloatingToc": {
+		"en": "Toggle floating Table of content",
+		"fr": "Basculer la table des matières flottante",
+		"it": "Cambia impostazione indice fluttuante"
+	},
+	"top": {
+		"en": "Top",
+		"fr": "Haut",
+		"it": "In cima"
+	},
+	"userPreferences": {
+		"en": "User preferences",
+		"fr": "Préférences utilisateur",
+		"it": "Preferenze dell'utente"
+	},
+	"width": {
+		"en": "Width",
+		"fr": "Largeur",
+		"it": "Larghezza"
+	}
+}

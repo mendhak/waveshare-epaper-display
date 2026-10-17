@@ -1,0 +1,94 @@
+{
+    "navigationOptions": {
+        "listElement": "ol",
+        "listItemElement": "li",
+        "listClass": "d-flex fd-column | m-0 pl-0 pt-3 pb-3 | ls-none",
+        "listItemClass": "d-flex fw-wrap ai-center",
+        "listItemHasChildrenClass": "",
+        "activeListItemClass": "",
+        "anchorClass": "d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor",
+        "activeAnchorClass": ""
+    },
+    "widthSidebar": 300,
+    "widthContent": 700,
+    "icons": [
+        "x",
+        "arrow-line-down",
+        "arrow-line-up",
+        "arrow-square-out",
+        "calendar-dots",
+        "caret-down",
+        "caret-left",
+        "caret-right",
+        "caret-up",
+        "check-circle",
+        "check",
+        "circle-half",
+        "code",
+        "copy-simple",
+        "dots-six-vertical",
+        "faders",
+        "house",
+        "images",
+        "info",
+        "link-simple",
+        "list-dashes",
+        "list",
+        "lock-simple",
+        "magnifying-glass",
+        "minus-circle",
+        "parachute",
+        "pen",
+        "pencil-simple",
+        "person-arms-spread",
+        "play",
+        "plus-circle",
+        "printer",
+        "rocket",
+        "rss",
+        "shield-warning",
+        "sidebar",
+        "star-fill",
+        "star",
+        "tag-simple",
+        "user"
+    ],
+    "pluginsParameters": {
+        "eleventyImageTransform": {
+            "formats": ["svg", "avif", "webp"],
+            "useCache": true,
+            "svgShortCircuit": true,
+            "htmlOptions": {
+                "imgAttributes": {
+                    "loading": "lazy",
+                    "decoding": "async"
+                },
+                "pictureAttributes": {
+                    "class": "eleventy-image"
+                }
+            }
+        }
+    },
+    "productionUrl": "eleventy-libdoc.netlify.app",
+    "preferences": {
+        "colorSchemes": {
+            "choices": [
+                {
+                    "value": "auto",
+                    "labelMainKey": "colorSchemeAuto",
+                    "labelHelpKey": "colorSchemeDescriptionAuto"
+                },
+                {
+                    "value": "light",
+                    "labelMainKey": "colorSchemeLight",
+                    "labelHelpKey": "colorSchemeDescriptionLight"
+                },
+                {
+                    "value": "dark",
+                    "labelMainKey": "colorSchemeDark",
+                    "labelHelpKey": "colorSchemeDescriptionDark"
+                }
+            ]
+        }
+    }
+}

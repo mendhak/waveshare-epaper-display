@@ -1,0 +1,53 @@
+---
+layout: libdoc_page.liquid
+pagination:
+    data: collections.myTags
+    size: 1
+    alias: tagData
+permalink: "tags/{{ tagData[0] }}/index.html"
+date: false
+author: false
+eleventyExcludeFromCollections: true
+# eleventyNavigation:
+#     parent: Tags list
+#     key: tag
+---
+{% assign tag = tagData[0] %}
+{% assign pages_with_tag = collections[tag] | sort: 'date' %}
+{% assign pages_with_tag = pages_with_tag | reverse %}
+<div>
+    <ul class="d-flex fd-column gap-7 | m-0 pl-0 pt-5 | ls-none blwidth-1 blstyle-dashed bcolor-neutral-500">
+        {% for item in pages_with_tag %}
+            <li class="d-flex ai-center">
+                <div class="pos-absolute t-tX-50 | p-1 | bc-primary-500 brad-4"></div>
+                <div class="pl-10 | bbwidth-1 bbstyle-dashed bcolor-neutral-500" pl-5="xs"></div>
+                <a  href="{{ item.page.url }}"
+                    class="d-flex fd-column gap-2 fg-1 | p-5 | td-none | bc-primary-100 bwidth-1 bstyle-dashed bcolor-neutral-500 brad-2">
+                    {%- if item.data.ogImageUrl %}
+                        <img src="{{ item.data.ogImageUrl }}"
+                            alt="{{ item.data.eleventyNavigation.key | default: item.data.title | default: item.page.inputPath }}"
+                            eleventy:widths="1200"
+                            loading="lazy"
+                            decoding="async"
+                            class="w-100 h-auto | brad-2 bc-primary-200">
+                    {%- endif %}
+                    <strong class="d-flex fd-column | fs-5 lh-3">
+                        <span class="fs-2 fvs-wght-400 | c-neutral-700">
+                            {% if item.data.eleventyNavigation.parent %}
+                                {{ item.data.eleventyNavigation.parent }}
+                            {% elsif item.data.tags contains 'post' %}
+                                {{ libdocConfig.blogTitle }}
+                            {% endif %}
+                        </span>
+                        <span class="fvs-wght-600">
+                            {{ item.data.eleventyNavigation.key | default: item.data.title | default: item.page.inputPath }}
+                        </span>
+                    </strong>
+                    <span class="fs-4 fvs-wght-300 lh-5 | c-primary-900">
+                        {{ item.data.description }}
+                    </span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

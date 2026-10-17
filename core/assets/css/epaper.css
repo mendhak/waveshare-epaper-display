@@ -279,11 +279,6 @@ main *::selection {
     color: var(--epaper-ink-light);
 }
 
-/* === FOOTER === */
-footer {
-    border-top: 1px solid var(--epaper-rule-light);
-}
-
 /* === PRINT === */
 @media print {
     body {

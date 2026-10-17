@@ -1,0 +1,339 @@
+/*
+ * E-PAPER THEME
+ * Paper texture + black & white aesthetic
+ */
+
+/* === PAPER COLORS === */
+:root {
+    --epaper-paper: #F5F0E8;
+    --epaper-paper-dark: #EDE6D8;
+    --epaper-ink: #1A1A1A;
+    --epaper-ink-light: #3A3A3A;
+    --epaper-ink-faint: #6A6A6A;
+    --epaper-rule: #2A2A2A;
+    --epaper-rule-light: #B0A898;
+    --epaper-highlight: #E8E0D0;
+}
+
+/* === BODY & BACKGROUND === */
+html {
+    background-color: var(--epaper-paper);
+}
+
+body {
+    background-color: var(--epaper-paper);
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    color: var(--epaper-ink);
+    font-family: "Recursive", "fallbackFont", Georgia, "Times New Roman", serif;
+}
+
+/* === SIDEBAR === */
+#nav_primary_container,
+#nav_primary_header {
+    background-color: var(--epaper-paper);
+    border-right: 1px solid var(--epaper-rule-light);
+}
+
+/* === MAIN CONTENT === */
+main {
+    color: var(--epaper-ink);
+}
+
+main p {
+    line-height: 1.7em;
+    color: var(--epaper-ink-light);
+}
+
+/* === HEADINGS === */
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6 {
+    color: var(--epaper-ink);
+    font-weight: 700;
+}
+
+main h1 {
+    font-size: var(--ita-fontSizes-10);
+    letter-spacing: -0.04em;
+    border-bottom: 2px solid var(--epaper-rule);
+    padding-bottom: 0.3em;
+}
+
+main h2 {
+    font-size: var(--ita-fontSizes-9);
+    letter-spacing: -0.03em;
+    border-bottom: 1px solid var(--epaper-rule-light);
+    padding-bottom: 0.2em;
+}
+
+main h3 {
+    font-size: var(--ita-fontSizes-8);
+}
+
+/* === LINKS === */
+main a {
+    color: var(--epaper-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--epaper-rule-light);
+    text-underline-offset: 0.15em;
+    font-weight: 500;
+}
+
+main a:hover {
+    color: var(--epaper-ink);
+    text-decoration-color: var(--epaper-ink);
+}
+
+/* === LISTS === */
+main > ul > li,
+main > ol > li {
+    border-left-color: var(--epaper-rule-light);
+    color: var(--epaper-ink-light);
+}
+
+main > ul > li::after,
+main > ol > li::before {
+    background-color: var(--epaper-ink);
+}
+
+/* === CODE === */
+main > *:not(pre) code {
+    background-color: var(--epaper-paper-dark);
+    color: var(--epaper-ink);
+    border: 1px solid var(--epaper-rule-light);
+    border-radius: 2px;
+}
+
+main > pre {
+    background-color: var(--epaper-paper-dark);
+    border: 1px solid var(--epaper-rule-light);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+main > pre > code {
+    box-shadow: none;
+}
+
+/* === TABLES === */
+main table thead th {
+    background-color: var(--epaper-paper-dark);
+    border-color: var(--epaper-rule-light);
+    color: var(--epaper-ink);
+}
+
+main table tbody tr td {
+    border-color: var(--epaper-rule-light);
+    color: var(--epaper-ink-light);
+}
+
+main table tbody tr:nth-child(odd) td {
+    background-color: var(--epaper-paper);
+}
+
+main table tbody tr:nth-child(even) td {
+    background-color: var(--epaper-paper-dark);
+}
+
+/* === BLOCKQUOTE === */
+main blockquote {
+    border-left: 3px solid var(--epaper-rule);
+    padding: 1.5em 2em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-style: italic;
+    color: var(--epaper-ink-light);
+    position: relative;
+}
+
+main blockquote::before {
+    display: none;
+}
+
+/* === HORIZONTAL RULE === */
+main hr {
+    border: none;
+    border-bottom: 1px solid var(--epaper-rule-light);
+    margin: 2em 0;
+}
+
+/* === FIGURES & IMAGES === */
+main figure {
+    background-color: var(--epaper-paper-dark);
+    border: 1px solid var(--epaper-rule-light);
+    border-radius: 0;
+}
+
+main img {
+    filter: grayscale(100%) contrast(1.1);
+    transition: filter 0.3s;
+}
+
+main img:hover {
+    filter: grayscale(0%) contrast(1);
+}
+
+/* === ALERTS === */
+main .alert {
+    border-left: 3px solid var(--epaper-rule);
+    background-color: var(--epaper-paper-dark);
+    color: var(--epaper-ink-light);
+    border-radius: 0;
+}
+
+main .alert.alert-info {
+    border-left-color: var(--epaper-ink);
+}
+
+main .alert.alert-success {
+    border-left-color: var(--epaper-ink);
+}
+
+main .alert.alert-warning {
+    border-left-color: var(--epaper-ink-faint);
+}
+
+main .alert.alert-danger {
+    border-left-color: var(--epaper-ink);
+}
+
+/* === BUTTONS === */
+main a.btn,
+main button[type="button"].btn {
+    background-color: var(--epaper-ink);
+    color: var(--epaper-paper);
+    border: 2px solid var(--epaper-ink);
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+main a.btn:hover,
+main button[type="button"].btn:hover {
+    background-color: var(--epaper-paper);
+    color: var(--epaper-ink);
+}
+
+/* === NAVIGATION === */
+#nav_primary > ol > li > a.nav_primary__anchor {
+    color: var(--epaper-ink-light);
+}
+
+#nav_primary > ol > li > a.nav_primary__anchor:hover,
+#nav_primary_container [aria-current="page"],
+.nav_primary [aria-current="page"] {
+    color: var(--epaper-ink);
+}
+
+#nav_primary > ol > li ol li,
+.nav_primary > ol > li ol li {
+    border-left-color: var(--epaper-rule-light);
+}
+
+/* === TABLE OF CONTENTS === */
+#toc_main li a {
+    color: var(--epaper-ink-light);
+    text-decoration-color: var(--epaper-rule-light);
+}
+
+#floating_toc__list {
+    background-color: var(--epaper-paper);
+    border-color: var(--epaper-rule-light);
+}
+
+#floating_toc__list a.__active {
+    background-color: var(--epaper-highlight);
+}
+
+#floating_toc a:hover {
+    color: var(--epaper-ink);
+}
+
+/* === SEARCH === */
+input[type="search"] {
+    background-color: var(--epaper-paper);
+    border-color: var(--epaper-rule-light);
+    color: var(--epaper-ink);
+}
+
+/* === SCROLLBAR === */
+html,
+.o-auto {
+    scrollbar-color: var(--epaper-rule-light) var(--epaper-paper);
+}
+
+/* === SELECTION === */
+main *::selection {
+    background-color: var(--epaper-ink);
+    color: var(--epaper-paper);
+}
+
+/* === BADGES / TAGS === */
+.page_tag {
+    background-color: var(--epaper-paper-dark);
+    border-color: var(--epaper-rule-light);
+    color: var(--epaper-ink-light);
+}
+
+/* === FOOTER === */
+footer {
+    border-top: 1px solid var(--epaper-rule-light);
+}
+
+/* === PRINT === */
+@media print {
+    body {
+        background: white !important;
+    }
+    main {
+        width: 100% !important;
+        padding: 0px 30px;
+    }
+    main * {
+        box-shadow: none !important;
+    }
+    main > * {
+        padding: 0 !important;
+    }
+    #nav_small_devices,
+    #floating_toc_container,
+    #toc_main,
+    #sidebar,
+    main h1 a,
+    main h2 a,
+    main h3 a,
+    main h4 a,
+    main h5 a,
+    main h6 a,
+    main > pre > div:first-child {
+        display: none;
+    }
+    main > pre {
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    main > pre > code {
+        box-shadow: none;
+    }
+}
+
+                    /* E-PAPER PAGE HEADER STYLING */
+                    main > header h1 {
+                        font-family: Georgia, "Times New Roman", serif;
+                        text-transform: uppercase;
+                        letter-spacing: 0.02em;
+                        line-height: 1.1;
+                    }
+                    main > header p {
+                        font-family: Georgia, "Times New Roman", serif;
+                        font-style: italic;
+                        color: #5A5A5A;
+                    }
+                    main > header nav.d-flex.jc-space-between {
+                        border-bottom: 1px solid var(--epaper-rule-light);
+                        padding-bottom: 0.5em;
+                    }

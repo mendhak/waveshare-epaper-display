@@ -267,10 +267,8 @@
             w-100-minus-sidebar="md"
             w-100="xs,sm">
             <header class="d-flex fd-column | pt-5 {{ headerPadding }} {{ headerMargin }}">
-                <div class="d-flex jc-space-between ai-center | pb-3 bbwidth-1 bbstyle-solid bcolor-neutral-400 | fs-3 fvs-wght-400 tt-uppercase lsp-2" style="color: var(--epaper-ink-faint)">
+                <div class="d-flex jc-space-between ai-center | pb-3 bbwidth-1 bbstyle-solid bcolor-neutral-400 | fs-3 fvs-wght-400 tt-uppercase lsp-2 d-none--md" style="color: var(--epaper-ink-faint)">
                     <span>{{ libdocConfig.siteTitle }}</span>
-                    <span>Documentation</span>
-                    <span>{{ "now" | date: "%B %d, %Y" }}</span>
                 </div>
                 <nav class="d-flex jc-space-between | pos-relative | mt-3">
                     {% include 'libdoc_breadcrumb' %}

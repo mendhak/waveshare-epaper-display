@@ -1,4 +1,5 @@
 {
+    "htmlBasePathPrefix": "/waveshare-epaper-display",
     "siteTitle": "Waveshare Epaper Dashboard",
     "siteDescription": "At a glance waveshare epaper dashboard, with weather, calendar, time.",
     "faviconUrl": "/assets/myfavicon.png",

@@ -7,9 +7,9 @@ eleventyExcludeFromCollections: true
     <title>{{ libdocConfig.siteTitle }}</title>
     <subtitle>{{ libdocConfig.siteDescription }}</subtitle>
     <link href="{{ permalink }}" rel="self" />
-    <link href="{{ libdocConfig.productionUrl }}{{ page.url }}" />
+    <link href="{{ page.url }}" />
     <updated>{{ collections.post | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
-    <id>{{ libdocConfig.productionUrl }}{{ page.url }}</id>
+    <id>{{ page.url }}</id>
     <author>
         <name>
             {%- if libdocConfig.blogAuthor == false -%}
@@ -20,7 +20,7 @@ eleventyExcludeFromCollections: true
         </name>
     </author>
     {%- for post in collections.post | reverse %}
-        {%- set absolutePostUrl %}{{ libdocConfig.productionUrl }}{{ post.url }}{% endset %}
+        {%- set absolutePostUrl %}{{ post.url }}{% endset %}
         <entry>
             <title>
                 {%- if post.data.title == '' -%}
@@ -49,7 +49,7 @@ eleventyExcludeFromCollections: true
                 {% if post.data.ogImageUrl !== false and post.data.ogImageUrl != '' and post.data.ogImageUrl != null %}
                     &lt;img src=&quot;{{ post.data.ogImageUrl }}&quot; alt=&quot;{{ post.data.title }}&quot;&gt;
                 {% endif %}
-                {{- post.content | renderTransforms(post.data.page, libdocConfig.productionUrl) -}}
+                {{- post.content | renderTransforms(post.data.page) -}}
             </content>
         </entry>
     {%- endfor %}

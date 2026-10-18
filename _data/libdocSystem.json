@@ -69,7 +69,6 @@
             }
         }
     },
-    "productionUrl": "eleventy-libdoc.netlify.app",
     "preferences": {
         "colorSchemes": {
             "choices": [

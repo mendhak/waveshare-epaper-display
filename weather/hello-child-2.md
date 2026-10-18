@@ -5,6 +5,7 @@ layout: libdoc_page.liquid
 eleventyNavigation:
     key: Hello Second Child
     parent: Hello Page
+    order: 1
 tags:
     - syntax-highlighting
     - blockquote

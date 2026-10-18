@@ -851,9 +851,6 @@ const libdocUi = {
             if (link.hostname != location.hostname) {
                 el.target = '_blank';
                 el.title = `${libdocMessages.open} ${el.href} ${libdocMessages.inANewTab.toLowerCase()}`;
-                if (link.hostname == libdocSystem.productionUrl) {
-                    el.classList.add('__external-link');
-                }
             }
         });
     },

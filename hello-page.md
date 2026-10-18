@@ -6,6 +6,6 @@ eleventyNavigation:
     key: Hello Page
 date: false
 ---
-Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
+Howdy! I am the first page! Let’s go to [child page](/weather/hello-child.md "Go to hello child").
 
 This is the documentation site. 

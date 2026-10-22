@@ -2,7 +2,7 @@
     "htmlBasePathPrefix": "/waveshare-epaper-display",
     "siteTitle": "Waveshare Epaper Dashboard",
     "siteDescription": "At a glance waveshare epaper dashboard, with weather, calendar, time.",
-    "faviconUrl": "/assets/waveshare_favicon.svg",
+    "faviconUrl": "/assets/dashboard3.svg",
     "customLinks": [
         {
             "url": "https://github.com/ita-design-system/eleventy-libdoc",

@@ -11,8 +11,13 @@ eleventyNavigation:
     order: 1
 ---
 
-[Waveshare 7.5 inch epaper display HAT 640x384](https://www.amazon.co.uk/gp/product/B075R4QY3L/)  
-[Raspberry Pi Zero WH (presoldered header)](https://www.amazon.co.uk/gp/product/B07BHMRTTY/)  
-[microSDHC card](https://www.amazon.co.uk/gp/product/B073K14CVB)  
+A **Waveshare 7.5 inch epaper** display HAT. I got mine from [Amazon](https://www.amazon.co.uk/gp/product/B075R4QY3L/).
 
-Optional — a picture frame. The author used a [18x13cm (7x5 inch) frame](https://www.tescophoto.com/harriet-photo-frame) which just about fits the screen.
+A **Raspberry Pi**. I like the Zero WH for this, it is small and can easily hide behind the display. I got mine from [Amazon, with presoldered header](https://www.amazon.co.uk/gp/product/B07BHMRTTY/).
+
+A **microSDHC card** for the Raspberry Pi. I got mine from [Amazon](https://www.amazon.co.uk/gp/product/B073K14CVB).
+
+Optional, but very useful, **a picture frame**. I used a [18x13cm (7x5 inch) frame](https://photo.asda.com/product/harriet-photo-frame) which just about fits the screen.
+
+
+

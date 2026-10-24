@@ -11,7 +11,6 @@ eleventyNavigation:
 ---
 
 
-
 * [Shopping list](/getting-started/shopping-list/) - hardware needed to get started
 * [Hardware setup](/getting-started/hardware-setup/) - prepare the Pi and connect the HAT.
 * [Application setup](/getting-started/application-setup/) - clone the repo, install dependencies, and create your config.

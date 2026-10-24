@@ -13,7 +13,7 @@ eleventyNavigation:
 
 ## Cron
 
-Once you've proven that the run works, and an image is sent to your epaper display, you can automate it by setting up a cronjob.
+Once you've proven that the run works, and an image is sent to your epaper display, you can automate it by setting up a cronjob. Open crontab.
 
 ```bash
 crontab -e

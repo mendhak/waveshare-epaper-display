@@ -1,6 +1,6 @@
 ---
 title: Display language
-description: Install and force a different display language / locale.
+description: Install and force a different display language/locale.
 layout: libdoc_page.liquid
 permalink: appearance/language/index.html
 tags:
@@ -11,7 +11,9 @@ eleventyNavigation:
     order: 1
 ---
 
-The default locale of the system will be used to generate the time and date formats, including month and day names. On Raspberry Pi OS the default is usually `en_GB`.
+The default locale of the system will be used to generate the time and date formats, including month and day names. On Raspberry Pi OS the default is usually `en_GB` (British English)
+
+### How to change the display language
 
 To see the current default locale, run `locale`. To see all the locales installed on the system, use `locale -a`.
 
@@ -30,7 +32,7 @@ In `config.toml`, set the language under `[locale]`:
 language = "ko_KR.UTF-8"
 ```
 
-The next time `run.sh` runs, the output should have the chosen language.
+The next time `run.sh` runs, the output should have the chosen language and display units applied. 
 
 ### Fonts for non-western languages
 

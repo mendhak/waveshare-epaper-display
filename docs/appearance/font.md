@@ -13,7 +13,9 @@ eleventyNavigation:
 
 The default font is set to `sans-serif` which on a Raspberry Pi defaults to DejaVu Sans. It's a decent font, wide, and visible, and works for most western languages.
 
-In this example I'll replace it with Noto Sans. First run this command, it will show the current font being used.
+In this example I'll replace it with Noto Sans. You can do this with whichever font you prefer.  
+
+First run this command to show the current font being used.
 
 ```bash
 $ fc-match sans-serif
@@ -33,7 +35,7 @@ mkdir -p ~/.config/fontconfig/conf.d
 nano ~/.config/fontconfig/conf.d/00-fonts.conf
 ```
 
-Set the contents of the 00-fonts.conf file:
+Set the contents of the `00-fonts.conf` file:
 
 ```xml
 <?xml version='1.0'?>

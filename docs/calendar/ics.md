@@ -11,7 +11,7 @@ eleventyNavigation:
     order: 4
 ---
 
-ICS is simple but can be buggy. Get the ICS URL for a calendar, and add it to `config.toml`:
+ICS can be buggy. Get the ICS URL for a calendar, and add it to `config.toml`:
 
 ```toml
 [[calendar.providers.ics]]

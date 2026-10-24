@@ -7,7 +7,7 @@ tags:
     - appearance
 eleventyNavigation:
     key: Appearance
-    order: 6
+    order: 7
 ---
 
 Tweak how the output looks and what it hides:

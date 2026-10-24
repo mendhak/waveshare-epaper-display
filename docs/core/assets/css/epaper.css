@@ -168,12 +168,7 @@ main figure {
 }
 
 main img {
-    filter: grayscale(100%) contrast(1.1);
-    transition: filter 0.3s;
-}
-
-main img:hover {
-    filter: grayscale(0%) contrast(1);
+    filter: none;
 }
 
 /* === ALERTS === */

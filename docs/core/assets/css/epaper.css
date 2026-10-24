@@ -212,16 +212,12 @@ main button[type="button"].btn:hover {
     color: var(--epaper-ink);
 }
 
-/* === NAVIGATION === */
+=== NAVIGATION ===
 #nav_primary > ol > li > a.nav_primary__anchor {
     color: var(--epaper-ink-light);
 }
 
-#nav_primary > ol > li > a.nav_primary__anchor:hover,
-#nav_primary_container [aria-current="page"],
-.nav_primary [aria-current="page"] {
-    color: var(--epaper-ink);
-}
+
 
 #nav_primary > ol > li ol li,
 .nav_primary > ol > li ol li {

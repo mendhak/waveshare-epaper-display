@@ -11,10 +11,20 @@ eleventyNavigation:
     order: 3
 ---
 
-Create an account [on the Met Office Weather DataHub](https://datahub.metoffice.gov.uk) site.
-Next, [under subscriptions](https://datahub.metoffice.gov.uk/profile/subscriptions) — subscribe to the 'Site Specific' product 'Global Spot'. This will get you an API key.
+Create an account [on the Met Office Weather DataHub](https://datahub.metoffice.gov.uk) site. 
 
-In `config.toml`, add your API key:
+Next, [under subscriptions](https://datahub.metoffice.gov.uk/profile/subscriptions) - subscribe to the 'Site Specific' product 'Global Spot'. This will get you an API key.
+
+In `config.toml`, choose to use the Met Office provider by adding it under the `[weather]` section:
+
+```toml
+[weather]
+... your location details from the location step ...
+provider = "metoffice"
+```
+
+Then add a section for the Met Office provider with your API key.
+
 
 ```toml
 [weather.providers.metoffice]

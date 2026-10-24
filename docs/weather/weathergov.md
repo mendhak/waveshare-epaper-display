@@ -13,12 +13,21 @@ eleventyNavigation:
 
 Weather.gov requires you to [identify your application](https://www.weather.gov/documentation/services-web-api). This can be any made up string, or an email address.
 
-In `config.toml`, set your identifier:
+In `config.toml`, choose to use the Weather.gov provider by adding it under the `[weather]` section:
+
+```toml
+[weather]
+... your location details from the location step ...
+provider = "weathergov"
+```
+
+
+Then add a section for the Weather.gov provider with your self-identification:
 
 ```toml
 [weather.providers.weathergov]
 self_identification = "you@example.com"
 ```
 
-> [!WARNING]
-> YMMV. During testing, the weather.gov API was found to start returning errors and then suddenly work again.
+{% alert '<abbr title="Your Mileage May Vary">YMMV</abbr>! During testing, the weather.gov API has been found to start returning errors, and then suddenly work again.', 'warning', 'Note' %}
+

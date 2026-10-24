@@ -11,7 +11,17 @@ eleventyNavigation:
     order: 10
 ---
 
-SMHI requires you to identify yourself. Just set your own email in `config.toml`:
+SMHI requires you to identify yourself. 
+
+In `config.toml`, choose to use the SMHI provider by adding it under the `[weather]` section:
+
+```toml
+[weather]
+... your location details from the location step ...
+provider = "smhi"
+```
+
+Then add a section for the SMHI provider with your self-identification:
 
 ```toml
 [weather.providers.smhi]

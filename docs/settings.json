@@ -19,7 +19,6 @@
         "markdown",
         "css",
         "bash",
-        "ini",
-        "toml"
+        "ini"
     ]
 }

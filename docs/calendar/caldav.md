@@ -11,6 +11,8 @@ eleventyNavigation:
     order: 5
 ---
 
+{% alert, "Some CalDav features may not work well as the protocol is heavily undocumented, proprietary, and many servers don't implement it the same way.", "warning" %}
+
 For CalDav you will need the CalDav URL, username, and password. Add them to `config.toml`:
 
 ```toml
@@ -22,6 +24,5 @@ password = "password"
 id = "your-calendar-id"
 ```
 
-Some CalDav features may not work well as the protocol is heavily undocumented, proprietary, and many servers don't implement it the same way.
 
 To add multiple CalDav calendars, include additional `[[calendar.providers.caldav]]` blocks.

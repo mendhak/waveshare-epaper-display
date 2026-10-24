@@ -15,4 +15,4 @@ eleventyNavigation:
 * [Hardware setup](/getting-started/hardware-setup/) - prepare the Pi and connect the HAT.
 * [Application setup](/getting-started/application-setup/) - clone the repo, install dependencies, and create your config.
 
-Once that's done, move on to [configuration](/configuration/) to make the display show what you want.
+Once that's done, move on to [configuration](/configuration/) which involves setting your [location](/configuration/location/), [weather provider](/weather/), [alerts provider](/alerts/), and [calendar provider](/calendar/). 

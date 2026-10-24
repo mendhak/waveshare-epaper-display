@@ -10,7 +10,7 @@ eleventyNavigation:
     order: 5
 ---
 
-You can use various calendar providers to display events. You can mix and match them, or even add multiple calendars of each type. 
+You can use various calendar providers to display events. You can mix and match them, or even add multiple calendars of the same type. 
 
 Events from all enabled calendars will be merged and sorted by date.
 

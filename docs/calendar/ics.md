@@ -11,7 +11,10 @@ eleventyNavigation:
     order: 4
 ---
 
-ICS can be buggy. Get the ICS URL for a calendar, and add it to `config.toml`:
+{% alert, "ICS can be buggy and may not work well with all calendar providers.", "warning" %}
+
+
+Get the ICS URL for a calendar, and add it to `config.toml`:
 
 ```toml
 [[calendar.providers.ics]]

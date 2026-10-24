@@ -11,7 +11,7 @@ eleventyNavigation:
     order: 3
 ---
 
-It's possible to run and debug the application locally with virtual environments. The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `data/screen_output.png`.
+It's possible to run and debug the application locally with virtual environments. 
 
 Do this before opening VSCode:
 
@@ -28,6 +28,8 @@ Then, open VSCode with the project, and it should automatically detect and switc
 
 Copy `config.example.toml` to `config.toml` and configure your settings.
 
-To run the project, just run `./run.sh`. It will read config.toml and run the various Python scripts.
+To run the project, just run `./run.sh`. It will read config.toml and run the various Python scripts.  
 
-To debug the project, open a Python script file such as `scripts/screen_calendar_get.py` or `scripts/screen_weather_get.py`, and press F5. It will use config.toml for settings and run the script. It can hit breakpoints, no problem.
+The last step fails, as it's trying to write to GPIO, but that's not an issue since the aim of local development is to generate and view the `data/screen_output.png`.
+
+To debug the project, open a Python script file such as `scripts/screen_calendar_get.py` or `scripts/screen_weather_get.py`, and press F5. It will use config.toml for settings and run the script. It can hit breakpoints too. 

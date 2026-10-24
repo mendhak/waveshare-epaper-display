@@ -1,6 +1,6 @@
 ---
 title: Additional Resources
-description: Helpful extras — troubleshooting, the Waveshare sample code, and local debugging.
+description: Troubleshooting, Waveshare sample code, and local debugging.
 layout: libdoc_page.liquid
 permalink: additional-resources/index.html
 tags:
@@ -15,3 +15,4 @@ Extra help and reference material:
 * [Troubleshooting](/additional-resources/troubleshooting/) — fix common problems and clear cached data.
 * [Waveshare documentation & sample code](/additional-resources/waveshare-resources/) — the manufacturer manual and demo repo (the best starting point for hardware issues).
 * [Debugging locally](/additional-resources/local-development/) — run and debug the app on your own machine.
+* [Fitting into a frame](/additional-resources/fitting-into-frame/) — how I fit the display into a physical frame.

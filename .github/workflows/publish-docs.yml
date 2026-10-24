@@ -1,0 +1,58 @@
+name: Build and Publish Docs
+
+# Trigger only when files under docs/ change.
+on:
+  push:
+    branches: [ "main", "master", "libdocs" ]
+    paths:
+      - 'docs/**'
+    paths-ignore:
+      - '**/README.md'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  deployments: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
+      # fetch-depth: 0 does a full clone so git-based filters (e.g. last-modified dates) work.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 26
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+
+      - name: Build the static site
+        # The Eleventy site lives in docs/ and outputs to docs/_site.
+        working-directory: docs
+        run: npm install && npx @11ty/eleventy
+
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Github Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          # Everything under docs/_site, produced by the build step above.
+          path: docs/_site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

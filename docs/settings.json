@@ -20,5 +20,6 @@
         "css",
         "bash",
         "ini"
-    ]
+    ],
+    "ogImageUrl": "/screenshots/display.png"
 }

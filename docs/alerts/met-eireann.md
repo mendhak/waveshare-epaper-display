@@ -1,6 +1,6 @@
 ---
 title: Met Éireann (Ireland)
-description: Configure the Met Éireann severe weather warning provider.
+description: 
 layout: libdoc_page.liquid
 permalink: alerts/met-eireann/index.html
 tags:
@@ -11,7 +11,18 @@ eleventyNavigation:
     order: 4
 ---
 
-To use alerts from Met Éireann, visit https://www.met.ie/Open_Data/json/ and choose the appropriate "warning_EIXX" JSON file for your region, using each county's FIPS code. This code can be found in the table on http://www.statoids.com/uie.html, in the pre-2014 section. For example, this is the file for Dublin:
+To use alerts from Met Éireann, visit [https://www.met.ie/Open_Data/json/](https://www.met.ie/Open_Data/json/) and choose the appropriate `warning_EIXX` JSON file for your region, using each county's [FIPS code](https://statoids.com/uie.html). 
+
+
+In `config.toml`, set the `[alerts]` section as follows:
+
+```toml
+[alerts]
+enabled = true
+provider = "met_eireann"
+```
+
+Then add a section for the Met Éireann provider with the feed URL. For example, this is the configuration for Dublin:
 
 ```toml
 [alerts.providers.met_eireann]

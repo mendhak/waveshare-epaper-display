@@ -130,6 +130,7 @@
                             <span class="fvs-wght-400 fs-1 tt-uppercase">{{ libdocMessages.search[pageLang] }}</span>
                         </a>
                     {% endif %}
+                    {% if libdocConfig.tocEnabled %}
                     <button type="button"
                         id="sd_floating_toc_toggle_btn"
                         class="d-flex fd-column jc-center ai-center gap-1 | pl-2 pr-2 | ta-center | cur-pointer c-primary-900 bc-neutral-100 b-0 brad-3"
@@ -137,6 +138,7 @@
                         <span class="icon-list-dashes fs-6"></span>
                         <span class="fvs-wght-400 fs-1 tt-uppercase">{{ libdocMessages.tableOfContentAbbr[pageLang] }}</span>
                     </button>
+                    {% endif %}
                     <button type="button"
                         id="sd_gtt_btn"
                         class="d-flex fd-column jc-center ai-center gap-1 | pl-2 pr-2 | ta-center | cur-pointer c-primary-900 bc-neutral-100 b-0 brad-3"

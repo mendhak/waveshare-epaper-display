@@ -19,4 +19,5 @@ The ribbon from the connector loops upwards and over to the picture frame's stan
 The only bit of wire in the whole setup is the USB to power the Raspberry Pi.
 
 ![](/screenshots/picture_frame_cut_1.png)
+
 ![](/screenshots/picture_frame_cut_2.png)

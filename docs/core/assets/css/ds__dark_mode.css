@@ -1,0 +1,201 @@
+@media not print {
+    :root {
+        --ita-colors-neutral-900: #EEE;
+        --ita-colors-neutral-800: #BBB;
+        --ita-colors-neutral-700: #999;
+        --ita-colors-neutral-600: #787878;
+        --ita-colors-neutral-500: #4F4F4F;
+        --ita-colors-neutral-400: #3A3A3A;
+        --ita-colors-neutral-300: #252525;
+        --ita-colors-neutral-200: #121212;
+        --ita-colors-neutral-100: #000000;
+        --ita-colors-primary-900: #d2e5f1;
+        --ita-colors-primary-800: #b9e1f9;
+        --ita-colors-primary-700: #8dcaef;
+        --ita-colors-primary-600: #55b6f4;
+        --ita-colors-primary-500: #009afa;
+        --ita-colors-primary-400: #025081;
+        --ita-colors-primary-300: #023a5c;
+        --ita-colors-primary-200: #0a1924;
+        --ita-colors-primary-100: #070f13;
+        --ita-colors-success-900: #daffc5;
+        --ita-colors-success-500: #5cab33;
+        --ita-colors-success-100: #1a1d18;
+        --ita-colors-warning-900: #ffe4bc;
+        --ita-colors-warning-500: #EBA232;
+        --ita-colors-warning-100: #231d13;
+        --ita-colors-danger-900: #ffd1d1;
+        --ita-colors-danger-500: #DF3528;
+        --ita-colors-danger-100: #251312;
+        --libdoc-image-background-color: var(--libdoc-image-background-color-dark-mode) !important;
+        --libdoc-soft-shadow: 0px 0px 10px rgba(0,0,0,1);
+        --libdoc-long-shadow: 0px 0px 10px 0px var(--ita-colors-neutral-100), 5px 5px 10px 0px var(--ita-colors-primary-100), -5px 5px 10px 0px var(--ita-colors-primary-100), -5px -5px 10px 0px var(--ita-colors-primary-100), 5px -5px 10px 0px var(--ita-colors-primary-100);
+        --libdoc-long-shadow-alt: 
+            5px 5px 10px 0px var(--ita-colors-primary-100),
+            10px 10px 40px 0px var(--ita-colors-primary-500),
+            -20px 20px 40px 0px var(--ita-colors-primary-300),
+            -20px -20px 40px 0px var(--ita-colors-primary-300),
+            20px -20px 40px 0px var(--ita-colors-primary-300),
+            5px 5px 10px 0px var(--ita-colors-primary-300),
+            -5px 5px 10px 0px var(--ita-colors-primary-300),
+            -5px -5px 10px 0px var(--ita-colors-primary-300),
+            5px -5px 10px 0px var(--ita-colors-primary-300)
+    }
+    html {
+        background-color: var(--ita-colors-neutral-200);
+    }
+    body {
+        background: 0px 0px / 20px 20px radial-gradient(var(--ita-colors-neutral-500) 0.5px,var(--ita-colors-neutral-200) 1px);
+    }
+    html,
+    .o-auto {
+        scrollbar-color: var(--ita-colors-neutral-700) transparent;
+    }
+    main > :not(pre) code {
+    background-color: var(--ita-colors-primary-300);
+    }
+    /* ALERTS */
+    main .alert {
+    color: var(--ita-colors-neutral-900);
+    background-color: var(--ita-colors-neutral-200);
+    }
+    main .alert.alert-info {
+    background-color: var(--ita-colors-primary-200);
+    }
+    /* TABLES */
+    main table td code {
+    color: var(--ita-colors-primary-900);
+    }
+    /* INLINE HTML */
+    main del {
+    background-color: var(--ita-colors-danger-500);
+    color: var(--ita-colors-danger-900);
+    text-decoration-color: var(--ita-colors-danger-100);
+    }
+    main s,
+    main strike {
+    text-decoration-color: var(--ita-colors-danger-500);
+    color: var(--ita-colors-neutral-700);
+    }
+    main kbd {
+    background-color: var(--ita-colors-primary-300);
+    }
+    main mark {
+    background-color: var(--ita-colors-success-500);
+    color: var(--ita-colors-success-100);
+    }
+    main small {
+    color: var(--ita-colors-neutral-900);
+    }
+    main figure {
+        background-color: var(--ita-colors-neutral-200);
+    }
+    main figure.long-shadow img,
+    main picture:has(.long-shadow) img {
+        box-shadow: 0em 0em 60px var(--ita-colors-neutral-100), 0em 0em 10px var(--ita-colors-neutral-300), 1em 1em 40px var(--ita-colors-neutral-100);
+    }
+    main > pre {
+        background-color: var(--ita-colors-primary-100);
+    }
+    main > pre > code {
+        box-shadow: none;
+    }
+
+    /* FLOATING TOC */
+    #floating_toc__list a.__active {
+        background-color: var(--ita-colors-primary-300);
+    }
+
+    /* NAV_PRIMARY */
+    #nav_primary_container,
+    #nav_primary_header {
+        background-color: var(--ita-colors-neutral-200);
+    }
+    #nav_primary_container {
+        box-shadow: var(--libdoc-long-shadow);
+    }
+
+    /* SANDBOX */
+    .sandbox .sandbox__code_wrapper,
+    .sandbox .sandbox__iframe_wrapper {
+        background-color: var(--ita-colors-neutral-300);
+        color: var(--ita-colors-neutral-800);
+    }
+    .sandbox .sandbox__resizer {
+        background-color: var(--ita-colors-neutral-300);
+        color: var(--ita-colors-neutral-800);
+    }
+    .sandbox .sandbox__resizer:active,
+    .sandbox .sandbox__resizer:hover {
+        background-color: var(--ita-colors-neutral-400);
+    }
+    main .sandbox__iframe_wrapper a,
+    .sandbox .sandbox__reload,
+    .sandbox .sandbox__copy_url,
+    .sandbox .sandbox__copy_code {
+        color: var(--ita-colors-neutral-900);
+    }
+    .sandbox .sandbox__enable_switch ~ label {
+        background-color: var(--ita-colors-neutral-100);
+        color: var(--ita-colors-neutral-900);
+    }
+    .sandbox .sandbox__tabs {
+        background-color: var(--ita-colors-primary-300);
+        box-shadow: inset 0px 0px 5px var(--ita-colors-primary-100);
+    }
+    .sandbox .sandbox__tab.__active {
+        background-color: var(--ita-colors-neutral-100);
+        box-shadow: var(--libdoc-soft-shadow);
+    }
+
+    /* WIDGETS */
+    .widget-iconCard > p {
+        background-color: var(--ita-colors-neutral-200);
+        box-shadow: var(--libdoc-soft-shadow);
+    }
+
+    /* BLOG */
+    .blog-post-link {
+        background-color: var(--ita-colors-neutral-200);
+        box-shadow: var(--libdoc-soft-shadow);
+    }
+
+    /* AUTOCOMPLETE */
+    .auto-results-wrapper > li {
+        background-color: var(--ita-colors-primary-100);
+    }
+}
+
+
+/* PRINT */
+@media print {
+    :root {
+        --ita-colors-neutral-100: #FFFFFF !important;
+        --ita-colors-neutral-200: #F6F6F6 !important;
+        --ita-colors-neutral-300: #EEEEEE !important;
+        --ita-colors-neutral-400: #E5E5E5 !important;
+        --ita-colors-neutral-500: #BFBFBF !important;
+        --ita-colors-neutral-600: #999999 !important;
+        --ita-colors-neutral-700: #444444 !important;
+        --ita-colors-neutral-800: #252525 !important;
+        --ita-colors-neutral-900: #000000 !important;
+        --ita-colors-primary-100: #fafcff !important;
+        --ita-colors-primary-200: #daeafb !important;
+        --ita-colors-primary-300: #a5d0fd !important;
+        --ita-colors-primary-400: #5dabfe !important;
+        --ita-colors-primary-500: #0165d0 !important;
+        --ita-colors-primary-600: #0156b2 !important;
+        --ita-colors-primary-700: #03458c !important;
+        --ita-colors-primary-800: #02366f !important;
+        --ita-colors-primary-900: #01254b !important;
+        --ita-colors-success-100: #f2fbec !important;
+        --ita-colors-success-500: #5cab33 !important;
+        --ita-colors-success-900: #2b650c !important;
+        --ita-colors-warning-100: #fff7eb !important;
+        --ita-colors-warning-500: #EBA232 !important;
+        --ita-colors-warning-900: #87560b !important;
+        --ita-colors-danger-100: #fef3f3 !important;
+        --ita-colors-danger-500: #DF3528 !important;
+        --ita-colors-danger-900: #760e06 !important;
+    }
+}

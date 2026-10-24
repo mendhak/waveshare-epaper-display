@@ -1,0 +1,24 @@
+---
+permalink: core/assets/css/icons.css
+eleventyExcludeFromCollections: true
+---
+/* ICONS */
+[class*="icon-"] {
+    background-color: currentColor;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    width: 1em;
+    height: 1em;
+    aspect-ratio: 1;
+    display: inline-flex;
+}
+{% for iconName in libdocSystem.icons %}
+.icon-{{ iconName }} {
+    mask-image: url('{{ libdocConfig.htmlBasePathPrefix }}/core/assets/icons/{{ iconName }}.svg');
+}
+{% endfor %}
+main a[href^="https://"]:not([href^="https://eleventy-libdoc"])::after,
+main a.__external-link::after {
+    mask-image: url('{{ libdocConfig.htmlBasePathPrefix }}/core/assets/icons/arrow-square-out.svg');
+}

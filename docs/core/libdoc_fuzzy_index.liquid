@@ -1,0 +1,15 @@
+---
+permalink: core/assets/js/fuzzy_index.json
+eleventyExcludeFromCollections: true
+---
+[
+{%- if collections.all.size > 0 and libdocConfig.searchEnabled -%}
+    {% for item in collections.all %}
+        {
+            "url": "{{ item.url | url }}",
+            "title": "{{ item.data.title | default: item.data.eleventyNavigation.key | default: item.inputPath | escape }}",
+            "description": "{{ item.data.description | strip_newlines | strip_html | escape | sanitizeJSON }} {{ item.data.tags | join: ' ' | strip }}"
+        }{%- if forloop.last == false %},{%- endif -%}
+    {%- endfor -%}
+{%- endif %}
+]

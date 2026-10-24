@@ -1,0 +1,65 @@
+---
+layout: libdoc_page.liquid
+date: false
+pagination:
+    data: collections.postsByDateDescending
+    size: 12
+    alias: posts
+permalink: "{{ libdocConfig.blogSlug }}/{% if pagination.pageNumber > 0 %}page-{{ pagination.pageNumber | plus: 1 }}/{% endif %}index.html"
+---
+<div class="">
+    <ol class="d-flex fd-column gap-5 | m-0 pl-0 pt-9 | ls-none blwidth-1 blstyle-dashed bcolor-neutral-500">
+        {% for item in posts %}
+            <li class="d-flex ai-center">
+                <div class="pos-absolute t-tX-50 | p-1 | bc-primary-500 brad-4"></div>
+                <div class="pl-10 | bbwidth-1 bbstyle-dashed bcolor-neutral-500" pl-5="xs"></div>
+                <a  href="{{ item.url }}"
+                    class="d-flex fd-column gap-2 fg-1 | p-5 | td-none | brad-2 bwidth-1 bstyle-dashed | blog-post-link">
+                    {%- if item.data.ogImageUrl %}
+                        <img src="{{ item.data.ogImageUrl }}"
+                            alt="{{ item.data.eleventyNavigation.key | default: item.data.title | default: item.page.inputPath }}"
+                            eleventy:widths="1200"
+                            loading="lazy"
+                            decoding="async"
+                            class="w-100 h-auto | brad-2 bc-primary-200">
+                    {%- endif %}
+                    <span class="d-flex ai-center gap-2 | fvs-wght-400 fs-3 lsp-3 lh-3 | c-primary-900"
+                        fs-2="xs">
+                        <span class="icon-calendar-dots fs-8 | c-neutral-500" fs-6="xs"></span>
+                        <span class="d-flex jc-space-between ai-center fg-1 gap-5 | c-neutral-700"
+                            ws-nowrap="sm,md">
+                            {{ item.page.date|dateString }}
+                            {% if item.data.author %}
+                                <span class="d-flex ai-center gap-2">
+                                    <span class="icon-user fs-8 | c-neutral-500" fs-6="xs"></span>
+                                    {{ item.data.author }}
+                                </span>
+                            {% endif %}
+                        </span>
+                    </span>
+                    <strong class="fs-8 lsp-5 fvs-wght-600 lh-3"
+                        fs-5="xs">
+                        {{ item.data.eleventyNavigation.key | default: item.data.title | default: item.page.inputPath }}
+                    </strong>
+                    <span class="fs-4 fvs-wght-400 lh-5 | c-neutral-700"
+                        fs-3="xs">
+                        {{ item.data.description }}
+                    </span>
+                </a>
+            </li>
+        {% endfor %}
+    </ol>
+
+    <nav class="d-flex gap-2 fw-wrap | pl-10 pt-10 | blwidth-1 blstyle-dashed bcolor-neutral-500" pl-5="xs,sm">
+        {% for pageEntry in pagination.pages %}
+            <a  href="{{ pagination.hrefs[ forloop.index0 ] }}"
+                title="{{ libdocMessages.page[libdocConfig.lang] }} {{ forloop.index }}"
+                class="d-flex | pos-relative | p-4 | td-none fs-3 fvs-wght-400 | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow"
+                {% if page.url == pagination.hrefs[ forloop.index0 ] %}
+                    aria-current="page"
+                {% endif %}>
+                <span class="pos-absolute top-50 left-50 t-tY-50 t-tX-50">{{ forloop.index }}</span>
+            </a>
+        {% endfor %}
+    </nav>
+</div>

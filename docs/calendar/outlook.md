@@ -1,6 +1,6 @@
 ---
 title: Outlook Calendar
-description: Configure the Outlook Calendar provider.
+description:
 layout: libdoc_page.liquid
 permalink: calendar/outlook/index.html
 tags:
@@ -11,13 +11,17 @@ eleventyNavigation:
     order: 3
 ---
 
-The setup is much simpler, just run this script which will give instructions on how to login:
+The setup is much simpler than Google calendar, just run this script which will give instructions on how to login:
 
 ```bash
 .venv/bin/python3 utils/outlook_util.py
 ```
 
-Login with the Microsoft account you want to get the calendar from, and accept the consent screen. After a moment, the script will then display a set of Calendar IDs and some sample events from those Calendars. Copy the ID of the calendar you want, and add it to `config.toml`:
+Login with the Microsoft account you want to get the calendar from, and accept the consent screen. 
+
+After a moment, the script will then display a set of Calendar IDs and some sample events from those Calendars. 
+
+Copy the ID of the calendar you want, and add it to `config.toml`:
 
 ```toml
 [[calendar.providers.outlook]]

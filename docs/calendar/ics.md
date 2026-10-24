@@ -1,6 +1,6 @@
 ---
 title: ICS Calendar
-description: Configure the ICS calendar provider.
+description: 
 layout: libdoc_page.liquid
 permalink: calendar/ics/index.html
 tags:

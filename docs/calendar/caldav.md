@@ -1,6 +1,6 @@
 ---
 title: CalDav Calendar
-description: Configure the CalDav calendar provider.
+description: 
 layout: libdoc_page.liquid
 permalink: calendar/caldav/index.html
 tags:

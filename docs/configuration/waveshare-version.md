@@ -1,6 +1,6 @@
 ---
 title: Waveshare version
-description: Tell the app which revision of your Waveshare 7.5" e-Paper module you have.
+description: 
 layout: libdoc_page.liquid
 permalink: configuration/waveshare-version/index.html
 tags:
@@ -11,7 +11,7 @@ eleventyNavigation:
     order: 1
 ---
 
-Set the version of your Waveshare 7.5" e-Paper Module. Newer ones are version 2, and the red-accented one is 2B:
+Set the version of your Waveshare 7.5" e-Paper Module. Newer ones are version `2`, and the red-accented one is `2B`:
 
 ```toml
 [display]

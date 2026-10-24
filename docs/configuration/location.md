@@ -1,6 +1,6 @@
 ---
 title: Location
-description: Set the latitude and longitude your weather is fetched for.
+description: Set your location and units.
 layout: libdoc_page.liquid
 permalink: configuration/location/index.html
 tags:
@@ -11,7 +11,7 @@ eleventyNavigation:
     order: 2
 ---
 
-Whichever weather provider you use, you'll need to provide the location and units to display in.
+Whichever weather provider you use, you'll need to provide the location and units to display in. Where supported, these values will be passed to the weather provider. 
 
 Edit `config.toml` and update the latitude and longitude under the `[weather]` section.
 

@@ -13,7 +13,7 @@ eleventyNavigation:
 
 ## Clone it
 
-Clone this repository in the `/home/pi` directory.
+On the Raspberry Pi, clone this repository in the `/home/pi` directory.
 
 ```bash
 cd ~
@@ -44,4 +44,4 @@ cd waveshare-epaper-display
 cp config.example.toml config.toml
 ```
 
-From here on, all settings live in `config.toml`. See the sections below for each setting.
+From here on, all settings live in `config.toml`. 

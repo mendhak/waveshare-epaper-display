@@ -317,12 +317,11 @@
             {% endif %}
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
-                <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500"
-                    fw-wrap="xs">
+                <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500">
                     <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></div>
                     {% if navLinks.prev %}
                         <a href="{{ navLinks.prev.url }}"
-                            class="d-flex ai-center gap-2 | td-none nav-prev-link">
+                            class="d-flex ai-center gap-2 | td-none nav-prev-link" fg-1='xs'>
                             <span class="icon-caret-left fs-6"></span>
                             <span class="d-flex fd-column">
                                 <small class="nav-prev-label">Previous</small>
@@ -331,10 +330,9 @@
                         </a>
                     {% endif %}
                     {% if navLinks.next %}
-                        <div class="w-100" d-none="sm,md"></div>
                         <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500" w-100="sm,md"></div>
                         <a href="{{ navLinks.next.url }}"
-                            class="d-flex ai-center gap-2 | td-none nav-next-link">
+                            class="d-flex ai-center gap-2 | td-none nav-next-link" fg-1='xs'>
                             <span class="d-flex fd-column nav-next-column">
                                 <small class="nav-next-label">Next</small>
                                 <span class="nav-next-title">{{ navLinks.next.title }}</span>

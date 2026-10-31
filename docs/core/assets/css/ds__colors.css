@@ -1,0 +1,473 @@
+html {
+    background-color: var(--ita-colors-primary-100);
+}
+body {
+    background: 0px 0px / 20px 20px radial-gradient(var(--ita-colors-primary-300) 0.5px,var(--ita-colors-primary-100) 1px);
+}
+html,
+.o-auto {
+    scrollbar-color: var(--ita-colors-primary-500) transparent;
+}
+input {
+  caret-color: var(--ita-colors-primary-500);
+}
+input:focus {
+    outline-color: var(--ita-colors-primary-500);
+}
+/* MAIN CONTENT */
+main {
+    color: var(--ita-colors-primary-900);
+}
+main *::target-text {
+    background-color: aqua;
+}
+main *::selection {
+    background-color: var(--ita-colors-primary-500);
+    color: var(--ita-colors-primary-100);
+}
+main del {
+    background-color: var(--ita-colors-danger-100);
+    color: var(--ita-colors-danger-900);
+}
+main ins {
+    background-color: var(--ita-colors-success-100);
+    color: var(--ita-colors-success-900);
+}
+/* HEADINGS */
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6 {
+    color: var(--ita-colors-primary-900);
+}
+main h1:target a,
+main h2:target a,
+main h3:target a,
+main h4:target a,
+main h5:target a,
+main h6:target a {
+    background-color: var(--ita-colors-primary-500);
+    color: var(--ita-colors-primary-100);
+    border-color: var(--ita-colors-primary-100);
+}
+/* LINKS */
+main a:link,
+main a:visited {
+    color: var(--ita-colors-primary-500);
+}
+main a:hover {
+    color: var(--ita-colors-primary-700);
+}
+/* MARKING AND SPECIALS */
+main mark {
+    /* text-shadow: none; */
+    background-color: var(--ita-colors-success-100);
+    color: var(--ita-colors-success-900);
+}
+main s,
+main strike {
+    text-decoration-color: var(--ita-colors-danger-500);
+}
+main del * {
+    background-color: var(--ita-colors-danger-100);
+    color: var(--ita-colors-danger-900);
+}
+main ins * {
+    background-color: var(--ita-colors-success-100);
+    color: var(--ita-colors-success-900);
+}
+main samp {
+    color: var(--ita-colors-neutral-100);
+    background: var(--ita-colors-neutral-800);
+}
+main q {
+    background-color: var(--ita-colors-primary-100);
+}
+main kbd {
+    background-color: var(--ita-colors-primary-200);
+}
+/* LISTS */
+main > ol:not(:has(ul)) > li,
+main > ol:not(:has(ul)) li > ol > li {
+    border-left-color: var(--ita-colors-neutral-500);
+}
+main > ol:not(:has(ul)) > li::before,
+main > ol:not(:has(ul)) li > ol > li::before {
+    background-color: var(--ita-colors-primary-100);
+    color: var(--ita-colors-primary-500);
+    border-bottom-color: var(--ita-colors-neutral-500);
+}
+main > ol:not(:has(ul)) > li {
+    border-left-color: var(--ita-colors-primary-500);
+}
+main > ol:not(:has(ul)) > li::before {
+    background-color: var(--ita-colors-primary-500);
+    color: var(--ita-colors-neutral-100);
+}
+main > ul > li,
+main > ul ul > li,
+main > ol ul > li {
+    border-left-color: var(--ita-colors-neutral-500);
+}
+main > ul > li::before,
+main > ul ul > li::before,
+main > ol ul > li::before {
+    border-bottom-color: var(--ita-colors-neutral-500);
+}
+main > ul > li::after,
+main > ul ul > li::after,
+main > ol ul > li::after {
+    background-color: var(--ita-colors-primary-500);
+}
+main > ol:has(ul) > li {
+    border-left-color: var(--ita-colors-primary-500);
+}
+main > ol:has(ul) > li:before  {
+    background-color: var(--ita-colors-primary-500);
+    color: var(--ita-colors-neutral-100);
+}
+main > *:not(header) li::marker {
+    color: var(--ita-colors-primary-500);
+}
+
+/* CODE AND SYNTAX HIGHLIGHTING */
+main > *:not(pre) code {
+    background-color: var(--ita-colors-primary-200);
+    color: var(--ita-colors-primary-800);
+}
+main > pre {
+    background-color: var(--ita-colors-primary-200);
+    border-color: var(--ita-colors-primary-300);
+    box-shadow: inset 0.3em 0.3em 2em #0B427C44;
+}
+main > pre > code::before {
+    border-bottom-color: #385267;
+}
+/* TABLES */
+main table thead th {
+    background-color: var(--ita-colors-primary-100);
+    border-color: var(--ita-colors-primary-300);
+}
+main table tbody tr td {
+    border-color: var(--ita-colors-primary-300);
+}
+main table tbody tr:nth-child(odd) td {
+    background-color: var(--ita-colors-primary-200);
+    color: var(--ita-colors-primary-900);
+}
+main table tbody tr:nth-child(even) td {
+    background-color: var(--ita-colors-primary-100);
+}
+main table td code {
+    background-color: var(--ita-colors-neutral-200);
+    color: var(--ita-colors-primary-900);
+}
+/* QUOTES */
+main blockquote::before {
+    border-color: var(--ita-colors-primary-200);
+    background-color: var(--ita-colors-neutral-100);
+}
+/* DEFINITION LISTS */
+main dl dt {
+    color: var(--ita-colors-primary-500);
+}
+main dl dd {
+    border-left-color: var(--ita-colors-primary-500);
+}
+/* DETAILS */
+main > details summary::before,
+main > *:not(header) details summary::before {
+    color: var(--ita-colors-primary-500);
+}
+main > details:has(+ details) summary,
+main > details + details summary,
+main > *:not(header) details:has(+ details) summary,
+main > *:not(header) details + details summary {
+    border-bottom-color: var(--ita-colors-neutral-500);
+}
+
+/* HORIZONTAL RULE */
+main hr::before {
+    border-bottom-color: var(--ita-colors-neutral-500);
+}
+
+/* IMAGES */
+main figure {
+    background-color: var(--ita-colors-neutral-100);
+    border-color: var(--ita-colors-neutral-400);
+}
+main img {
+    background-color: var(--libdoc-image-background-color);
+}
+main figure.dark,
+main picture:has(.dark) img {
+    color: var(--ita-colors-neutral-100);
+    background-color: var(--ita-colors-neutral-900);
+}
+main picture:has(.light) img {
+    color: var(--ita-colors-neutral-900);
+    background-color: var(--ita-colors-neutral-100);
+}
+main figure.damier img,
+main picture:has(.damier) img {
+    background: var(--libdoc-damier);
+}
+/* VIDEO */
+main video {
+    background: var(--ita-colors-neutral-900);
+}
+/* INLINE HTML */
+main rt {
+    background: linear-gradient(transparent calc(100% - 0.5px), var(--ita-colors-neutral-500) 0.5px);
+}
+main small {
+    color: var(--ita-colors-neutral-700);
+}
+main u {
+    color: var(--ita-colors-danger-900);
+}
+main a.btn,
+main button[type="button"].btn {
+    background-color: var(--ita-colors-neutral-200);
+    color: var(--ita-colors-neutral-900);
+    border-color: var(--ita-colors-neutral-900);
+}
+main a.btn.btn-primary,
+main button[type="button"].btn.btn-primary {
+    background-color: var(--ita-colors-primary-500);
+    color: var(--ita-colors-neutral-100);
+    border-color: var(--ita-colors-neutral-100);
+}
+main a.btn.btn-primary-light,
+main button[type="button"].btn.btn-primary-light {
+    background-color: var(--ita-colors-primary-100);
+    color: var(--ita-colors-primary-600);
+    border-color: var(--ita-colors-primary-600);
+}
+main a.btn.btn-success,
+main button[type="button"].btn.btn-success {
+    background-color: var(--ita-colors-success-500);
+    color: var(--ita-colors-neutral-100);
+    border-color: var(--ita-colors-success-100);
+}
+main a.btn.btn-success-light,
+main button[type="button"].btn.btn-success-light {
+    background-color: var(--ita-colors-success-100);
+    color: var(--ita-colors-success-900);
+    border-color: var(--ita-colors-success-900);
+}
+main a.btn.btn-warning,
+main button[type="button"].btn.btn-warning {
+    background-color: var(--ita-colors-warning-500);
+    color: var(--ita-colors-neutral-100);
+    border-color: var(--ita-colors-warning-100);
+}
+main a.btn.btn-warning-light,
+main button[type="button"].btn.btn-warning-light {
+    background-color: var(--ita-colors-warning-100);
+    color: var(--ita-colors-warning-900);
+    border-color: var(--ita-colors-warning-900);
+}
+main a.btn.btn-danger,
+main button[type="button"].btn.btn-danger {
+    background-color: var(--ita-colors-danger-500);
+    color: var(--ita-colors-neutral-100);
+    border-color: var(--ita-colors-danger-100);
+}
+main a.btn.btn-danger-light,
+main button[type="button"].btn.btn-danger-light {
+    background-color: var(--ita-colors-danger-100);
+    color: var(--ita-colors-danger-900);
+    border-color: var(--ita-colors-danger-900);
+}
+
+/* EMBEDS */
+main > aside > iframe {
+    background-color: var(--ita-colors-neutral-900);
+}
+
+/* ALERTS */
+main .alert {
+    border-color: var(--ita-colors-neutral-500);
+    color: var(--ita-colors-neutral-700);
+    background-color: var(--ita-colors-primary-100);
+}
+main .alert[data-title]::before {
+    color: var(--ita-colors-neutral-700);
+    border-color: var(--ita-colors-neutral-500);
+}
+main .alert.alert-info {
+    background-color: var(--ita-colors-neutral-100);
+    color: var(--ita-colors-primary-900);
+    border-color: var(--ita-colors-primary-500);
+}
+main .alert.alert-info::before {
+    color: var(--ita-colors-primary-500);
+    border-color: currentColor;
+}
+main .alert.alert-success {
+    background-color: var(--ita-colors-success-100);
+    color: var(--ita-colors-success-900);
+    border-color: var(--ita-colors-success-500);
+}
+main .alert.alert-success::before {
+    color: var(--ita-colors-success-500);
+    border-color: currentColor;
+}
+main .alert.alert-warning {
+    background-color: var(--ita-colors-warning-100);
+    color: var(--ita-colors-warning-900);
+    border-color: var(--ita-colors-warning-500);
+}
+main .alert.alert-warning::before {
+    color: var(--ita-colors-warning-500);
+    border-color: currentColor;
+}
+main .alert.alert-danger {
+    background-color: var(--ita-colors-danger-100);
+    color: var(--ita-colors-danger-900);
+    border-color: var(--ita-colors-danger-500);
+}
+main .alert.alert-danger::before {
+    color: var(--ita-colors-danger-500);
+    border-color: currentColor;
+}
+
+/* FLOATING TOC */
+#floating_toc__list a.__active {
+    background-color: var(--ita-colors-primary-200);
+}
+
+/* SEARCH OCCURRENCES */
+@keyframes flash {
+    50% { background-color: #BF0 }
+    100% { background-color: inherit }
+}
+main .__search-occurrence {
+    outline-color: var(--ita-colors-success-500) !important;
+}
+
+/* NAV_PRIMARY */
+#nav_primary_container,
+#nav_primary_header {
+    background-color: var(--ita-colors-neutral-100);
+}
+#nav_primary .nav_primary__anchor::before,
+.nav_primary .nav_primary__anchor::before,
+#nav_primary_blog_link::before {
+    border-top-color: var(--ita-colors-neutral-500);
+}
+#nav_primary .nav_primary__anchor::after,
+.nav_primary .nav_primary__anchor::after,
+#nav_primary_blog_link::after {
+    background-color: var(--ita-colors-primary-500);
+}
+#nav_primary_container [aria-current="page"],
+.nav_primary [aria-current="page"] {
+    color: var(--ita-colors-primary-500);
+}
+#nav_primary > ol > li ol li,
+.nav_primary > ol > li ol li {
+    border-left-color: var(--ita-colors-neutral-500);
+}
+
+/* SANDBOX */
+.sandbox .sandbox__resizer:active,
+.sandbox .sandbox__resizer:hover {
+    background-color: var(--ita-colors-neutral-700);
+}
+
+/* FLOATING TABLE OF CONTENT */
+#floating_toc a:hover {
+    color: var(--ita-colors-primary-700);
+}
+
+/* HOVERS */
+.__hover-1:hover {
+    background-color: var(--ita-colors-primary-500);
+    color: var(--ita-colors-primary-100);
+    border-color: var(--ita-colors-primary-100);
+}
+.__hover-1:hover > * {
+    color: var(--ita-colors-primary-100);
+}
+.__hover-2:hover {
+    background-color: var(--ita-colors-success-500);
+    color: var(--ita-colors-success-100);
+    border-color: var(--ita-colors-success-100);
+}
+.__hover-2:hover > * {
+    color: var(--ita-colors-success-100);
+}
+
+/* INPUT RADIOS */
+input[type="radio"] ~ label::before {
+    border-color: var(--ita-colors-primary-500);
+    background: var(--ita-colors-neutral-100);
+}
+input[type="radio"]:checked ~ label::before {
+    background: radial-gradient(var(--ita-colors-neutral-100), var(--ita-colors-neutral-100) 30%, var(--ita-colors-primary-500) 33%, var(--ita-colors-primary-500) 100%);
+}
+
+/* SANDBOX */
+.sandbox .sandbox__code_wrapper,
+.sandbox .sandbox__iframe_wrapper {
+    background-color: var(--ita-colors-neutral-900);
+    color: var(--ita-colors-neutral-200);
+}
+.sandbox .sandbox__resizer {
+    background-color: var(--ita-colors-neutral-800);
+    color: var(--ita-colors-neutral-200);
+}
+.sandbox .sandbox__resizer:active,
+.sandbox .sandbox__resizer:hover {
+    background-color: var(--ita-colors-neutral-700);
+}
+main .sandbox__iframe_wrapper a,
+.sandbox .sandbox__reload,
+.sandbox .sandbox__copy_url,
+.sandbox .sandbox__copy_code {
+    color: var(--ita-colors-neutral-100);
+}
+.sandbox .sandbox__enable_switch ~ label {
+    background-color: var(--ita-colors-neutral-900);
+    color: var(--ita-colors-neutral-200);
+}
+.sandbox .sandbox__tabs {
+    background-color: var(--ita-colors-primary-200);
+    box-shadow: inset 0px 0px 7px var(--ita-colors-primary-400);
+}
+.sandbox .sandbox__tab {
+    background-color: transparent;
+    color: var(--ita-colors-primary-900);
+}
+.sandbox .sandbox__tab.__active {
+    background-color: var(--ita-colors-neutral-100);
+    box-shadow: var(--libdoc-soft-shadow);
+}
+
+/* WIDGETS */
+.widget-iconCard > p {
+    background-color: var(--ita-colors-neutral-100);
+}
+
+/* BLOG */
+.blog-post-link {
+    background-color: var(--ita-colors-neutral-100);
+    border-color: var(--ita-colors-neutral-500);
+}
+
+/* PRINT */
+@media print {
+    body {
+        background: none;
+    }
+    main > pre {
+        background-color: transparent;
+    }
+    main > pre > code {
+        background-color: transparent;
+    }
+}

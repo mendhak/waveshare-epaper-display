@@ -1,0 +1,123 @@
+{%- assign pageUrlSplit = page.url | split: '/' -%}
+{%- assign tocMarkup = '' -%}
+{%- assign pageLang = libdocConfig.lang -%}
+{%- assign pageTitle = page.inputPath -%}
+{%- assign pageDescription = description | default: "" -%}
+{%- assign pageAuthor = libdocConfig.author -%}
+{%- assign pageOgImageUrl = ogImageUrl | default: libdocConfig.ogImageUrl -%}
+{%- assign editThisPageRootUrl = libdocConfig.editThisPageRootUrl | default: '' -%}
+{%- assign editThisPageUrl = editThisPageRootUrl | append: page.inputPath | replace: "/./", "/" | replace: "./", "/" -%}
+{%- comment -%} {%- assign blogPathUrl = '/' | append: libdocConfig.blogSlug | append: '/' -%} {%- endcomment -%}
+{%- assign pagePathUrl = page.url | split: '/' -%}
+{%- if pagePathUrl[1] == libdocConfig.blogSlug -%}
+    {%- capture extendedTitle -%}
+        {%- if pagination.pageNumber > 0 -%}
+            -
+            {{ libdocMessages.page[pageLang] }}
+            {{ pagination.pageNumber | plus: 1 }}
+        {%- endif -%}
+    {%- endcapture -%}
+    {%- assign pageTitle = libdocConfig.blogTitle | append: extendedTitle -%}
+    {%- assign pageDescription = libdocConfig.blogDescription -%}
+    {%- if pagePathUrl[2] != null -%}
+        {%- assign pageDescription = description -%}
+    {%- endif -%}
+    {%- assign pageAuthor = libdocConfig.blogAuthor -%}
+{%- endif -%}
+
+{%- if author -%}
+    {%- assign pageAuthor = author -%}
+{%- endif -%}
+
+{%- if pagePathUrl[1] == 'tags' -%}
+    {%- assign pageTitle = libdocMessages.tagsList[pageLang] -%}
+    {%- assign pageDescription = libdocMessages.tagsListDescription[pageLang] -%}
+    {%- if pagePathUrl[2] -%}
+        {%- assign pageTitle = pagePathUrl[2] -%}
+        {%- capture pageDescription -%}
+            {{ libdocMessages.pagesTagged[pageLang] }} <em>{{ pagePathUrl[2] }}</em>
+        {%- endcapture -%}
+    {%- endif -%}
+{%- endif -%}
+
+{%- if eleventyNavigation.key -%}
+    {%- assign breadcrumb = collections.all | eleventyNavigationBreadcrumb: eleventyNavigation.key, libdocSystem.navigationOptions -%}
+    {%- if pageTitle == page.inputPath -%}
+        {%- assign pageTitle = eleventyNavigation.key -%}
+    {%- endif -%}
+{%- endif -%}
+
+{%- if pagePathUrl[1] == 'search' -%}
+    {%- assign pageTitle = libdocMessages.search[pageLang] -%}
+{%- endif -%}
+
+{%- if tocEnabled == true -%}
+    {%- assign tocMarkup = content | toc -%}
+{%- elsif tocEnabled != false and libdocConfig.tocEnabled -%}
+    {%- assign tocMarkup = content | toc -%}
+{%- endif -%}
+
+{%- if language -%}
+    {%- assign pageLang = language -%}
+{%- endif -%}
+
+{%- if title -%}
+    {%- assign pageTitle = title -%}
+{%- endif -%}
+
+{%- assign pageTitle = pageTitle | strip_html -%}
+{%- assign pageDescription = pageDescription | strip_html -%}
+
+{%- if pageDescription == false or pageDescription == 'false' -%}
+    {%- assign pageDescription = '' -%}
+{%- endif -%}
+
+{%- if editThisPageRootUrl == false
+    or editThisPageRootUrl == 'false'
+    or pagePathUrl[1] == 'tags'
+    or pagePathUrl[1] == 'search' -%}
+    {%- assign editThisPageRootUrl = '' -%}
+{%- endif -%}
+
+{%- if pagePathUrl[1] == libdocConfig.blogSlug -%}
+    {%- assign editThisPageRootUrl = '' -%}
+{%- endif -%}
+
+{%- comment -%} Eleventy Navigation {%- endcomment -%}
+{%- assign eleventyNavigationMenu = collections.all | eleventyNavigation | eleventyNavigationToHtml: libdocSystem.navigationOptions -%}
+{%- assign currentPageHrefAttribute = '<a href="' | append: page.url | append: '"' -%}
+{%- capture currentPageReplacementAttribute -%}{{ currentPageHrefAttribute }} aria-current="page"{%- endcapture -%}
+{%- assign eleventyNavigationMenu = eleventyNavigationMenu | replace: currentPageHrefAttribute, currentPageReplacementAttribute -%}
+{%- assign tag_to_replace = '<' | append: libdocSystem.navigationOptions.listElement | append: '>' -%}
+{%- assign tag_replacement = '<' | append: libdocSystem.navigationOptions.listElement | append: ' class="d-flex fd-column fg-1 order-1 | m-0 pl-5 o-hidden | ls-none">' -%}
+{%- assign eleventyNavigationMenu = eleventyNavigationMenu | replace: tag_to_replace, tag_replacement -%}
+
+{% comment %} header margin {% endcomment %}
+{%- assign headerMargin = 'mb-7' -%}
+{%- if pageUrlSplit[1] == 'tags' -%}
+    {%- assign headerMargin = '' -%}
+    {% comment %} Tag page {% endcomment %}
+    {%- if libdocConfig.ogImageUrlForEachTag[pageUrlSplit[2]] != null %}
+        {%- assign pageOgImageUrl = libdocConfig.ogImageUrlForEachTag[pageUrlSplit[2]] -%}
+    {%- endif -%}
+{%- endif -%}
+{%- if pageUrlSplit[1] == libdocConfig.blogSlug and pageUrlSplit[2] == null -%}
+    {%- assign headerMargin = '' -%}
+{%- endif -%}
+
+{% comment %} header padding {% endcomment %}
+{%- assign headerPadding = '' -%}
+{%- if pageUrlSplit[1] != 'tags' and pageUrlSplit[1] != libdocConfig.blogSlug and pageUrlSplit[2] != null -%}
+    {%- assign headerPadding = 'pb-7' -%}
+{%- endif -%}
+
+{% comment %} LEGACY ICONS {% endcomment %}
+{%- capture legacyIconsCss -%}
+    <style>
+        {%- for iconName in libdocSystem.icons -%}
+            .icon-{{ iconName }} {
+                mask-image: url('{{ libdocConfig.htmlBasePathPrefix }}/core/assets/icons/{{ iconName }}.svg');
+            }
+        {%- endfor -%}
+    </style>
+{%- endcapture -%}

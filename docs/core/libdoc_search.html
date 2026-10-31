@@ -1,0 +1,38 @@
+---
+layout: libdoc_page.liquid
+eleventyExcludeFromCollections: true
+permalink: search/index.html
+---
+<form action="/search/"
+    class="d-flex fd-column | pos-relative | pl-5 pr-5 | search_form | auto-search-wrapper"
+    d-none="md">
+    <label for="searchInputAlt"
+        class="pos-absolute | ml-5 t-tY-50 | fvs-wght-400 fs-1 tt-uppercase | bc-neutral-100">
+        {{ libdocMessages.searchResultsNoResultForQuery[pageLang] }}
+    </label>
+    <input  id="searchInputAlt"
+            type="search"
+            name="search"
+            autocomplete="off"
+            class="maxw-100 pl-5 pr-5 pt-4 pb-4 | fs-3 | c-neutral-900 bc-neutral-100 brad-4 bwidth-1 bstyle-dashed bcolor-neutral-500"
+            placeholder="{{ libdocMessages.searchPlaceholder[pageLang] }}"
+            value="">
+    <div class="d-flex ai-center | pos-absolute top-0 right-0 | h-100 mr-5">
+        <button type="button"
+            class="pos-relative | p-4 pr-5 | fs-3 | bc-neutral-100 brad-4 c-neutral-900 b-0 cur-pointer | search_form__clear_btn"
+            title="{{ libdocMessages.searchClear[pageLang] }}"
+            hidden>
+            <span class="icon-x | pos-absolute top-50 left-50 t-tY-50 t-tX-50"></span>
+        </button>
+        <button type="submit"
+            class="pos-relative | h-100 p-0 ar-square | fs-5 | brad-4 bc-primary-500 c-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-100 cur-pointer"
+            title="{{ libdocMessages.searchSubmit[pageLang] }}">
+            <span class="icon-magnifying-glass | pos-absolute top-50 left-50 t-tY-50 t-tX-50"></span>
+        </button>
+    </div>
+</form>
+<ul id="searchResults"
+    class="d-flex fd-column"
+    mt-5="xs,sm">
+</ul>
+<script src="/core/assets/js/search.js"></script>

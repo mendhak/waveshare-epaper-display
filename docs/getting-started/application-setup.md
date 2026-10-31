@@ -28,7 +28,7 @@ This should create a `/home/pi/waveshare-epaper-display` directory.
 
 ```bash
 cd waveshare-epaper-display
-sudo apt install gsfonts fonts-noto python3 python3-pip pigpio libopenjp2-7 python3-venv libjpeg-dev libxslt1-dev fontconfig libcairo2
+sudo apt install gsfonts fonts-noto python3 python3-pip libopenjp2-7 python3-venv libjpeg-dev libxslt1-dev fontconfig libcairo2
 python3 -m venv --system-site-packages .venv
 .venv/bin/pip3 install -r requirements.txt
 sudo raspi-config nonint do_spi 0   # This enables SPI

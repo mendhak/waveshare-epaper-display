@@ -39,7 +39,7 @@ class BaseWeatherProvider(ABC):
 
         # adjust icon for sunrise and sunset
         dt = datetime.datetime.now(pytz.utc)
-        city = LocationInfo(location_lat, location_long)
+        city = LocationInfo(latitude=location_lat, longitude=location_long)
         s = sun(city.observer, date=dt)
         verdict = False
         if dt > s['sunset'] or dt < s['sunrise']:

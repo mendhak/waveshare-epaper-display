@@ -200,7 +200,7 @@ def get_sunset_time(lat, long):
     location_lat = lat
     location_long = long
     dt = datetime.datetime.now(pytz.utc)
-    city = LocationInfo(location_lat, location_long)
+    city = LocationInfo(latitude=location_lat, longitude=location_long)
     s = sun(city.observer, date=dt)
     return s['sunset']
 
